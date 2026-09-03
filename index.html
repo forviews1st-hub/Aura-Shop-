@@ -74,15 +74,14 @@
     @media (min-width:900px) { .product-grid { grid-template-columns:repeat(4,1fr); } }
 
     /* ==========================================================
-       🎨 CLEAN CARDS - SIRF BACKGROUND IMAGE (BINA BORDER/SHADOW)
+       CLEAN CARDS - SIRF BACKGROUND IMAGE (BINA BORDER/SHADOW)
        ========================================================== */
     .card {
-      background-image: url('card-bg.png');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-color: #fdf8f0;
-
+      background-image: url('card-bg.png') !important;
+      background-size: cover !important;
+      background-position: center !important;
+      background-repeat: no-repeat !important;
+      background-color: transparent !important;    /* Fallback color hatao */
       border-radius: 0;
       overflow: hidden;
       display: flex;
@@ -94,9 +93,14 @@
       min-height: 200px;
       border: none !important;
       box-shadow: none !important;
+      outline: none !important;                   /* Focus/active outline hatane ke liye */
     }
     .card:hover {
       transform: scale(1.02);
+    }
+    .card:focus,
+    .card:active {
+      outline: none !important;
     }
 
     .wishlist {
