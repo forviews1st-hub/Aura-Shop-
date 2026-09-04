@@ -4,11 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aura Cafe | Bakery & Cake Shop</title>
+  <!-- Google Fonts: Inter (for body) -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="manifest" href="manifest.json" />
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <style>
+    /* ========== FONT FACE (Bluecherries) ========== */
     @font-face {
       font-family: 'Bluecherries';
       src: url('fonts/blue_cheries/BLUECHERIES.ttf') format('truetype');
@@ -17,6 +19,7 @@
       font-display: swap;
     }
 
+    /* ========== RESET & BASE ========== */
     * { margin:0; padding:0; box-sizing:border-box; }
     * { -webkit-tap-highlight-color: transparent; }
     :focus { outline: none; }
@@ -25,7 +28,7 @@
     body { font-family:'Inter',sans-serif; background:#F5F5F5; min-height:100vh; width:100%; overflow-x:hidden; padding-bottom:80px; -webkit-font-smoothing:antialiased; }
     .app { width:100%; min-height:100vh; background:#F5F5F5; }
 
-    /* ===== HEADER ===== */
+    /* ========== HEADER ========== */
     .header { position:relative; height:90px; background:#F5F5F5; padding:15px 20px; display:flex; align-items:center; z-index:500; }
     .header-row { display:flex; align-items:center; gap:12px; width:100%; }
     .search-container { display:flex; align-items:center; background:#fff; border-radius:30px; padding:0 10px; margin-right:10px; border:1px solid #ddd; transition: all 0.2s; max-width:40px; overflow:hidden; cursor:pointer; }
@@ -50,7 +53,7 @@
     .avatar img { width:100%; height:100%; object-fit:cover; display:block; }
     .notif-badge { position:absolute; top:-5px; right:-5px; background:#FF4D4D; color:#fff; font-size:10px; font-weight:700; border-radius:50%; width:18px; height:18px; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(255,77,77,0.4); }
 
-    /* ===== MAIN ===== */
+    /* ========== MAIN ========== */
     main { padding:20px; max-width:1200px; margin:0 auto; }
     .heading-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; }
     .heading-row h1 { font-size:24px; font-weight:800; color:#000; letter-spacing:-0.3px; }
@@ -64,183 +67,175 @@
     .pill img { width:20px; height:20px; border-radius:50%; object-fit:cover; }
     .pill.active { background:#1A1A1A; color:#fff; border-color:#1A1A1A; box-shadow:0 4px 12px rgba(26,26,26,0.25); }
 
-    /* ===== BANNER ===== */
+    /* ========== BANNER ========== */
     .promo { position:relative; overflow:visible; background:transparent; box-shadow:none; width:100%; margin-bottom:24px; }
     .promo img { display:block; width:100%; height:auto; mix-blend-mode:multiply; border-radius:0; }
 
-    /* ===== PRODUCT GRID ===== */
+    /* ========== PRODUCT GRID ========== */
     .product-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-bottom:30px; }
     @media (min-width:600px) { .product-grid { grid-template-columns:repeat(3,1fr); } }
     @media (min-width:900px) { .product-grid { grid-template-columns:repeat(4,1fr); } }
 
     /* ==========================================================
-       🎨 CARD WITH EXACT IMAGE RATIO (2:3) - NO CROP, NO DISTORTION
+       🎨 PERFECT CARDS - SELF-ADJUSTING, NO GAP, UNIFORM
        ========================================================== */
     .card {
       background-image: url('card-bg.png');
-      background-size: 100% 100%;
+      background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
       background-color: #fdf8f0;
 
-      border-radius: 0;
+      border-radius: 24px;
       overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+      /* 🔥 2:3 ratio – matches your 1024x1536 image */
+      aspect-ratio: 2 / 3;
+
+      /* 🔥 Flex – sab content center mein */
       display: flex;
       flex-direction: column;
-      cursor: pointer;
-      transition: transform 0.25s ease;
-      position: relative;
-      padding: 16px 12px 14px;
-      border: none !important;
-      box-shadow: none !important;
+      align-items: center;
+      justify-content: center;
 
-      /* 🔥 EXACT RATIO 2:3 (1024:1536) */
-      aspect-ratio: 2 / 3;
+      padding: 20px 16px;
+      border: 2px solid rgba(0,0,0,0.06);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+      position: relative;
     }
     .card:hover {
-      transform: scale(1.02);
+      transform: translateY(-6px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.12);
     }
 
     /* Wishlist Button */
     .wishlist {
       position: absolute;
-      top: 8px;
-      right: 8px;
-      background: rgba(255,255,255,0.85);
+      top: 12px;
+      right: 12px;
+      background: rgba(255,255,255,0.9);
       border: none;
       border-radius: 50%;
-      width: 28px;
-      height: 28px;
-      font-size: 13px;
+      width: 34px;
+      height: 34px;
+      font-size: 16px;
       cursor: pointer;
       transition: all 0.2s;
       color: #ccc;
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 5;
       backdrop-filter: blur(4px);
+      z-index: 5;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     }
     .wishlist.active { color: #FF4D4D; background: #ffe5e5; }
 
-    /* Image Area (Food Emoji/Image) */
+    /* Food Image / Emoji - Auto Centered */
     .card-img {
-      width: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 2px 0;
-      background: transparent;
-      flex: 1;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      margin-bottom: 8px;
+      font-size: 42px;
+      flex-shrink: 0;
     }
     .card-img img {
-      width: 64px;
-      height: 64px;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       border-radius: 50%;
-      background: rgba(255,255,255,0.8);
-      padding: 3px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    .card-img:not(:has(img)) {
-      font-size: 44px;
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.8);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
-    /* Card Body - Text Overlay */
-    .card-body {
-      padding: 4px 0 0 0;
-      text-align: center;
-      background: transparent;
-      flex-shrink: 0;
-      margin-top: auto;
-    }
+    /* Name - Auto Centered */
     .card h3 {
-      font-size: 14px;
+      font-size: 16px;
       font-weight: 700;
-      color: #2a1a0e;
-      margin-bottom: 2px;
-      text-shadow: 0 1px 4px rgba(255,255,255,0.9);
+      color: #1A1A1A;
+      text-align: center;
+      margin: 4px 0 2px;
+      text-shadow: 0 1px 4px rgba(255,255,255,0.8);
+      line-height: 1.3;
+      max-width: 100%;
     }
 
-    /* Price & Rating */
+    /* Price + Rating - Auto Centered */
     .card-footer {
       display: flex;
-      justify-content: center;
       align-items: center;
-      gap: 8px;
-      padding: 0 2px;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 2px;
     }
     .price {
       font-weight: 700;
-      color: #2a1a0e;
-      font-size: 13px;
-      background: rgba(255,255,255,0.75);
+      color: #1A1A1A;
+      font-size: 15px;
+      background: rgba(255,255,255,0.85);
       backdrop-filter: blur(4px);
-      padding: 1px 10px;
-      border-radius: 20px;
-      display: inline-block;
+      padding: 2px 14px;
+      border-radius: 30px;
+      border: 1px solid rgba(0,0,0,0.04);
     }
     .rating {
-      font-size: 12px;
+      font-size: 14px;
       color: #f5a623;
       font-weight: 600;
-      background: rgba(255,255,255,0.75);
+      background: rgba(255,255,255,0.85);
       backdrop-filter: blur(4px);
-      padding: 1px 8px;
-      border-radius: 20px;
-      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 30px;
+      border: 1px solid rgba(0,0,0,0.04);
     }
 
-    /* Admin Buttons */
+    /* Admin Buttons (if logged in) */
     .card .admin-edit-delete {
       position: absolute;
-      top: 8px;
-      left: 8px;
+      top: 12px;
+      left: 12px;
       display: none;
       gap: 4px;
       z-index: 10;
     }
     .card.admin-mode .admin-edit-delete { display: flex; }
     .card .admin-edit-delete button {
-      background: rgba(255,255,255,0.85);
+      background: rgba(255,255,255,0.9);
       border: none;
       border-radius: 50%;
-      width: 24px;
-      height: 24px;
-      font-size: 11px;
+      width: 28px;
+      height: 28px;
+      font-size: 12px;
       cursor: pointer;
       backdrop-filter: blur(4px);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
     }
     .card .admin-edit-delete button:hover { background: #fff; transform: scale(1.05); }
 
-    /* Responsive - for small screens, allow auto height */
+    /* ========== RESPONSIVE ========== */
     @media (max-width:600px) {
-      .card { aspect-ratio: auto; min-height:180px; padding:12px 10px; }
-      .card-img img { width:52px; height:52px; }
-      .card-img:not(:has(img)) { width:52px; height:52px; font-size:32px; }
-      .card h3 { font-size:13px; }
-      .price { font-size:12px; padding:1px 8px; }
-      .rating { font-size:11px; padding:1px 6px; }
+      .card { border-radius: 18px; padding: 14px 12px; }
+      .card-img { width: 64px; height: 64px; font-size: 32px; }
+      .card h3 { font-size: 14px; }
+      .price { font-size: 13px; padding: 2px 10px; }
+      .rating { font-size: 12px; padding: 2px 8px; }
     }
     @media (max-width:400px) {
-      .card { min-height:150px; padding:10px 8px; }
-      .card-img img { width:44px; height:44px; }
-      .card-img:not(:has(img)) { width:44px; height:44px; font-size:26px; }
-      .card h3 { font-size:12px; }
-      .price { font-size:11px; padding:1px 6px; }
-      .rating { font-size:10px; padding:1px 5px; }
+      .card { border-radius: 14px; padding: 12px 10px; }
+      .card-img { width: 54px; height: 54px; font-size: 26px; }
+      .card h3 { font-size: 12px; }
+      .price { font-size: 11px; padding: 1px 8px; }
+      .rating { font-size: 11px; padding: 1px 6px; }
     }
 
-    /* ===== BAAKI STYLES (unchanged) ===== */
+    /* ========== BAAKI STYLES (from original) ========== */
     .section-title { font-size:20px; font-weight:800; color:#000; margin-bottom:15px; letter-spacing:-0.3px; }
     .gallery-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:15px; margin-bottom:30px; }
     @media (min-width:600px) { .gallery-grid { grid-template-columns:repeat(3,1fr); } }
@@ -278,7 +273,7 @@
     footer { background:#fff; padding:20px; text-align:center; border-top:1px solid #eee; }
     .copyright { font-size:12px; color:#bbb; }
 
-    /* ===== MODALS (unchanged) ===== */
+    /* ========== MODALS ========== */
     .modal-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); display:none; justify-content:center; align-items:center; z-index:1000; padding:20px; overflow-y:auto; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); }
     .modal { background:#fff; border-radius:24px; max-width:300px; width:100%; position:relative; box-shadow:0 20px 50px rgba(0,0,0,0.2); animation:premiumScaleIn 0.3s cubic-bezier(0.34,1.56,0.64,1); overflow:hidden; border:1px solid #e8e8e8; }
     @keyframes premiumScaleIn { from { opacity:0; transform:scale(0.85) translateY(20px); } to { opacity:1; transform:scale(1) translateY(0); } }
@@ -838,27 +833,9 @@
 
   <script>
     // ============================================================
-    // 🚀 COMPLETE JAVASCRIPT - AURA CAFE (same as previous)
+    // 🚀 COMPLETE JAVASCRIPT - AURA CAFE (FULL FEATURES)
     // ============================================================
-    // (Full JavaScript is identical to the previous version.
-    //  I'm including a placeholder here to save space, but you must copy the full JS from the earlier code.
-    //  Since the user has the full code in previous messages, I'll provide the same JS as before.
-    //  For brevity, I'll refer to the earlier complete JS block.
-    // )
-    // 
-    // For the actual answer, I'll include the full JS again, but in this response I'll compress it to avoid repetition.
-    // Actually, the user expects the complete code, so I'll include the full JS as in the earlier messages.
-    // I'll copy the complete JS from my previous response.
-    // To avoid a massive response, I'll include the full JS in a code block.
-    // 
-    // Since the conversation is getting long, I'll include the full JS in the final answer.
-    // Let's paste the complete JS from the earlier final code.
-    // I'll use the same JS block as in the previous complete code.
-    // The JS is very long, but I'll include it to be thorough.
-    // 
-    // I'll just copy the entire script from the previous final code.
-  </script>
-  <script>
+
     // ========== CUSTOM ALERT/CONFIRM/PROMPT ==========
     (function() {
       function createOverlay() {
