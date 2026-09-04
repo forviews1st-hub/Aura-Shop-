@@ -74,7 +74,7 @@
     @media (min-width:900px) { .product-grid { grid-template-columns:repeat(4,1fr); } }
 
     /* ==========================================================
-       🎨 SELF-AWARE CARDS - data-role ATTRIBUTES
+       🎨 FINAL AUTO-SET CARDS – PERFECT, SELF-AWARE
        ========================================================== */
     .card {
       background-image: url('card-bg.png');
@@ -815,7 +815,7 @@
 
   <script>
     // ============================================================
-    // 🚀 COMPLETE JAVASCRIPT - SELF-AWARE AURA CAFE
+    // 🚀 COMPLETE JAVASCRIPT - FULLY AUTO-SET + SELF-AWARE
     // ============================================================
 
     // ========== CUSTOM ALERT/CONFIRM/PROMPT ==========
@@ -1438,99 +1438,4 @@
     document.querySelectorAll('.order-tab-btn').forEach(btn => { btn.addEventListener('click', function() { document.querySelectorAll('.order-tab-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); renderOrdersDashboard(); }); });
     document.getElementById('orderIdSearchBtn').addEventListener('click', function() {
       var query = document.getElementById('orderIdSearchInput').value.trim().toLowerCase(); if (!query) { renderOrdersDashboard(); return; }
-      var container = document.getElementById('ordersListContainer'); var matched = orders.filter(o => o.id.toLowerCase().includes(query)); container.innerHTML = '';
-      if (matched.length === 0) { container.innerHTML = '<div class="no-orders-msg">No orders found for this ID.</div>'; return; }
-      matched.forEach(order => { var card = document.createElement('div'); card.className = 'order-card-item'; card.innerHTML = '<div class="order-top"><span class="order-id">Order #' + order.id.slice(-5) + '</span></div>' + '<div class="order-item-details">' + order.productName + ' x' + (order.qty||1) + ' - ' + order.price + '</div>' + '<div class="order-item-details">Status: ' + order.status + '</div>'; container.appendChild(card); });
-    });
-    document.getElementById('facebookSocialCard').addEventListener('click', async function(e) {
-      e.preventDefault(); var url = this.getAttribute('data-url');
-      if (url && url !== '#') { window.open(url, '_blank'); }
-      else { if (isLoggedIn) { var newUrl = await prompt('Enter Facebook page URL:'); if (newUrl && newUrl.trim() !== '') { contactInfo.social.facebook = newUrl.trim(); saveContact(); updateSocialLinksUI(); showToast('Facebook link saved successfully!', 'success'); } } else { showToast('Facebook link not set by owner yet', 'info'); } }
-    });
-    document.getElementById('instagramSocialCard').addEventListener('click', async function(e) {
-      e.preventDefault(); var url = this.getAttribute('data-url');
-      if (url && url !== '#') { window.open(url, '_blank'); }
-      else { if (isLoggedIn) { var newUrl = await prompt('Enter Instagram profile URL:'); if (newUrl && newUrl.trim() !== '') { contactInfo.social.instagram = newUrl.trim(); saveContact(); updateSocialLinksUI(); showToast('Instagram link saved successfully!', 'success'); } } else { showToast('Instagram link not set by owner yet', 'info'); } }
-    });
-    document.getElementById('addressCard').addEventListener('click', openMap);
-    document.getElementById('phoneCard').addEventListener('click', function() { window.location.href = 'tel:' + contactInfo.phone.replace(/\D/g,''); });
-    document.getElementById('hoursCard').addEventListener('click', function() { alert('Open daily 6AM - 9PM'); });
-    document.getElementById('viewAllBtn').addEventListener('click', function() { document.querySelector('.product-grid').scrollIntoView({behavior:'smooth'}); });
-    document.getElementById('promoBanner').addEventListener('click', function() { 
-      var imgSrc = this.querySelector('img').src;
-      if (imgSrc) {
-        document.getElementById('galleryLightboxImage').src = imgSrc;
-        document.getElementById('galleryLightboxOverlay').style.display = 'flex';
-      }
-    });
-    document.getElementById('adminImageFile').addEventListener('change', function() { handleFileSelect(this, function(dataUrl) { document.getElementById('adminImagePreview').src = dataUrl; document.getElementById('adminImagePreview').style.display = 'block'; document.getElementById('adminEmoji').value = ''; window.productImageData = dataUrl; }); });
-    document.getElementById('categoryImageFile').addEventListener('change', function() { handleFileSelect(this, function(dataUrl) { document.getElementById('categoryImagePreview').src = dataUrl; document.getElementById('categoryImagePreview').style.display = 'block'; document.getElementById('newCategoryEmoji').value = ''; window.categoryImageData = dataUrl; }); });
-    document.getElementById('galleryInlineFile').addEventListener('change', function() { handleFileSelect(this, function(dataUrl) { document.getElementById('galleryInlinePreview').src = dataUrl; document.getElementById('galleryInlinePreview').style.display = 'block'; window.galleryInlineImageData = dataUrl; }); });
-    document.getElementById('editGalleryFileInput').addEventListener('change', function() { handleFileSelect(this, function(dataUrl) { if (editingGalleryIndex >= 0 && editingGalleryIndex < galleryImages.length) { galleryImages[editingGalleryIndex] = dataUrl; saveGallery(); renderGallery(); renderGalleryInlineList(); editingGalleryIndex = -1; } }); this.value = ''; });
-    document.getElementById('adminForm').addEventListener('submit', function(e) {
-      e.preventDefault(); var id = document.getElementById('adminProductId').value; var name = document.getElementById('adminName').value.trim();
-      var price = document.getElementById('adminPrice').value.trim(); var rating = document.getElementById('adminRating').value.trim() || '⭐ 4.5';
-      var categoryInput = document.getElementById('adminCategoryInput').value.trim(); var description = document.getElementById('adminDescription').value.trim();
-      var imageValue; if (window.productImageData) { imageValue = window.productImageData; window.productImageData = null; } else imageValue = document.getElementById('adminEmoji').value.trim();
-      if (!imageValue && id) { var existing = products.find(p => p.id === id); if (existing) imageValue = existing.emoji; }
-      if (!imageValue) imageValue = '🍽️';
-      if (!name || !price || !categoryInput) { alert('Please fill name, price, and category'); return; }
-      var categoryId = getCategoryIdFromInput(categoryInput);
-      if (id) { var idx = products.findIndex(p => p.id === id); if (idx >= 0) products[idx] = { id, emoji:imageValue, name, price, rating, category:categoryId, description }; }
-      else { products.push({ id: Date.now().toString(), emoji:imageValue, name, price, rating, category:categoryId, description }); }
-      saveProducts(); resetAdminForm(); renderProducts(); renderAdminProductList(); renderCategoryPills(); populateCategorySuggestions(); renderAdminCategoryList();
-    });
-    document.getElementById('adminCancelBtn').addEventListener('click', resetAdminForm);
-    document.getElementById('categoryForm').addEventListener('submit', function(e) {
-      e.preventDefault(); var name = document.getElementById('newCategoryName').value.trim(); var emojiValue = '';
-      if (window.categoryImageData) { emojiValue = window.categoryImageData; window.categoryImageData = null; } else emojiValue = document.getElementById('newCategoryEmoji').value.trim() || '🍽️';
-      if (!name) { alert('Please fill name'); return; }
-      var id = name.toLowerCase().replace(/[^a-z0-9]/g, '') || Date.now().toString();
-      if (categories.some(c => c.id === id)) { alert('Category already exists'); return; }
-      categories.push({ id, name, emoji: emojiValue }); saveCategories(); renderCategoryPills(); populateCategorySuggestions(); renderAdminCategoryList();
-      document.getElementById('newCategoryName').value = ''; document.getElementById('newCategoryEmoji').value = ''; document.getElementById('categoryImagePreview').style.display = 'none'; document.getElementById('categoryImageFile').value = '';
-    });
-    document.getElementById('galleryInlineForm').addEventListener('submit', function(e) { e.preventDefault(); if (window.galleryInlineImageData) { galleryImages.push(window.galleryInlineImageData); window.galleryInlineImageData = null; saveGallery(); renderGallery(); renderGalleryInlineList(); document.getElementById('galleryInlinePreview').style.display = 'none'; document.getElementById('galleryInlineFile').value = ''; } else alert('Please choose an image file'); });
-    document.getElementById('contactInlineForm').addEventListener('submit', function(e) { e.preventDefault(); contactInfo.address = document.getElementById('contactInlineAddress').value; contactInfo.phone = document.getElementById('contactInlinePhone').value; contactInfo.hours = document.getElementById('contactInlineHours').value; saveContact(); updateContactUI(); alert('Contact info updated!'); });
-    document.getElementById('socialForm').addEventListener('submit', function(e) { e.preventDefault(); contactInfo.social.instagram = document.getElementById('socialInstagram').value.trim(); contactInfo.social.facebook = document.getElementById('socialFacebook').value.trim(); contactInfo.social.whatsapp = document.getElementById('socialWhatsApp').value.trim(); saveContact(); updateSocialLinksUI(); showToast('Social links saved successfully!', 'success'); });
-    document.getElementById('clearOrdersBtn').addEventListener('click', async function() { if (await confirm('Clear all orders?')) { orders = []; saveOrders(); renderAdminOrdersList(); renderOrdersDashboard(); updateNotifBadge(); } });
-    document.getElementById('ownerClearOrdersBtn').addEventListener('click', async function() { if (await confirm('Clear all orders?')) { orders = []; saveOrders(); renderAdminOrdersList(); renderOrdersDashboard(); updateNotifBadge(); } });
-    document.querySelectorAll('.admin-tab-btn').forEach(btn => { btn.addEventListener('click', function() { document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active')); document.getElementById('admin' + btn.getAttribute('data-tab').charAt(0).toUpperCase() + btn.getAttribute('data-tab').slice(1) + 'Section').classList.add('active'); }); });
-    if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').then(registration => console.log('SW registered:', registration.scope)).catch(err => console.log('SW registration failed:', err)); }); }
-
-    // ========== INIT ==========
-    loadData();
-    checkLogin();
-    renderAll();
-
-    // Lightbox close handlers
-    document.getElementById('galleryLightboxClose').addEventListener('click', function() {
-      document.getElementById('galleryLightboxOverlay').style.display = 'none';
-      document.getElementById('galleryLightboxImage').src = '';
-    });
-    document.getElementById('galleryLightboxOverlay').addEventListener('click', function(e) {
-      if (e.target === this) {
-        document.getElementById('galleryLightboxOverlay').style.display = 'none';
-        document.getElementById('galleryLightboxImage').src = '';
-      }
-    });
-
-    // ========== 🔥 SELF-AWARE WEBSITE - STRUCTURE EXPOSED ==========
-    window.getCardStructure = function() {
-      return {
-        foodItem: '[data-role="food-item"]',
-        name: '[data-role="name"]',
-        price: '[data-role="price"]',
-        rating: '[data-role="rating"]'
-      };
-    };
-
-    console.log('✅ Aura Cafe – Self-Aware Website Loaded!');
-    console.log('📦 Food Item → [data-role="food-item"]');
-    console.log('📛 Name      → [data-role="name"]');
-    console.log('💰 Price     → [data-role="price"]');
-    console.log('⭐ Rating    → [data-role="rating"]');
-    console.log('👉 Type: window.getCardStructure() to get the mapping.');
-  </script>
-</body>
-</html>
+      var container = document.getElementById('ordersListContainer'); var matched = orders.filter(o => o
