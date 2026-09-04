@@ -77,63 +77,54 @@
     @media (min-width:900px) { .product-grid { grid-template-columns:repeat(4,1fr); } }
 
     /* ==========================================================
-       🎨 PERFECT CARDS - SELF-ADJUSTING, NO GAP, UNIFORM
+       🎨 PERFECT CARDS - NO GAP, AUTO-CENTERED, UNIFORM
        ========================================================== */
     .card {
       background-image: url('card-bg.png');
-      background-size: cover;
+      background-size: 100% 100%;
       background-position: center;
       background-repeat: no-repeat;
-      background-color: #fdf8f0;
+      background-color: transparent;
 
-      border-radius: 24px;
-      overflow: hidden;
-      cursor: pointer;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-
-      /* 🔥 2:3 ratio – matches your 1024x1536 image */
       aspect-ratio: 2 / 3;
 
-      /* 🔥 Flex – sab content center mein */
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
 
-      padding: 20px 16px;
-      border: 2px solid rgba(0,0,0,0.06);
-      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 16px;
+      border: none !important;
+      box-shadow: none !important;
+      cursor: pointer;
+      transition: transform 0.25s ease;
       position: relative;
     }
     .card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+      transform: scale(1.02);
     }
 
-    /* Wishlist Button */
     .wishlist {
       position: absolute;
       top: 12px;
       right: 12px;
-      background: rgba(255,255,255,0.9);
+      background: rgba(255,255,255,0.85);
       border: none;
       border-radius: 50%;
       width: 34px;
       height: 34px;
       font-size: 16px;
       cursor: pointer;
-      transition: all 0.2s;
       color: #ccc;
       display: flex;
       align-items: center;
       justify-content: center;
       backdrop-filter: blur(4px);
       z-index: 5;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     }
     .wishlist.active { color: #FF4D4D; background: #ffe5e5; }
 
-    /* Food Image / Emoji - Auto Centered */
     .card-img {
       display: flex;
       align-items: center;
@@ -141,9 +132,9 @@
       width: 80px;
       height: 80px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.9);
+      background: rgba(255,255,255,0.85);
       box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       font-size: 42px;
       flex-shrink: 0;
     }
@@ -154,19 +145,18 @@
       border-radius: 50%;
     }
 
-    /* Name - Auto Centered */
     .card h3 {
       font-size: 16px;
       font-weight: 700;
       color: #1A1A1A;
       text-align: center;
-      margin: 4px 0 2px;
+      margin: 2px 0;
       text-shadow: 0 1px 4px rgba(255,255,255,0.8);
       line-height: 1.3;
       max-width: 100%;
+      word-break: break-word;
     }
 
-    /* Price + Rating - Auto Centered */
     .card-footer {
       display: flex;
       align-items: center;
@@ -183,7 +173,6 @@
       backdrop-filter: blur(4px);
       padding: 2px 14px;
       border-radius: 30px;
-      border: 1px solid rgba(0,0,0,0.04);
     }
     .rating {
       font-size: 14px;
@@ -193,10 +182,8 @@
       backdrop-filter: blur(4px);
       padding: 2px 10px;
       border-radius: 30px;
-      border: 1px solid rgba(0,0,0,0.04);
     }
 
-    /* Admin Buttons (if logged in) */
     .card .admin-edit-delete {
       position: absolute;
       top: 12px;
@@ -215,27 +202,25 @@
       font-size: 12px;
       cursor: pointer;
       backdrop-filter: blur(4px);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
     }
-    .card .admin-edit-delete button:hover { background: #fff; transform: scale(1.05); }
+    .card .admin-edit-delete button:hover { background: #fff; }
 
-    /* ========== RESPONSIVE ========== */
     @media (max-width:600px) {
-      .card { border-radius: 18px; padding: 14px 12px; }
+      .card { padding: 12px; }
       .card-img { width: 64px; height: 64px; font-size: 32px; }
       .card h3 { font-size: 14px; }
       .price { font-size: 13px; padding: 2px 10px; }
       .rating { font-size: 12px; padding: 2px 8px; }
     }
     @media (max-width:400px) {
-      .card { border-radius: 14px; padding: 12px 10px; }
+      .card { padding: 10px; }
       .card-img { width: 54px; height: 54px; font-size: 26px; }
       .card h3 { font-size: 12px; }
       .price { font-size: 11px; padding: 1px 8px; }
       .rating { font-size: 11px; padding: 1px 6px; }
     }
 
-    /* ========== BAAKI STYLES (from original) ========== */
+    /* ========== BAAKI STYLES (unchanged) ========== */
     .section-title { font-size:20px; font-weight:800; color:#000; margin-bottom:15px; letter-spacing:-0.3px; }
     .gallery-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:15px; margin-bottom:30px; }
     @media (min-width:600px) { .gallery-grid { grid-template-columns:repeat(3,1fr); } }
@@ -833,7 +818,7 @@
 
   <script>
     // ============================================================
-    // 🚀 COMPLETE JAVASCRIPT - AURA CAFE (FULL FEATURES)
+    // 🚀 COMPLETE JAVASCRIPT - AURA CAFE
     // ============================================================
 
     // ========== CUSTOM ALERT/CONFIRM/PROMPT ==========
