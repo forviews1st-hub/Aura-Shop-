@@ -4,13 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aura Cafe | Bakery & Cake Shop</title>
-  <!-- Google Fonts: Inter (for body) -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="manifest" href="manifest.json" />
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <style>
-    /* ========== FONT FACE (Bluecherries) ========== */
     @font-face {
       font-family: 'Bluecherries';
       src: url('fonts/blue_cheries/BLUECHERIES.ttf') format('truetype');
@@ -19,7 +17,6 @@
       font-display: swap;
     }
 
-    /* ========== RESET & BASE ========== */
     * { margin:0; padding:0; box-sizing:border-box; }
     * { -webkit-tap-highlight-color: transparent; }
     :focus { outline: none; }
@@ -28,7 +25,7 @@
     body { font-family:'Inter',sans-serif; background:#F5F5F5; min-height:100vh; width:100%; overflow-x:hidden; padding-bottom:80px; -webkit-font-smoothing:antialiased; }
     .app { width:100%; min-height:100vh; background:#F5F5F5; }
 
-    /* ========== HEADER ========== */
+    /* ===== HEADER ===== */
     .header { position:relative; height:90px; background:#F5F5F5; padding:15px 20px; display:flex; align-items:center; z-index:500; }
     .header-row { display:flex; align-items:center; gap:12px; width:100%; }
     .search-container { display:flex; align-items:center; background:#fff; border-radius:30px; padding:0 10px; margin-right:10px; border:1px solid #ddd; transition: all 0.2s; max-width:40px; overflow:hidden; cursor:pointer; }
@@ -53,7 +50,7 @@
     .avatar img { width:100%; height:100%; object-fit:cover; display:block; }
     .notif-badge { position:absolute; top:-5px; right:-5px; background:#FF4D4D; color:#fff; font-size:10px; font-weight:700; border-radius:50%; width:18px; height:18px; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(255,77,77,0.4); }
 
-    /* ========== MAIN ========== */
+    /* ===== MAIN ===== */
     main { padding:20px; max-width:1200px; margin:0 auto; }
     .heading-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; }
     .heading-row h1 { font-size:24px; font-weight:800; color:#000; letter-spacing:-0.3px; }
@@ -67,17 +64,17 @@
     .pill img { width:20px; height:20px; border-radius:50%; object-fit:cover; }
     .pill.active { background:#1A1A1A; color:#fff; border-color:#1A1A1A; box-shadow:0 4px 12px rgba(26,26,26,0.25); }
 
-    /* ========== BANNER ========== */
+    /* ===== BANNER ===== */
     .promo { position:relative; overflow:visible; background:transparent; box-shadow:none; width:100%; margin-bottom:24px; }
     .promo img { display:block; width:100%; height:auto; mix-blend-mode:multiply; border-radius:0; }
 
-    /* ========== PRODUCT GRID ========== */
+    /* ===== PRODUCT GRID ===== */
     .product-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-bottom:30px; }
     @media (min-width:600px) { .product-grid { grid-template-columns:repeat(3,1fr); } }
     @media (min-width:900px) { .product-grid { grid-template-columns:repeat(4,1fr); } }
 
     /* ==========================================================
-       🎨 PERFECT CARDS - NO GAP, AUTO-CENTERED, UNIFORM
+       🎨 SELF-AWARE CARDS - data-role ATTRIBUTES
        ========================================================== */
     .card {
       background-image: url('card-bg.png');
@@ -125,7 +122,7 @@
     }
     .wishlist.active { color: #FF4D4D; background: #ffe5e5; }
 
-    .card-img {
+    .card-figure {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -138,7 +135,7 @@
       font-size: 42px;
       flex-shrink: 0;
     }
-    .card-img img {
+    .card-figure img {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -207,20 +204,20 @@
 
     @media (max-width:600px) {
       .card { padding: 12px; }
-      .card-img { width: 64px; height: 64px; font-size: 32px; }
+      .card-figure { width: 64px; height: 64px; font-size: 32px; }
       .card h3 { font-size: 14px; }
       .price { font-size: 13px; padding: 2px 10px; }
       .rating { font-size: 12px; padding: 2px 8px; }
     }
     @media (max-width:400px) {
       .card { padding: 10px; }
-      .card-img { width: 54px; height: 54px; font-size: 26px; }
+      .card-figure { width: 54px; height: 54px; font-size: 26px; }
       .card h3 { font-size: 12px; }
       .price { font-size: 11px; padding: 1px 8px; }
       .rating { font-size: 11px; padding: 1px 6px; }
     }
 
-    /* ========== BAAKI STYLES (unchanged) ========== */
+    /* ===== BAAKI STYLES ===== */
     .section-title { font-size:20px; font-weight:800; color:#000; margin-bottom:15px; letter-spacing:-0.3px; }
     .gallery-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:15px; margin-bottom:30px; }
     @media (min-width:600px) { .gallery-grid { grid-template-columns:repeat(3,1fr); } }
@@ -258,7 +255,7 @@
     footer { background:#fff; padding:20px; text-align:center; border-top:1px solid #eee; }
     .copyright { font-size:12px; color:#bbb; }
 
-    /* ========== MODALS ========== */
+    /* ===== MODALS ===== */
     .modal-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); display:none; justify-content:center; align-items:center; z-index:1000; padding:20px; overflow-y:auto; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); }
     .modal { background:#fff; border-radius:24px; max-width:300px; width:100%; position:relative; box-shadow:0 20px 50px rgba(0,0,0,0.2); animation:premiumScaleIn 0.3s cubic-bezier(0.34,1.56,0.64,1); overflow:hidden; border:1px solid #e8e8e8; }
     @keyframes premiumScaleIn { from { opacity:0; transform:scale(0.85) translateY(20px); } to { opacity:1; transform:scale(1) translateY(0); } }
@@ -818,7 +815,7 @@
 
   <script>
     // ============================================================
-    // 🚀 COMPLETE JAVASCRIPT - AURA CAFE
+    // 🚀 COMPLETE JAVASCRIPT - SELF-AWARE AURA CAFE
     // ============================================================
 
     // ========== CUSTOM ALERT/CONFIRM/PROMPT ==========
@@ -1150,15 +1147,15 @@
         card.setAttribute('data-description', product.description);
         card.innerHTML = '<button class="wishlist">♡</button>' +
           (isLoggedIn ? '<div class="admin-edit-delete"><button class="admin-edit-btn">✏️</button><button class="admin-delete-btn">🗑️</button></div>' : '') +
-          '<div class="card-img"></div>' +
+          '<div class="card-figure" data-role="food-item"></div>' +
           '<div class="card-body">' +
-            '<h3>' + product.name + '</h3>' +
+            '<h3 data-role="name">' + product.name + '</h3>' +
             '<div class="card-footer">' +
-              '<span class="price">' + product.price + '</span>' +
-              '<span class="rating">' + product.rating + '</span>' +
+              '<span class="price" data-role="price">' + product.price + '</span>' +
+              '<span class="rating" data-role="rating">' + product.rating + '</span>' +
             '</div>' +
           '</div>';
-        setImageOrEmoji(card.querySelector('.card-img'), product.emoji, '76px');
+        setImageOrEmoji(card.querySelector('.card-figure'), product.emoji, '76px');
         grid.appendChild(card);
       });
       attachCardEvents();
@@ -1517,6 +1514,23 @@
         document.getElementById('galleryLightboxImage').src = '';
       }
     });
+
+    // ========== 🔥 SELF-AWARE WEBSITE - STRUCTURE EXPOSED ==========
+    window.getCardStructure = function() {
+      return {
+        foodItem: '[data-role="food-item"]',
+        name: '[data-role="name"]',
+        price: '[data-role="price"]',
+        rating: '[data-role="rating"]'
+      };
+    };
+
+    console.log('✅ Aura Cafe – Self-Aware Website Loaded!');
+    console.log('📦 Food Item → [data-role="food-item"]');
+    console.log('📛 Name      → [data-role="name"]');
+    console.log('💰 Price     → [data-role="price"]');
+    console.log('⭐ Rating    → [data-role="rating"]');
+    console.log('👉 Type: window.getCardStructure() to get the mapping.');
   </script>
 </body>
 </html>
