@@ -77,7 +77,10 @@
     @media (min-width:900px) { .product-grid { grid-template-columns:repeat(4,1fr); } }
 
     /* ==========================================================
-       🎨 PERFECT CARDS - NO GAP, AUTO-CENTERED, UNIFORM
+       🎨 CARD LAYOUT - FIXED AS PER USER'S IMAGE
+       Image → Top Center
+       Name → Center
+       Price + Rating → Bottom Center (side by side)
        ========================================================== */
     .card {
       background-image: url('card-bg.png');
@@ -134,7 +137,7 @@
       border-radius: 50%;
       background: rgba(255,255,255,0.85);
       box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       font-size: 42px;
       flex-shrink: 0;
     }
@@ -145,12 +148,19 @@
       border-radius: 50%;
     }
 
+    .card-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
     .card h3 {
       font-size: 16px;
       font-weight: 700;
       color: #1A1A1A;
       text-align: center;
-      margin: 2px 0;
+      margin: 2px 0 4px 0;
       text-shadow: 0 1px 4px rgba(255,255,255,0.8);
       line-height: 1.3;
       max-width: 100%;
@@ -818,7 +828,7 @@
 
   <script>
     // ============================================================
-    // 🚀 COMPLETE JAVASCRIPT - AURA CAFE
+    // 🚀 COMPLETE JAVASCRIPT - AURA CAFE (FINAL - LAYOUT SYSTEM REMOVED)
     // ============================================================
 
     // ========== CUSTOM ALERT/CONFIRM/PROMPT ==========
@@ -959,7 +969,7 @@
     var contactInfo = { address: '279 Prospect Rd, Blair Athol SA 5084, Australia', phone: '+61 478 706 251', hours: 'Monday – Sunday, 6:00 AM – 9:00 PM', social: { instagram: '', facebook: '', whatsapp: '+61 478 706 251' } };
 
     function loadData() {
-      var CURRENT_VERSION = '2.0.0';
+      var CURRENT_VERSION = '3.0.0';
       var storedVersion = localStorage.getItem('samoon99_version');
       if (storedVersion !== CURRENT_VERSION) {
         localStorage.clear();
