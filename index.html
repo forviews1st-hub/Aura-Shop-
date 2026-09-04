@@ -77,10 +77,7 @@
     @media (min-width:900px) { .product-grid { grid-template-columns:repeat(4,1fr); } }
 
     /* ==========================================================
-       🎨 CARD LAYOUT - FIXED AS PER USER'S IMAGE
-       Image → Top Center
-       Name → Center
-       Price + Rating → Bottom Center (side by side)
+       🎨 CARD BASE - FLEXIBLE FOR EDITING
        ========================================================== */
     .card {
       background-image: url('card-bg.png');
@@ -137,9 +134,10 @@
       border-radius: 50%;
       background: rgba(255,255,255,0.85);
       box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       font-size: 42px;
       flex-shrink: 0;
+      transition: transform 0.15s ease; /* Smooth movement */
     }
     .card-img img {
       width: 100%;
@@ -153,6 +151,7 @@
       flex-direction: column;
       align-items: center;
       width: 100%;
+      transition: transform 0.15s ease;
     }
 
     .card h3 {
@@ -174,6 +173,7 @@
       gap: 10px;
       flex-wrap: wrap;
       margin-top: 2px;
+      transition: transform 0.15s ease;
     }
     .price {
       font-weight: 700;
@@ -374,6 +374,146 @@
     .admin-actions button { background:none; border:none; cursor:pointer; font-size:15px; margin-left:6px; transition:transform 0.15s; }
     .admin-actions button:hover { transform:scale(1.2); }
 
+    /* ========== VISUAL EDITOR STYLES ========== */
+    .layout-editor-box {
+      background: #f8f8f8;
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #e0e0e0;
+    }
+    .layout-editor-box .preview-card-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+    .layout-editor-box .sample-card {
+      max-width: 150px;
+      width: 100%;
+      aspect-ratio: 2 / 3;
+      background-image: url('card-bg.png');
+      background-size: 100% 100%;
+      background-position: center;
+      background-repeat: no-repeat;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      pointer-events: none; /* Allow clicks to pass to buttons */
+    }
+    .layout-editor-box .sample-card .card-img {
+      width: 60px;
+      height: 60px;
+      font-size: 30px;
+      margin-bottom: 4px;
+    }
+    .layout-editor-box .sample-card h3 {
+      font-size: 14px;
+      margin: 2px 0;
+      color: #1A1A1A;
+      text-shadow: 0 1px 4px rgba(255,255,255,0.8);
+    }
+    .layout-editor-box .sample-card .card-footer {
+      gap: 6px;
+    }
+    .layout-editor-box .sample-card .price {
+      font-size: 12px;
+      padding: 1px 10px;
+    }
+    .layout-editor-box .sample-card .rating {
+      font-size: 11px;
+      padding: 1px 8px;
+    }
+    .layout-editor-box .sample-card .card-img,
+    .layout-editor-box .sample-card .card-body,
+    .layout-editor-box .sample-card .card-footer {
+      transition: transform 0.15s ease;
+      pointer-events: none;
+    }
+    .layout-editor-controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .layout-editor-controls .control-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+    }
+    .layout-editor-controls select {
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      background: #fff;
+      min-width: 120px;
+    }
+    .layout-editor-controls .move-btn-group {
+      display: flex;
+      gap: 4px;
+    }
+    .layout-editor-controls .move-btn {
+      background: #e0e0e0;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.15s;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #1A1A1A;
+    }
+    .layout-editor-controls .move-btn:hover {
+      background: #1A1A1A;
+      color: #fff;
+    }
+    .layout-editor-controls .position-info {
+      background: #fff;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid #ddd;
+    }
+    .layout-editor-controls .save-layout-btn {
+      background: #1A1A1A;
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      padding: 10px 30px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 5px;
+    }
+    .layout-editor-controls .save-layout-btn:hover {
+      background: #333;
+      transform: scale(1.02);
+    }
+    .reset-layout-btn {
+      background: #e0e0e0 !important;
+      color: #1A1A1A !important;
+      margin-left: 8px;
+    }
+    .reset-layout-btn:hover {
+      background: #ff4d4d !important;
+      color: #fff !important;
+    }
+
     .bottom-nav { position:fixed; bottom:0; left:0; right:0; background:#fff; border-top:1px solid #eee; display:flex; justify-content:space-around; align-items:center; padding:10px 0 12px; z-index:999; box-shadow:0 -2px 10px rgba(0,0,0,0.05); }
     .bottom-nav-btn { background:none; border:none; cursor:pointer; font-family:inherit; font-size:11px; font-weight:600; color:#888; display:flex; flex-direction:column; align-items:center; gap:4px; transition:all 0.2s; padding:0 12px; position:relative; }
     .bottom-nav-btn.active { color:#000; font-weight:700; }
@@ -562,6 +702,54 @@
             <button class="admin-tab-btn" data-tab="social">Social</button>
           </div>
           <div class="admin-section active" id="adminProductsSection">
+            
+            <!-- 🎨 NEW VISUAL CARD LAYOUT EDITOR -->
+            <div class="layout-editor-box">
+              <h4 style="margin-bottom:10px;">🎨 Visual Card Layout Editor</h4>
+              <p style="font-size:13px; color:#555; margin-bottom:12px;">
+                नीचे दिए गए Sample Card पर चीज़ों को हिलाएँ। <br>
+                <strong>⬆ ⬇ ⬅ ➡</strong> बटन दबाएँ, हर क्लिक पर 5px हिलेगा। 
+                <strong>"Save"</strong> करते ही सारे कार्ड्स (Pizza, Coffee, Cake) पर लागू हो जाएगा।
+              </p>
+              
+              <div class="preview-card-wrapper">
+                <div class="sample-card" id="sampleCard">
+                  <div class="card-img" id="sampleImg">🍕</div>
+                  <div class="card-body" id="sampleBody">
+                    <h3>Sample Pizza</h3>
+                    <div class="card-footer" id="sampleFooter">
+                      <span class="price">$10.00</span>
+                      <span class="rating">⭐ 4.5</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="layout-editor-controls">
+                <div class="control-row">
+                  <label style="font-weight:600; font-size:14px;">Select Element:</label>
+                  <select id="layoutTargetSelect">
+                    <option value="img">🖼️ Image</option>
+                    <option value="name">📝 Name</option>
+                    <option value="price">💰 Price + Rating</option>
+                  </select>
+                </div>
+                <div class="control-row">
+                  <div class="move-btn-group">
+                    <button class="move-btn" data-dir="up">⬆</button>
+                    <button class="move-btn" data-dir="left">⬅</button>
+                    <button class="move-btn" data-dir="down">⬇</button>
+                    <button class="move-btn" data-dir="right">➡</button>
+                  </div>
+                  <span class="position-info" id="positionInfo">X: 0, Y: 0</span>
+                </div>
+                <div class="control-row" style="gap:8px;">
+                  <button class="save-layout-btn" id="saveLayoutBtn">💾 Save Layout to All Cards</button>
+                  <button class="move-btn reset-layout-btn" id="resetLayoutBtn" style="width:auto; padding:0 16px;">↺ Reset</button>
+                </div>
+              </div>
+            </div>
+
             <form class="admin-form" id="adminForm">
               <input type="hidden" id="adminProductId" />
               <div class="form-group">
@@ -828,7 +1016,7 @@
 
   <script>
     // ============================================================
-    // 🚀 COMPLETE JAVASCRIPT - AURA CAFE (FINAL - LAYOUT SYSTEM REMOVED)
+    // 🚀 COMPLETE JAVASCRIPT - AURA CAFE (VISUAL EDITOR VERSION)
     // ============================================================
 
     // ========== CUSTOM ALERT/CONFIRM/PROMPT ==========
@@ -968,8 +1156,64 @@
     var currentCustomer = null;
     var contactInfo = { address: '279 Prospect Rd, Blair Athol SA 5084, Australia', phone: '+61 478 706 251', hours: 'Monday – Sunday, 6:00 AM – 9:00 PM', social: { instagram: '', facebook: '', whatsapp: '+61 478 706 251' } };
 
+    // ========== VISUAL LAYOUT STATE ==========
+    var layoutOffsets = {
+      img: { x: 0, y: 0 },
+      name: { x: 0, y: 0 },
+      price: { x: 0, y: 0 }
+    };
+    function loadLayout() {
+      try {
+        var saved = JSON.parse(localStorage.getItem('aura_layout_offsets'));
+        if (saved) {
+          // Ensure all keys exist
+          if (saved.img) layoutOffsets.img = saved.img;
+          if (saved.name) layoutOffsets.name = saved.name;
+          if (saved.price) layoutOffsets.price = saved.price;
+        }
+      } catch(e) {}
+    }
+    function saveLayout() {
+      localStorage.setItem('aura_layout_offsets', JSON.stringify(layoutOffsets));
+    }
+    function resetLayout() {
+      layoutOffsets = { img: {x:0, y:0}, name: {x:0, y:0}, price: {x:0, y:0} };
+      saveLayout();
+      applyLayoutToSample();
+      renderProducts(); // Re-render all cards
+    }
+
+    // Apply layout to sample card preview
+    function applyLayoutToSample() {
+      var sampleImg = document.getElementById('sampleImg');
+      var sampleBody = document.getElementById('sampleBody');
+      var sampleFooter = document.getElementById('sampleFooter');
+      
+      sampleImg.style.transform = 'translate(' + layoutOffsets.img.x + 'px, ' + layoutOffsets.img.y + 'px)';
+      sampleBody.style.transform = 'translate(' + layoutOffsets.name.x + 'px, ' + layoutOffsets.name.y + 'px)';
+      sampleFooter.style.transform = 'translate(' + layoutOffsets.price.x + 'px, ' + layoutOffsets.price.y + 'px)';
+      
+      updatePositionInfo();
+    }
+
+    function updatePositionInfo() {
+      var target = document.getElementById('layoutTargetSelect').value;
+      var pos = layoutOffsets[target];
+      document.getElementById('positionInfo').textContent = 'X: ' + pos.x + ', Y: ' + pos.y;
+    }
+
+    function moveSelected(dx, dy) {
+      var target = document.getElementById('layoutTargetSelect').value;
+      if (!layoutOffsets[target]) return;
+      layoutOffsets[target].x += dx;
+      layoutOffsets[target].y += dy;
+      applyLayoutToSample();
+      // Don't save automatically, user must click Save.
+    }
+
+    // ========== LOAD DATA ==========
     function loadData() {
-      var CURRENT_VERSION = '3.0.0';
+      var CURRENT_VERSION = '4.0.0';
       var storedVersion = localStorage.getItem('samoon99_version');
       if (storedVersion !== CURRENT_VERSION) {
         localStorage.clear();
@@ -993,6 +1237,8 @@
         saveAll();
       }
       updateContactUI(); updateSocialLinksUI(); updateCustomerUI();
+      loadLayout();
+      applyLayoutToSample();
     }
 
     function saveAll() { saveProducts(); saveCategories(); saveGallery(); saveOrders(); saveCart(); saveReviews(); saveLoyalty(); saveContact(); saveCustomers(); }
@@ -1145,6 +1391,7 @@
       });
     }
     var currentFilter = 'all'; var searchQuery = '';
+    
     function renderProducts() {
       var grid = document.getElementById('productGrid'); grid.innerHTML = '';
       var filtered = products.filter(function(p) {
@@ -1168,7 +1415,17 @@
               '<span class="rating">' + product.rating + '</span>' +
             '</div>' +
           '</div>';
-        setImageOrEmoji(card.querySelector('.card-img'), product.emoji, '76px');
+        
+        var imgDiv = card.querySelector('.card-img');
+        var bodyDiv = card.querySelector('.card-body');
+        var footerDiv = card.querySelector('.card-footer');
+        
+        // Apply layout offsets
+        imgDiv.style.transform = 'translate(' + layoutOffsets.img.x + 'px, ' + layoutOffsets.img.y + 'px)';
+        bodyDiv.style.transform = 'translate(' + layoutOffsets.name.x + 'px, ' + layoutOffsets.name.y + 'px)';
+        footerDiv.style.transform = 'translate(' + layoutOffsets.price.x + 'px, ' + layoutOffsets.price.y + 'px)';
+        
+        setImageOrEmoji(imgDiv, product.emoji, '76px');
         grid.appendChild(card);
       });
       attachCardEvents();
@@ -1414,6 +1671,36 @@
     }
 
     // ========== EVENT LISTENERS ==========
+    // Visual Editor controls
+    document.querySelectorAll('.move-btn').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var dir = this.getAttribute('data-dir');
+        var dx = 0, dy = 0;
+        if (dir === 'up') dy = -5;
+        else if (dir === 'down') dy = 5;
+        else if (dir === 'left') dx = -5;
+        else if (dir === 'right') dx = 5;
+        moveSelected(dx, dy);
+      });
+    });
+
+    document.getElementById('layoutTargetSelect').addEventListener('change', function() {
+      updatePositionInfo();
+    });
+
+    document.getElementById('saveLayoutBtn').addEventListener('click', function() {
+      saveLayout();
+      renderProducts(); // Apply to all actual cards
+      showToast('✅ Layout saved and applied to all cards!', 'success');
+    });
+
+    document.getElementById('resetLayoutBtn').addEventListener('click', function() {
+      resetLayout();
+      renderProducts();
+      showToast('🔄 Layout reset to default!', 'info');
+    });
+
     document.getElementById('searchToggleBtn').addEventListener('click', function() { document.getElementById('searchContainer').classList.toggle('active'); if (document.getElementById('searchContainer').classList.contains('active')) document.getElementById('searchInput').focus(); else { document.getElementById('searchInput').value = ''; searchQuery = ''; renderProducts(); hideSearchSuggestions(); } });
     document.getElementById('searchInput').addEventListener('input', function() { searchQuery = this.value; renderProducts(); if (this.value.trim().length > 0) { showSearchSuggestions(this.value.trim().toLowerCase()); } else { hideSearchSuggestions(); } });
     document.addEventListener('click', function(e) { if (!e.target.closest('.search-container') && !e.target.closest('.search-suggestions')) { hideSearchSuggestions(); } });
@@ -1515,6 +1802,7 @@
     loadData();
     checkLogin();
     renderAll();
+    applyLayoutToSample(); // Ensure sample shows loaded layout
 
     // Lightbox close handlers
     document.getElementById('galleryLightboxClose').addEventListener('click', function() {
