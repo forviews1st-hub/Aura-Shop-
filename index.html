@@ -77,7 +77,8 @@
     @media (min-width:900px) { .product-grid { grid-template-columns:repeat(4,1fr); } }
 
     /* ==========================================================
-       🎨 CARD - BACKGROUND IMAGE 120% BIGGER (NO WHITE PATCH)
+       🎨 CARD - BACKGROUND IMAGE 140% BIGGER (NO WHITE PATCH)
+       WISHLIST MOVED TO LEFT SIDE
        ========================================================== */
     .card {
       position: relative;
@@ -103,14 +104,14 @@
       box-shadow: 0 12px 32px rgba(0,0,0,0.12);
     }
 
-    /* 🔥 CARD BACKGROUND IMAGE - 20% BIGGER TO HIDE WHITE PATCH */
+    /* 🔥 CARD BACKGROUND IMAGE - 40% BIGGER (140%) TO FULLY HIDE PATCHES */
     .card::before {
       content: '';
       position: absolute;
-      top: -10%;
-      left: -10%;
-      width: 120%;
-      height: 120%;
+      top: -20%;
+      left: -20%;
+      width: 140%;
+      height: 140%;
       background-image: url('card-bg.png');
       background-size: 100% 100%;
       background-position: center;
@@ -127,10 +128,11 @@
       z-index: 1;
     }
 
+    /* 🔥 WISHLIST - MOVED TO LEFT SIDE */
     .wishlist {
       position: absolute;
       top: 12px;
-      right: 12px;
+      left: 12px;  /* Changed from right to left */
       background: rgba(255,255,255,0.85);
       border: none;
       border-radius: 50%;
@@ -147,6 +149,28 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     }
     .wishlist.active { color: #FF4D4D; background: #ffe5e5; }
+
+    /* 🔥 ADMIN BUTTONS - MOVED DOWN TO AVOID CLASH WITH WISHLIST */
+    .card .admin-edit-delete {
+      position: absolute;
+      top: 50px;  /* Below wishlist */
+      left: 12px;
+      display: none;
+      gap: 4px;
+      z-index: 10;
+    }
+    .card.admin-mode .admin-edit-delete { display: flex; }
+    .card .admin-edit-delete button {
+      background: rgba(255,255,255,0.9);
+      border: none;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      font-size: 12px;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+    }
+    .card .admin-edit-delete button:hover { background: #fff; }
 
     .card-img {
       display: flex;
@@ -219,33 +243,15 @@
       transition: font-size 0.15s ease;
     }
 
-    .card .admin-edit-delete {
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      display: none;
-      gap: 4px;
-      z-index: 10;
-    }
-    .card.admin-mode .admin-edit-delete { display: flex; }
-    .card .admin-edit-delete button {
-      background: rgba(255,255,255,0.9);
-      border: none;
-      border-radius: 50%;
-      width: 28px;
-      height: 28px;
-      font-size: 12px;
-      cursor: pointer;
-      backdrop-filter: blur(4px);
-    }
-    .card .admin-edit-delete button:hover { background: #fff; }
-
     @media (max-width:600px) {
       .card { padding: 12px 10px; }
       .card-img { width: 70px; height: 70px; font-size: 34px; }
       .card-name { font-size: 16px; }
       .price { font-size: 14px; padding: 3px 12px; }
       .rating { font-size: 13px; padding: 3px 10px; }
+      .wishlist { width: 30px; height: 30px; font-size: 14px; top: 10px; left: 10px; }
+      .card .admin-edit-delete { top: 44px; left: 10px; }
+      .card .admin-edit-delete button { width: 24px; height: 24px; font-size: 10px; }
     }
     @media (max-width:400px) {
       .card { padding: 10px 8px; }
@@ -253,6 +259,9 @@
       .card-name { font-size: 14px; }
       .price { font-size: 12px; padding: 2px 10px; }
       .rating { font-size: 11px; padding: 2px 8px; }
+      .wishlist { width: 26px; height: 26px; font-size: 12px; top: 8px; left: 8px; }
+      .card .admin-edit-delete { top: 38px; left: 8px; }
+      .card .admin-edit-delete button { width: 20px; height: 20px; font-size: 9px; }
     }
 
     /* ========== REMAINING STYLES (Unchanged) ========== */
@@ -421,10 +430,10 @@
     .layout-editor-box .sample-card::before {
       content:'';
       position:absolute;
-      top:-10%;
-      left:-10%;
-      width:120%;
-      height:120%;
+      top:-20%;
+      left:-20%;
+      width:140%;
+      height:140%;
       background-image:url('card-bg.png');
       background-size:100% 100%;
       background-position:center;
@@ -990,9 +999,16 @@
 
   <script>
     // ============================================================
-    // 🚀 FULL JAVASCRIPT - AURA CAFE
+    // 🚀 FULL JAVASCRIPT (Unchanged - same as previous version)
     // ============================================================
-
+    // (All JavaScript functions remain exactly the same as before.
+    //  Only CSS was updated for card size and wishlist position.)
+    // ============================================================
+    
+    // For brevity, the JavaScript is the same as in the previous version.
+    // I'll include the full JS to ensure completeness.
+  </script>
+  <script>
     // ========== CUSTOM ALERT/CONFIRM/PROMPT ==========
     (function() {
       function createOverlay() {
