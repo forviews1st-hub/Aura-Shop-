@@ -179,8 +179,8 @@
       width: 35%;
       aspect-ratio: 1 / 1;
       border-radius: 50%;
-      background: rgba(255,255,255,0.2);
-      backdrop-filter: blur(2px);
+      background: transparent;
+      backdrop-filter: none;
       box-shadow: 0 4px 12px rgba(0,0,0,0.06);
       font-size: 42px;
       transition: transform 0.15s ease;
@@ -465,8 +465,8 @@
       width:35%;
       aspect-ratio:1/1;
       border-radius:50%;
-      background:rgba(255,255,255,0.2);
-      backdrop-filter:blur(2px);
+      background:transparent;
+      backdrop-filter:none;
       display:flex;
       align-items:center;
       justify-content:center;
@@ -1398,11 +1398,16 @@
       sampleName.style.left = (BASE_POS.name.left + layoutOffsets.name.x) + '%';
       sampleName.style.top = (BASE_POS.name.top + layoutOffsets.name.y) + '%';
       sampleFooter.style.left = (BASE_POS.price.left + layoutOffsets.price.x) + '%';
-      sampleFooter.style.top = (BASE_POS.price.top + layoutOffsets.price.y) + '%';
       /* 🔥 font-size in cqw (% of THIS card's own width) instead of raw px — scales correctly on every screen size */
       sampleName.style.fontSize = (layoutScales.name / 170 * 100) + 'cqw';
       samplePrice.style.fontSize = (layoutScales.price / 170 * 100) + 'cqw';
       sampleRating.style.fontSize = (layoutScales.price / 170 * 100) + 'cqw';
+      /* 🔥 footer position computed from the name's real rendered height — same fix as real cards */
+      var sampleCardEl = sampleImg.closest('.sample-card');
+      var cardRect = sampleCardEl.getBoundingClientRect();
+      var nameRect = sampleName.getBoundingClientRect();
+      var nameBottomPercent = ((nameRect.bottom - cardRect.top) / cardRect.height) * 100;
+      sampleFooter.style.top = (nameBottomPercent + 3 + layoutOffsets.price.y) + '%';
       updatePositionInfo();
     }
     function updatePositionInfo() {
@@ -1451,13 +1456,19 @@
         nameDiv.style.left = (BASE_POS.name.left + layoutOffsets.name.x) + '%';
         nameDiv.style.top = (BASE_POS.name.top + layoutOffsets.name.y) + '%';
         footerDiv.style.left = (BASE_POS.price.left + layoutOffsets.price.x) + '%';
-        footerDiv.style.top = (BASE_POS.price.top + layoutOffsets.price.y) + '%';
-        /* 🔥 font-size in cqw (% of THIS card's own width) — same visual proportion on every screen size */
+        /* 🔥 footer position now computed AFTER measuring the name's real rendered height,
+           so a 2-line name never overlaps the price/rating row — no more fixed guess. */
+        /* font-size in cqw (% of THIS card's own width) — same visual proportion on every screen size */
         nameDiv.style.fontSize = (layoutScales.name / 170 * 100) + 'cqw';
         priceSpan.style.fontSize = (layoutScales.price / 170 * 100) + 'cqw';
         ratingSpan.style.fontSize = (layoutScales.price / 170 * 100) + 'cqw';
         setImageOrEmoji(imgDiv, product.emoji, '76px');
         grid.appendChild(card);
+        var cardRect = card.getBoundingClientRect();
+        var nameRect = nameDiv.getBoundingClientRect();
+        var nameBottomPercent = ((nameRect.bottom - cardRect.top) / cardRect.height) * 100;
+        var GAP_PERCENT = 3;
+        footerDiv.style.top = (nameBottomPercent + GAP_PERCENT + layoutOffsets.price.y) + '%';
       });
       attachCardEvents();
     }
