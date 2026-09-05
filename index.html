@@ -77,11 +77,11 @@
     @media (min-width:900px) { .product-grid { grid-template-columns:repeat(4,1fr); } }
 
     /* ==========================================================
-       🎨 CARD - PERFECT POSITIONING (ADJUSTED FOR YOUR IMAGE)
+       🎨 CARD - PERFECT POSITIONING (REFERENCE IMAGE BASED)
        ========================================================== */
     .card {
       position: relative;
-      aspect-ratio: 849 / 1373;
+      aspect-ratio: 849 / 1373; /* Exact match to card-bg.png */
       background: transparent;
       border-radius: 20px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.04);
@@ -120,11 +120,11 @@
       z-index: 1;
     }
 
-    /* 🔥 WISHLIST - ADJUSTED SLIGHTLY UP */
+    /* 🔥 WISHLIST - Upper-Left Corner of Tan Area */
     .wishlist {
       position: absolute;
       left: 21.7%;
-      top: 13%;  /* Slightly up from 14.1% */
+      top: 13%;
       transform: translate(-50%, -50%);
       background: rgba(255,255,255,0.9);
       border: none;
@@ -166,11 +166,11 @@
     }
     .card .admin-edit-delete button:hover { background: #fff; }
 
-    /* 🔥 FOOD IMAGE - ADJUSTED SLIGHTLY UP */
+    /* 🔥 FOOD IMAGE - Centered in Tan Area (No White Panel Overlap) */
     .card-img {
       position: absolute;
       left: 50.35%;
-      top: 30.5%;  /* Slightly up from 32.2% */
+      top: 30.5%;
       transform: translate(-50%, -50%);
       display: flex;
       align-items: center;
@@ -191,11 +191,11 @@
       border-radius: 50%;
     }
 
-    /* 🔥 NAME - ADJUSTED SLIGHTLY UP */
+    /* 🔥 NAME - White Panel Upper-Left (No Overlap) */
     .card-name {
       position: absolute;
       left: 8.8%;
-      top: 61.5%;  /* Slightly up from 63.5% */
+      top: 60.5%;
       font-size: 18px;
       font-weight: 700;
       color: #1A1A1A;
@@ -208,13 +208,16 @@
       font-family: 'Inter', sans-serif;
       text-shadow: 0 1px 4px rgba(255,255,255,0.8);
       transition: font-size 0.15s ease, transform 0.15s ease;
+      /* Allow 2-line names without breaking layout */
+      max-height: 2.6em;
+      overflow: visible;
     }
 
-    /* 🔥 PRICE + RATING - ADJUSTED SLIGHTLY UP */
+    /* 🔥 PRICE + RATING - Side-by-Side, Below Name */
     .card-footer {
       position: absolute;
       left: 8.8%;
-      top: 70.5%;  /* Slightly up from 72.5% */
+      top: 70.5%;
       display: flex;
       align-items: center;
       justify-content: flex-start;
@@ -255,7 +258,7 @@
     /* ========== RESPONSIVE ADJUSTMENTS ========== */
     @media (max-width:600px) {
       .card-img { width: 30%; font-size: 32px; top: 29.5%; }
-      .card-name { font-size: 16px; top: 60.5%; }
+      .card-name { font-size: 16px; top: 59.5%; max-height: 2.5em; }
       .price { font-size: 14px; }
       .rating { font-size: 13px; }
       .card-footer { top: 69.5%; gap: 8px; }
@@ -265,7 +268,7 @@
     }
     @media (max-width:400px) {
       .card-img { width: 26%; font-size: 26px; top: 28.5%; }
-      .card-name { font-size: 14px; top: 59.5%; }
+      .card-name { font-size: 14px; top: 58.5%; max-height: 2.4em; }
       .price { font-size: 12px; }
       .rating { font-size: 11px; }
       .card-footer { top: 68.5%; gap: 6px; }
@@ -418,7 +421,7 @@
     .admin-actions button { background:none; border:none; cursor:pointer; font-size:15px; margin-left:6px; transition:transform 0.15s; }
     .admin-actions button:hover { transform:scale(1.2); }
 
-    /* ========== VISUAL EDITOR (SAMPLE CARD) ========== */
+    /* ========== VISUAL EDITOR (SAMPLE CARD - Updated) ========== */
     .layout-editor-box { background:#f8f8f8; padding:15px; border-radius:12px; margin-bottom:15px; border:1px solid #e0e0e0; }
     .layout-editor-box .preview-card-wrapper { display:flex; justify-content:center; margin-bottom:15px; }
     .layout-editor-box .sample-card {
@@ -471,13 +474,15 @@
     .layout-editor-box .sample-card .card-name {
       position:absolute;
       left:8.8%;
-      top:61.5%;
+      top:60.5%;
       font-size:16px;
       margin:0;
       color:#1A1A1A;
       text-align:left;
       font-weight:700;
       text-shadow:0 1px 4px rgba(255,255,255,0.8);
+      max-height:2.6em;
+      overflow:visible;
     }
     .layout-editor-box .sample-card .card-footer {
       position:absolute;
@@ -677,8 +682,8 @@
   </style>
 </head>
 <body>
-  <!-- ========== COMPLETE BODY (Same as before) ========== -->
-  <!-- I'm including the entire body from your original code to ensure no missing elements -->
+  <!-- ========== COMPLETE BODY (Same as before - no changes to HTML) ========== -->
+  <!-- I'm including the entire body from your original code to ensure all functionality remains intact -->
   <div class="app">
     <header class="header">
       <div class="header-row">
@@ -1048,9 +1053,9 @@
 
   <script>
     // ============================================================
-    // 🚀 FULL JAVASCRIPT (Unchanged - same as before)
+    // 🚀 FULL JAVASCRIPT (Unchanged - all functionality preserved)
     // ============================================================
-    // (All JavaScript functions remain exactly the same as in the previous version)
+    // (All JavaScript from the previous version is included here)
     // ============================================================
     
     // ========== CUSTOM ALERT/CONFIRM/PROMPT ==========
