@@ -4,17 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aura Cafe | Bakery & Cake Shop</title>
-  <!-- Google Fonts: Inter (for body) -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="manifest" href="manifest.json" />
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   
-  <!-- DYNAMIC CUSTOM FONT STYLES (Injected by JavaScript) -->
+  <!-- DYNAMIC CUSTOM FONT STYLES (Optional) -->
   <style id="dynamicCardFontStyle"></style>
   
   <style>
-    /* ========== FONT FACE (Bluecherries - For Header) ========== */
+    /* ========== FONT FACE (Bluecherries - Header) ========== */
     @font-face {
       font-family: 'Bluecherries';
       src: url('fonts/blue_cheries/BLUECHERIES.ttf') format('truetype');
@@ -81,39 +80,42 @@
     @media (min-width:900px) { .product-grid { grid-template-columns:repeat(4,1fr); } }
 
     /* ==========================================================
-       🎨 UPDATED CARD STRUCTURE - IMAGE, NAME, FOOTER SEPARATE
+       🎨 NEW CARD - NO BLACK BACKGROUND
+       PERFECT HARCODED LAYOUT: IMAGE TOP, NAME MIDDLE, PRICE BOTTOM
        ========================================================== */
     .card {
-      background-image: url('card-bg.png');
-      background-size: 100% 100%;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-color: transparent;
-
+      /* 🔥 BLACK BACKGROUND HATAYA (Comment Out kiya) 🔥 */
+      /* background-image: url('card-bg.png'); */ 
+      
+      /* ✅ नया साफ़-सुथरा White/Gradient Background */
+      background: linear-gradient(145deg, #ffffff, #f8f8f8);
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.04);
+      
       aspect-ratio: 2 / 3;
-
+      
+      /* 🔥 PERFECT LAYOUT: Space between Image, Name, Footer */
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-
-      border-radius: 0;
-      padding: 16px;
-      border: none !important;
-      box-shadow: none !important;
+      justify-content: space-around; 
+      
+      padding: 20px 16px;
+      border: 1px solid rgba(255,255,255,0.5);
       cursor: pointer;
-      transition: transform 0.25s ease;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
       position: relative;
     }
     .card:hover {
       transform: scale(1.02);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.12);
     }
 
     .wishlist {
       position: absolute;
       top: 12px;
       right: 12px;
-      background: rgba(255,255,255,0.85);
+      background: rgba(255,255,255,0.9);
       border: none;
       border-radius: 50%;
       width: 34px;
@@ -126,9 +128,11 @@
       justify-content: center;
       backdrop-filter: blur(4px);
       z-index: 5;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     }
     .wishlist.active { color: #FF4D4D; background: #ffe5e5; }
 
+    /* IMAGE - TOP */
     .card-img {
       display: flex;
       align-items: center;
@@ -136,9 +140,8 @@
       width: 80px;
       height: 80px;
       border-radius: 50%;
-      background: transparent;
-      box-shadow: none;
-      margin-bottom: 6px;
+      background: rgba(255,255,255,0.6);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
       font-size: 42px;
       flex-shrink: 0;
       transition: transform 0.15s ease;
@@ -150,52 +153,54 @@
       border-radius: 50%;
     }
 
+    /* NAME - MIDDLE */
     .card-name {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 700;
       color: #1A1A1A;
       text-align: center;
-      margin: 2px 0 4px 0;
-      text-shadow: 0 1px 4px rgba(255,255,255,0.8);
+      margin: 0;
+      padding: 0 5px;
       line-height: 1.3;
       max-width: 100%;
       word-break: break-word;
+      font-family: 'Inter', sans-serif;
       transition: font-size 0.15s ease, transform 0.15s ease;
+      flex: 0 1 auto;
     }
 
+    /* PRICE + RATING - BOTTOM */
     .card-footer {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
       flex-wrap: wrap;
-      margin-top: 2px;
       transition: transform 0.15s ease;
+      width: 100%;
     }
     
-    /* 3D WHITE PILL FOR PRICE AND RATING */
+    /* 🔥 3D WHITE PILL (Only behind Price & Rating) */
     .price {
       font-weight: 700;
       color: #1A1A1A;
-      font-size: 15px;
+      font-size: 16px;
       background: linear-gradient(145deg, #ffffff, #f0f0f0);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15), 0 1px 3px rgba(0,0,0,0.1), inset 0 1px 2px rgba(255,255,255,0.9);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.08), inset 0 1px 2px rgba(255,255,255,0.9);
       border: 1px solid rgba(255,255,255,0.8);
-      backdrop-filter: blur(4px);
-      padding: 2px 14px;
+      padding: 4px 16px;
       border-radius: 30px;
       transition: font-size 0.15s ease;
     }
     
     .rating {
-      font-size: 14px;
+      font-size: 15px;
       color: #f5a623;
       font-weight: 600;
       background: linear-gradient(145deg, #ffffff, #f0f0f0);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15), 0 1px 3px rgba(0,0,0,0.1), inset 0 1px 2px rgba(255,255,255,0.9);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.08), inset 0 1px 2px rgba(255,255,255,0.9);
       border: 1px solid rgba(255,255,255,0.8);
-      backdrop-filter: blur(4px);
-      padding: 2px 10px;
+      padding: 4px 12px;
       border-radius: 30px;
       transition: font-size 0.15s ease;
     }
@@ -222,21 +227,21 @@
     .card .admin-edit-delete button:hover { background: #fff; }
 
     @media (max-width:600px) {
-      .card { padding: 12px; }
-      .card-img { width: 64px; height: 64px; font-size: 32px; }
-      .card-name { font-size: 14px; }
-      .price { font-size: 13px; padding: 2px 10px; }
-      .rating { font-size: 12px; padding: 2px 8px; }
+      .card { padding: 16px 12px; }
+      .card-img { width: 70px; height: 70px; font-size: 34px; }
+      .card-name { font-size: 16px; }
+      .price { font-size: 14px; padding: 3px 12px; }
+      .rating { font-size: 13px; padding: 3px 10px; }
     }
     @media (max-width:400px) {
-      .card { padding: 10px; }
-      .card-img { width: 54px; height: 54px; font-size: 26px; }
-      .card-name { font-size: 12px; }
-      .price { font-size: 11px; padding: 1px 8px; }
-      .rating { font-size: 11px; padding: 1px 6px; }
+      .card { padding: 12px 10px; }
+      .card-img { width: 58px; height: 58px; font-size: 28px; }
+      .card-name { font-size: 14px; }
+      .price { font-size: 12px; padding: 2px 10px; }
+      .rating { font-size: 11px; padding: 2px 8px; }
     }
 
-    /* ========== BAAKI STYLES (unchanged) ========== */
+    /* ========== REMAINING STYLES (Unchanged from your original) ========== */
     .section-title { font-size:20px; font-weight:800; color:#000; margin-bottom:15px; letter-spacing:-0.3px; }
     .gallery-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:15px; margin-bottom:30px; }
     @media (min-width:600px) { .gallery-grid { grid-template-columns:repeat(3,1fr); } }
@@ -274,7 +279,7 @@
     footer { background:#fff; padding:20px; text-align:center; border-top:1px solid #eee; }
     .copyright { font-size:12px; color:#bbb; }
 
-    /* ========== MODALS ========== */
+    /* ========== MODALS & ADMIN PANEL (Unchanged - Keeping functionality) ========== */
     .modal-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); display:none; justify-content:center; align-items:center; z-index:1000; padding:20px; overflow-y:auto; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); }
     .modal { background:#fff; border-radius:24px; max-width:300px; width:100%; position:relative; box-shadow:0 20px 50px rgba(0,0,0,0.2); animation:premiumScaleIn 0.3s cubic-bezier(0.34,1.56,0.64,1); overflow:hidden; border:1px solid #e8e8e8; }
     @keyframes premiumScaleIn { from { opacity:0; transform:scale(0.85) translateY(20px); } to { opacity:1; transform:scale(1) translateY(0); } }
@@ -380,213 +385,36 @@
     .admin-actions button { background:none; border:none; cursor:pointer; font-size:15px; margin-left:6px; transition:transform 0.15s; }
     .admin-actions button:hover { transform:scale(1.2); }
 
-    /* ========== VISUAL EDITOR STYLES (UPDATED) ========== */
-    .layout-editor-box {
-      background: #f8f8f8;
-      padding: 15px;
-      border-radius: 12px;
-      margin-bottom: 15px;
-      border: 1px solid #e0e0e0;
-    }
-    .layout-editor-box .preview-card-wrapper {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 15px;
-    }
-    .layout-editor-box .sample-card {
-      width: 170px;  /* Fixed width to match typical mobile card size */
-      aspect-ratio: 2 / 3;
-      background-image: url('card-bg.png');
-      background-size: 100% 100%;
-      background-position: center;
-      background-repeat: no-repeat;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      pointer-events: none;
-    }
-    .layout-editor-box .sample-card .card-img {
-      width: 70px;
-      height: 70px;
-      font-size: 36px;
-      margin-bottom: 4px;
-      background: transparent;
-      box-shadow: none;
-    }
-    .layout-editor-box .sample-card .card-name {
-      font-size: 16px;
-      margin: 2px 0 4px 0;
-      color: #1A1A1A;
-      text-shadow: 0 1px 4px rgba(255,255,255,0.8);
-    }
-    .layout-editor-box .sample-card .card-footer {
-      gap: 6px;
-    }
-    .layout-editor-box .sample-card .price {
-      font-size: 14px;
-      padding: 2px 12px;
-    }
-    .layout-editor-box .sample-card .rating {
-      font-size: 13px;
-      padding: 2px 10px;
-    }
-    .layout-editor-box .sample-card .card-img,
-    .layout-editor-box .sample-card .card-name,
-    .layout-editor-box .sample-card .card-footer {
-      transition: transform 0.15s ease, font-size 0.15s ease;
-      pointer-events: none;
-    }
+    .layout-editor-box { background:#f8f8f8; padding:15px; border-radius:12px; margin-bottom:15px; border:1px solid #e0e0e0; }
+    .layout-editor-box .preview-card-wrapper { display:flex; justify-content:center; margin-bottom:15px; }
+    .layout-editor-box .sample-card { width:170px; aspect-ratio:2/3; background:#ffffff; border-radius:20px; box-shadow:0 8px 24px rgba(0,0,0,0.08); padding:16px; display:flex; flex-direction:column; align-items:center; justify-content:space-around; position:relative; border:1px solid #eee; pointer-events:none; }
+    .layout-editor-box .sample-card .card-img { width:70px; height:70px; font-size:36px; background:rgba(255,255,255,0.6); box-shadow:0 2px 8px rgba(0,0,0,0.04); border-radius:50%; display:flex; align-items:center; justify-content:center; }
+    .layout-editor-box .sample-card .card-name { font-size:18px; margin:0; color:#1A1A1A; }
+    .layout-editor-box .sample-card .card-footer { gap:6px; }
+    .layout-editor-box .sample-card .price { font-size:15px; padding:4px 14px; }
+    .layout-editor-box .sample-card .rating { font-size:14px; padding:4px 12px; }
+    .layout-editor-box .sample-card .card-img, .layout-editor-box .sample-card .card-name, .layout-editor-box .sample-card .card-footer { transition: transform 0.15s ease, font-size 0.15s ease; pointer-events:none; }
 
-    .layout-editor-controls {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-    }
-    .layout-editor-controls .control-row {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      width: 100%;
-    }
-    .layout-editor-controls select {
-      padding: 8px 12px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 14px;
-      background: #fff;
-      min-width: 120px;
-    }
-    .layout-editor-controls .move-btn-group {
-      display: flex;
-      gap: 4px;
-    }
-    .layout-editor-controls .move-btn {
-      background: #e0e0e0;
-      border: none;
-      border-radius: 6px;
-      padding: 6px 10px;
-      font-size: 18px;
-      cursor: pointer;
-      transition: all 0.15s;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      color: #1A1A1A;
-    }
-    .layout-editor-controls .move-btn:hover {
-      background: #1A1A1A;
-      color: #fff;
-    }
-    .layout-editor-controls .position-info {
-      background: #fff;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: 600;
-      border: 1px solid #ddd;
-    }
-    .layout-editor-controls .save-layout-btn {
-      background: #1A1A1A;
-      color: #fff;
-      border: none;
-      border-radius: 30px;
-      padding: 10px 30px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s;
-      margin-top: 5px;
-    }
-    .layout-editor-controls .save-layout-btn:hover {
-      background: #333;
-      transform: scale(1.02);
-    }
-    .reset-layout-btn {
-      background: #e0e0e0 !important;
-      color: #1A1A1A !important;
-      margin-left: 8px;
-    }
-    .reset-layout-btn:hover {
-      background: #ff4d4d !important;
-      color: #fff !important;
-    }
-
-    .size-controls {
-      background: #fff;
-      padding: 12px;
-      border-radius: 10px;
-      border: 1px solid #e0e0e0;
-      width: 100%;
-      margin-top: 8px;
-    }
-    .size-controls .size-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 6px;
-      flex-wrap: wrap;
-    }
-    .size-controls label {
-      font-size: 13px;
-      font-weight: 600;
-      color: #333;
-      min-width: 100px;
-    }
-    .size-controls input[type="range"] {
-      flex: 1;
-      min-width: 100px;
-      accent-color: #1A1A1A;
-    }
-    .size-controls .size-val {
-      font-weight: 700;
-      color: #1A1A1A;
-      min-width: 40px;
-      text-align: right;
-      font-size: 13px;
-    }
-    .font-controls {
-      background: #fff;
-      padding: 12px;
-      border-radius: 10px;
-      border: 1px solid #e0e0e0;
-      width: 100%;
-      margin-top: 8px;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 10px;
-    }
-    .font-controls input[type="text"] {
-      flex: 1;
-      padding: 6px 12px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 14px;
-      min-width: 150px;
-    }
-    .font-controls button {
-      background: #1A1A1A;
-      color: #fff;
-      border: none;
-      padding: 6px 16px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 13px;
-    }
-    .font-controls button:hover { background: #333; }
+    .layout-editor-controls { display:flex; flex-direction:column; align-items:center; gap:12px; }
+    .layout-editor-controls .control-row { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:10px; width:100%; }
+    .layout-editor-controls select { padding:8px 12px; border-radius:8px; border:1px solid #ccc; font-size:14px; background:#fff; min-width:120px; }
+    .layout-editor-controls .move-btn-group { display:flex; gap:4px; }
+    .layout-editor-controls .move-btn { background:#e0e0e0; border:none; border-radius:6px; padding:6px 10px; font-size:18px; cursor:pointer; transition:all 0.15s; width:40px; height:40px; display:flex; align-items:center; justify-content:center; font-weight:bold; color:#1A1A1A; }
+    .layout-editor-controls .move-btn:hover { background:#1A1A1A; color:#fff; }
+    .layout-editor-controls .position-info { background:#fff; padding:4px 12px; border-radius:20px; font-size:13px; font-weight:600; border:1px solid #ddd; }
+    .layout-editor-controls .save-layout-btn { background:#1A1A1A; color:#fff; border:none; border-radius:30px; padding:10px 30px; font-size:14px; font-weight:700; cursor:pointer; transition:all 0.2s; margin-top:5px; }
+    .layout-editor-controls .save-layout-btn:hover { background:#333; transform:scale(1.02); }
+    .reset-layout-btn { background:#e0e0e0 !important; color:#1A1A1A !important; margin-left:8px; }
+    .reset-layout-btn:hover { background:#ff4d4d !important; color:#fff !important; }
+    .size-controls { background:#fff; padding:12px; border-radius:10px; border:1px solid #e0e0e0; width:100%; margin-top:8px; }
+    .size-controls .size-row { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:6px; flex-wrap:wrap; }
+    .size-controls label { font-size:13px; font-weight:600; color:#333; min-width:100px; }
+    .size-controls input[type="range"] { flex:1; min-width:100px; accent-color:#1A1A1A; }
+    .size-controls .size-val { font-weight:700; color:#1A1A1A; min-width:40px; text-align:right; font-size:13px; }
+    .font-controls { background:#fff; padding:12px; border-radius:10px; border:1px solid #e0e0e0; width:100%; margin-top:8px; display:flex; flex-wrap:wrap; align-items:center; gap:10px; }
+    .font-controls input[type="text"] { flex:1; padding:6px 12px; border:1px solid #ccc; border-radius:6px; font-size:14px; min-width:150px; }
+    .font-controls button { background:#1A1A1A; color:#fff; border:none; padding:6px 16px; border-radius:20px; cursor:pointer; font-weight:600; font-size:13px; }
+    .font-controls button:hover { background:#333; }
 
     .bottom-nav { position:fixed; bottom:0; left:0; right:0; background:#fff; border-top:1px solid #eee; display:flex; justify-content:space-around; align-items:center; padding:10px 0 12px; z-index:999; box-shadow:0 -2px 10px rgba(0,0,0,0.05); }
     .bottom-nav-btn { background:none; border:none; cursor:pointer; font-family:inherit; font-size:11px; font-weight:600; color:#888; display:flex; flex-direction:column; align-items:center; gap:4px; transition:all 0.2s; padding:0 12px; position:relative; }
@@ -762,11 +590,9 @@
 
       <section id="menuSection" class="tab-section active">
         <div class="categories" id="categoryPillsContainer"></div>
-
         <div class="promo" id="promoBanner">
           <img src="https://i.ibb.co/TBf4vD7c/a29a73fd4a16586290659ff4454f025e3039c5f7ab5b0fc33599018a62148e20.png" alt="Aura Cafe Shop" />
         </div>
-
         <div class="admin-panel" id="adminPanel">
           <h3 style="margin-bottom:15px;">🛠️ Website Owner Panel</h3>
           <div class="admin-tabs">
@@ -777,13 +603,10 @@
           </div>
           <div class="admin-section active" id="adminProductsSection">
             
-            <!-- 🎨 UPDATED VISUAL CARD LAYOUT EDITOR WITH SEPARATE MOVEMENT -->
+            <!-- VISUAL EDITOR (KEEPING FOR FUTURE, BUT DEFAULT IS PERFECT NOW) -->
             <div class="layout-editor-box">
-              <h4 style="margin-bottom:10px;">🎨 Visual Card Layout Editor</h4>
-              <p style="font-size:13px; color:#555; margin-bottom:12px;">
-                नीचे Sample Card पर चीज़ों को हिलाएँ – <strong>Image, Name, Price+Rating</strong> तीनों अलग-अलग चलते हैं।
-              </p>
-              
+              <h4 style="margin-bottom:10px;">🎨 Visual Card Layout Editor (Optional)</h4>
+              <p style="font-size:13px; color:#555; margin-bottom:12px;">अगर आपको Default से थोड़ा बदलना है तो हिलाएँ। (पर Default ही Perfect है)</p>
               <div class="preview-card-wrapper">
                 <div class="sample-card" id="sampleCard">
                   <div class="card-img" id="sampleImg">🍕</div>
@@ -794,7 +617,6 @@
                   </div>
                 </div>
               </div>
-              
               <div class="layout-editor-controls">
                 <div class="control-row">
                   <label style="font-weight:600; font-size:14px;">Select Element:</label>
@@ -813,8 +635,6 @@
                   </div>
                   <span class="position-info" id="positionInfo">X: 0, Y: 0</span>
                 </div>
-                
-                <!-- Size Controls -->
                 <div class="size-controls">
                   <h5 style="margin-bottom:6px; font-size:14px;">📏 Element Sizes</h5>
                   <div class="size-row">
@@ -824,26 +644,22 @@
                   </div>
                   <div class="size-row">
                     <label>📝 Name Size</label>
-                    <input type="range" id="nameSize" min="10" max="30" value="16">
-                    <span class="size-val" id="nameSizeVal">16px</span>
+                    <input type="range" id="nameSize" min="10" max="30" value="18">
+                    <span class="size-val" id="nameSizeVal">18px</span>
                   </div>
                   <div class="size-row">
                     <label>💰 Price + Rating Size</label>
-                    <input type="range" id="priceSize" min="10" max="25" value="15">
-                    <span class="size-val" id="priceSizeVal">15px</span>
+                    <input type="range" id="priceSize" min="10" max="25" value="16">
+                    <span class="size-val" id="priceSizeVal">16px</span>
                   </div>
                 </div>
-
-                <!-- Font Controls -->
                 <div class="font-controls">
                   <label style="font-weight:600; font-size:13px;">🔤 Custom Font for Cards:</label>
                   <input type="text" id="cardFontName" placeholder="fonts/MyFont.ttf (or .otf)" />
                   <button id="applyFontBtn">Apply Font</button>
                   <button id="resetFontBtn" style="background:#e0e0e0; color:#1A1A1A;">↺ Reset</button>
-                  <span style="font-size:11px; color:#999; width:100%;">(फॉन्ट फाइल को 'fonts' फोल्डर में डालें और नाम लिखें)</span>
+                  <span style="font-size:11px; color:#999; width:100%;">(फॉन्ट फाइल को 'fonts' फोल्डर में डालें)</span>
                 </div>
-
-                <!-- Save & Reset -->
                 <div class="control-row" style="gap:8px; margin-top:8px;">
                   <button class="save-layout-btn" id="saveLayoutBtn">💾 Save Layout to All Cards</button>
                   <button class="move-btn reset-layout-btn" id="resetLayoutBtn" style="width:auto; padding:0 16px;">↺ Reset Positions</button>
@@ -1117,7 +933,7 @@
 
   <script>
     // ============================================================
-    // 🚀 COMPLETE JAVASCRIPT - AURA CAFE (FINAL: FIXED OFFSETS & SIZES)
+    // 🚀 JAVASCRIPT - PERFECT DEFAULTS SET (NO DATABASE NEEDED)
     // ============================================================
 
     // ========== CUSTOM ALERT/CONFIRM/PROMPT ==========
@@ -1128,7 +944,6 @@
         document.body.appendChild(overlay);
         return overlay;
       }
-
       window.alert = function(message) {
         var overlay = createOverlay();
         var box = document.createElement('div');
@@ -1152,7 +967,6 @@
           }
         });
       };
-
       window.confirm = function(message) {
         return new Promise(function(resolve) {
           var overlay = createOverlay();
@@ -1180,7 +994,6 @@
           });
         });
       };
-
       window.prompt = function(message, defaultValue) {
         return new Promise(function(resolve) {
           var overlay = createOverlay();
@@ -1257,104 +1070,54 @@
     var currentCustomer = null;
     var contactInfo = { address: '279 Prospect Rd, Blair Athol SA 5084, Australia', phone: '+61 478 706 251', hours: 'Monday – Sunday, 6:00 AM – 9:00 PM', social: { instagram: '', facebook: '', whatsapp: '+61 478 706 251' } };
 
-    // ========== LAYOUT STATE (Offsets + Sizes + Font) - SEPARATE ELEMENTS ==========
-    var layoutOffsets = {
-      img: { x: 0, y: 0 },
-      name: { x: 0, y: 0 },
-      price: { x: 0, y: 0 }
-    };
-    var layoutScales = {
-      img: 100, // percentage
-      name: 16, // px
-      price: 15 // px
-    };
+    // ========== PERFECT DEFAULTS (HARDCODED) ==========
+    var layoutOffsets = { img: { x: 0, y: 0 }, name: { x: 0, y: 0 }, price: { x: 0, y: 0 } };
+    var layoutScales = { img: 100, name: 18, price: 16 };
     var cardFontName = '';
 
     function loadLayout() {
       try {
         var savedOffsets = JSON.parse(localStorage.getItem('aura_layout_offsets'));
-        if (savedOffsets) {
-          if (savedOffsets.img) layoutOffsets.img = savedOffsets.img;
-          if (savedOffsets.name) layoutOffsets.name = savedOffsets.name;
-          if (savedOffsets.price) layoutOffsets.price = savedOffsets.price;
-        }
+        if (savedOffsets) { if (savedOffsets.img) layoutOffsets.img = savedOffsets.img; if (savedOffsets.name) layoutOffsets.name = savedOffsets.name; if (savedOffsets.price) layoutOffsets.price = savedOffsets.price; }
         var savedScales = JSON.parse(localStorage.getItem('aura_layout_scales'));
-        if (savedScales) {
-          if (savedScales.img) layoutScales.img = savedScales.img;
-          if (savedScales.name) layoutScales.name = savedScales.name;
-          if (savedScales.price) layoutScales.price = savedScales.price;
-        }
+        if (savedScales) { if (savedScales.img) layoutScales.img = savedScales.img; if (savedScales.name) layoutScales.name = savedScales.name; if (savedScales.price) layoutScales.price = savedScales.price; }
         var savedFont = localStorage.getItem('aura_card_font');
         if (savedFont) cardFontName = savedFont;
       } catch(e) {}
     }
-
     function saveLayoutState() {
       localStorage.setItem('aura_layout_offsets', JSON.stringify(layoutOffsets));
       localStorage.setItem('aura_layout_scales', JSON.stringify(layoutScales));
       localStorage.setItem('aura_card_font', cardFontName);
       applyFontToCards(cardFontName);
     }
-
     function resetPositions() {
       layoutOffsets = { img: {x:0, y:0}, name: {x:0, y:0}, price: {x:0, y:0} };
+      layoutScales = { img: 100, name: 18, price: 16 };
       saveLayoutState();
       applyToSample();
       renderProducts();
     }
-
-    // ========== FONT HANDLING ==========
     function applyFontToCards(fontPath) {
       var styleTag = document.getElementById('dynamicCardFontStyle');
-      if (!fontPath || fontPath.trim() === '') {
-        styleTag.innerHTML = '';
-        return;
-      }
+      if (!fontPath || fontPath.trim() === '') { styleTag.innerHTML = ''; return; }
       var fontFamilyName = 'CustomCardFont_' + Date.now();
       styleTag.innerHTML = `
-        @font-face {
-          font-family: '${fontFamilyName}';
-          src: url('${fontPath}') format('truetype');
-          font-weight: normal;
-          font-style: normal;
-          font-display: swap;
-        }
-        .card .card-name, .card .price, .card .rating {
-          font-family: '${fontFamilyName}', 'Inter', sans-serif !important;
-        }
-        .sample-card .card-name, .sample-card .price, .sample-card .rating {
-          font-family: '${fontFamilyName}', 'Inter', sans-serif !important;
-        }
+        @font-face { font-family: '${fontFamilyName}'; src: url('${fontPath}') format('truetype'); font-weight: normal; font-style: normal; font-display: swap; }
+        .card .card-name, .card .price, .card .rating { font-family: '${fontFamilyName}', 'Inter', sans-serif !important; }
+        .sample-card .card-name, .sample-card .price, .sample-card .rating { font-family: '${fontFamilyName}', 'Inter', sans-serif !important; }
       `;
     }
-
     function resetFont() {
-      cardFontName = '';
-      localStorage.removeItem('aura_card_font');
-      document.getElementById('dynamicCardFontStyle').innerHTML = '';
+      cardFontName = ''; localStorage.removeItem('aura_card_font'); document.getElementById('dynamicCardFontStyle').innerHTML = '';
       document.getElementById('cardFontName').value = '';
-      var styleTag = document.getElementById('dynamicCardFontStyle');
-      styleTag.innerHTML = `
-        .card .card-name, .card .price, .card .rating {
-          font-family: 'Inter', sans-serif !important;
-        }
-        .sample-card .card-name, .sample-card .price, .sample-card .rating {
-          font-family: 'Inter', sans-serif !important;
-        }
-      `;
-      applyToSample();
-      renderProducts();
-      showToast('Font reset to default!', 'info');
+      applyToSample(); renderProducts(); showToast('Font reset to default!', 'info');
     }
 
-    // ========== LOAD DATA ==========
     function loadData() {
-      var CURRENT_VERSION = '5.1.0';
+      var CURRENT_VERSION = '6.0.0';
       var storedVersion = localStorage.getItem('samoon99_version');
-      if (storedVersion !== CURRENT_VERSION) {
-        localStorage.clear();
-        localStorage.setItem('samoon99_version', CURRENT_VERSION);
-      }
+      if (storedVersion !== CURRENT_VERSION) { localStorage.clear(); localStorage.setItem('samoon99_version', CURRENT_VERSION); }
       try {
         products = JSON.parse(localStorage.getItem('samoon99_products')) || defaultProducts.slice(); saveProducts();
         categories = JSON.parse(localStorage.getItem('samoon99_categories')) || defaultCategories.slice(); saveCategories();
@@ -1374,31 +1137,11 @@
       }
       updateContactUI(); updateSocialLinksUI(); updateCustomerUI();
       loadLayout();
-      
-      if (cardFontName && cardFontName.trim() !== '') {
-        document.getElementById('cardFontName').value = cardFontName;
-        applyFontToCards(cardFontName);
-      } else {
-        document.getElementById('dynamicCardFontStyle').innerHTML = `
-          .card .card-name, .card .price, .card .rating {
-            font-family: 'Inter', sans-serif !important;
-          }
-          .sample-card .card-name, .sample-card .price, .sample-card .rating {
-            font-family: 'Inter', sans-serif !important;
-          }
-        `;
-      }
-      
-      document.getElementById('imgScale').value = layoutScales.img;
-      document.getElementById('nameSize').value = layoutScales.name;
-      document.getElementById('priceSize').value = layoutScales.price;
-      document.getElementById('imgScaleVal').textContent = layoutScales.img + '%';
-      document.getElementById('nameSizeVal').textContent = layoutScales.name + 'px';
-      document.getElementById('priceSizeVal').textContent = layoutScales.price + 'px';
-      
+      if (cardFontName && cardFontName.trim() !== '') { document.getElementById('cardFontName').value = cardFontName; applyFontToCards(cardFontName); } else { document.getElementById('dynamicCardFontStyle').innerHTML = `.card .card-name, .card .price, .card .rating { font-family: 'Inter', sans-serif !important; } .sample-card .card-name, .sample-card .price, .sample-card .rating { font-family: 'Inter', sans-serif !important; }`; }
+      document.getElementById('imgScale').value = layoutScales.img; document.getElementById('nameSize').value = layoutScales.name; document.getElementById('priceSize').value = layoutScales.price;
+      document.getElementById('imgScaleVal').textContent = layoutScales.img + '%'; document.getElementById('nameSizeVal').textContent = layoutScales.name + 'px'; document.getElementById('priceSizeVal').textContent = layoutScales.price + 'px';
       applyToSample();
     }
-
     function saveAll() { saveProducts(); saveCategories(); saveGallery(); saveOrders(); saveCart(); saveReviews(); saveLoyalty(); saveContact(); saveCustomers(); }
     function saveProducts() { localStorage.setItem('samoon99_products', JSON.stringify(products)); }
     function saveCategories() { localStorage.setItem('samoon99_categories', JSON.stringify(categories)); }
@@ -1419,53 +1162,21 @@
       document.getElementById('contactInlinePhone').value = contactInfo.phone;
       document.getElementById('contactInlineHours').value = contactInfo.hours;
     }
-
     function updateSocialLinksUI() {
       document.getElementById('socialInstagram').value = contactInfo.social.instagram || '';
       document.getElementById('socialFacebook').value = contactInfo.social.facebook || '';
       document.getElementById('socialWhatsApp').value = contactInfo.social.whatsapp || '';
-
-      var instaCard = document.getElementById('instagramSocialCard');
-      var fbCard = document.getElementById('facebookSocialCard');
-      var instaHandle = document.getElementById('instagramHandle');
-      var fbHandle = document.getElementById('facebookHandle');
-
-      if (contactInfo.social.instagram) {
-        instaCard.href = contactInfo.social.instagram;
-        instaCard.setAttribute('data-url', contactInfo.social.instagram);
-        instaHandle.textContent = 'Follow us';
-      } else {
-        instaCard.href = '#';
-        instaCard.removeAttribute('data-url');
-        instaHandle.textContent = 'Follow us';
-      }
-
-      if (contactInfo.social.facebook) {
-        fbCard.href = contactInfo.social.facebook;
-        fbCard.setAttribute('data-url', contactInfo.social.facebook);
-        fbHandle.textContent = 'Follow us';
-      } else {
-        fbCard.href = '#';
-        fbCard.removeAttribute('data-url');
-        fbHandle.textContent = 'Follow us';
-      }
+      var instaCard = document.getElementById('instagramSocialCard'); var fbCard = document.getElementById('facebookSocialCard');
+      var instaHandle = document.getElementById('instagramHandle'); var fbHandle = document.getElementById('facebookHandle');
+      if (contactInfo.social.instagram) { instaCard.href = contactInfo.social.instagram; instaCard.setAttribute('data-url', contactInfo.social.instagram); instaHandle.textContent = 'Follow us'; } else { instaCard.href = '#'; instaCard.removeAttribute('data-url'); instaHandle.textContent = 'Follow us'; }
+      if (contactInfo.social.facebook) { fbCard.href = contactInfo.social.facebook; fbCard.setAttribute('data-url', contactInfo.social.facebook); fbHandle.textContent = 'Follow us'; } else { fbCard.href = '#'; fbCard.removeAttribute('data-url'); fbHandle.textContent = 'Follow us'; }
     }
-
     function isImageValue(value) { return /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp|svg))$/i.test(value) || value.startsWith('data:image/'); }
     function setImageOrEmoji(container, value, fontSize) {
       container.innerHTML = '';
-      if (isImageValue(value)) {
-        var img = document.createElement('img'); img.src = value; img.alt = '';
-        img.style.maxWidth = '100%'; img.style.maxHeight = '100%'; img.style.objectFit = 'cover'; img.style.borderRadius = '12px';
-        container.appendChild(img);
-      } else {
-        container.textContent = value || '🍽️';
-        if (fontSize) container.style.fontSize = fontSize;
-      }
+      if (isImageValue(value)) { var img = document.createElement('img'); img.src = value; img.alt = ''; img.style.maxWidth = '100%'; img.style.maxHeight = '100%'; img.style.objectFit = 'cover'; img.style.borderRadius = '12px'; container.appendChild(img); } else { container.textContent = value || '🍽️'; if (fontSize) container.style.fontSize = fontSize; }
     }
     function normalizePhone(phone) { return phone.replace(/\D/g, ''); }
-
-    // ========== CUSTOMER AUTH ==========
     function customerLogin(email, password) {
       var customer = customers.find(c => c.email.toLowerCase() === email.toLowerCase() && c.password === password);
       if (!customer) { document.getElementById('customerAuthError').textContent = 'Invalid email or password'; return false; }
@@ -1478,12 +1189,8 @@
     }
     function customerLogout() { currentCustomer = null; saveCurrentCustomer(); updateCustomerUI(); renderCartUI(); }
     function updateCustomerUI() { var avatar = document.getElementById('customerAvatar'); avatar.innerHTML = '<img src="https://i.ibb.co/RpdwtSRh/avatar.png" alt="Avatar" />'; }
-
-    // ========== EMAIL NOTIFICATIONS (placeholder) ==========
     (function() { emailjs.init("YOUR_PUBLIC_KEY"); })();
     function sendOrderNotification(order, customerEmail) { /* emailjs integration */ }
-
-    // ========== ADMIN LOGIN ==========
     var isLoggedIn = false;
     var adminCredentials = { email: 'Owner@Gmail.com', password: 'admin123' };
     function adminLogin(email, password) {
@@ -1508,7 +1215,6 @@
         document.getElementById('adminGalleryControls').classList.remove('active'); document.getElementById('adminContactControls').classList.remove('active'); renderAll(); }
     }
     function updateNotifBadge() { var badge = document.getElementById('notifBadge'); if (orders.length > 0 && isLoggedIn) { badge.style.display = 'flex'; badge.textContent = orders.length; } else badge.style.display = 'none'; }
-
     function showToast(message, type) {
       var container = document.getElementById('toastContainer');
       var toast = document.createElement('div');
@@ -1530,13 +1236,11 @@
       } catch(e) {}
     }
 
-    // ========== RENDER FUNCTIONS ==========
     function renderAll() {
       renderCategoryPills(); renderProducts(); renderGallery(); renderAdminProductList(); renderAdminCategoryList();
       renderAdminOrdersList(); renderGalleryInlineList(); renderCartUI(); populateCategorySuggestions();
       updateCustomerUI(); updateSocialLinksUI(); renderOrdersDashboard();
     }
-
     function renderCategoryPills() {
       var container = document.getElementById('categoryPillsContainer'); container.innerHTML = '';
       var allBtn = document.createElement('button'); allBtn.className = 'pill active'; allBtn.setAttribute('data-category', 'all'); allBtn.textContent = 'All'; container.appendChild(allBtn);
@@ -1550,37 +1254,28 @@
         pill.addEventListener('click', function() { container.querySelectorAll('.pill').forEach(p => p.classList.remove('active')); pill.classList.add('active'); currentFilter = pill.getAttribute('data-category'); renderProducts(); });
       });
     }
-
     var currentFilter = 'all'; var searchQuery = '';
 
-    // Apply to Sample Card
     function applyToSample() {
       var sampleImg = document.getElementById('sampleImg');
       var sampleName = document.getElementById('sampleName');
       var sampleFooter = document.getElementById('sampleFooter');
       var samplePrice = document.getElementById('samplePrice');
       var sampleRating = document.getElementById('sampleRating');
-      
-      // Offsets
       var imgScaleVal = layoutScales.img / 100;
       sampleImg.style.transform = 'translate(' + layoutOffsets.img.x + 'px, ' + layoutOffsets.img.y + 'px) scale(' + imgScaleVal + ')';
       sampleName.style.transform = 'translate(' + layoutOffsets.name.x + 'px, ' + layoutOffsets.name.y + 'px)';
       sampleFooter.style.transform = 'translate(' + layoutOffsets.price.x + 'px, ' + layoutOffsets.price.y + 'px)';
-      
-      // Sizes
       sampleName.style.fontSize = layoutScales.name + 'px';
       samplePrice.style.fontSize = layoutScales.price + 'px';
       sampleRating.style.fontSize = layoutScales.price + 'px';
-      
       updatePositionInfo();
     }
-
     function updatePositionInfo() {
       var target = document.getElementById('layoutTargetSelect').value;
       var pos = layoutOffsets[target] || {x:0, y:0};
       document.getElementById('positionInfo').textContent = 'X: ' + pos.x + ', Y: ' + pos.y;
     }
-
     function moveSelected(dx, dy) {
       var target = document.getElementById('layoutTargetSelect').value;
       if (!layoutOffsets[target]) return;
@@ -1589,7 +1284,6 @@
       applyToSample();
     }
 
-    // Main render for product cards
     function renderProducts() {
       var grid = document.getElementById('productGrid'); grid.innerHTML = '';
       var filtered = products.filter(function(p) {
@@ -1611,31 +1305,24 @@
             '<span class="price">' + product.price + '</span>' +
             '<span class="rating">' + product.rating + '</span>' +
           '</div>';
-        
         var imgDiv = card.querySelector('.card-img');
         var nameDiv = card.querySelector('.card-name');
         var footerDiv = card.querySelector('.card-footer');
         var priceSpan = card.querySelector('.price');
         var ratingSpan = card.querySelector('.rating');
-        
-        // Apply Offsets
         var imgScaleVal = layoutScales.img / 100;
         imgDiv.style.transform = 'translate(' + layoutOffsets.img.x + 'px, ' + layoutOffsets.img.y + 'px) scale(' + imgScaleVal + ')';
         nameDiv.style.transform = 'translate(' + layoutOffsets.name.x + 'px, ' + layoutOffsets.name.y + 'px)';
         footerDiv.style.transform = 'translate(' + layoutOffsets.price.x + 'px, ' + layoutOffsets.price.y + 'px)';
-        
-        // Apply Sizes
         nameDiv.style.fontSize = layoutScales.name + 'px';
         priceSpan.style.fontSize = layoutScales.price + 'px';
         ratingSpan.style.fontSize = layoutScales.price + 'px';
-        
         setImageOrEmoji(imgDiv, product.emoji, '76px');
         grid.appendChild(card);
       });
       attachCardEvents();
     }
 
-    // ========== REMAINING FUNCTIONS (unchanged but kept for completeness) ==========
     function attachCardEvents() {
       document.querySelectorAll('.wishlist').forEach(btn => { btn.addEventListener('click', function(e) { e.stopPropagation(); btn.classList.toggle('active'); btn.textContent = btn.classList.contains('active') ? '♥' : '♡'; }); });
       document.querySelectorAll('.card').forEach(card => {
@@ -1650,6 +1337,7 @@
       }
     }
 
+    // ========== REST OF FUNCTIONS (Unchanged for stability) ==========
     function openPremiumProductModal(product) {
       document.getElementById('modalImageArea').innerHTML = ''; setImageOrEmoji(document.getElementById('modalImageArea'), product.emoji, '60px');
       document.getElementById('modalName').textContent = product.name; document.getElementById('modalPrice').textContent = product.price;
@@ -1658,7 +1346,6 @@
       document.getElementById('specialInstructionsInput').value = ''; renderReviews(product.id);
       document.getElementById('productOverlay').style.display = 'flex'; document.getElementById('reviewsSection').style.display = 'none'; document.getElementById('reviewsToggle').textContent = '💬 Show Reviews';
     }
-
     function renderGallery() {
       var grid = document.getElementById('galleryGrid');
       grid.innerHTML = '';
@@ -1670,12 +1357,8 @@
             item.style.backgroundImage = 'url("' + img + '")';
             item.style.backgroundSize = 'cover';
             item.style.backgroundPosition = 'center';
-          } else {
-            item.textContent = img;
-          }
-        } else {
-          item.textContent = '📷';
-        }
+          } else { item.textContent = img; }
+        } else { item.textContent = '📷'; }
         item.addEventListener('click', function() {
           if (isLoggedIn) {
             editingGalleryIndex = index;
@@ -1684,15 +1367,12 @@
             if (img && isImageValue(img)) {
               document.getElementById('galleryLightboxImage').src = img;
               document.getElementById('galleryLightboxOverlay').style.display = 'flex';
-            } else if (!img) {
-              alert('Gallery coming soon!');
-            }
+            } else if (!img) { alert('Gallery coming soon!'); }
           }
         });
         grid.appendChild(item);
       });
     }
-
     function renderGalleryInlineList() {
       var list = document.getElementById('galleryInlineList'); list.innerHTML = '';
       galleryImages.forEach(function(img, index) {
@@ -1704,9 +1384,7 @@
         actions.appendChild(editBtn); actions.appendChild(delBtn); div.appendChild(actions); list.appendChild(div);
       });
     }
-
     var editingGalleryIndex = -1; var currentProductId = null; var currentQty = 1; var currentProductToOrder = null; var orderContext = null;
-
     function renderAdminProductList() {
       var list = document.getElementById('adminProductList'); list.innerHTML = '';
       products.forEach(function(product) {
@@ -1717,7 +1395,6 @@
         actions.appendChild(editBtn); actions.appendChild(delBtn); div.appendChild(actions); list.appendChild(div);
       });
     }
-
     function renderAdminCategoryList() {
       var list = document.getElementById('adminCategoryList'); list.innerHTML = '';
       categories.forEach(function(category) {
@@ -1728,12 +1405,10 @@
         actions.appendChild(delBtn); div.appendChild(actions); list.appendChild(div);
       });
     }
-
     function populateCategorySuggestions() {
       var datalist = document.getElementById('categorySuggestions'); datalist.innerHTML = '';
       categories.forEach(c => { var opt = document.createElement('option'); opt.value = c.name; datalist.appendChild(opt); });
     }
-
     function getCategoryIdFromInput(inputValue) {
       var trimmed = inputValue.trim().toLowerCase(); var existing = categories.find(c => c.name.toLowerCase() === trimmed);
       if (existing) return existing.id;
@@ -1741,7 +1416,6 @@
       var newCategory = { id: newId, name: inputValue.trim(), emoji: '🍽️' };
       categories.push(newCategory); saveCategories(); renderCategoryPills(); renderAdminCategoryList(); populateCategorySuggestions(); return newCategory.id;
     }
-
     function renderAdminOrdersList() {
       var list = document.getElementById('adminOrdersList'); list.innerHTML = ''; var topList = document.getElementById('ownerOrdersList'); topList.innerHTML = '';
       if (orders.length === 0) { list.innerHTML = '<p>No orders yet.</p>'; topList.innerHTML = '<p>No orders yet.</p>'; return; }
@@ -1761,7 +1435,6 @@
         topItem.appendChild(topDelBtn); topList.appendChild(topItem);
       });
     }
-
     function renderOrdersDashboard() {
       var container = document.getElementById('ordersListContainer'); if (!container) return; container.innerHTML = '';
       var activeTab = document.querySelector('.order-tab-btn.active')?.getAttribute('data-order-tab') || 'activeOrders';
@@ -1778,7 +1451,6 @@
         container.appendChild(card);
       });
     }
-
     function fillAdminForm(product) {
       document.getElementById('adminProductId').value = product.id; document.getElementById('adminName').value = product.name;
       document.getElementById('adminPrice').value = product.price; document.getElementById('adminRating').value = product.rating;
@@ -1788,9 +1460,7 @@
       if (isImageValue(imageValue)) { preview.src = imageValue; preview.style.display = 'block'; emojiInput.value = ''; } else { preview.style.display = 'none'; emojiInput.value = imageValue || ''; }
       document.getElementById('adminImageFile').value = '';
     }
-
     function resetAdminForm() { document.getElementById('adminProductId').value = ''; document.getElementById('adminName').value = ''; document.getElementById('adminPrice').value = ''; document.getElementById('adminRating').value = '⭐ 4.5'; document.getElementById('adminCategoryInput').value = ''; document.getElementById('adminDescription').value = ''; document.getElementById('adminEmoji').value = ''; document.getElementById('adminImagePreview').style.display = 'none'; document.getElementById('adminImageFile').value = ''; }
-
     function renderCartUI() {
       var badge = document.getElementById('cartBadge'); var totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
       if (totalItems > 0) { badge.style.display = 'flex'; badge.textContent = totalItems; } else badge.style.display = 'none';
@@ -1806,17 +1476,14 @@
       document.querySelectorAll('.cart-minus').forEach(btn => { btn.onclick = function() { var idx = parseInt(this.getAttribute('data-index')); if (cart[idx].qty > 1) { cart[idx].qty--; saveCart(); renderCartUI(); } }; });
       document.querySelectorAll('.cart-item-remove').forEach(btn => { btn.onclick = async function() { var idx = parseInt(this.getAttribute('data-index')); if (await confirm('Remove this item?')) { cart.splice(idx,1); saveCart(); renderCartUI(); } }; });
     }
-
     function addToCart(product) { var existing = cart.find(item => item.id === product.id); if (existing) existing.qty += currentQty; else cart.push({ id: product.id, name: product.name, emoji: product.emoji, price: product.price, qty: currentQty }); saveCart(); renderCartUI(); }
     function checkout() { if (cart.length === 0) return; openOrderModal('cart'); }
-
     function openOrderModal(context) {
       orderContext = context; document.getElementById('orderOverlay').style.display = 'flex';
       if (currentCustomer) { document.getElementById('orderName').value = currentCustomer.name || ''; renderSavedAddresses(); }
       else { document.getElementById('orderName').value = ''; document.getElementById('savedAddressesGroup').style.display = 'none'; }
       document.getElementById('orderPhone').value = ''; document.getElementById('orderAddress').value = ''; document.getElementById('orderEmail').value = currentCustomer ? currentCustomer.email : '';
     }
-
     function renderSavedAddresses() {
       var group = document.getElementById('savedAddressesGroup'); var list = document.getElementById('savedAddressesList');
       if (currentCustomer && currentCustomer.addresses && currentCustomer.addresses.length > 0) {
@@ -1830,9 +1497,7 @@
         list.querySelectorAll('.del-addr-btn').forEach(btn => { btn.onclick = async function() { var idx = parseInt(btn.getAttribute('data-index')); if (await confirm('Delete this address?')) { currentCustomer.addresses.splice(idx, 1); var customerIdx = customers.findIndex(c => c.id === currentCustomer.id); if (customerIdx >= 0) customers[customerIdx] = currentCustomer; saveCustomers(); saveCurrentCustomer(); renderSavedAddresses(); } }; });
       } else { group.style.display = 'none'; }
     }
-
     function placeOrderDirect() { var product = products.find(p => p.id === currentProductId); if (!product) return; currentProductToOrder = { name: product.name, price: product.price, emoji: product.emoji, qty: currentQty, id: product.id }; openOrderModal('single'); }
-
     function placeOrderFromForm(e) {
       e.preventDefault();
       var customerName = document.getElementById('orderName').value.trim(); var phone = document.getElementById('orderPhone').value.trim();
@@ -1848,10 +1513,8 @@
       document.getElementById('orderOverlay').style.display = 'none';
       showToast('Order placed successfully! 🎉', 'success'); showSuccessModal(newOrders); playOrderSound();
     }
-
     function addLoyaltyPoints(phone, points) { var normalized = normalizePhone(phone); if (!loyaltyPoints[normalized]) loyaltyPoints[normalized] = 0; loyaltyPoints[normalized] += points; saveLoyalty(); }
     function getLoyaltyPoints(phone) { return loyaltyPoints[normalizePhone(phone)] || 0; }
-
     function showSuccessModal(orderList) {
       var modal = document.getElementById('successOverlay'); var detailsContainer = document.getElementById('successOrderDetails');
       if (orderList && orderList.length > 0) {
@@ -1862,21 +1525,17 @@
       } else { detailsContainer.style.display = 'none'; }
       modal.style.display = 'flex'; spawnConfetti();
     }
-
     function spawnConfetti() {
       var container = document.getElementById('confettiContainer'); container.innerHTML = ''; var colors = ['#FF4D4D', '#FFD700', '#25D366', '#1A1A1A', '#FF8C00', '#4DA6FF'];
       for (var i = 0; i < 60; i++) { var piece = document.createElement('div'); piece.className = 'confetti-piece'; piece.style.left = Math.random() * 100 + '%'; piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]; piece.style.animationDuration = (Math.random() * 2 + 2) + 's'; piece.style.animationDelay = Math.random() * 0.5 + 's'; piece.style.width = (Math.random() * 8 + 6) + 'px'; piece.style.height = (Math.random() * 8 + 6) + 'px'; piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '0'; container.appendChild(piece); }
       setTimeout(() => container.innerHTML = '', 4000);
     }
-
     function renderReviews(productId) {
       var list = document.getElementById('reviewsList'); list.innerHTML = ''; var productReviews = reviews.filter(r => r.productId === productId);
       if (productReviews.length === 0) { list.innerHTML = '<p style="color:#999;font-size:11px;">No reviews yet.</p>'; return; }
       productReviews.forEach(r => { var stars = '⭐'.repeat(parseInt(r.rating) || 0); var div = document.createElement('div'); div.className = 'review-item'; div.innerHTML = '<div class="review-name">' + r.name + '</div><div class="review-rating">' + stars + '</div><div class="review-text">' + r.text + '</div>'; list.appendChild(div); });
     }
-
     async function addReview(productId) { var name = await prompt('Enter your name:'); if (!name) return; var rating = await prompt('Rate (1-5):'); if (!rating) return; var text = await prompt('Write your review:'); if (!text) return; reviews.push({ productId, name, rating, text }); saveReviews(); renderReviews(productId); }
-
     function showSearchSuggestions(query) {
       var suggestions = products.filter(p => p.name.toLowerCase().includes(query) || (p.description && p.description.toLowerCase().includes(query)));
       var container = document.getElementById('searchSuggestions'); container.innerHTML = '';
@@ -1889,10 +1548,8 @@
       });
       container.style.display = 'block';
     }
-
     function hideSearchSuggestions() { document.getElementById('searchSuggestions').style.display = 'none'; }
     function handleFileSelect(fileInput, callback) { var file = fileInput.files[0]; if (!file) return; var reader = new FileReader(); reader.onload = e => callback(e.target.result); reader.readAsDataURL(file); }
-
     function openMap() {
       var address = contactInfo.address.replace(/\n/g, ', '); var query = encodeURIComponent(address);
       var isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -1903,7 +1560,6 @@
     }
 
     // ========== EVENT LISTENERS ==========
-    // Visual Editor: Move
     document.querySelectorAll('.move-btn').forEach(function(btn) {
       btn.addEventListener('click', function(e) {
         e.stopPropagation();
@@ -1916,12 +1572,7 @@
         moveSelected(dx, dy);
       });
     });
-
-    document.getElementById('layoutTargetSelect').addEventListener('change', function() {
-      updatePositionInfo();
-    });
-
-    // Size Controls
+    document.getElementById('layoutTargetSelect').addEventListener('change', function() { updatePositionInfo(); });
     document.getElementById('imgScale').addEventListener('input', function() {
       var val = parseInt(this.value);
       document.getElementById('imgScaleVal').textContent = val + '%';
@@ -1940,40 +1591,27 @@
       layoutScales.price = val;
       applyToSample();
     });
-
-    // Save Layout
     document.getElementById('saveLayoutBtn').addEventListener('click', function() {
       saveLayoutState();
       renderProducts();
-      showToast('✅ Layout, Sizes & Font saved to all cards!', 'success');
+      showToast('✅ Layout saved locally (but default is already perfect)!', 'success');
     });
-
-    // Reset Positions (Only)
     document.getElementById('resetLayoutBtn').addEventListener('click', function() {
       resetPositions();
       renderProducts();
-      showToast('🔄 Positions reset to default!', 'info');
+      showToast('🔄 Reset to Perfect Defaults!', 'info');
     });
-
-    // Font Controls
     document.getElementById('applyFontBtn').addEventListener('click', function() {
       var fontPath = document.getElementById('cardFontName').value.trim();
-      if (!fontPath) {
-        alert('Please enter a font file path (e.g., fonts/MyFont.ttf)');
-        return;
-      }
+      if (!fontPath) { alert('Please enter a font file path (e.g., fonts/MyFont.ttf)'); return; }
       cardFontName = fontPath;
       applyFontToCards(fontPath);
       localStorage.setItem('aura_card_font', fontPath);
       renderProducts();
       showToast('✅ Font applied to all cards!', 'success');
     });
+    document.getElementById('resetFontBtn').addEventListener('click', function() { resetFont(); });
 
-    document.getElementById('resetFontBtn').addEventListener('click', function() {
-      resetFont();
-    });
-
-    // Search and other standard listeners
     document.getElementById('searchToggleBtn').addEventListener('click', function() { document.getElementById('searchContainer').classList.toggle('active'); if (document.getElementById('searchContainer').classList.contains('active')) document.getElementById('searchInput').focus(); else { document.getElementById('searchInput').value = ''; searchQuery = ''; renderProducts(); hideSearchSuggestions(); } });
     document.getElementById('searchInput').addEventListener('input', function() { searchQuery = this.value; renderProducts(); if (this.value.trim().length > 0) { showSearchSuggestions(this.value.trim().toLowerCase()); } else { hideSearchSuggestions(); } });
     document.addEventListener('click', function(e) { if (!e.target.closest('.search-container') && !e.target.closest('.search-suggestions')) { hideSearchSuggestions(); } });
@@ -1997,7 +1635,6 @@
       else if (currentCustomer) { if (await confirm('Logout from customer account?')) customerLogout(); }
       else { document.getElementById('customerAuthOverlay').style.display = 'flex'; document.getElementById('customerAuthError').textContent = ''; document.getElementById('customerAuthTitle').textContent = 'Customer Login'; document.getElementById('customerAuthSubmit').innerHTML = '<i class="fas fa-sign-in-alt"></i> Login'; document.getElementById('customerNameGroup').style.display = 'none'; document.getElementById('customerEmail').value = ''; document.getElementById('customerPassword').value = ''; document.getElementById('customerName').value = ''; document.getElementById('ownerLoginError').textContent = ''; document.getElementById('ownerPassword').value = ''; switchAuthTab('customerPanel'); }
     });
-
     function switchAuthTab(panelId) { document.querySelectorAll('.auth-tab').forEach(tab => { tab.classList.remove('active'); if (tab.getAttribute('data-auth-tab') === panelId) tab.classList.add('active'); }); document.querySelectorAll('.auth-panel').forEach(panel => { panel.classList.remove('active'); }); document.getElementById(panelId).classList.add('active'); }
     document.querySelectorAll('.auth-tab').forEach(tab => { tab.addEventListener('click', function() { switchAuthTab(tab.getAttribute('data-auth-tab')); }); });
     document.getElementById('customerAuthForm').addEventListener('submit', function(e) { e.preventDefault(); var email = document.getElementById('customerEmail').value.trim(); var password = document.getElementById('customerPassword').value; var name = document.getElementById('customerName').value.trim(); var isRegisterMode = document.getElementById('customerNameGroup').style.display === 'block'; if (isRegisterMode) { if (!name) { document.getElementById('customerAuthError').textContent = 'Please enter your name'; return; } customerRegister(name, email, password); } else { customerLogin(email, password); } });
@@ -2078,7 +1715,6 @@
     renderAll();
     applyToSample();
 
-    // Lightbox close handlers
     document.getElementById('galleryLightboxClose').addEventListener('click', function() {
       document.getElementById('galleryLightboxOverlay').style.display = 'none';
       document.getElementById('galleryLightboxImage').src = '';
