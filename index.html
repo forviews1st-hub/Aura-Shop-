@@ -77,19 +77,15 @@
     @media (min-width:900px) { .product-grid { grid-template-columns:repeat(4,1fr); } }
 
     /* ==========================================================
-       🎨 CARD - PERFECT FIX (Claude AI Solution)
-       Aspect Ratio: 849 / 1373 (exact image ratio)
-       Background: 100% 100% (no crop, no gap)
-       Content: Percentage-based positioning
+       🎨 CARD - PERFECT POSITIONING (ADJUSTED FOR YOUR IMAGE)
        ========================================================== */
     .card {
       position: relative;
-      /* 🔥 Exact aspect ratio of tightly-cropped image */
       aspect-ratio: 849 / 1373;
       background: transparent;
       border-radius: 20px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.04);
-      padding: 0;  /* No padding - all positioning via % */
+      padding: 0;
       border: 1px solid rgba(255,255,255,0.3);
       cursor: pointer;
       transition: transform 0.25s ease, box-shadow 0.25s ease;
@@ -124,11 +120,11 @@
       z-index: 1;
     }
 
-    /* 🔥 WISHLIST - PERCENTAGE POSITIONING (Badge Center) */
+    /* 🔥 WISHLIST - ADJUSTED SLIGHTLY UP */
     .wishlist {
       position: absolute;
       left: 21.7%;
-      top: 14.1%;
+      top: 13%;  /* Slightly up from 14.1% */
       transform: translate(-50%, -50%);
       background: rgba(255,255,255,0.9);
       border: none;
@@ -150,7 +146,7 @@
     /* 🔥 ADMIN BUTTONS - Below Wishlist */
     .card .admin-edit-delete {
       position: absolute;
-      top: 22%;
+      top: 21%;
       left: 21.7%;
       transform: translateX(-50%);
       display: none;
@@ -170,11 +166,11 @@
     }
     .card .admin-edit-delete button:hover { background: #fff; }
 
-    /* 🔥 FOOD IMAGE - Centered in Tan Panel */
+    /* 🔥 FOOD IMAGE - ADJUSTED SLIGHTLY UP */
     .card-img {
       position: absolute;
       left: 50.35%;
-      top: 32.2%;
+      top: 30.5%;  /* Slightly up from 32.2% */
       transform: translate(-50%, -50%);
       display: flex;
       align-items: center;
@@ -195,11 +191,11 @@
       border-radius: 50%;
     }
 
-    /* 🔥 NAME - Below Tan Panel, Left-Aligned */
+    /* 🔥 NAME - ADJUSTED SLIGHTLY UP */
     .card-name {
       position: absolute;
       left: 8.8%;
-      top: 63.5%;
+      top: 61.5%;  /* Slightly up from 63.5% */
       font-size: 18px;
       font-weight: 700;
       color: #1A1A1A;
@@ -214,11 +210,11 @@
       transition: font-size 0.15s ease, transform 0.15s ease;
     }
 
-    /* 🔥 PRICE + RATING - Below Name, Left-Aligned, Side-by-Side */
+    /* 🔥 PRICE + RATING - ADJUSTED SLIGHTLY UP */
     .card-footer {
       position: absolute;
       left: 8.8%;
-      top: 72.5%;
+      top: 70.5%;  /* Slightly up from 72.5% */
       display: flex;
       align-items: center;
       justify-content: flex-start;
@@ -258,23 +254,23 @@
 
     /* ========== RESPONSIVE ADJUSTMENTS ========== */
     @media (max-width:600px) {
-      .card-img { width: 30%; font-size: 32px; }
-      .card-name { font-size: 16px; top: 63%; }
+      .card-img { width: 30%; font-size: 32px; top: 29.5%; }
+      .card-name { font-size: 16px; top: 60.5%; }
       .price { font-size: 14px; }
       .rating { font-size: 13px; }
-      .card-footer { top: 71.5%; gap: 8px; }
-      .wishlist { width: 30px; height: 30px; font-size: 14px; left: 21.5%; top: 14%; }
-      .card .admin-edit-delete { top: 21%; }
+      .card-footer { top: 69.5%; gap: 8px; }
+      .wishlist { width: 30px; height: 30px; font-size: 14px; left: 21.5%; top: 12.5%; }
+      .card .admin-edit-delete { top: 20%; }
       .card .admin-edit-delete button { width: 24px; height: 24px; font-size: 10px; }
     }
     @media (max-width:400px) {
-      .card-img { width: 26%; font-size: 26px; }
-      .card-name { font-size: 14px; top: 62.5%; }
+      .card-img { width: 26%; font-size: 26px; top: 28.5%; }
+      .card-name { font-size: 14px; top: 59.5%; }
       .price { font-size: 12px; }
       .rating { font-size: 11px; }
-      .card-footer { top: 70.5%; gap: 6px; }
-      .wishlist { width: 26px; height: 26px; font-size: 12px; left: 21.3%; top: 13.8%; }
-      .card .admin-edit-delete { top: 20%; }
+      .card-footer { top: 68.5%; gap: 6px; }
+      .wishlist { width: 26px; height: 26px; font-size: 12px; left: 21.3%; top: 12%; }
+      .card .admin-edit-delete { top: 19%; }
       .card .admin-edit-delete button { width: 20px; height: 20px; font-size: 9px; }
     }
 
@@ -422,7 +418,7 @@
     .admin-actions button { background:none; border:none; cursor:pointer; font-size:15px; margin-left:6px; transition:transform 0.15s; }
     .admin-actions button:hover { transform:scale(1.2); }
 
-    /* ========== VISUAL EDITOR (SAMPLE CARD - Updated) ========== */
+    /* ========== VISUAL EDITOR (SAMPLE CARD) ========== */
     .layout-editor-box { background:#f8f8f8; padding:15px; border-radius:12px; margin-bottom:15px; border:1px solid #e0e0e0; }
     .layout-editor-box .preview-card-wrapper { display:flex; justify-content:center; margin-bottom:15px; }
     .layout-editor-box .sample-card {
@@ -459,7 +455,7 @@
     .layout-editor-box .sample-card .card-img {
       position:absolute;
       left:50.35%;
-      top:32.2%;
+      top:30.5%;
       transform:translate(-50%,-50%);
       width:35%;
       aspect-ratio:1/1;
@@ -475,7 +471,7 @@
     .layout-editor-box .sample-card .card-name {
       position:absolute;
       left:8.8%;
-      top:63.5%;
+      top:61.5%;
       font-size:16px;
       margin:0;
       color:#1A1A1A;
@@ -486,7 +482,7 @@
     .layout-editor-box .sample-card .card-footer {
       position:absolute;
       left:8.8%;
-      top:72.5%;
+      top:70.5%;
       display:flex;
       gap:8px;
       justify-content:flex-start;
@@ -681,7 +677,8 @@
   </style>
 </head>
 <body>
-  <!-- ========== COMPLETE BODY (Same as before, no changes to HTML structure) ========== -->
+  <!-- ========== COMPLETE BODY (Same as before) ========== -->
+  <!-- I'm including the entire body from your original code to ensure no missing elements -->
   <div class="app">
     <header class="header">
       <div class="header-row">
@@ -1051,9 +1048,9 @@
 
   <script>
     // ============================================================
-    // 🚀 FULL JAVASCRIPT (Unchanged - all functionality remains the same)
+    // 🚀 FULL JAVASCRIPT (Unchanged - same as before)
     // ============================================================
-    // (All JavaScript from the previous version is included here)
+    // (All JavaScript functions remain exactly the same as in the previous version)
     // ============================================================
     
     // ========== CUSTOM ALERT/CONFIRM/PROMPT ==========
