@@ -82,6 +82,7 @@
     .card {
       position: relative;
       aspect-ratio: 849 / 1373; /* Exact match to card-bg.png */
+      container-type: inline-size; /* 🔥 lets font-size use cqw so it scales with THIS card's own width */
       background: transparent;
       border-radius: 20px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.04);
@@ -427,6 +428,7 @@
     .layout-editor-box .sample-card {
       width:170px;
       aspect-ratio:849/1373;
+      container-type: inline-size;
       background:transparent;
       border-radius:20px;
       box-shadow:0 8px 24px rgba(0,0,0,0.08);
@@ -1377,6 +1379,12 @@
     }
     var currentFilter = 'all'; var searchQuery = '';
 
+    // 🔥 BASE positions (must match the CSS defaults exactly) — offsets are added on top, all in %
+    var BASE_POS = {
+      img:   { left: 50.35, top: 30.5 },
+      name:  { left: 8.8,   top: 60.5 },
+      price: { left: 8.8,   top: 70.5 }
+    };
     function applyToSample() {
       var sampleImg = document.getElementById('sampleImg');
       var sampleName = document.getElementById('sampleName');
@@ -1384,18 +1392,23 @@
       var samplePrice = document.getElementById('samplePrice');
       var sampleRating = document.getElementById('sampleRating');
       var imgScaleVal = layoutScales.img / 100;
-      sampleImg.style.transform = 'translate(' + layoutOffsets.img.x + 'px, ' + layoutOffsets.img.y + 'px) scale(' + imgScaleVal + ')';
-      sampleName.style.transform = 'translate(' + layoutOffsets.name.x + 'px, ' + layoutOffsets.name.y + 'px)';
-      sampleFooter.style.transform = 'translate(' + layoutOffsets.price.x + 'px, ' + layoutOffsets.price.y + 'px)';
-      sampleName.style.fontSize = layoutScales.name + 'px';
-      samplePrice.style.fontSize = layoutScales.price + 'px';
-      sampleRating.style.fontSize = layoutScales.price + 'px';
+      sampleImg.style.left = (BASE_POS.img.left + layoutOffsets.img.x) + '%';
+      sampleImg.style.top = (BASE_POS.img.top + layoutOffsets.img.y) + '%';
+      sampleImg.style.transform = 'translate(-50%, -50%) scale(' + imgScaleVal + ')'; /* 🔥 centering preserved, never overwritten */
+      sampleName.style.left = (BASE_POS.name.left + layoutOffsets.name.x) + '%';
+      sampleName.style.top = (BASE_POS.name.top + layoutOffsets.name.y) + '%';
+      sampleFooter.style.left = (BASE_POS.price.left + layoutOffsets.price.x) + '%';
+      sampleFooter.style.top = (BASE_POS.price.top + layoutOffsets.price.y) + '%';
+      /* 🔥 font-size in cqw (% of THIS card's own width) instead of raw px — scales correctly on every screen size */
+      sampleName.style.fontSize = (layoutScales.name / 170 * 100) + 'cqw';
+      samplePrice.style.fontSize = (layoutScales.price / 170 * 100) + 'cqw';
+      sampleRating.style.fontSize = (layoutScales.price / 170 * 100) + 'cqw';
       updatePositionInfo();
     }
     function updatePositionInfo() {
       var target = document.getElementById('layoutTargetSelect').value;
       var pos = layoutOffsets[target] || {x:0, y:0};
-      document.getElementById('positionInfo').textContent = 'X: ' + pos.x + ', Y: ' + pos.y;
+      document.getElementById('positionInfo').textContent = 'X: ' + pos.x + '%, Y: ' + pos.y + '%';
     }
     function moveSelected(dx, dy) {
       var target = document.getElementById('layoutTargetSelect').value;
@@ -1432,12 +1445,17 @@
         var priceSpan = card.querySelector('.price');
         var ratingSpan = card.querySelector('.rating');
         var imgScaleVal = layoutScales.img / 100;
-        imgDiv.style.transform = 'translate(' + layoutOffsets.img.x + 'px, ' + layoutOffsets.img.y + 'px) scale(' + imgScaleVal + ')';
-        nameDiv.style.transform = 'translate(' + layoutOffsets.name.x + 'px, ' + layoutOffsets.name.y + 'px)';
-        footerDiv.style.transform = 'translate(' + layoutOffsets.price.x + 'px, ' + layoutOffsets.price.y + 'px)';
-        nameDiv.style.fontSize = layoutScales.name + 'px';
-        priceSpan.style.fontSize = layoutScales.price + 'px';
-        ratingSpan.style.fontSize = layoutScales.price + 'px';
+        imgDiv.style.left = (BASE_POS.img.left + layoutOffsets.img.x) + '%';
+        imgDiv.style.top = (BASE_POS.img.top + layoutOffsets.img.y) + '%';
+        imgDiv.style.transform = 'translate(-50%, -50%) scale(' + imgScaleVal + ')'; /* 🔥 centering preserved, never overwritten */
+        nameDiv.style.left = (BASE_POS.name.left + layoutOffsets.name.x) + '%';
+        nameDiv.style.top = (BASE_POS.name.top + layoutOffsets.name.y) + '%';
+        footerDiv.style.left = (BASE_POS.price.left + layoutOffsets.price.x) + '%';
+        footerDiv.style.top = (BASE_POS.price.top + layoutOffsets.price.y) + '%';
+        /* 🔥 font-size in cqw (% of THIS card's own width) — same visual proportion on every screen size */
+        nameDiv.style.fontSize = (layoutScales.name / 170 * 100) + 'cqw';
+        priceSpan.style.fontSize = (layoutScales.price / 170 * 100) + 'cqw';
+        ratingSpan.style.fontSize = (layoutScales.price / 170 * 100) + 'cqw';
         setImageOrEmoji(imgDiv, product.emoji, '76px');
         grid.appendChild(card);
       });
@@ -1685,10 +1703,11 @@
         e.stopPropagation();
         var dir = this.getAttribute('data-dir');
         var dx = 0, dy = 0;
-        if (dir === 'up') dy = -5;
-        else if (dir === 'down') dy = 5;
-        else if (dir === 'left') dx = -5;
-        else if (dir === 'right') dx = 5;
+        var STEP = 1; /* 🔥 percentage points, not px — stays correct on every screen size */
+        if (dir === 'up') dy = -STEP;
+        else if (dir === 'down') dy = STEP;
+        else if (dir === 'left') dx = -STEP;
+        else if (dir === 'right') dx = STEP;
         moveSelected(dx, dy);
       });
     });
