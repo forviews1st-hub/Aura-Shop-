@@ -8,10 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="manifest" href="manifest.json" />
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  
-  <!-- DYNAMIC CUSTOM FONT STYLES (Optional) -->
   <style id="dynamicCardFontStyle"></style>
-  
   <style>
     /* ========== FONT FACE (Bluecherries - Header) ========== */
     @font-face {
@@ -80,35 +77,57 @@
     @media (min-width:900px) { .product-grid { grid-template-columns:repeat(4,1fr); } }
 
     /* ==========================================================
-       🎨 NEW CARD - NO BLACK BACKGROUND
-       PERFECT HARCODED LAYOUT: IMAGE TOP, NAME MIDDLE, PRICE BOTTOM
+       🎨 CARD - BACKGROUND IMAGE WITH mix-blend-mode: multiply
+       Black Background Hidden, Only Design Visible
+       Perfect Default Layout: Image Top, Name Middle, Price Bottom
        ========================================================== */
     .card {
-      /* 🔥 BLACK BACKGROUND HATAYA (Comment Out kiya) 🔥 */
-      /* background-image: url('card-bg.png'); */ 
-      
-      /* ✅ नया साफ़-सुथरा White/Gradient Background */
-      background: linear-gradient(145deg, #ffffff, #f8f8f8);
+      position: relative;
+      background: #ffffff;
       border-radius: 20px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.04);
       
       aspect-ratio: 2 / 3;
       
-      /* 🔥 PERFECT LAYOUT: Space between Image, Name, Footer */
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: space-around; 
+      justify-content: space-around;
       
       padding: 20px 16px;
       border: 1px solid rgba(255,255,255,0.5);
       cursor: pointer;
       transition: transform 0.25s ease, box-shadow 0.25s ease;
-      position: relative;
+      overflow: hidden;
     }
     .card:hover {
       transform: scale(1.02);
       box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+    }
+
+    /* 🔥 Pseudo-element for card background image with multiply blend mode */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('card-bg.png');
+      background-size: 100% 100%;
+      background-position: center;
+      background-repeat: no-repeat;
+      mix-blend-mode: multiply;
+      opacity: 0.85;
+      pointer-events: none;
+      z-index: 0;
+      border-radius: 20px;
+    }
+
+    /* 🔥 All card content on top of pseudo-element */
+    .card > * {
+      position: relative;
+      z-index: 1;
     }
 
     .wishlist {
@@ -167,6 +186,7 @@
       font-family: 'Inter', sans-serif;
       transition: font-size 0.15s ease, transform 0.15s ease;
       flex: 0 1 auto;
+      text-shadow: 0 1px 4px rgba(255,255,255,0.9);
     }
 
     /* PRICE + RATING - BOTTOM */
@@ -241,7 +261,7 @@
       .rating { font-size: 11px; padding: 2px 8px; }
     }
 
-    /* ========== REMAINING STYLES (Unchanged from your original) ========== */
+    /* ========== REMAINING STYLES (Unchanged) ========== */
     .section-title { font-size:20px; font-weight:800; color:#000; margin-bottom:15px; letter-spacing:-0.3px; }
     .gallery-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:15px; margin-bottom:30px; }
     @media (min-width:600px) { .gallery-grid { grid-template-columns:repeat(3,1fr); } }
@@ -279,7 +299,7 @@
     footer { background:#fff; padding:20px; text-align:center; border-top:1px solid #eee; }
     .copyright { font-size:12px; color:#bbb; }
 
-    /* ========== MODALS & ADMIN PANEL (Unchanged - Keeping functionality) ========== */
+    /* ========== MODALS & ADMIN PANEL ========== */
     .modal-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); display:none; justify-content:center; align-items:center; z-index:1000; padding:20px; overflow-y:auto; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); }
     .modal { background:#fff; border-radius:24px; max-width:300px; width:100%; position:relative; box-shadow:0 20px 50px rgba(0,0,0,0.2); animation:premiumScaleIn 0.3s cubic-bezier(0.34,1.56,0.64,1); overflow:hidden; border:1px solid #e8e8e8; }
     @keyframes premiumScaleIn { from { opacity:0; transform:scale(0.85) translateY(20px); } to { opacity:1; transform:scale(1) translateY(0); } }
@@ -387,7 +407,25 @@
 
     .layout-editor-box { background:#f8f8f8; padding:15px; border-radius:12px; margin-bottom:15px; border:1px solid #e0e0e0; }
     .layout-editor-box .preview-card-wrapper { display:flex; justify-content:center; margin-bottom:15px; }
-    .layout-editor-box .sample-card { width:170px; aspect-ratio:2/3; background:#ffffff; border-radius:20px; box-shadow:0 8px 24px rgba(0,0,0,0.08); padding:16px; display:flex; flex-direction:column; align-items:center; justify-content:space-around; position:relative; border:1px solid #eee; pointer-events:none; }
+    .layout-editor-box .sample-card { width:170px; aspect-ratio:2/3; background:#ffffff; border-radius:20px; box-shadow:0 8px 24px rgba(0,0,0,0.08); padding:16px; display:flex; flex-direction:column; align-items:center; justify-content:space-around; position:relative; border:1px solid #eee; pointer-events:none; overflow:hidden; }
+    .layout-editor-box .sample-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('card-bg.png');
+      background-size: 100% 100%;
+      background-position: center;
+      background-repeat: no-repeat;
+      mix-blend-mode: multiply;
+      opacity: 0.85;
+      pointer-events: none;
+      z-index: 0;
+      border-radius: 20px;
+    }
+    .layout-editor-box .sample-card > * { position: relative; z-index: 1; }
     .layout-editor-box .sample-card .card-img { width:70px; height:70px; font-size:36px; background:rgba(255,255,255,0.6); box-shadow:0 2px 8px rgba(0,0,0,0.04); border-radius:50%; display:flex; align-items:center; justify-content:center; }
     .layout-editor-box .sample-card .card-name { font-size:18px; margin:0; color:#1A1A1A; }
     .layout-editor-box .sample-card .card-footer { gap:6px; }
@@ -603,7 +641,6 @@
           </div>
           <div class="admin-section active" id="adminProductsSection">
             
-            <!-- VISUAL EDITOR (KEEPING FOR FUTURE, BUT DEFAULT IS PERFECT NOW) -->
             <div class="layout-editor-box">
               <h4 style="margin-bottom:10px;">🎨 Visual Card Layout Editor (Optional)</h4>
               <p style="font-size:13px; color:#555; margin-bottom:12px;">अगर आपको Default से थोड़ा बदलना है तो हिलाएँ। (पर Default ही Perfect है)</p>
@@ -933,7 +970,7 @@
 
   <script>
     // ============================================================
-    // 🚀 JAVASCRIPT - PERFECT DEFAULTS SET (NO DATABASE NEEDED)
+    // 🚀 JAVASCRIPT - PERFECT DEFAULTS + CARD BACKGROUND (mix-blend-mode)
     // ============================================================
 
     // ========== CUSTOM ALERT/CONFIRM/PROMPT ==========
@@ -1337,7 +1374,7 @@
       }
     }
 
-    // ========== REST OF FUNCTIONS (Unchanged for stability) ==========
+    // ========== REST OF FUNCTIONS (Unchanged) ==========
     function openPremiumProductModal(product) {
       document.getElementById('modalImageArea').innerHTML = ''; setImageOrEmoji(document.getElementById('modalImageArea'), product.emoji, '60px');
       document.getElementById('modalName').textContent = product.name; document.getElementById('modalPrice').textContent = product.price;
