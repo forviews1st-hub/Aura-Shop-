@@ -10,7 +10,7 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <style id="dynamicCardFontStyle"></style>
   <style>
-    /* ========== FONT FACE (Bluecherries - Header) ========== */
+    /* ========== FONT FACE ========== */
     @font-face {
       font-family: 'Bluecherries';
       src: url('fonts/blue_cheries/BLUECHERIES.ttf') format('truetype');
@@ -27,6 +27,42 @@
 
     body { font-family:'Inter',sans-serif; background:#F5F5F5; min-height:100vh; width:100%; overflow-x:hidden; padding-bottom:80px; -webkit-font-smoothing:antialiased; }
     .app { width:100%; min-height:100vh; background:#F5F5F5; }
+
+    /* ========== CLOUD STATUS (ONLY FOR ADMIN) ========== */
+    .cloud-status {
+      position: fixed;
+      top: 12px;
+      right: 12px;
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.9);
+      padding: 6px 14px 6px 10px;
+      border-radius: 30px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+      font-size: 11px;
+      font-weight: 600;
+      color: #333;
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.3);
+      pointer-events: none;
+    }
+    .cloud-status.visible { display: flex; }
+    .cloud-status .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      animation: pulse 2s infinite;
+    }
+    .cloud-status .dot.online { background: #4CAF50; }
+    .cloud-status .dot.offline { background: #FF4D4D; }
+    .cloud-status .dot.syncing { background: #FFA500; animation: pulse 0.6s infinite; }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
 
     /* ========== HEADER ========== */
     .header { position:relative; height:90px; background:#F5F5F5; padding:15px 20px; display:flex; align-items:center; z-index:500; }
@@ -76,13 +112,10 @@
     @media (min-width:600px) { .product-grid { grid-template-columns:repeat(3,1fr); } }
     @media (min-width:900px) { .product-grid { grid-template-columns:repeat(4,1fr); } }
 
-    /* ==========================================================
-       🎨 CARD - PERFECT POSITIONING (REFERENCE IMAGE BASED)
-       ========================================================== */
     .card {
       position: relative;
-      aspect-ratio: 849 / 1373; /* Exact match to card-bg.png */
-      container-type: inline-size; /* 🔥 lets font-size use cqw so it scales with THIS card's own width */
+      aspect-ratio: 849 / 1373;
+      container-type: inline-size;
       background: transparent;
       border-radius: 20px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.04);
@@ -97,7 +130,6 @@
       box-shadow: 0 12px 32px rgba(0,0,0,0.12);
     }
 
-    /* 🔥 BACKGROUND IMAGE - 100% 100% (EXACT FIT) */
     .card::before {
       content: '';
       position: absolute;
@@ -116,12 +148,8 @@
       border-radius: 20px;
     }
 
-    .card > * {
-      position: relative;
-      z-index: 1;
-    }
+    .card > * { position: relative; z-index: 1; }
 
-    /* 🔥 WISHLIST - Upper-Left Corner of Tan Area */
     .wishlist {
       position: absolute;
       left: 21.7%;
@@ -144,7 +172,6 @@
     }
     .wishlist.active { color: #FF4D4D; background: #ffe5e5; }
 
-    /* 🔥 ADMIN BUTTONS - Below Wishlist */
     .card .admin-edit-delete {
       position: absolute;
       top: 21%;
@@ -167,7 +194,6 @@
     }
     .card .admin-edit-delete button:hover { background: #fff; }
 
-    /* 🔥 FOOD IMAGE - Centered in Tan Area (No White Panel Overlap) */
     .card-img {
       position: absolute;
       left: 50.35%;
@@ -192,7 +218,6 @@
       border-radius: 50%;
     }
 
-    /* 🔥 NAME - White Panel Upper-Left (No Overlap) */
     .card-name {
       position: absolute;
       left: 8.8%;
@@ -209,12 +234,10 @@
       font-family: 'Inter', sans-serif;
       text-shadow: 0 1px 4px rgba(255,255,255,0.8);
       transition: font-size 0.15s ease, transform 0.15s ease;
-      /* Allow 2-line names without breaking layout */
       max-height: 2.6em;
       overflow: visible;
     }
 
-    /* 🔥 PRICE + RATING - Side-by-Side, Below Name */
     .card-footer {
       position: absolute;
       left: 8.8%;
@@ -228,7 +251,6 @@
       width: 82%;
     }
     
-    /* 🔥 PRICE - Bold Black, No Pill */
     .price {
       font-weight: 700;
       color: #1A1A1A;
@@ -242,7 +264,6 @@
       transition: font-size 0.15s ease;
     }
     
-    /* 🔥 RATING - Orange, No Pill */
     .rating {
       font-size: 15px;
       color: #f5a623;
@@ -256,7 +277,6 @@
       transition: font-size 0.15s ease;
     }
 
-    /* ========== RESPONSIVE ADJUSTMENTS ========== */
     @media (max-width:600px) {
       .card-img { width: 30%; font-size: 32px; top: 29.5%; }
       .card-name { font-size: 16px; top: 59.5%; max-height: 2.5em; }
@@ -278,7 +298,7 @@
       .card .admin-edit-delete button { width: 20px; height: 20px; font-size: 9px; }
     }
 
-    /* ========== REMAINING STYLES (Unchanged) ========== */
+    /* ========== REMAINING STYLES ========== */
     .section-title { font-size:20px; font-weight:800; color:#000; margin-bottom:15px; letter-spacing:-0.3px; }
     .gallery-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:15px; margin-bottom:30px; }
     @media (min-width:600px) { .gallery-grid { grid-template-columns:repeat(3,1fr); } }
@@ -422,7 +442,6 @@
     .admin-actions button { background:none; border:none; cursor:pointer; font-size:15px; margin-left:6px; transition:transform 0.15s; }
     .admin-actions button:hover { transform:scale(1.2); }
 
-    /* ========== VISUAL EDITOR (SAMPLE CARD - Updated) ========== */
     .layout-editor-box { background:#f8f8f8; padding:15px; border-radius:12px; margin-bottom:15px; border:1px solid #e0e0e0; }
     .layout-editor-box .preview-card-wrapper { display:flex; justify-content:center; margin-bottom:15px; }
     .layout-editor-box .sample-card {
@@ -684,8 +703,14 @@
   </style>
 </head>
 <body>
-  <!-- ========== COMPLETE BODY (Same as before - no changes to HTML) ========== -->
-  <!-- I'm including the entire body from your original code to ensure all functionality remains intact -->
+  
+  <!-- ===== CLOUD STATUS (Sirf Admin ko dikhega) ===== -->
+  <div class="cloud-status" id="cloudStatus">
+    <span class="dot" id="cloudDot"></span>
+    <span id="cloudLabel">Connecting...</span>
+  </div>
+
+  <!-- ========== COMPLETE BODY ========== -->
   <div class="app">
     <header class="header">
       <div class="header-row">
@@ -781,7 +806,7 @@
                   <input type="text" id="cardFontName" placeholder="fonts/MyFont.ttf (or .otf)" />
                   <button id="applyFontBtn">Apply Font</button>
                   <button id="resetFontBtn" style="background:#e0e0e0; color:#1A1A1A;">↺ Reset</button>
-                  <span style="font-size:11px; color:#999; width:100%;">(फॉन्ट फाइल को 'fonts' फोल्डर में डालें)</span>
+                  <span style="font-size:11px; color:#999; width:100%;">(फ़ॉन्ट फ़ाइल को 'fonts' फ़ोल्डर में डालें)</span>
                 </div>
                 <div class="control-row" style="gap:8px; margin-top:8px;">
                   <button class="save-layout-btn" id="saveLayoutBtn">💾 Save Layout to All Cards</button>
@@ -1055,12 +1080,365 @@
 
   <script>
     // ============================================================
-    // 🚀 FULL JAVASCRIPT (Unchanged - all functionality preserved)
+    // 🔐 JSONBin CONFIG – YAHAN APNI MASTER KEY AUR BIN ID DALEN
     // ============================================================
-    // (All JavaScript from the previous version is included here)
+    const CONFIG = {
+      MASTER_KEY: "$2a$10$aUYcvv..WLMzbJ1dJf12pu4/9auXD0IHeDI0Fc12iSbZMbDur72Ca",   // <-- Yahan apni X-MASTER-KEY paste karein
+      BIN_ID: "6a9c752af5f4af5e296f3307",            // <-- Yahan apni Bin ID paste karein
+      USE_CLOUD: true                         // true = JSONBin use karein, false = sirf localStorage
+    };
+
     // ============================================================
-    
-    // ========== CUSTOM ALERT/CONFIRM/PROMPT ==========
+    // ☁️ JSONBin CLOUD SERVICE
+    // ============================================================
+    const CloudService = {
+      _cache: null,
+      _isSyncing: false,
+      _lastSync: 0,
+      _debounceTimer: null,
+
+      _statusEl: document.getElementById('cloudStatus'),
+      _dotEl: document.getElementById('cloudDot'),
+      _labelEl: document.getElementById('cloudLabel'),
+
+      _setStatus(state, label) {
+        if (!this._dotEl) return;
+        this._dotEl.className = 'dot ' + state;
+        if (this._labelEl) this._labelEl.textContent = label || (state === 'online' ? 'Cloud' : state === 'offline' ? 'Offline' : 'Syncing...');
+      },
+
+      async fetchData() {
+        if (!CONFIG.USE_CLOUD || !CONFIG.MASTER_KEY || CONFIG.MASTER_KEY === 'YOUR_MASTER_KEY_HERE') {
+          this._setStatus('offline', 'Local Only');
+          return null;
+        }
+        try {
+          this._setStatus('syncing', 'Loading...');
+          const response = await fetch(`https://api.jsonbin.io/v3/b/${CONFIG.BIN_ID}`, {
+            method: 'GET',
+            headers: {
+              'X-Master-Key': CONFIG.MASTER_KEY,
+              'Content-Type': 'application/json'
+            }
+          });
+          if (!response.ok) {
+            if (response.status === 404) return null;
+            throw new Error(`HTTP ${response.status}`);
+          }
+          const data = await response.json();
+          this._cache = data.record;
+          this._setStatus('online', 'Cloud');
+          this._lastSync = Date.now();
+          return this._cache;
+        } catch (error) {
+          console.warn('❌ JSONBin fetch failed:', error);
+          this._setStatus('offline', 'Offline');
+          return null;
+        }
+      },
+
+      async saveData(data) {
+        if (!CONFIG.USE_CLOUD || !CONFIG.MASTER_KEY || CONFIG.MASTER_KEY === 'YOUR_MASTER_KEY_HERE') {
+          return false;
+        }
+        try {
+          this._setStatus('syncing', 'Saving...');
+          const url = CONFIG.BIN_ID && CONFIG.BIN_ID !== 'YOUR_BIN_ID_HERE' 
+            ? `https://api.jsonbin.io/v3/b/${CONFIG.BIN_ID}`
+            : `https://api.jsonbin.io/v3/b`;
+          
+          const method = CONFIG.BIN_ID && CONFIG.BIN_ID !== 'YOUR_BIN_ID_HERE' ? 'PUT' : 'POST';
+          const headers = {
+            'X-Master-Key': CONFIG.MASTER_KEY,
+            'Content-Type': 'application/json'
+          };
+          if (method === 'POST') {
+            headers['X-Collection-Name'] = 'aura-shop-data';
+          }
+          const response = await fetch(url, {
+            method: method,
+            headers: headers,
+            body: JSON.stringify(data)
+          });
+          if (!response.ok) {
+            const errText = await response.text();
+            console.error('❌ JSONBin save error:', errText);
+            throw new Error(`HTTP ${response.status}: ${errText}`);
+          }
+          const result = await response.json();
+          if (method === 'POST' && result.metadata && result.metadata.id) {
+            localStorage.setItem('aura_bin_id', result.metadata.id);
+            CONFIG.BIN_ID = result.metadata.id;
+          }
+          this._cache = data;
+          this._setStatus('online', 'Cloud');
+          this._lastSync = Date.now();
+          return true;
+        } catch (error) {
+          console.error('❌ JSONBin save failed:', error);
+          this._setStatus('offline', 'Offline');
+          return false;
+        }
+      },
+
+      debouncedSave(data) {
+        if (this._debounceTimer) clearTimeout(this._debounceTimer);
+        this._debounceTimer = setTimeout(async () => {
+          await this.saveData(data);
+          this._debounceTimer = null;
+        }, 1500);
+      },
+
+      async syncFromLocal() {
+        const allData = {
+          products: JSON.parse(localStorage.getItem('samoon99_products') || '[]'),
+          categories: JSON.parse(localStorage.getItem('samoon99_categories') || '[]'),
+          gallery: JSON.parse(localStorage.getItem('samoon99_gallery') || '[]'),
+          orders: JSON.parse(localStorage.getItem('samoon99_orders') || '[]'),
+          cart: JSON.parse(localStorage.getItem('samoon99_cart') || '[]'),
+          reviews: JSON.parse(localStorage.getItem('samoon99_reviews') || '[]'),
+          loyalty: JSON.parse(localStorage.getItem('samoon99_loyalty') || '{}'),
+          customers: JSON.parse(localStorage.getItem('samoon99_customers') || '[]'),
+          contact: JSON.parse(localStorage.getItem('samoon99_contact') || '{}'),
+          layoutOffsets: JSON.parse(localStorage.getItem('aura_layout_offsets') || '{}'),
+          layoutScales: JSON.parse(localStorage.getItem('aura_layout_scales') || '{}'),
+          cardFont: localStorage.getItem('aura_card_font') || '',
+          version: '6.0.0'
+        };
+        return await this.saveData(allData);
+      }
+    };
+
+    // ============================================================
+    // 🚀 DATA LOADER & STORAGE
+    // ============================================================
+    let products = [], categories = [], galleryImages = [], orders = [], cart = [], reviews = [];
+    let loyaltyPoints = {}, customers = [], currentCustomer = null;
+    let contactInfo = { 
+      address: '279 Prospect Rd, Blair Athol SA 5084, Australia', 
+      phone: '+61 478 706 251', 
+      hours: 'Monday – Sunday, 6:00 AM – 9:00 PM', 
+      social: { instagram: '', facebook: '', whatsapp: '+61 478 706 251' } 
+    };
+    let layoutOffsets = { img: { x: 0, y: 0 }, name: { x: 0, y: 0 }, price: { x: 0, y: 0 } };
+    let layoutScales = { img: 100, name: 18, price: 16 };
+    let cardFontName = '';
+
+    const defaultProducts = [
+      { id: 'pizza1', name: 'Margherita Pizza', emoji: '🍕', price: '$12.00', rating: '⭐ 4.8', description: 'Classic vegetarian pizza with tomato, mozzarella, and basil.', category: 'pizza' },
+      { id: 'drink1', name: 'Cold Coffee', emoji: '🥤', price: '$4.50', rating: '⭐ 4.9', description: 'Chilled coffee with milk and sugar.', category: 'drinks' },
+      { id: 'cake1', name: 'Chocolate Cake', emoji: '🍰', price: '$8.00', rating: '⭐ 4.7', description: 'Rich chocolate cake with creamy frosting.', category: 'cakes' },
+      { id: 'pastry1', name: 'Butter Croissant', emoji: '🥐', price: '$3.50', rating: '⭐ 4.6', description: 'Flaky butter croissant baked fresh every morning.', category: 'pastries' },
+      { id: 'snack1', name: 'Chocolate Chip Cookie', emoji: '🍪', price: '$2.50', rating: '⭐ 4.5', description: 'Soft and chewy cookie loaded with chocolate chips.', category: 'snacks' },
+      { id: 'bread1', name: 'Garlic Bread', emoji: '🥖', price: '$6.00', rating: '⭐ 4.9', description: 'Toasted bread with garlic butter and herbs.', category: 'breads' },
+      { id: 'veggie1', name: 'Veggie Supreme Pizza', emoji: '🍕', price: '$13.50', rating: '⭐ 4.6', description: 'Loaded with capsicum, onion, mushroom, olives, and tomato.', category: 'pizza' },
+      { id: 'avo1', name: 'Avocado Toast', emoji: '🥑', price: '$9.00', rating: '⭐ 4.7', description: 'Smashed avocado on sourdough with feta and cherry tomatoes.', category: 'breakfast' },
+      { id: 'halloumi1', name: 'Halloumi Burger', emoji: '🍔', price: '$11.00', rating: '⭐ 4.5', description: 'Grilled halloumi with lettuce, tomato, and aioli.', category: 'burgers' },
+      { id: 'soup1', name: 'Pumpkin Soup', emoji: '🎃', price: '$7.50', rating: '⭐ 4.8', description: 'Creamy roasted pumpkin soup with a hint of nutmeg.', category: 'soup' },
+      { id: 'pasta1', name: 'Veggie Pasta', emoji: '🍝', price: '$12.00', rating: '⭐ 4.4', description: 'Penne with seasonal vegetables in a light tomato sauce.', category: 'pasta' },
+      { id: 'salad1', name: 'Garden Salad', emoji: '🥗', price: '$8.50', rating: '⭐ 4.6', description: 'Fresh lettuce, cucumber, tomato, and avocado with lemon dressing.', category: 'salad' },
+      { id: 'drink2', name: 'Iced Chocolate', emoji: '🍫', price: '$5.00', rating: '⭐ 4.7', description: 'Rich chocolate syrup with cold milk and ice.', category: 'drinks' },
+      { id: 'drink3', name: 'Lemon Lime Bitters', emoji: '🍋', price: '$4.00', rating: '⭐ 4.8', description: 'Classic Australian refresher with lemon, lime, and bitters.', category: 'drinks' },
+      { id: 'drink4', name: 'Fresh Orange Juice', emoji: '🍊', price: '$5.50', rating: '⭐ 4.9', description: 'Squeezed daily, 100% pure orange juice.', category: 'drinks' },
+      { id: 'drink5', name: 'Iced Tea', emoji: '🧋', price: '$4.20', rating: '⭐ 4.5', description: 'Chilled tea with a hint of lemon and mint.', category: 'drinks' }
+    ];
+    const defaultCategories = [
+      { id: 'pizza', name: 'Pizza', emoji: '🍕' },
+      { id: 'drinks', name: 'Drinks', emoji: '🥤' },
+      { id: 'cakes', name: 'Cakes', emoji: '🍰' },
+      { id: 'breads', name: 'Breads', emoji: '🥖' },
+      { id: 'pastries', name: 'Pastries', emoji: '🥐' },
+      { id: 'snacks', name: 'Snacks', emoji: '🍪' },
+      { id: 'breakfast', name: 'Breakfast', emoji: '🍳' },
+      { id: 'burgers', name: 'Burgers', emoji: '🍔' },
+      { id: 'soup', name: 'Soup', emoji: '🍲' },
+      { id: 'pasta', name: 'Pasta', emoji: '🍝' },
+      { id: 'salad', name: 'Salad', emoji: '🥗' }
+    ];
+    const defaultGallery = ['', '', '', '', '', ''];
+    const defaultContact = { 
+      address: '279 Prospect Rd, Blair Athol SA 5084, Australia', 
+      phone: '+61 478 706 251', 
+      hours: 'Monday – Sunday, 6:00 AM – 9:00 PM', 
+      social: { instagram: '', facebook: '', whatsapp: '+61 478 706 251' } 
+    };
+
+    function getAllData() {
+      return {
+        products,
+        categories,
+        gallery: galleryImages,
+        orders,
+        cart,
+        reviews,
+        loyalty: loyaltyPoints,
+        customers,
+        contact: contactInfo,
+        layoutOffsets,
+        layoutScales,
+        cardFont: cardFontName,
+        version: '6.0.0'
+      };
+    }
+
+    function setAllData(data) {
+      if (data.products) products = data.products;
+      if (data.categories) categories = data.categories;
+      if (data.gallery) galleryImages = data.gallery;
+      if (data.orders) orders = data.orders;
+      if (data.cart) cart = data.cart;
+      if (data.reviews) reviews = data.reviews;
+      if (data.loyalty) loyaltyPoints = data.loyalty;
+      if (data.customers) customers = data.customers;
+      if (data.contact) contactInfo = data.contact;
+      if (data.layoutOffsets) layoutOffsets = data.layoutOffsets;
+      if (data.layoutScales) layoutScales = data.layoutScales;
+      if (data.cardFont) cardFontName = data.cardFont;
+    }
+
+    function saveToLocalStorage() {
+      localStorage.setItem('samoon99_products', JSON.stringify(products));
+      localStorage.setItem('samoon99_categories', JSON.stringify(categories));
+      localStorage.setItem('samoon99_gallery', JSON.stringify(galleryImages));
+      localStorage.setItem('samoon99_orders', JSON.stringify(orders));
+      localStorage.setItem('samoon99_cart', JSON.stringify(cart));
+      localStorage.setItem('samoon99_reviews', JSON.stringify(reviews));
+      localStorage.setItem('samoon99_loyalty', JSON.stringify(loyaltyPoints));
+      localStorage.setItem('samoon99_customers', JSON.stringify(customers));
+      localStorage.setItem('samoon99_contact', JSON.stringify(contactInfo));
+      localStorage.setItem('aura_layout_offsets', JSON.stringify(layoutOffsets));
+      localStorage.setItem('aura_layout_scales', JSON.stringify(layoutScales));
+      localStorage.setItem('aura_card_font', cardFontName);
+      localStorage.setItem('samoon99_version', '6.0.0');
+    }
+
+    async function syncToCloud(debounce = true) {
+      if (!CONFIG.USE_CLOUD) return;
+      const data = getAllData();
+      if (debounce) CloudService.debouncedSave(data);
+      else await CloudService.saveData(data);
+    }
+
+    function saveProducts() { localStorage.setItem('samoon99_products', JSON.stringify(products)); syncToCloud(true); }
+    function saveCategories() { localStorage.setItem('samoon99_categories', JSON.stringify(categories)); syncToCloud(true); }
+    function saveGallery() { localStorage.setItem('samoon99_gallery', JSON.stringify(galleryImages)); syncToCloud(true); }
+    function saveOrders() { localStorage.setItem('samoon99_orders', JSON.stringify(orders)); syncToCloud(true); }
+    function saveCart() { localStorage.setItem('samoon99_cart', JSON.stringify(cart)); syncToCloud(true); }
+    function saveReviews() { localStorage.setItem('samoon99_reviews', JSON.stringify(reviews)); syncToCloud(true); }
+    function saveLoyalty() { localStorage.setItem('samoon99_loyalty', JSON.stringify(loyaltyPoints)); syncToCloud(true); }
+    function saveCustomers() { localStorage.setItem('samoon99_customers', JSON.stringify(customers)); syncToCloud(true); }
+    function saveContact() { localStorage.setItem('samoon99_contact', JSON.stringify(contactInfo)); syncToCloud(true); }
+    function saveCurrentCustomer() {
+      if (currentCustomer) localStorage.setItem('samoon99_currentCustomer', JSON.stringify(currentCustomer));
+      else localStorage.removeItem('samoon99_currentCustomer');
+    }
+    function saveLayoutState() {
+      localStorage.setItem('aura_layout_offsets', JSON.stringify(layoutOffsets));
+      localStorage.setItem('aura_layout_scales', JSON.stringify(layoutScales));
+      localStorage.setItem('aura_card_font', cardFontName);
+      syncToCloud(true);
+    }
+
+    async function loadData() {
+      const CURRENT_VERSION = '6.0.0';
+      let cloudData = null;
+      if (CONFIG.USE_CLOUD && CONFIG.MASTER_KEY && CONFIG.MASTER_KEY !== 'YOUR_MASTER_KEY_HERE') {
+        cloudData = await CloudService.fetchData();
+      }
+
+      if (cloudData) {
+        setAllData(cloudData);
+        saveToLocalStorage();
+        try {
+          currentCustomer = JSON.parse(localStorage.getItem('samoon99_currentCustomer')) || null;
+        } catch(e) { currentCustomer = null; }
+        const savedBinId = localStorage.getItem('aura_bin_id');
+        if (savedBinId && CONFIG.BIN_ID === 'YOUR_BIN_ID_HERE') CONFIG.BIN_ID = savedBinId;
+        return;
+      }
+
+      console.log('📁 Loading from localStorage...');
+      const storedVersion = localStorage.getItem('samoon99_version');
+      if (storedVersion !== CURRENT_VERSION) {
+        localStorage.clear();
+        localStorage.setItem('samoon99_version', CURRENT_VERSION);
+      }
+
+      try {
+        const p = JSON.parse(localStorage.getItem('samoon99_products'));
+        const c = JSON.parse(localStorage.getItem('samoon99_categories'));
+        const g = JSON.parse(localStorage.getItem('samoon99_gallery'));
+        const o = JSON.parse(localStorage.getItem('samoon99_orders'));
+        const ca = JSON.parse(localStorage.getItem('samoon99_cart'));
+        const r = JSON.parse(localStorage.getItem('samoon99_reviews'));
+        const l = JSON.parse(localStorage.getItem('samoon99_loyalty'));
+        const cu = JSON.parse(localStorage.getItem('samoon99_customers'));
+        const co = JSON.parse(localStorage.getItem('samoon99_contact'));
+        const lo = JSON.parse(localStorage.getItem('aura_layout_offsets'));
+        const ls = JSON.parse(localStorage.getItem('aura_layout_scales'));
+        const cf = localStorage.getItem('aura_card_font');
+        
+        products = p || defaultProducts.slice();
+        categories = c || defaultCategories.slice();
+        galleryImages = g || defaultGallery.slice();
+        orders = o || [];
+        cart = ca || [];
+        reviews = r || [];
+        loyaltyPoints = l || {};
+        customers = cu || [];
+        contactInfo = co || defaultContact;
+        if (lo) layoutOffsets = lo;
+        if (ls) layoutScales = ls;
+        cardFontName = cf || '';
+        try {
+          currentCustomer = JSON.parse(localStorage.getItem('samoon99_currentCustomer')) || null;
+        } catch(e) { currentCustomer = null; }
+      } catch(e) {
+        console.warn('⚠️ localStorage data corrupted, using defaults');
+        products = defaultProducts.slice();
+        categories = defaultCategories.slice();
+        galleryImages = defaultGallery.slice();
+        orders = [];
+        cart = [];
+        reviews = [];
+        loyaltyPoints = {};
+        customers = [];
+        currentCustomer = null;
+        contactInfo = defaultContact;
+        layoutOffsets = { img: {x:0,y:0}, name: {x:0,y:0}, price: {x:0,y:0} };
+        layoutScales = { img: 100, name: 18, price: 16 };
+        cardFontName = '';
+        saveToLocalStorage();
+      }
+
+      if (CONFIG.USE_CLOUD && CONFIG.MASTER_KEY && CONFIG.MASTER_KEY !== 'YOUR_MASTER_KEY_HERE') {
+        const cloudCheck = await CloudService.fetchData();
+        if (!cloudCheck) {
+          console.log('☁️ No cloud data found, uploading local data...');
+          await CloudService.syncFromLocal();
+        }
+      }
+
+      updateContactUI();
+      updateSocialLinksUI();
+      updateCustomerUI();
+      loadLayout();
+      if (cardFontName && cardFontName.trim() !== '') {
+        document.getElementById('cardFontName').value = cardFontName;
+        applyFontToCards(cardFontName);
+      }
+      document.getElementById('imgScale').value = layoutScales.img;
+      document.getElementById('nameSize').value = layoutScales.name;
+      document.getElementById('priceSize').value = layoutScales.price;
+      document.getElementById('imgScaleVal').textContent = layoutScales.img + '%';
+      document.getElementById('nameSizeVal').textContent = layoutScales.name + 'px';
+      document.getElementById('priceSizeVal').textContent = layoutScales.price + 'px';
+      applyToSample();
+    }
+
+    // ============================================================
+    // 📦 CUSTOM ALERT, UTILITY, AUTH FUNCTIONS
+    // ============================================================
     (function() {
       function createOverlay() {
         var overlay = document.createElement('div');
@@ -1149,195 +1527,154 @@
       };
     })();
 
-    // ========== DATA & STORAGE ==========
-    var defaultProducts = [
-      { id: 'pizza1', name: 'Margherita Pizza', emoji: '🍕', price: '$12.00', rating: '⭐ 4.8', description: 'Classic vegetarian pizza with tomato, mozzarella, and basil.', category: 'pizza' },
-      { id: 'drink1', name: 'Cold Coffee', emoji: '🥤', price: '$4.50', rating: '⭐ 4.9', description: 'Chilled coffee with milk and sugar.', category: 'drinks' },
-      { id: 'cake1', name: 'Chocolate Cake', emoji: '🍰', price: '$8.00', rating: '⭐ 4.7', description: 'Rich chocolate cake with creamy frosting.', category: 'cakes' },
-      { id: 'pastry1', name: 'Butter Croissant', emoji: '🥐', price: '$3.50', rating: '⭐ 4.6', description: 'Flaky butter croissant baked fresh every morning.', category: 'pastries' },
-      { id: 'snack1', name: 'Chocolate Chip Cookie', emoji: '🍪', price: '$2.50', rating: '⭐ 4.5', description: 'Soft and chewy cookie loaded with chocolate chips.', category: 'snacks' },
-      { id: 'bread1', name: 'Garlic Bread', emoji: '🥖', price: '$6.00', rating: '⭐ 4.9', description: 'Toasted bread with garlic butter and herbs.', category: 'breads' },
-      { id: 'veggie1', name: 'Veggie Supreme Pizza', emoji: '🍕', price: '$13.50', rating: '⭐ 4.6', description: 'Loaded with capsicum, onion, mushroom, olives, and tomato.', category: 'pizza' },
-      { id: 'avo1', name: 'Avocado Toast', emoji: '🥑', price: '$9.00', rating: '⭐ 4.7', description: 'Smashed avocado on sourdough with feta and cherry tomatoes.', category: 'breakfast' },
-      { id: 'halloumi1', name: 'Halloumi Burger', emoji: '🍔', price: '$11.00', rating: '⭐ 4.5', description: 'Grilled halloumi with lettuce, tomato, and aioli.', category: 'burgers' },
-      { id: 'soup1', name: 'Pumpkin Soup', emoji: '🎃', price: '$7.50', rating: '⭐ 4.8', description: 'Creamy roasted pumpkin soup with a hint of nutmeg.', category: 'soup' },
-      { id: 'pasta1', name: 'Veggie Pasta', emoji: '🍝', price: '$12.00', rating: '⭐ 4.4', description: 'Penne with seasonal vegetables in a light tomato sauce.', category: 'pasta' },
-      { id: 'salad1', name: 'Garden Salad', emoji: '🥗', price: '$8.50', rating: '⭐ 4.6', description: 'Fresh lettuce, cucumber, tomato, and avocado with lemon dressing.', category: 'salad' },
-      { id: 'drink2', name: 'Iced Chocolate', emoji: '🍫', price: '$5.00', rating: '⭐ 4.7', description: 'Rich chocolate syrup with cold milk and ice.', category: 'drinks' },
-      { id: 'drink3', name: 'Lemon Lime Bitters', emoji: '🍋', price: '$4.00', rating: '⭐ 4.8', description: 'Classic Australian refresher with lemon, lime, and bitters.', category: 'drinks' },
-      { id: 'drink4', name: 'Fresh Orange Juice', emoji: '🍊', price: '$5.50', rating: '⭐ 4.9', description: 'Squeezed daily, 100% pure orange juice.', category: 'drinks' },
-      { id: 'drink5', name: 'Iced Tea', emoji: '🧋', price: '$4.20', rating: '⭐ 4.5', description: 'Chilled tea with a hint of lemon and mint.', category: 'drinks' }
-    ];
-    var defaultCategories = [
-      { id: 'pizza', name: 'Pizza', emoji: '🍕' },
-      { id: 'drinks', name: 'Drinks', emoji: '🥤' },
-      { id: 'cakes', name: 'Cakes', emoji: '🍰' },
-      { id: 'breads', name: 'Breads', emoji: '🥖' },
-      { id: 'pastries', name: 'Pastries', emoji: '🥐' },
-      { id: 'snacks', name: 'Snacks', emoji: '🍪' },
-      { id: 'breakfast', name: 'Breakfast', emoji: '🍳' },
-      { id: 'burgers', name: 'Burgers', emoji: '🍔' },
-      { id: 'soup', name: 'Soup', emoji: '🍲' },
-      { id: 'pasta', name: 'Pasta', emoji: '🍝' },
-      { id: 'salad', name: 'Salad', emoji: '🥗' }
-    ];
-    var defaultGallery = ['', '', '', '', '', ''];
-    var defaultOrders = [];
-    var defaultCart = [];
-    var defaultReviews = [];
-    var defaultLoyalty = {};
-    var defaultCustomers = [];
-
-    var products = [], categories = [], galleryImages = [], orders = [], cart = [], reviews = [];
-    var loyaltyPoints = {};
-    var customers = [];
-    var currentCustomer = null;
-    var contactInfo = { address: '279 Prospect Rd, Blair Athol SA 5084, Australia', phone: '+61 478 706 251', hours: 'Monday – Sunday, 6:00 AM – 9:00 PM', social: { instagram: '', facebook: '', whatsapp: '+61 478 706 251' } };
-
-    var layoutOffsets = { img: { x: 0, y: 0 }, name: { x: 0, y: 0 }, price: { x: 0, y: 0 } };
-    var layoutScales = { img: 100, name: 18, price: 16 };
-    var cardFontName = '';
-
-    function loadLayout() {
-      try {
-        var savedOffsets = JSON.parse(localStorage.getItem('aura_layout_offsets'));
-        if (savedOffsets) { if (savedOffsets.img) layoutOffsets.img = savedOffsets.img; if (savedOffsets.name) layoutOffsets.name = savedOffsets.name; if (savedOffsets.price) layoutOffsets.price = savedOffsets.price; }
-        var savedScales = JSON.parse(localStorage.getItem('aura_layout_scales'));
-        if (savedScales) { if (savedScales.img) layoutScales.img = savedScales.img; if (savedScales.name) layoutScales.name = savedScales.name; if (savedScales.price) layoutScales.price = savedScales.price; }
-        var savedFont = localStorage.getItem('aura_card_font');
-        if (savedFont) cardFontName = savedFont;
-      } catch(e) {}
+    function isImageValue(value) {
+      return /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp|svg))$/i.test(value) || value.startsWith('data:image/');
     }
-    function saveLayoutState() {
-      localStorage.setItem('aura_layout_offsets', JSON.stringify(layoutOffsets));
-      localStorage.setItem('aura_layout_scales', JSON.stringify(layoutScales));
-      localStorage.setItem('aura_card_font', cardFontName);
-      applyFontToCards(cardFontName);
-    }
-    function resetPositions() {
-      layoutOffsets = { img: {x:0, y:0}, name: {x:0, y:0}, price: {x:0, y:0} };
-      layoutScales = { img: 100, name: 18, price: 16 };
-      saveLayoutState();
-      applyToSample();
-      renderProducts();
-    }
-    function applyFontToCards(fontPath) {
-      var styleTag = document.getElementById('dynamicCardFontStyle');
-      if (!fontPath || fontPath.trim() === '') { styleTag.innerHTML = ''; return; }
-      var fontFamilyName = 'CustomCardFont_' + Date.now();
-      styleTag.innerHTML = `
-        @font-face { font-family: '${fontFamilyName}'; src: url('${fontPath}') format('truetype'); font-weight: normal; font-style: normal; font-display: swap; }
-        .card .card-name, .card .price, .card .rating { font-family: '${fontFamilyName}', 'Inter', sans-serif !important; }
-        .sample-card .card-name, .sample-card .price, .sample-card .rating { font-family: '${fontFamilyName}', 'Inter', sans-serif !important; }
-      `;
-    }
-    function resetFont() {
-      cardFontName = ''; localStorage.removeItem('aura_card_font'); document.getElementById('dynamicCardFontStyle').innerHTML = '';
-      document.getElementById('cardFontName').value = '';
-      applyToSample(); renderProducts(); showToast('Font reset to default!', 'info');
-    }
-
-    function loadData() {
-      var CURRENT_VERSION = '6.0.0';
-      var storedVersion = localStorage.getItem('samoon99_version');
-      if (storedVersion !== CURRENT_VERSION) { localStorage.clear(); localStorage.setItem('samoon99_version', CURRENT_VERSION); }
-      try {
-        products = JSON.parse(localStorage.getItem('samoon99_products')) || defaultProducts.slice(); saveProducts();
-        categories = JSON.parse(localStorage.getItem('samoon99_categories')) || defaultCategories.slice(); saveCategories();
-        galleryImages = JSON.parse(localStorage.getItem('samoon99_gallery')) || defaultGallery.slice(); saveGallery();
-        orders = JSON.parse(localStorage.getItem('samoon99_orders')) || defaultOrders.slice(); saveOrders();
-        cart = JSON.parse(localStorage.getItem('samoon99_cart')) || defaultCart.slice(); saveCart();
-        reviews = JSON.parse(localStorage.getItem('samoon99_reviews')) || defaultReviews.slice(); saveReviews();
-        loyaltyPoints = JSON.parse(localStorage.getItem('samoon99_loyalty')) || defaultLoyalty; saveLoyalty();
-        customers = JSON.parse(localStorage.getItem('samoon99_customers')) || defaultCustomers.slice(); saveCustomers();
-        currentCustomer = JSON.parse(localStorage.getItem('samoon99_currentCustomer')) || null;
-        contactInfo = JSON.parse(localStorage.getItem('samoon99_contact')) || contactInfo; saveContact();
-      } catch(e) {
-        products = defaultProducts.slice(); categories = defaultCategories.slice(); galleryImages = defaultGallery.slice();
-        orders = []; cart = []; reviews = []; loyaltyPoints = {}; customers = []; currentCustomer = null;
-        contactInfo = { address:'279 Prospect Rd, Blair Athol SA 5084, Australia', phone:'+61 478 706 251', hours:'Monday – Sunday, 6:00 AM – 9:00 PM', social:{ instagram:'', facebook:'', whatsapp:'+61 478 706 251' } };
-        saveAll();
-      }
-      updateContactUI(); updateSocialLinksUI(); updateCustomerUI();
-      loadLayout();
-      if (cardFontName && cardFontName.trim() !== '') { document.getElementById('cardFontName').value = cardFontName; applyFontToCards(cardFontName); } else { document.getElementById('dynamicCardFontStyle').innerHTML = `.card .card-name, .card .price, .card .rating { font-family: 'Inter', sans-serif !important; } .sample-card .card-name, .sample-card .price, .sample-card .rating { font-family: 'Inter', sans-serif !important; }`; }
-      document.getElementById('imgScale').value = layoutScales.img; document.getElementById('nameSize').value = layoutScales.name; document.getElementById('priceSize').value = layoutScales.price;
-      document.getElementById('imgScaleVal').textContent = layoutScales.img + '%'; document.getElementById('nameSizeVal').textContent = layoutScales.name + 'px'; document.getElementById('priceSizeVal').textContent = layoutScales.price + 'px';
-      applyToSample();
-    }
-    function saveAll() { saveProducts(); saveCategories(); saveGallery(); saveOrders(); saveCart(); saveReviews(); saveLoyalty(); saveContact(); saveCustomers(); }
-    function saveProducts() { localStorage.setItem('samoon99_products', JSON.stringify(products)); }
-    function saveCategories() { localStorage.setItem('samoon99_categories', JSON.stringify(categories)); }
-    function saveGallery() { localStorage.setItem('samoon99_gallery', JSON.stringify(galleryImages)); }
-    function saveOrders() { localStorage.setItem('samoon99_orders', JSON.stringify(orders)); }
-    function saveCart() { localStorage.setItem('samoon99_cart', JSON.stringify(cart)); }
-    function saveReviews() { localStorage.setItem('samoon99_reviews', JSON.stringify(reviews)); }
-    function saveLoyalty() { localStorage.setItem('samoon99_loyalty', JSON.stringify(loyaltyPoints)); }
-    function saveContact() { localStorage.setItem('samoon99_contact', JSON.stringify(contactInfo)); }
-    function saveCustomers() { localStorage.setItem('samoon99_customers', JSON.stringify(customers)); }
-    function saveCurrentCustomer() { if (currentCustomer) localStorage.setItem('samoon99_currentCustomer', JSON.stringify(currentCustomer)); else localStorage.removeItem('samoon99_currentCustomer'); }
-
-    function updateContactUI() {
-      document.getElementById('contactAddress').innerHTML = contactInfo.address.replace(/\n/g, '<br>');
-      document.getElementById('contactPhone').textContent = contactInfo.phone;
-      document.getElementById('contactHours').innerHTML = contactInfo.hours.replace(/\n/g, '<br>');
-      document.getElementById('contactInlineAddress').value = contactInfo.address;
-      document.getElementById('contactInlinePhone').value = contactInfo.phone;
-      document.getElementById('contactInlineHours').value = contactInfo.hours;
-    }
-    function updateSocialLinksUI() {
-      document.getElementById('socialInstagram').value = contactInfo.social.instagram || '';
-      document.getElementById('socialFacebook').value = contactInfo.social.facebook || '';
-      document.getElementById('socialWhatsApp').value = contactInfo.social.whatsapp || '';
-      var instaCard = document.getElementById('instagramSocialCard'); var fbCard = document.getElementById('facebookSocialCard');
-      var instaHandle = document.getElementById('instagramHandle'); var fbHandle = document.getElementById('facebookHandle');
-      if (contactInfo.social.instagram) { instaCard.href = contactInfo.social.instagram; instaCard.setAttribute('data-url', contactInfo.social.instagram); instaHandle.textContent = 'Follow us'; } else { instaCard.href = '#'; instaCard.removeAttribute('data-url'); instaHandle.textContent = 'Follow us'; }
-      if (contactInfo.social.facebook) { fbCard.href = contactInfo.social.facebook; fbCard.setAttribute('data-url', contactInfo.social.facebook); fbHandle.textContent = 'Follow us'; } else { fbCard.href = '#'; fbCard.removeAttribute('data-url'); fbHandle.textContent = 'Follow us'; }
-    }
-    function isImageValue(value) { return /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp|svg))$/i.test(value) || value.startsWith('data:image/'); }
     function setImageOrEmoji(container, value, fontSize) {
       container.innerHTML = '';
-      if (isImageValue(value)) { var img = document.createElement('img'); img.src = value; img.alt = ''; img.style.maxWidth = '100%'; img.style.maxHeight = '100%'; img.style.objectFit = 'cover'; img.style.borderRadius = '12px'; container.appendChild(img); } else { container.textContent = value || '🍽️'; if (fontSize) container.style.fontSize = fontSize; }
-    }
-    function normalizePhone(phone) { return phone.replace(/\D/g, ''); }
-    function customerLogin(email, password) {
-      var customer = customers.find(c => c.email.toLowerCase() === email.toLowerCase() && c.password === password);
-      if (!customer) { document.getElementById('customerAuthError').textContent = 'Invalid email or password'; return false; }
-      currentCustomer = customer; saveCurrentCustomer(); updateCustomerUI(); document.getElementById('customerAuthOverlay').style.display = 'none'; return true;
-    }
-    function customerRegister(name, email, password) {
-      if (customers.some(c => c.email.toLowerCase() === email.toLowerCase())) { document.getElementById('customerAuthError').textContent = 'Email already registered'; return false; }
-      var newCustomer = { id: Date.now().toString(), name, email, password, addresses: [], orders: [] };
-      customers.push(newCustomer); saveCustomers(); currentCustomer = newCustomer; saveCurrentCustomer(); updateCustomerUI(); document.getElementById('customerAuthOverlay').style.display = 'none'; return true;
-    }
-    function customerLogout() { currentCustomer = null; saveCurrentCustomer(); updateCustomerUI(); renderCartUI(); }
-    function updateCustomerUI() { var avatar = document.getElementById('customerAvatar'); avatar.innerHTML = '<img src="https://i.ibb.co/RpdwtSRh/avatar.png" alt="Avatar" />'; }
-    (function() { emailjs.init("YOUR_PUBLIC_KEY"); })();
-    function sendOrderNotification(order, customerEmail) { /* emailjs integration */ }
-    var isLoggedIn = false;
-    var adminCredentials = { email: 'Owner@Gmail.com', password: 'admin123' };
-    function adminLogin(email, password) {
-      if (email.toLowerCase() === adminCredentials.email.toLowerCase() && password === adminCredentials.password) {
-        isLoggedIn = true; localStorage.setItem('samoon99_loggedin', 'true'); updateCustomerUI();
-        document.getElementById('adminPanel').classList.add('active'); document.getElementById('ownerOrdersPanel').style.display = 'block';
-        document.getElementById('adminGalleryControls').classList.add('active'); document.getElementById('adminContactControls').classList.add('active');
-        document.getElementById('customerAuthOverlay').style.display = 'none'; document.getElementById('ownerLoginError').textContent = '';
-        updateNotifBadge(); renderAll(); return true;
-      } else { document.getElementById('ownerLoginError').textContent = 'Invalid email or password'; return false; }
-    }
-    function checkLogin() {
-      if (localStorage.getItem('samoon99_loggedin') === 'true') {
-        isLoggedIn = true; updateCustomerUI(); document.getElementById('adminPanel').classList.add('active');
-        document.getElementById('ownerOrdersPanel').style.display = 'block'; document.getElementById('adminGalleryControls').classList.add('active');
-        document.getElementById('adminContactControls').classList.add('active'); updateNotifBadge();
+      if (isImageValue(value)) {
+        var img = document.createElement('img');
+        img.src = value;
+        img.alt = '';
+        img.style.maxWidth = '100%';
+        img.style.maxHeight = '100%';
+        img.style.objectFit = 'cover';
+        img.style.borderRadius = '12px';
+        container.appendChild(img);
+      } else {
+        container.textContent = value || '🍽️';
+        if (fontSize) container.style.fontSize = fontSize;
       }
     }
-    async function logout() {
-      if (await confirm('Logout?')) { isLoggedIn = false; localStorage.removeItem('samoon99_loggedin'); updateCustomerUI();
-        document.getElementById('adminPanel').classList.remove('active'); document.getElementById('ownerOrdersPanel').style.display = 'none';
-        document.getElementById('adminGalleryControls').classList.remove('active'); document.getElementById('adminContactControls').classList.remove('active'); renderAll(); }
+    function normalizePhone(phone) { return phone.replace(/\D/g, ''); }
+
+    let isLoggedIn = false;
+
+    // --- Customer Auth ---
+    function customerLogin(email, password) {
+      var customer = customers.find(c => c.email.toLowerCase() === email.toLowerCase() && c.password === password);
+      if (!customer) {
+        document.getElementById('customerAuthError').textContent = 'Invalid email or password';
+        return false;
+      }
+      currentCustomer = customer;
+      saveCurrentCustomer();
+      updateCustomerUI();
+      document.getElementById('customerAuthOverlay').style.display = 'none';
+      return true;
     }
-    function updateNotifBadge() { var badge = document.getElementById('notifBadge'); if (orders.length > 0 && isLoggedIn) { badge.style.display = 'flex'; badge.textContent = orders.length; } else badge.style.display = 'none'; }
+
+    function customerRegister(name, email, password) {
+      if (customers.some(c => c.email.toLowerCase() === email.toLowerCase())) {
+        document.getElementById('customerAuthError').textContent = 'Email already registered';
+        return false;
+      }
+      var newCustomer = { id: Date.now().toString(), name, email, password, addresses: [], orders: [] };
+      customers.push(newCustomer);
+      saveCustomers();
+      currentCustomer = newCustomer;
+      saveCurrentCustomer();
+      updateCustomerUI();
+      document.getElementById('customerAuthOverlay').style.display = 'none';
+      return true;
+    }
+
+    function customerLogout() {
+      currentCustomer = null;
+      saveCurrentCustomer();
+      updateCustomerUI();
+      renderCartUI();
+    }
+
+    function updateCustomerUI() {
+      var avatar = document.getElementById('customerAvatar');
+      avatar.innerHTML = '<img src="https://i.ibb.co/RpdwtSRh/avatar.png" alt="Avatar" />';
+    }
+
+    // ============================================================
+    // 🔥 SECURE ADMIN LOGIN (API CALL)
+    // ============================================================
+    async function adminLogin(email, password) {
+      try {
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: password })
+        });
+        const data = await response.json();
+
+        if (data.success) {
+          isLoggedIn = true;
+          localStorage.setItem('samoon99_loggedin', 'true');
+          updateCustomerUI();
+          document.getElementById('adminPanel').classList.add('active');
+          document.getElementById('ownerOrdersPanel').style.display = 'block';
+          document.getElementById('adminGalleryControls').classList.add('active');
+          document.getElementById('adminContactControls').classList.add('active');
+          document.getElementById('customerAuthOverlay').style.display = 'none';
+          document.getElementById('ownerLoginError').textContent = '';
+          
+          document.getElementById('cloudStatus').classList.add('visible');
+          
+          updateNotifBadge();
+          renderAll();
+          showToast('✅ Admin Login Successful!', 'success');
+          return true;
+        } else {
+          document.getElementById('ownerLoginError').textContent = data.message || 'Invalid password';
+          return false;
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        document.getElementById('ownerLoginError').textContent = 'Network error. Please try again.';
+        return false;
+      }
+    }
+
+    // ============================================================
+    // CHECK LOGIN (Page Refresh)
+    // ============================================================
+    function checkLogin() {
+      if (localStorage.getItem('samoon99_loggedin') === 'true') {
+        isLoggedIn = true;
+        updateCustomerUI();
+        document.getElementById('adminPanel').classList.add('active');
+        document.getElementById('ownerOrdersPanel').style.display = 'block';
+        document.getElementById('adminGalleryControls').classList.add('active');
+        document.getElementById('adminContactControls').classList.add('active');
+        updateNotifBadge();
+        document.getElementById('cloudStatus').classList.add('visible');
+      } else {
+        document.getElementById('cloudStatus').classList.remove('visible');
+      }
+    }
+
+    // ============================================================
+    // LOGOUT
+    // ============================================================
+    async function logout() {
+      if (await confirm('Logout?')) {
+        isLoggedIn = false;
+        localStorage.removeItem('samoon99_loggedin');
+        updateCustomerUI();
+        document.getElementById('adminPanel').classList.remove('active');
+        document.getElementById('ownerOrdersPanel').style.display = 'none';
+        document.getElementById('adminGalleryControls').classList.remove('active');
+        document.getElementById('adminContactControls').classList.remove('active');
+        renderAll();
+        document.getElementById('cloudStatus').classList.remove('visible');
+        showToast('Logged out successfully', 'info');
+      }
+    }
+
+    function updateNotifBadge() {
+      var badge = document.getElementById('notifBadge');
+      if (orders.length > 0 && isLoggedIn) {
+        badge.style.display = 'flex';
+        badge.textContent = orders.length;
+      } else badge.style.display = 'none';
+    }
+
     function showToast(message, type) {
       var container = document.getElementById('toastContainer');
       var toast = document.createElement('div');
@@ -1347,44 +1684,67 @@
       container.appendChild(toast);
       setTimeout(function() { toast.remove(); }, 3000);
     }
-    function playOrderSound() {
+
+    // ============================================================
+    // LAYOUT FUNCTIONS
+    // ============================================================
+    function loadLayout() {
       try {
-        var audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        var oscillator1 = audioContext.createOscillator(); var oscillator2 = audioContext.createOscillator(); var gainNode = audioContext.createGain();
-        oscillator1.type = 'sine'; oscillator1.frequency.setValueAtTime(880, audioContext.currentTime);
-        oscillator2.type = 'sine'; oscillator2.frequency.setValueAtTime(1320, audioContext.currentTime + 0.1);
-        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime); gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 1.5);
-        oscillator1.connect(gainNode); oscillator2.connect(gainNode); gainNode.connect(audioContext.destination);
-        oscillator1.start(); oscillator2.start(audioContext.currentTime + 0.1); oscillator1.stop(audioContext.currentTime + 1.5); oscillator2.stop(audioContext.currentTime + 1.5);
+        var savedOffsets = JSON.parse(localStorage.getItem('aura_layout_offsets'));
+        if (savedOffsets) {
+          if (savedOffsets.img) layoutOffsets.img = savedOffsets.img;
+          if (savedOffsets.name) layoutOffsets.name = savedOffsets.name;
+          if (savedOffsets.price) layoutOffsets.price = savedOffsets.price;
+        }
+        var savedScales = JSON.parse(localStorage.getItem('aura_layout_scales'));
+        if (savedScales) {
+          if (savedScales.img) layoutScales.img = savedScales.img;
+          if (savedScales.name) layoutScales.name = savedScales.name;
+          if (savedScales.price) layoutScales.price = savedScales.price;
+        }
+        var savedFont = localStorage.getItem('aura_card_font');
+        if (savedFont) cardFontName = savedFont;
       } catch(e) {}
     }
 
-    function renderAll() {
-      renderCategoryPills(); renderProducts(); renderGallery(); renderAdminProductList(); renderAdminCategoryList();
-      renderAdminOrdersList(); renderGalleryInlineList(); renderCartUI(); populateCategorySuggestions();
-      updateCustomerUI(); updateSocialLinksUI(); renderOrdersDashboard();
+    function resetPositions() {
+      layoutOffsets = { img: {x:0, y:0}, name: {x:0, y:0}, price: {x:0, y:0} };
+      layoutScales = { img: 100, name: 18, price: 16 };
+      saveLayoutState();
+      applyToSample();
+      renderProducts();
     }
-    function renderCategoryPills() {
-      var container = document.getElementById('categoryPillsContainer'); container.innerHTML = '';
-      var allBtn = document.createElement('button'); allBtn.className = 'pill active'; allBtn.setAttribute('data-category', 'all'); allBtn.textContent = 'All'; container.appendChild(allBtn);
-      categories.forEach(function(category) {
-        var btn = document.createElement('button'); btn.className = 'pill'; btn.setAttribute('data-category', category.id);
-        if (isImageValue(category.emoji)) { var img = document.createElement('img'); img.src = category.emoji; img.alt = category.name; img.style.width = '20px'; img.style.height = '20px'; img.style.borderRadius = '50%'; img.style.objectFit = 'cover'; btn.appendChild(img); }
-        else { btn.textContent = category.emoji + ' '; }
-        btn.appendChild(document.createTextNode(category.name)); container.appendChild(btn);
-      });
-      container.querySelectorAll('.pill').forEach(function(pill) {
-        pill.addEventListener('click', function() { container.querySelectorAll('.pill').forEach(p => p.classList.remove('active')); pill.classList.add('active'); currentFilter = pill.getAttribute('data-category'); renderProducts(); });
-      });
-    }
-    var currentFilter = 'all'; var searchQuery = '';
 
-    // 🔥 BASE positions (must match the CSS defaults exactly) — offsets are added on top, all in %
-    var BASE_POS = {
+    function applyFontToCards(fontPath) {
+      var styleTag = document.getElementById('dynamicCardFontStyle');
+      if (!fontPath || fontPath.trim() === '') {
+        styleTag.innerHTML = '';
+        return;
+      }
+      var fontFamilyName = 'CustomCardFont_' + Date.now();
+      styleTag.innerHTML = `
+        @font-face { font-family: '${fontFamilyName}'; src: url('${fontPath}') format('truetype'); font-weight: normal; font-style: normal; font-display: swap; }
+        .card .card-name, .card .price, .card .rating { font-family: '${fontFamilyName}', 'Inter', sans-serif !important; }
+        .sample-card .card-name, .sample-card .price, .sample-card .rating { font-family: '${fontFamilyName}', 'Inter', sans-serif !important; }
+      `;
+    }
+
+    function resetFont() {
+      cardFontName = '';
+      localStorage.removeItem('aura_card_font');
+      document.getElementById('dynamicCardFontStyle').innerHTML = '';
+      document.getElementById('cardFontName').value = '';
+      applyToSample();
+      renderProducts();
+      showToast('Font reset to default!', 'info');
+    }
+
+    const BASE_POS = {
       img:   { left: 50.35, top: 30.5 },
       name:  { left: 8.8,   top: 60.5 },
       price: { left: 8.8,   top: 70.5 }
     };
+
     function applyToSample() {
       var sampleImg = document.getElementById('sampleImg');
       var sampleName = document.getElementById('sampleName');
@@ -1394,15 +1754,13 @@
       var imgScaleVal = layoutScales.img / 100;
       sampleImg.style.left = (BASE_POS.img.left + layoutOffsets.img.x) + '%';
       sampleImg.style.top = (BASE_POS.img.top + layoutOffsets.img.y) + '%';
-      sampleImg.style.transform = 'translate(-50%, -50%) scale(' + imgScaleVal + ')'; /* 🔥 centering preserved, never overwritten */
+      sampleImg.style.transform = 'translate(-50%, -50%) scale(' + imgScaleVal + ')';
       sampleName.style.left = (BASE_POS.name.left + layoutOffsets.name.x) + '%';
       sampleName.style.top = (BASE_POS.name.top + layoutOffsets.name.y) + '%';
       sampleFooter.style.left = (BASE_POS.price.left + layoutOffsets.price.x) + '%';
-      /* 🔥 font-size in cqw (% of THIS card's own width) instead of raw px — scales correctly on every screen size */
       sampleName.style.fontSize = (layoutScales.name / 170 * 100) + 'cqw';
       samplePrice.style.fontSize = (layoutScales.price / 170 * 100) + 'cqw';
       sampleRating.style.fontSize = (layoutScales.price / 170 * 100) + 'cqw';
-      /* 🔥 footer position computed from the name's real rendered height — same fix as real cards */
       var sampleCardEl = sampleImg.closest('.sample-card');
       var cardRect = sampleCardEl.getBoundingClientRect();
       var nameRect = sampleName.getBoundingClientRect();
@@ -1410,11 +1768,13 @@
       sampleFooter.style.top = (nameBottomPercent + 3 + layoutOffsets.price.y) + '%';
       updatePositionInfo();
     }
+
     function updatePositionInfo() {
       var target = document.getElementById('layoutTargetSelect').value;
       var pos = layoutOffsets[target] || {x:0, y:0};
       document.getElementById('positionInfo').textContent = 'X: ' + pos.x + '%, Y: ' + pos.y + '%';
     }
+
     function moveSelected(dx, dy) {
       var target = document.getElementById('layoutTargetSelect').value;
       if (!layoutOffsets[target]) return;
@@ -1423,12 +1783,77 @@
       applyToSample();
     }
 
+    // ========== RENDER FUNCTIONS ==========
+    let currentFilter = 'all';
+    let searchQuery = '';
+    let currentProductId = null;
+    let currentQty = 1;
+    let currentProductToOrder = null;
+    let orderContext = null;
+    let editingGalleryIndex = -1;
+
+    function renderAll() {
+      renderCategoryPills();
+      renderProducts();
+      renderGallery();
+      renderAdminProductList();
+      renderAdminCategoryList();
+      renderAdminOrdersList();
+      renderGalleryInlineList();
+      renderCartUI();
+      populateCategorySuggestions();
+      updateCustomerUI();
+      updateSocialLinksUI();
+      renderOrdersDashboard();
+    }
+
+    function renderCategoryPills() {
+      var container = document.getElementById('categoryPillsContainer');
+      container.innerHTML = '';
+      var allBtn = document.createElement('button');
+      allBtn.className = 'pill active';
+      allBtn.setAttribute('data-category', 'all');
+      allBtn.textContent = 'All';
+      container.appendChild(allBtn);
+      categories.forEach(function(category) {
+        var btn = document.createElement('button');
+        btn.className = 'pill';
+        btn.setAttribute('data-category', category.id);
+        if (isImageValue(category.emoji)) {
+          var img = document.createElement('img');
+          img.src = category.emoji;
+          img.alt = category.name;
+          img.style.width = '20px';
+          img.style.height = '20px';
+          img.style.borderRadius = '50%';
+          img.style.objectFit = 'cover';
+          btn.appendChild(img);
+        } else {
+          btn.textContent = category.emoji + ' ';
+        }
+        btn.appendChild(document.createTextNode(category.name));
+        container.appendChild(btn);
+      });
+      container.querySelectorAll('.pill').forEach(function(pill) {
+        pill.addEventListener('click', function() {
+          container.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+          pill.classList.add('active');
+          currentFilter = pill.getAttribute('data-category');
+          renderProducts();
+        });
+      });
+    }
+
     function renderProducts() {
-      var grid = document.getElementById('productGrid'); grid.innerHTML = '';
+      var grid = document.getElementById('productGrid');
+      grid.innerHTML = '';
       var filtered = products.filter(function(p) {
         var matchesCategory = currentFilter === 'all' || p.category === currentFilter;
         var matchesSearch = true;
-        if (searchQuery.trim() !== '') { var q = searchQuery.trim().toLowerCase(); matchesSearch = p.name.toLowerCase().indexOf(q) !== -1 || (p.description && p.description.toLowerCase().indexOf(q) !== -1); }
+        if (searchQuery.trim() !== '') {
+          var q = searchQuery.trim().toLowerCase();
+          matchesSearch = p.name.toLowerCase().indexOf(q) !== -1 || (p.description && p.description.toLowerCase().indexOf(q) !== -1);
+        }
         return matchesCategory && matchesSearch;
       });
       filtered.forEach(function(product) {
@@ -1452,13 +1877,10 @@
         var imgScaleVal = layoutScales.img / 100;
         imgDiv.style.left = (BASE_POS.img.left + layoutOffsets.img.x) + '%';
         imgDiv.style.top = (BASE_POS.img.top + layoutOffsets.img.y) + '%';
-        imgDiv.style.transform = 'translate(-50%, -50%) scale(' + imgScaleVal + ')'; /* 🔥 centering preserved, never overwritten */
+        imgDiv.style.transform = 'translate(-50%, -50%) scale(' + imgScaleVal + ')';
         nameDiv.style.left = (BASE_POS.name.left + layoutOffsets.name.x) + '%';
         nameDiv.style.top = (BASE_POS.name.top + layoutOffsets.name.y) + '%';
         footerDiv.style.left = (BASE_POS.price.left + layoutOffsets.price.x) + '%';
-        /* 🔥 footer position now computed AFTER measuring the name's real rendered height,
-           so a 2-line name never overlaps the price/rating row — no more fixed guess. */
-        /* font-size in cqw (% of THIS card's own width) — same visual proportion on every screen size */
         nameDiv.style.fontSize = (layoutScales.name / 170 * 100) + 'cqw';
         priceSpan.style.fontSize = (layoutScales.price / 170 * 100) + 'cqw';
         ratingSpan.style.fontSize = (layoutScales.price / 170 * 100) + 'cqw';
@@ -1474,27 +1896,61 @@
     }
 
     function attachCardEvents() {
-      document.querySelectorAll('.wishlist').forEach(btn => { btn.addEventListener('click', function(e) { e.stopPropagation(); btn.classList.toggle('active'); btn.textContent = btn.classList.contains('active') ? '♥' : '♡'; }); });
+      document.querySelectorAll('.wishlist').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          btn.classList.toggle('active');
+          btn.textContent = btn.classList.contains('active') ? '♥' : '♡';
+        });
+      });
       document.querySelectorAll('.card').forEach(card => {
         card.addEventListener('click', function(e) {
           if (e.target.closest('.wishlist') || e.target.closest('.admin-edit-delete')) return;
-          var product = products.find(p => p.id === card.getAttribute('data-id')); if (!product) return; openPremiumProductModal(product);
+          var product = products.find(p => p.id === card.getAttribute('data-id'));
+          if (!product) return;
+          openPremiumProductModal(product);
         });
       });
       if (isLoggedIn) {
-        document.querySelectorAll('.admin-edit-btn').forEach(btn => { btn.addEventListener('click', function(e) { e.stopPropagation(); var product = products.find(p => p.id === btn.closest('.card').getAttribute('data-id')); if (product) fillAdminForm(product); }); });
-        document.querySelectorAll('.admin-delete-btn').forEach(btn => { btn.addEventListener('click', async function(e) { e.stopPropagation(); var id = btn.closest('.card').getAttribute('data-id'); if (await confirm('Delete this product?')) { products = products.filter(p => p.id !== id); saveProducts(); renderProducts(); renderAdminProductList(); } }); });
+        document.querySelectorAll('.admin-edit-btn').forEach(btn => {
+          btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            var product = products.find(p => p.id === btn.closest('.card').getAttribute('data-id'));
+            if (product) fillAdminForm(product);
+          });
+        });
+        document.querySelectorAll('.admin-delete-btn').forEach(btn => {
+          btn.addEventListener('click', async function(e) {
+            e.stopPropagation();
+            var id = btn.closest('.card').getAttribute('data-id');
+            if (await confirm('Delete this product?')) {
+              products = products.filter(p => p.id !== id);
+              saveProducts();
+              renderProducts();
+              renderAdminProductList();
+            }
+          });
+        });
       }
     }
 
     function openPremiumProductModal(product) {
-      document.getElementById('modalImageArea').innerHTML = ''; setImageOrEmoji(document.getElementById('modalImageArea'), product.emoji, '60px');
-      document.getElementById('modalName').textContent = product.name; document.getElementById('modalPrice').textContent = product.price;
-      document.getElementById('modalRating').textContent = product.rating; document.getElementById('modalDescription').textContent = product.description;
-      currentProductId = product.id; currentQty = 1; document.getElementById('qtyValue').textContent = '1';
-      document.getElementById('specialInstructionsInput').value = ''; renderReviews(product.id);
-      document.getElementById('productOverlay').style.display = 'flex'; document.getElementById('reviewsSection').style.display = 'none'; document.getElementById('reviewsToggle').textContent = '💬 Show Reviews';
+      document.getElementById('modalImageArea').innerHTML = '';
+      setImageOrEmoji(document.getElementById('modalImageArea'), product.emoji, '60px');
+      document.getElementById('modalName').textContent = product.name;
+      document.getElementById('modalPrice').textContent = product.price;
+      document.getElementById('modalRating').textContent = product.rating;
+      document.getElementById('modalDescription').textContent = product.description;
+      currentProductId = product.id;
+      currentQty = 1;
+      document.getElementById('qtyValue').textContent = '1';
+      document.getElementById('specialInstructionsInput').value = '';
+      renderReviews(product.id);
+      document.getElementById('productOverlay').style.display = 'flex';
+      document.getElementById('reviewsSection').style.display = 'none';
+      document.getElementById('reviewsToggle').textContent = '💬 Show Reviews';
     }
+
     function renderGallery() {
       var grid = document.getElementById('galleryGrid');
       grid.innerHTML = '';
@@ -1506,8 +1962,12 @@
             item.style.backgroundImage = 'url("' + img + '")';
             item.style.backgroundSize = 'cover';
             item.style.backgroundPosition = 'center';
-          } else { item.textContent = img; }
-        } else { item.textContent = '📷'; }
+          } else {
+            item.textContent = img;
+          }
+        } else {
+          item.textContent = '📷';
+        }
         item.addEventListener('click', function() {
           if (isLoggedIn) {
             editingGalleryIndex = index;
@@ -1516,354 +1976,963 @@
             if (img && isImageValue(img)) {
               document.getElementById('galleryLightboxImage').src = img;
               document.getElementById('galleryLightboxOverlay').style.display = 'flex';
-            } else if (!img) { alert('Gallery coming soon!'); }
+            } else if (!img) {
+              alert('Gallery coming soon!');
+            }
           }
         });
         grid.appendChild(item);
       });
     }
+
     function renderGalleryInlineList() {
-      var list = document.getElementById('galleryInlineList'); list.innerHTML = '';
+      var list = document.getElementById('galleryInlineList');
+      list.innerHTML = '';
       galleryImages.forEach(function(img, index) {
-        var div = document.createElement('div'); div.className = 'admin-product-item';
+        var div = document.createElement('div');
+        div.className = 'admin-product-item';
         div.innerHTML = '<span>Item ' + (index+1) + ': ' + (isImageValue(img) ? '📷 Image' : (img || '📷')) + '</span>';
-        var actions = document.createElement('div'); actions.className = 'admin-actions';
-        var editBtn = document.createElement('button'); editBtn.textContent = '✏️'; editBtn.onclick = function() { editingGalleryIndex = index; document.getElementById('editGalleryFileInput').click(); };
-        var delBtn = document.createElement('button'); delBtn.textContent = '🗑️'; delBtn.onclick = async function() { if (await confirm('Delete this gallery item?')) { galleryImages.splice(index,1); saveGallery(); renderGallery(); renderGalleryInlineList(); } };
-        actions.appendChild(editBtn); actions.appendChild(delBtn); div.appendChild(actions); list.appendChild(div);
+        var actions = document.createElement('div');
+        actions.className = 'admin-actions';
+        var editBtn = document.createElement('button');
+        editBtn.textContent = '✏️';
+        editBtn.onclick = function() {
+          editingGalleryIndex = index;
+          document.getElementById('editGalleryFileInput').click();
+        };
+        var delBtn = document.createElement('button');
+        delBtn.textContent = '🗑️';
+        delBtn.onclick = async function() {
+          if (await confirm('Delete this gallery item?')) {
+            galleryImages.splice(index, 1);
+            saveGallery();
+            renderGallery();
+            renderGalleryInlineList();
+          }
+        };
+        actions.appendChild(editBtn);
+        actions.appendChild(delBtn);
+        div.appendChild(actions);
+        list.appendChild(div);
       });
     }
-    var editingGalleryIndex = -1; var currentProductId = null; var currentQty = 1; var currentProductToOrder = null; var orderContext = null;
+
     function renderAdminProductList() {
-      var list = document.getElementById('adminProductList'); list.innerHTML = '';
+      var list = document.getElementById('adminProductList');
+      list.innerHTML = '';
       products.forEach(function(product) {
-        var div = document.createElement('div'); div.className = 'admin-product-item'; div.innerHTML = '<span>' + product.emoji + ' ' + product.name + ' - ' + product.price + '</span>';
-        var actions = document.createElement('div'); actions.className = 'admin-actions';
-        var editBtn = document.createElement('button'); editBtn.textContent = '✏️'; editBtn.onclick = function() { fillAdminForm(product); };
-        var delBtn = document.createElement('button'); delBtn.textContent = '🗑️'; delBtn.onclick = async function() { if (await confirm('Delete ' + product.name + '?')) { products = products.filter(p => p.id !== product.id); saveProducts(); renderProducts(); renderAdminProductList(); } };
-        actions.appendChild(editBtn); actions.appendChild(delBtn); div.appendChild(actions); list.appendChild(div);
+        var div = document.createElement('div');
+        div.className = 'admin-product-item';
+        div.innerHTML = '<span>' + product.emoji + ' ' + product.name + ' - ' + product.price + '</span>';
+        var actions = document.createElement('div');
+        actions.className = 'admin-actions';
+        var editBtn = document.createElement('button');
+        editBtn.textContent = '✏️';
+        editBtn.onclick = function() { fillAdminForm(product); };
+        var delBtn = document.createElement('button');
+        delBtn.textContent = '🗑️';
+        delBtn.onclick = async function() {
+          if (await confirm('Delete ' + product.name + '?')) {
+            products = products.filter(p => p.id !== product.id);
+            saveProducts();
+            renderProducts();
+            renderAdminProductList();
+          }
+        };
+        actions.appendChild(editBtn);
+        actions.appendChild(delBtn);
+        div.appendChild(actions);
+        list.appendChild(div);
       });
     }
+
     function renderAdminCategoryList() {
-      var list = document.getElementById('adminCategoryList'); list.innerHTML = '';
+      var list = document.getElementById('adminCategoryList');
+      list.innerHTML = '';
       categories.forEach(function(category) {
-        var div = document.createElement('div'); div.className = 'admin-product-item';
+        var div = document.createElement('div');
+        div.className = 'admin-product-item';
         div.innerHTML = '<span>' + (isImageValue(category.emoji) ? '<img src="' + category.emoji + '" style="width:28px;height:28px;border-radius:50%;object-fit:cover;margin-right:8px;vertical-align:middle;" />' : category.emoji + ' ') + category.name + '</span>';
-        var actions = document.createElement('div'); actions.className = 'admin-actions';
-        var delBtn = document.createElement('button'); delBtn.textContent = '🗑️'; delBtn.onclick = async function() { if (await confirm('Delete category "' + category.name + '"?')) { categories = categories.filter(c => c.id !== category.id); saveCategories(); renderCategoryPills(); populateCategorySuggestions(); renderAdminCategoryList(); } };
-        actions.appendChild(delBtn); div.appendChild(actions); list.appendChild(div);
+        var actions = document.createElement('div');
+        actions.className = 'admin-actions';
+        var delBtn = document.createElement('button');
+        delBtn.textContent = '🗑️';
+        delBtn.onclick = async function() {
+          if (await confirm('Delete category "' + category.name + '"?')) {
+            categories = categories.filter(c => c.id !== category.id);
+            saveCategories();
+            renderCategoryPills();
+            populateCategorySuggestions();
+            renderAdminCategoryList();
+          }
+        };
+        actions.appendChild(delBtn);
+        div.appendChild(actions);
+        list.appendChild(div);
       });
     }
+
     function populateCategorySuggestions() {
-      var datalist = document.getElementById('categorySuggestions'); datalist.innerHTML = '';
-      categories.forEach(c => { var opt = document.createElement('option'); opt.value = c.name; datalist.appendChild(opt); });
+      var datalist = document.getElementById('categorySuggestions');
+      datalist.innerHTML = '';
+      categories.forEach(c => {
+        var opt = document.createElement('option');
+        opt.value = c.name;
+        datalist.appendChild(opt);
+      });
     }
+
     function getCategoryIdFromInput(inputValue) {
-      var trimmed = inputValue.trim().toLowerCase(); var existing = categories.find(c => c.name.toLowerCase() === trimmed);
+      var trimmed = inputValue.trim().toLowerCase();
+      var existing = categories.find(c => c.name.toLowerCase() === trimmed);
       if (existing) return existing.id;
       var newId = trimmed.replace(/[^a-z0-9]/g, '') || Date.now().toString();
       var newCategory = { id: newId, name: inputValue.trim(), emoji: '🍽️' };
-      categories.push(newCategory); saveCategories(); renderCategoryPills(); renderAdminCategoryList(); populateCategorySuggestions(); return newCategory.id;
+      categories.push(newCategory);
+      saveCategories();
+      renderCategoryPills();
+      renderAdminCategoryList();
+      populateCategorySuggestions();
+      return newCategory.id;
     }
+
     function renderAdminOrdersList() {
-      var list = document.getElementById('adminOrdersList'); list.innerHTML = ''; var topList = document.getElementById('ownerOrdersList'); topList.innerHTML = '';
-      if (orders.length === 0) { list.innerHTML = '<p>No orders yet.</p>'; topList.innerHTML = '<p>No orders yet.</p>'; return; }
+      var list = document.getElementById('adminOrdersList');
+      list.innerHTML = '';
+      var topList = document.getElementById('ownerOrdersList');
+      topList.innerHTML = '';
+      if (orders.length === 0) {
+        list.innerHTML = '<p>No orders yet.</p>';
+        topList.innerHTML = '<p>No orders yet.</p>';
+        return;
+      }
       orders.forEach(function(order, index) {
-        var status = order.status || 'received'; var statusBadge = '<span class="status-badge status-' + status + '">' + status.charAt(0).toUpperCase() + status.slice(1) + '</span>';
-        var div = document.createElement('div'); div.className = 'order-item';
+        var status = order.status || 'received';
+        var statusBadge = '<span class="status-badge status-' + status + '">' + status.charAt(0).toUpperCase() + status.slice(1) + '</span>';
+        var div = document.createElement('div');
+        div.className = 'order-item';
         div.innerHTML = '<div class="order-details"><span><strong>' + order.productName + '</strong> x' + (order.qty||1) + ' - ' + order.price + '</span><span>' + new Date(order.timestamp).toLocaleString() + '</span></div>' + '<div class="order-customer">👤 ' + order.customerName + ' • 📞 ' + order.phone + ' • 📍 ' + (order.address||'N/A') + (order.email ? ' • ✉️ ' + order.email : '') + '</div>' + statusBadge;
-        var actions = document.createElement('div'); actions.className = 'admin-actions';
-        var statusSelect = document.createElement('select'); statusSelect.innerHTML = '<option value="received" ' + (status==='received'?'selected':'') + '>Received</option><option value="preparing" ' + (status==='preparing'?'selected':'') + '>Preparing</option><option value="ready" ' + (status==='ready'?'selected':'') + '>Ready</option><option value="delivered" ' + (status==='delivered'?'selected':'') + '>Delivered</option>';
-        statusSelect.onchange = function() { order.status = statusSelect.value; saveOrders(); renderAdminOrdersList(); renderOrdersDashboard(); };
+        var actions = document.createElement('div');
+        actions.className = 'admin-actions';
+        var statusSelect = document.createElement('select');
+        statusSelect.innerHTML = '<option value="received" ' + (status==='received'?'selected':'') + '>Received</option><option value="preparing" ' + (status==='preparing'?'selected':'') + '>Preparing</option><option value="ready" ' + (status==='ready'?'selected':'') + '>Ready</option><option value="delivered" ' + (status==='delivered'?'selected':'') + '>Delivered</option>';
+        statusSelect.onchange = function() {
+          order.status = statusSelect.value;
+          saveOrders();
+          renderAdminOrdersList();
+          renderOrdersDashboard();
+        };
         actions.appendChild(statusSelect);
-        var delBtn = document.createElement('button'); delBtn.textContent = '🗑️'; delBtn.onclick = async function() { if (await confirm('Delete this order?')) { orders.splice(index,1); saveOrders(); renderAdminOrdersList(); renderOrdersDashboard(); updateNotifBadge(); } };
-        actions.appendChild(delBtn); div.appendChild(actions); list.appendChild(div);
-        var topItem = document.createElement('div'); topItem.className = 'owner-order-item';
+        var delBtn = document.createElement('button');
+        delBtn.textContent = '🗑️';
+        delBtn.onclick = async function() {
+          if (await confirm('Delete this order?')) {
+            orders.splice(index, 1);
+            saveOrders();
+            renderAdminOrdersList();
+            renderOrdersDashboard();
+            updateNotifBadge();
+          }
+        };
+        actions.appendChild(delBtn);
+        div.appendChild(actions);
+        list.appendChild(div);
+        var topItem = document.createElement('div');
+        topItem.className = 'owner-order-item';
         topItem.innerHTML = '<div class="owner-order-info"><div class="order-name">' + order.productName + ' <span style="color:#999;font-weight:400;">x' + (order.qty||1) + ' (' + order.price + ')</span></div>' + '<div class="order-meta">👤 ' + order.customerName + ' • 📞 ' + order.phone + ' • 📍 ' + (order.address||'N/A') + ' • ' + new Date(order.timestamp).toLocaleString() + ' • ' + statusBadge + '</div></div>';
-        var topDelBtn = document.createElement('button'); topDelBtn.className = 'owner-order-delete'; topDelBtn.textContent = '🗑️'; topDelBtn.onclick = async function() { if (await confirm('Delete this order?')) { orders.splice(index,1); saveOrders(); renderAdminOrdersList(); renderOrdersDashboard(); updateNotifBadge(); } };
-        topItem.appendChild(topDelBtn); topList.appendChild(topItem);
+        var topDelBtn = document.createElement('button');
+        topDelBtn.className = 'owner-order-delete';
+        topDelBtn.textContent = '🗑️';
+        topDelBtn.onclick = async function() {
+          if (await confirm('Delete this order?')) {
+            orders.splice(index, 1);
+            saveOrders();
+            renderAdminOrdersList();
+            renderOrdersDashboard();
+            updateNotifBadge();
+          }
+        };
+        topItem.appendChild(topDelBtn);
+        topList.appendChild(topItem);
       });
     }
+
     function renderOrdersDashboard() {
-      var container = document.getElementById('ordersListContainer'); if (!container) return; container.innerHTML = '';
+      var container = document.getElementById('ordersListContainer');
+      if (!container) return;
+      container.innerHTML = '';
       var activeTab = document.querySelector('.order-tab-btn.active')?.getAttribute('data-order-tab') || 'activeOrders';
       var filteredOrders = [];
-      if (activeTab === 'activeOrders') { filteredOrders = orders.filter(o => (o.status !== 'delivered' && o.status !== 'completed')); }
-      else { filteredOrders = orders.filter(o => o.status === 'delivered' || o.status === 'completed'); }
-      if (filteredOrders.length === 0) { container.innerHTML = '<div class="no-orders-msg">No ' + (activeTab === 'activeOrders' ? 'active' : 'past') + ' orders.</div>'; return; }
+      if (activeTab === 'activeOrders') {
+        filteredOrders = orders.filter(o => (o.status !== 'delivered' && o.status !== 'completed'));
+      } else {
+        filteredOrders = orders.filter(o => o.status === 'delivered' || o.status === 'completed');
+      }
+      if (filteredOrders.length === 0) {
+        container.innerHTML = '<div class="no-orders-msg">No ' + (activeTab === 'activeOrders' ? 'active' : 'past') + ' orders.</div>';
+        return;
+      }
       filteredOrders.forEach(order => {
-        var card = document.createElement('div'); card.className = 'order-card-item';
-        var statusSteps = ''; var statuses = ['received', 'preparing', 'ready']; var currentStatusIdx = statuses.indexOf(order.status); if (currentStatusIdx === -1) currentStatusIdx = 2;
-        statuses.forEach((s, i) => { var cls = 'status-step '; if (i < currentStatusIdx) cls += 'completed '; else if (i === currentStatusIdx) cls += 'active '; statusSteps += '<span class="' + cls + '">' + s.charAt(0).toUpperCase() + s.slice(1) + '</span>'; });
+        var card = document.createElement('div');
+        card.className = 'order-card-item';
+        var statusSteps = '';
+        var statuses = ['received', 'preparing', 'ready'];
+        var currentStatusIdx = statuses.indexOf(order.status);
+        if (currentStatusIdx === -1) currentStatusIdx = 2;
+        statuses.forEach((s, i) => {
+          var cls = 'status-step ';
+          if (i < currentStatusIdx) cls += 'completed ';
+          else if (i === currentStatusIdx) cls += 'active ';
+          statusSteps += '<span class="' + cls + '">' + s.charAt(0).toUpperCase() + s.slice(1) + '</span>';
+        });
         card.innerHTML = '<div class="order-top"><span class="order-id">Order #' + order.id.slice(-5) + '</span>' + (activeTab === 'pastOrders' ? '<button class="reorder-btn">Reorder</button>' : '') + '</div>' + '<div class="status-steps">' + statusSteps + '</div>' + '<div class="order-item-details">' + order.productName + ' x' + (order.qty||1) + ' - ' + order.price + '</div>' + '<div class="order-item-details">👤 ' + order.customerName + ' • 📞 ' + order.phone + '</div>';
-        if (activeTab === 'pastOrders') { card.querySelector('.reorder-btn').addEventListener('click', function() { var product = products.find(p => p.name.toLowerCase().includes(order.productName.toLowerCase().split(' ')[0])); if (product) { currentQty = order.qty || 1; addToCart(product); alert('Added to cart!'); } else { alert('Product not found. Please order manually.'); } }); }
+        if (activeTab === 'pastOrders') {
+          card.querySelector('.reorder-btn').addEventListener('click', function() {
+            var product = products.find(p => p.name.toLowerCase().includes(order.productName.toLowerCase().split(' ')[0]));
+            if (product) {
+              currentQty = order.qty || 1;
+              addToCart(product);
+              alert('Added to cart!');
+            } else {
+              alert('Product not found. Please order manually.');
+            }
+          });
+        }
         container.appendChild(card);
       });
     }
+
     function fillAdminForm(product) {
-      document.getElementById('adminProductId').value = product.id; document.getElementById('adminName').value = product.name;
-      document.getElementById('adminPrice').value = product.price; document.getElementById('adminRating').value = product.rating;
+      document.getElementById('adminProductId').value = product.id;
+      document.getElementById('adminName').value = product.name;
+      document.getElementById('adminPrice').value = product.price;
+      document.getElementById('adminRating').value = product.rating;
       document.getElementById('adminCategoryInput').value = categories.find(c => c.id === product.category)?.name || '';
       document.getElementById('adminDescription').value = product.description;
-      var imageValue = product.emoji; var preview = document.getElementById('adminImagePreview'); var emojiInput = document.getElementById('adminEmoji');
-      if (isImageValue(imageValue)) { preview.src = imageValue; preview.style.display = 'block'; emojiInput.value = ''; } else { preview.style.display = 'none'; emojiInput.value = imageValue || ''; }
+      var imageValue = product.emoji;
+      var preview = document.getElementById('adminImagePreview');
+      var emojiInput = document.getElementById('adminEmoji');
+      if (isImageValue(imageValue)) {
+        preview.src = imageValue;
+        preview.style.display = 'block';
+        emojiInput.value = '';
+      } else {
+        preview.style.display = 'none';
+        emojiInput.value = imageValue || '';
+      }
       document.getElementById('adminImageFile').value = '';
     }
-    function resetAdminForm() { document.getElementById('adminProductId').value = ''; document.getElementById('adminName').value = ''; document.getElementById('adminPrice').value = ''; document.getElementById('adminRating').value = '⭐ 4.5'; document.getElementById('adminCategoryInput').value = ''; document.getElementById('adminDescription').value = ''; document.getElementById('adminEmoji').value = ''; document.getElementById('adminImagePreview').style.display = 'none'; document.getElementById('adminImageFile').value = ''; }
+
+    function resetAdminForm() {
+      document.getElementById('adminProductId').value = '';
+      document.getElementById('adminName').value = '';
+      document.getElementById('adminPrice').value = '';
+      document.getElementById('adminRating').value = '⭐ 4.5';
+      document.getElementById('adminCategoryInput').value = '';
+      document.getElementById('adminDescription').value = '';
+      document.getElementById('adminEmoji').value = '';
+      document.getElementById('adminImagePreview').style.display = 'none';
+      document.getElementById('adminImageFile').value = '';
+    }
+
+    // ========== CART FUNCTIONS ==========
     function renderCartUI() {
-      var badge = document.getElementById('cartBadge'); var totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
-      if (totalItems > 0) { badge.style.display = 'flex'; badge.textContent = totalItems; } else badge.style.display = 'none';
-      var cartItems = document.getElementById('cartItems'); cartItems.innerHTML = ''; var total = 0;
+      var badge = document.getElementById('cartBadge');
+      var totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+      if (totalItems > 0) {
+        badge.style.display = 'flex';
+        badge.textContent = totalItems;
+      } else badge.style.display = 'none';
+      var cartItems = document.getElementById('cartItems');
+      cartItems.innerHTML = '';
+      var total = 0;
       cart.forEach(function(item, index) {
-        var priceNum = parseFloat(item.price.replace(/[^0-9.]/g, '')); total += priceNum * item.qty;
-        var div = document.createElement('div'); div.className = 'cart-item';
+        var priceNum = parseFloat(item.price.replace(/[^0-9.]/g, ''));
+        total += priceNum * item.qty;
+        var div = document.createElement('div');
+        div.className = 'cart-item';
         div.innerHTML = '<div class="cart-item-info"><div class="cart-item-name">' + item.emoji + ' ' + item.name + '</div><div class="cart-item-price">' + item.price + ' each</div></div>' + '<div class="cart-item-qty"><button class="cart-minus" data-index="' + index + '">−</button><span>' + item.qty + '</span><button class="cart-plus" data-index="' + index + '">+</button></div>' + '<button class="cart-item-remove" data-index="' + index + '">🗑️</button>';
         cartItems.appendChild(div);
       });
       document.getElementById('cartTotal').textContent = 'Total: $' + total.toFixed(2);
-      document.querySelectorAll('.cart-plus').forEach(btn => { btn.onclick = function() { var idx = parseInt(this.getAttribute('data-index')); cart[idx].qty++; saveCart(); renderCartUI(); }; });
-      document.querySelectorAll('.cart-minus').forEach(btn => { btn.onclick = function() { var idx = parseInt(this.getAttribute('data-index')); if (cart[idx].qty > 1) { cart[idx].qty--; saveCart(); renderCartUI(); } }; });
-      document.querySelectorAll('.cart-item-remove').forEach(btn => { btn.onclick = async function() { var idx = parseInt(this.getAttribute('data-index')); if (await confirm('Remove this item?')) { cart.splice(idx,1); saveCart(); renderCartUI(); } }; });
+      document.querySelectorAll('.cart-plus').forEach(btn => {
+        btn.onclick = function() {
+          var idx = parseInt(this.getAttribute('data-index'));
+          cart[idx].qty++;
+          saveCart();
+          renderCartUI();
+        };
+      });
+      document.querySelectorAll('.cart-minus').forEach(btn => {
+        btn.onclick = function() {
+          var idx = parseInt(this.getAttribute('data-index'));
+          if (cart[idx].qty > 1) {
+            cart[idx].qty--;
+            saveCart();
+            renderCartUI();
+          }
+        };
+      });
+      document.querySelectorAll('.cart-item-remove').forEach(btn => {
+        btn.onclick = async function() {
+          var idx = parseInt(this.getAttribute('data-index'));
+          if (await confirm('Remove this item?')) {
+            cart.splice(idx, 1);
+            saveCart();
+            renderCartUI();
+          }
+        };
+      });
     }
-    function addToCart(product) { var existing = cart.find(item => item.id === product.id); if (existing) existing.qty += currentQty; else cart.push({ id: product.id, name: product.name, emoji: product.emoji, price: product.price, qty: currentQty }); saveCart(); renderCartUI(); }
-    function checkout() { if (cart.length === 0) return; openOrderModal('cart'); }
+
+    function addToCart(product) {
+      var existing = cart.find(item => item.id === product.id);
+      if (existing) existing.qty += currentQty;
+      else cart.push({ id: product.id, name: product.name, emoji: product.emoji, price: product.price, qty: currentQty });
+      saveCart();
+      renderCartUI();
+    }
+
+    function checkout() {
+      if (cart.length === 0) return;
+      openOrderModal('cart');
+    }
+
     function openOrderModal(context) {
-      orderContext = context; document.getElementById('orderOverlay').style.display = 'flex';
-      if (currentCustomer) { document.getElementById('orderName').value = currentCustomer.name || ''; renderSavedAddresses(); }
-      else { document.getElementById('orderName').value = ''; document.getElementById('savedAddressesGroup').style.display = 'none'; }
-      document.getElementById('orderPhone').value = ''; document.getElementById('orderAddress').value = ''; document.getElementById('orderEmail').value = currentCustomer ? currentCustomer.email : '';
+      orderContext = context;
+      document.getElementById('orderOverlay').style.display = 'flex';
+      if (currentCustomer) {
+        document.getElementById('orderName').value = currentCustomer.name || '';
+        renderSavedAddresses();
+      } else {
+        document.getElementById('orderName').value = '';
+        document.getElementById('savedAddressesGroup').style.display = 'none';
+      }
+      document.getElementById('orderPhone').value = '';
+      document.getElementById('orderAddress').value = '';
+      document.getElementById('orderEmail').value = currentCustomer ? currentCustomer.email : '';
     }
+
     function renderSavedAddresses() {
-      var group = document.getElementById('savedAddressesGroup'); var list = document.getElementById('savedAddressesList');
+      var group = document.getElementById('savedAddressesGroup');
+      var list = document.getElementById('savedAddressesList');
       if (currentCustomer && currentCustomer.addresses && currentCustomer.addresses.length > 0) {
-        group.style.display = 'block'; list.innerHTML = '';
+        group.style.display = 'block';
+        list.innerHTML = '';
         currentCustomer.addresses.forEach(function(addr, idx) {
-          var div = document.createElement('div'); div.className = 'saved-address-item';
+          var div = document.createElement('div');
+          div.className = 'saved-address-item';
           div.innerHTML = '<span>' + addr + '</span><div><button class="use-addr-btn" data-addr="' + addr + '">Use</button> <button class="del-addr-btn" data-index="' + idx + '">🗑️</button></div>';
           list.appendChild(div);
         });
-        list.querySelectorAll('.use-addr-btn').forEach(btn => { btn.onclick = function() { document.getElementById('orderAddress').value = btn.getAttribute('data-addr'); }; });
-        list.querySelectorAll('.del-addr-btn').forEach(btn => { btn.onclick = async function() { var idx = parseInt(btn.getAttribute('data-index')); if (await confirm('Delete this address?')) { currentCustomer.addresses.splice(idx, 1); var customerIdx = customers.findIndex(c => c.id === currentCustomer.id); if (customerIdx >= 0) customers[customerIdx] = currentCustomer; saveCustomers(); saveCurrentCustomer(); renderSavedAddresses(); } }; });
-      } else { group.style.display = 'none'; }
+        list.querySelectorAll('.use-addr-btn').forEach(btn => {
+          btn.onclick = function() {
+            document.getElementById('orderAddress').value = btn.getAttribute('data-addr');
+          };
+        });
+        list.querySelectorAll('.del-addr-btn').forEach(btn => {
+          btn.onclick = async function() {
+            var idx = parseInt(btn.getAttribute('data-index'));
+            if (await confirm('Delete this address?')) {
+              currentCustomer.addresses.splice(idx, 1);
+              var customerIdx = customers.findIndex(c => c.id === currentCustomer.id);
+              if (customerIdx >= 0) customers[customerIdx] = currentCustomer;
+              saveCustomers();
+              saveCurrentCustomer();
+              renderSavedAddresses();
+            }
+          };
+        });
+      } else {
+        group.style.display = 'none';
+      }
     }
-    function placeOrderDirect() { var product = products.find(p => p.id === currentProductId); if (!product) return; currentProductToOrder = { name: product.name, price: product.price, emoji: product.emoji, qty: currentQty, id: product.id }; openOrderModal('single'); }
+
+    function placeOrderDirect() {
+      var product = products.find(p => p.id === currentProductId);
+      if (!product) return;
+      currentProductToOrder = { name: product.name, price: product.price, emoji: product.emoji, qty: currentQty, id: product.id };
+      openOrderModal('single');
+    }
+
     function placeOrderFromForm(e) {
       e.preventDefault();
-      var customerName = document.getElementById('orderName').value.trim(); var phone = document.getElementById('orderPhone').value.trim();
-      var address = document.getElementById('orderAddress').value.trim(); var email = document.getElementById('orderEmail').value.trim();
-      if (!customerName || !phone || !address) { alert('Please fill all fields'); return; }
+      var customerName = document.getElementById('orderName').value.trim();
+      var phone = document.getElementById('orderPhone').value.trim();
+      var address = document.getElementById('orderAddress').value.trim();
+      var email = document.getElementById('orderEmail').value.trim();
+      if (!customerName || !phone || !address) {
+        alert('Please fill all fields');
+        return;
+      }
       var newOrders = [];
-      if (orderContext === 'single') { newOrders.push({ id: Date.now().toString(), productName: currentProductToOrder.name, price: currentProductToOrder.price, qty: currentProductToOrder.qty, customerName, phone, address, email, timestamp: Date.now(), status:'received' }); document.getElementById('productOverlay').style.display = 'none'; }
-      else if (orderContext === 'cart') { cart.forEach(item => { newOrders.push({ id: Date.now().toString() + Math.random(), productName: item.name, price: item.price, qty: item.qty, customerName, phone, address, email, timestamp: Date.now(), status:'received' }); }); cart = []; saveCart(); renderCartUI(); document.getElementById('cartOverlay').style.display = 'none'; }
-      orders = orders.concat(newOrders); saveOrders(); renderAdminOrdersList(); renderOrdersDashboard(); updateNotifBadge();
+      if (orderContext === 'single') {
+        newOrders.push({ id: Date.now().toString(), productName: currentProductToOrder.name, price: currentProductToOrder.price, qty: currentProductToOrder.qty, customerName, phone, address, email, timestamp: Date.now(), status:'received' });
+        document.getElementById('productOverlay').style.display = 'none';
+      } else if (orderContext === 'cart') {
+        cart.forEach(item => {
+          newOrders.push({ id: Date.now().toString() + Math.random().toString(36).slice(2,6), productName: item.name, price: item.price, qty: item.qty, customerName, phone, address, email, timestamp: Date.now(), status:'received' });
+        });
+        cart = [];
+        saveCart();
+        renderCartUI();
+        document.getElementById('cartOverlay').style.display = 'none';
+      }
+      orders = orders.concat(newOrders);
+      saveOrders();
+      renderAdminOrdersList();
+      renderOrdersDashboard();
+      updateNotifBadge();
       addLoyaltyPoints(phone, newOrders.length * 10);
-      if (currentCustomer) { if (!currentCustomer.addresses.includes(address)) { currentCustomer.addresses.push(address); } newOrders.forEach(o => { currentCustomer.orders.push(o.id); }); var customerIdx = customers.findIndex(c => c.id === currentCustomer.id); if (customerIdx >= 0) customers[customerIdx] = currentCustomer; saveCustomers(); saveCurrentCustomer(); }
-      if (email) { newOrders.forEach(o => sendOrderNotification(o, email)); }
+      if (currentCustomer) {
+        if (!currentCustomer.addresses.includes(address)) {
+          currentCustomer.addresses.push(address);
+        }
+        newOrders.forEach(o => {
+          currentCustomer.orders.push(o.id);
+        });
+        var customerIdx = customers.findIndex(c => c.id === currentCustomer.id);
+        if (customerIdx >= 0) customers[customerIdx] = currentCustomer;
+        saveCustomers();
+        saveCurrentCustomer();
+      }
       document.getElementById('orderOverlay').style.display = 'none';
-      showToast('Order placed successfully! 🎉', 'success'); showSuccessModal(newOrders); playOrderSound();
+      showToast('Order placed successfully! 🎉', 'success');
+      showSuccessModal(newOrders);
+      playOrderSound();
     }
-    function addLoyaltyPoints(phone, points) { var normalized = normalizePhone(phone); if (!loyaltyPoints[normalized]) loyaltyPoints[normalized] = 0; loyaltyPoints[normalized] += points; saveLoyalty(); }
-    function getLoyaltyPoints(phone) { return loyaltyPoints[normalizePhone(phone)] || 0; }
+
+    function addLoyaltyPoints(phone, points) {
+      var normalized = normalizePhone(phone);
+      if (!loyaltyPoints[normalized]) loyaltyPoints[normalized] = 0;
+      loyaltyPoints[normalized] += points;
+      saveLoyalty();
+    }
+
+    function getLoyaltyPoints(phone) {
+      return loyaltyPoints[normalizePhone(phone)] || 0;
+    }
+
     function showSuccessModal(orderList) {
-      var modal = document.getElementById('successOverlay'); var detailsContainer = document.getElementById('successOrderDetails');
+      var modal = document.getElementById('successOverlay');
+      var detailsContainer = document.getElementById('successOrderDetails');
       if (orderList && orderList.length > 0) {
-        var detailsHtml = ''; orderList.forEach(function(order) { detailsHtml += '<span>🛒 ' + order.productName + ' x' + order.qty + ' - ' + order.price + '</span>'; });
-        detailsHtml += '<span>📞 Phone: ' + orderList[0].phone + '</span>'; detailsHtml += '<span>📍 Address: ' + orderList[0].address + '</span>';
-        if (orderList[0].id) { detailsHtml += '<span>🔖 Order ID: ' + orderList[0].id.slice(-6) + '</span>'; }
-        detailsContainer.innerHTML = detailsHtml; detailsContainer.style.display = 'block';
-      } else { detailsContainer.style.display = 'none'; }
-      modal.style.display = 'flex'; spawnConfetti();
+        var detailsHtml = '';
+        orderList.forEach(function(order) {
+          detailsHtml += '<span>🛒 ' + order.productName + ' x' + order.qty + ' - ' + order.price + '</span>';
+        });
+        detailsHtml += '<span>📞 Phone: ' + orderList[0].phone + '</span>';
+        detailsHtml += '<span>📍 Address: ' + orderList[0].address + '</span>';
+        if (orderList[0].id) {
+          detailsHtml += '<span>🔖 Order ID: ' + orderList[0].id.slice(-6) + '</span>';
+        }
+        detailsContainer.innerHTML = detailsHtml;
+        detailsContainer.style.display = 'block';
+      } else {
+        detailsContainer.style.display = 'none';
+      }
+      modal.style.display = 'flex';
+      spawnConfetti();
     }
+
     function spawnConfetti() {
-      var container = document.getElementById('confettiContainer'); container.innerHTML = ''; var colors = ['#FF4D4D', '#FFD700', '#25D366', '#1A1A1A', '#FF8C00', '#4DA6FF'];
-      for (var i = 0; i < 60; i++) { var piece = document.createElement('div'); piece.className = 'confetti-piece'; piece.style.left = Math.random() * 100 + '%'; piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]; piece.style.animationDuration = (Math.random() * 2 + 2) + 's'; piece.style.animationDelay = Math.random() * 0.5 + 's'; piece.style.width = (Math.random() * 8 + 6) + 'px'; piece.style.height = (Math.random() * 8 + 6) + 'px'; piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '0'; container.appendChild(piece); }
+      var container = document.getElementById('confettiContainer');
+      container.innerHTML = '';
+      var colors = ['#FF4D4D', '#FFD700', '#25D366', '#1A1A1A', '#FF8C00', '#4DA6FF'];
+      for (var i = 0; i < 60; i++) {
+        var piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.style.left = Math.random() * 100 + '%';
+        piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.animationDuration = (Math.random() * 2 + 2) + 's';
+        piece.style.animationDelay = Math.random() * 0.5 + 's';
+        piece.style.width = (Math.random() * 8 + 6) + 'px';
+        piece.style.height = (Math.random() * 8 + 6) + 'px';
+        piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+        container.appendChild(piece);
+      }
       setTimeout(() => container.innerHTML = '', 4000);
     }
-    function renderReviews(productId) {
-      var list = document.getElementById('reviewsList'); list.innerHTML = ''; var productReviews = reviews.filter(r => r.productId === productId);
-      if (productReviews.length === 0) { list.innerHTML = '<p style="color:#999;font-size:11px;">No reviews yet.</p>'; return; }
-      productReviews.forEach(r => { var stars = '⭐'.repeat(parseInt(r.rating) || 0); var div = document.createElement('div'); div.className = 'review-item'; div.innerHTML = '<div class="review-name">' + r.name + '</div><div class="review-rating">' + stars + '</div><div class="review-text">' + r.text + '</div>'; list.appendChild(div); });
+
+    function playOrderSound() {
+      try {
+        var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        var oscillator1 = audioContext.createOscillator();
+        var oscillator2 = audioContext.createOscillator();
+        var gainNode = audioContext.createGain();
+        oscillator1.type = 'sine';
+        oscillator1.frequency.setValueAtTime(880, audioContext.currentTime);
+        oscillator2.type = 'sine';
+        oscillator2.frequency.setValueAtTime(1320, audioContext.currentTime + 0.1);
+        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 1.5);
+        oscillator1.connect(gainNode);
+        oscillator2.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        oscillator1.start();
+        oscillator2.start(audioContext.currentTime + 0.1);
+        oscillator1.stop(audioContext.currentTime + 1.5);
+        oscillator2.stop(audioContext.currentTime + 1.5);
+      } catch(e) {}
     }
-    async function addReview(productId) { var name = await prompt('Enter your name:'); if (!name) return; var rating = await prompt('Rate (1-5):'); if (!rating) return; var text = await prompt('Write your review:'); if (!text) return; reviews.push({ productId, name, rating, text }); saveReviews(); renderReviews(productId); }
+
+    function renderReviews(productId) {
+      var list = document.getElementById('reviewsList');
+      list.innerHTML = '';
+      var productReviews = reviews.filter(r => r.productId === productId);
+      if (productReviews.length === 0) {
+        list.innerHTML = '<p style="color:#999;font-size:11px;">No reviews yet.</p>';
+        return;
+      }
+      productReviews.forEach(r => {
+        var stars = '⭐'.repeat(parseInt(r.rating) || 0);
+        var div = document.createElement('div');
+        div.className = 'review-item';
+        div.innerHTML = '<div class="review-name">' + r.name + '</div><div class="review-rating">' + stars + '</div><div class="review-text">' + r.text + '</div>';
+        list.appendChild(div);
+      });
+    }
+
+    async function addReview(productId) {
+      var name = await prompt('Enter your name:');
+      if (!name) return;
+      var rating = await prompt('Rate (1-5):');
+      if (!rating) return;
+      var text = await prompt('Write your review:');
+      if (!text) return;
+      reviews.push({ productId, name, rating, text });
+      saveReviews();
+      renderReviews(productId);
+    }
+
+    // ========== CONTACT UI ==========
+    function updateContactUI() {
+      document.getElementById('contactAddress').innerHTML = contactInfo.address.replace(/\n/g, '<br>');
+      document.getElementById('contactPhone').textContent = contactInfo.phone;
+      document.getElementById('contactHours').innerHTML = contactInfo.hours.replace(/\n/g, '<br>');
+      document.getElementById('contactInlineAddress').value = contactInfo.address;
+      document.getElementById('contactInlinePhone').value = contactInfo.phone;
+      document.getElementById('contactInlineHours').value = contactInfo.hours;
+    }
+
+    function updateSocialLinksUI() {
+      document.getElementById('socialInstagram').value = contactInfo.social.instagram || '';
+      document.getElementById('socialFacebook').value = contactInfo.social.facebook || '';
+      document.getElementById('socialWhatsApp').value = contactInfo.social.whatsapp || '';
+      var instaCard = document.getElementById('instagramSocialCard');
+      var fbCard = document.getElementById('facebookSocialCard');
+      var instaHandle = document.getElementById('instagramHandle');
+      var fbHandle = document.getElementById('facebookHandle');
+      if (contactInfo.social.instagram) {
+        instaCard.href = contactInfo.social.instagram;
+        instaCard.setAttribute('data-url', contactInfo.social.instagram);
+        instaHandle.textContent = 'Follow us';
+      } else {
+        instaCard.href = '#';
+        instaCard.removeAttribute('data-url');
+        instaHandle.textContent = 'Follow us';
+      }
+      if (contactInfo.social.facebook) {
+        fbCard.href = contactInfo.social.facebook;
+        fbCard.setAttribute('data-url', contactInfo.social.facebook);
+        fbHandle.textContent = 'Follow us';
+      } else {
+        fbCard.href = '#';
+        fbCard.removeAttribute('data-url');
+        fbHandle.textContent = 'Follow us';
+      }
+    }
+
+    function openMap() {
+      var address = contactInfo.address.replace(/\n/g, ', ');
+      var query = encodeURIComponent(address);
+      var isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      if (isMobile) {
+        if (/Android/i.test(navigator.userAgent)) {
+          var mapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + query;
+          var intentUrl = 'intent://maps.google.com/maps?q=' + query + '#Intent;scheme=https;action=android.intent.action.VIEW;end;';
+          window.location.href = intentUrl;
+          setTimeout(function() {
+            if (!document.hidden) {
+              window.location.href = mapsUrl;
+            }
+          }, 1000);
+        } else {
+          var googleMapsUrl = 'comgooglemaps://?q=' + query;
+          var appleMapsUrl = 'https://maps.apple.com/?q=' + query;
+          window.location.href = googleMapsUrl;
+          setTimeout(function() {
+            if (!document.hidden) {
+              window.location.href = appleMapsUrl;
+            }
+          }, 500);
+        }
+      } else {
+        window.open('https://www.google.com/maps/search/?api=1&query=' + query, '_blank');
+      }
+    }
+
+    // ========== FILE HANDLING ==========
+    function handleFileSelect(fileInput, callback) {
+      var file = fileInput.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = e => callback(e.target.result);
+      reader.readAsDataURL(file);
+    }
+
+    // ========== SEARCH ==========
     function showSearchSuggestions(query) {
       var suggestions = products.filter(p => p.name.toLowerCase().includes(query) || (p.description && p.description.toLowerCase().includes(query)));
-      var container = document.getElementById('searchSuggestions'); container.innerHTML = '';
-      if (suggestions.length === 0) { container.style.display = 'none'; return; }
+      var container = document.getElementById('searchSuggestions');
+      container.innerHTML = '';
+      if (suggestions.length === 0) {
+        container.style.display = 'none';
+        return;
+      }
       suggestions.slice(0, 5).forEach(p => {
-        var div = document.createElement('div'); div.className = 'search-suggestion-item';
+        var div = document.createElement('div');
+        div.className = 'search-suggestion-item';
         div.innerHTML = '<span class="suggestion-emoji">' + p.emoji + '</span><div><strong>' + p.name + '</strong> <span style="color:#999;">' + p.price + '</span></div>';
-        div.addEventListener('click', function() { document.getElementById('searchInput').value = p.name; searchQuery = p.name; renderProducts(); hideSearchSuggestions(); document.getElementById('searchContainer').classList.remove('active'); });
+        div.addEventListener('click', function() {
+          document.getElementById('searchInput').value = p.name;
+          searchQuery = p.name;
+          renderProducts();
+          hideSearchSuggestions();
+          document.getElementById('searchContainer').classList.remove('active');
+        });
         container.appendChild(div);
       });
       container.style.display = 'block';
     }
-    function hideSearchSuggestions() { document.getElementById('searchSuggestions').style.display = 'none'; }
-    function handleFileSelect(fileInput, callback) { var file = fileInput.files[0]; if (!file) return; var reader = new FileReader(); reader.onload = e => callback(e.target.result); reader.readAsDataURL(file); }
-    function openMap() {
-      var address = contactInfo.address.replace(/\n/g, ', '); var query = encodeURIComponent(address);
-      var isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-      if (isMobile) {
-        if (/Android/i.test(navigator.userAgent)) { var mapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + query; var intentUrl = 'intent://maps.google.com/maps?q=' + query + '#Intent;scheme=https;action=android.intent.action.VIEW;end;'; window.location.href = intentUrl; setTimeout(function() { if (!document.hidden) { window.location.href = mapsUrl; } }, 1000); }
-        else { var googleMapsUrl = 'comgooglemaps://?q=' + query; var appleMapsUrl = 'https://maps.apple.com/?q=' + query; window.location.href = googleMapsUrl; setTimeout(function() { if (!document.hidden) { window.location.href = appleMapsUrl; } }, 500); }
-      } else { window.open('https://www.google.com/maps/search/?api=1&query=' + query, '_blank'); }
+
+    function hideSearchSuggestions() {
+      document.getElementById('searchSuggestions').style.display = 'none';
     }
 
-    // ========== EVENT LISTENERS ==========
-    document.querySelectorAll('.move-btn').forEach(function(btn) {
+    // ============================================================
+    // 🎯 EVENT LISTENERS & INIT
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', async function() {
+      await loadData();
+      checkLogin();
+      renderAll();
+      applyToSample();
+      
+      if (cardFontName && cardFontName.trim() !== '') {
+        document.getElementById('cardFontName').value = cardFontName;
+        applyFontToCards(cardFontName);
+      }
+      
+      if (CONFIG.USE_CLOUD && CONFIG.MASTER_KEY && CONFIG.MASTER_KEY !== 'YOUR_MASTER_KEY_HERE') {
+        // Status already set by CloudService
+      } else {
+        document.getElementById('cloudDot').className = 'dot offline';
+        document.getElementById('cloudLabel').textContent = 'Local Only';
+      }
+      
+      console.log('✅ Aura Cafe loaded with Secure Admin Login!');
+    });
+
+    // ========== BOTTOM NAV ==========
+    document.querySelectorAll('.bottom-nav-btn').forEach(btn => {
       btn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        var dir = this.getAttribute('data-dir');
-        var dx = 0, dy = 0;
-        var STEP = 1; /* 🔥 percentage points, not px — stays correct on every screen size */
-        if (dir === 'up') dy = -STEP;
-        else if (dir === 'down') dy = STEP;
-        else if (dir === 'left') dx = -STEP;
-        else if (dir === 'right') dx = STEP;
-        moveSelected(dx, dy);
+        e.preventDefault();
+        document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
+        document.getElementById(btn.getAttribute('data-target')).classList.add('active');
+        document.querySelectorAll('.bottom-nav-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       });
     });
-    document.getElementById('layoutTargetSelect').addEventListener('change', function() { updatePositionInfo(); });
-    document.getElementById('imgScale').addEventListener('input', function() {
-      var val = parseInt(this.value);
-      document.getElementById('imgScaleVal').textContent = val + '%';
-      layoutScales.img = val;
-      applyToSample();
-    });
-    document.getElementById('nameSize').addEventListener('input', function() {
-      var val = parseInt(this.value);
-      document.getElementById('nameSizeVal').textContent = val + 'px';
-      layoutScales.name = val;
-      applyToSample();
-    });
-    document.getElementById('priceSize').addEventListener('input', function() {
-      var val = parseInt(this.value);
-      document.getElementById('priceSizeVal').textContent = val + 'px';
-      layoutScales.price = val;
-      applyToSample();
-    });
-    document.getElementById('saveLayoutBtn').addEventListener('click', function() {
-      saveLayoutState();
-      renderProducts();
-      showToast('✅ Layout saved locally!', 'success');
-    });
-    document.getElementById('resetLayoutBtn').addEventListener('click', function() {
-      resetPositions();
-      renderProducts();
-      showToast('🔄 Reset to Perfect Defaults!', 'info');
-    });
-    document.getElementById('applyFontBtn').addEventListener('click', function() {
-      var fontPath = document.getElementById('cardFontName').value.trim();
-      if (!fontPath) { alert('Please enter a font file path (e.g., fonts/MyFont.ttf)'); return; }
-      cardFontName = fontPath;
-      applyFontToCards(fontPath);
-      localStorage.setItem('aura_card_font', fontPath);
-      renderProducts();
-      showToast('✅ Font applied to all cards!', 'success');
-    });
-    document.getElementById('resetFontBtn').addEventListener('click', function() { resetFont(); });
 
-    document.getElementById('searchToggleBtn').addEventListener('click', function() { document.getElementById('searchContainer').classList.toggle('active'); if (document.getElementById('searchContainer').classList.contains('active')) document.getElementById('searchInput').focus(); else { document.getElementById('searchInput').value = ''; searchQuery = ''; renderProducts(); hideSearchSuggestions(); } });
-    document.getElementById('searchInput').addEventListener('input', function() { searchQuery = this.value; renderProducts(); if (this.value.trim().length > 0) { showSearchSuggestions(this.value.trim().toLowerCase()); } else { hideSearchSuggestions(); } });
-    document.addEventListener('click', function(e) { if (!e.target.closest('.search-container') && !e.target.closest('.search-suggestions')) { hideSearchSuggestions(); } });
-    document.getElementById('cartBtn').addEventListener('click', function() { document.getElementById('cartOverlay').style.display = 'flex'; });
-    document.getElementById('cartClose').addEventListener('click', function() { document.getElementById('cartOverlay').style.display = 'none'; });
-    document.getElementById('cartOverlay').addEventListener('click', function(e) { if (e.target === this) document.getElementById('cartOverlay').style.display = 'none'; });
+    // ========== SEARCH TOGGLE ==========
+    document.getElementById('searchToggleBtn').addEventListener('click', function() {
+      document.getElementById('searchContainer').classList.toggle('active');
+      if (document.getElementById('searchContainer').classList.contains('active')) {
+        document.getElementById('searchInput').focus();
+      } else {
+        document.getElementById('searchInput').value = '';
+        searchQuery = '';
+        renderProducts();
+        hideSearchSuggestions();
+      }
+    });
+
+    document.getElementById('searchInput').addEventListener('input', function() {
+      searchQuery = this.value;
+      renderProducts();
+      if (this.value.trim().length > 0) {
+        showSearchSuggestions(this.value.trim().toLowerCase());
+      } else {
+        hideSearchSuggestions();
+      }
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.search-container') && !e.target.closest('.search-suggestions')) {
+        hideSearchSuggestions();
+      }
+    });
+
+    // ========== CART ==========
+    document.getElementById('cartBtn').addEventListener('click', function() {
+      document.getElementById('cartOverlay').style.display = 'flex';
+    });
+    document.getElementById('cartClose').addEventListener('click', function() {
+      document.getElementById('cartOverlay').style.display = 'none';
+    });
+    document.getElementById('cartOverlay').addEventListener('click', function(e) {
+      if (e.target === this) document.getElementById('cartOverlay').style.display = 'none';
+    });
     document.getElementById('cartCheckoutBtn').addEventListener('click', checkout);
-    document.getElementById('qtyMinus').addEventListener('click', function() { if (currentQty > 1) currentQty--; document.getElementById('qtyValue').textContent = currentQty; });
-    document.getElementById('qtyPlus').addEventListener('click', function() { currentQty++; document.getElementById('qtyValue').textContent = currentQty; });
-    document.getElementById('modalAddBtn').addEventListener('click', function() { var product = products.find(p => p.id === currentProductId); if (product) { addToCart(product); document.getElementById('productOverlay').style.display = 'none'; alert('Added to cart!'); } });
-    document.getElementById('modalBuyBtn').addEventListener('click', function() { placeOrderDirect(); });
-    document.getElementById('productClose').addEventListener('click', function() { document.getElementById('productOverlay').style.display = 'none'; });
-    document.getElementById('productOverlay').addEventListener('click', function(e) { if (e.target === this) document.getElementById('productOverlay').style.display = 'none'; });
-    document.getElementById('reviewsToggle').addEventListener('click', function() { var section = document.getElementById('reviewsSection'); if (section.style.display === 'none') { section.style.display = 'block'; this.textContent = '🙈 Hide Reviews'; } else { section.style.display = 'none'; this.textContent = '💬 Show Reviews'; } });
-    document.getElementById('addReviewBtn').addEventListener('click', async function() { await addReview(currentProductId); });
-    document.getElementById('successCloseBtn').addEventListener('click', function() { document.getElementById('successOverlay').style.display = 'none'; document.getElementById('confettiContainer').innerHTML = ''; });
-    document.getElementById('successOverlay').addEventListener('click', function(e) { if (e.target === this) { document.getElementById('successOverlay').style.display = 'none'; document.getElementById('confettiContainer').innerHTML = ''; } });
-    document.getElementById('callBtn').addEventListener('click', function() { window.location.href = 'tel:' + contactInfo.phone.replace(/\D/g,''); });
+
+    // ========== PRODUCT MODAL ==========
+    document.getElementById('qtyMinus').addEventListener('click', function() {
+      if (currentQty > 1) currentQty--;
+      document.getElementById('qtyValue').textContent = currentQty;
+    });
+    document.getElementById('qtyPlus').addEventListener('click', function() {
+      currentQty++;
+      document.getElementById('qtyValue').textContent = currentQty;
+    });
+    document.getElementById('modalAddBtn').addEventListener('click', function() {
+      var product = products.find(p => p.id === currentProductId);
+      if (product) {
+        addToCart(product);
+        document.getElementById('productOverlay').style.display = 'none';
+        alert('Added to cart!');
+      }
+    });
+    document.getElementById('modalBuyBtn').addEventListener('click', function() {
+      placeOrderDirect();
+    });
+    document.getElementById('productClose').addEventListener('click', function() {
+      document.getElementById('productOverlay').style.display = 'none';
+    });
+    document.getElementById('productOverlay').addEventListener('click', function(e) {
+      if (e.target === this) document.getElementById('productOverlay').style.display = 'none';
+    });
+    document.getElementById('reviewsToggle').addEventListener('click', function() {
+      var section = document.getElementById('reviewsSection');
+      if (section.style.display === 'none') {
+        section.style.display = 'block';
+        this.textContent = '🙈 Hide Reviews';
+      } else {
+        section.style.display = 'none';
+        this.textContent = '💬 Show Reviews';
+      }
+    });
+    document.getElementById('addReviewBtn').addEventListener('click', async function() {
+      await addReview(currentProductId);
+    });
+
+    // ========== SUCCESS MODAL ==========
+    document.getElementById('successCloseBtn').addEventListener('click', function() {
+      document.getElementById('successOverlay').style.display = 'none';
+      document.getElementById('confettiContainer').innerHTML = '';
+    });
+    document.getElementById('successOverlay').addEventListener('click', function(e) {
+      if (e.target === this) {
+        document.getElementById('successOverlay').style.display = 'none';
+        document.getElementById('confettiContainer').innerHTML = '';
+      }
+    });
+
+    // ========== CALL BUTTON ==========
+    document.getElementById('callBtn').addEventListener('click', function() {
+      window.location.href = 'tel:' + contactInfo.phone.replace(/\D/g,'');
+    });
+
+    // ========== PROFILE / AUTH ==========
     document.getElementById('customerProfileBtn').addEventListener('click', async function() {
-      if (isLoggedIn) { if (await confirm('Logout from admin?')) logout(); }
-      else if (currentCustomer) { if (await confirm('Logout from customer account?')) customerLogout(); }
-      else { document.getElementById('customerAuthOverlay').style.display = 'flex'; document.getElementById('customerAuthError').textContent = ''; document.getElementById('customerAuthTitle').textContent = 'Customer Login'; document.getElementById('customerAuthSubmit').innerHTML = '<i class="fas fa-sign-in-alt"></i> Login'; document.getElementById('customerNameGroup').style.display = 'none'; document.getElementById('customerEmail').value = ''; document.getElementById('customerPassword').value = ''; document.getElementById('customerName').value = ''; document.getElementById('ownerLoginError').textContent = ''; document.getElementById('ownerPassword').value = ''; switchAuthTab('customerPanel'); }
+      if (isLoggedIn) {
+        if (await confirm('Logout from admin?')) logout();
+      } else if (currentCustomer) {
+        if (await confirm('Logout from customer account?')) customerLogout();
+      } else {
+        document.getElementById('customerAuthOverlay').style.display = 'flex';
+        document.getElementById('customerAuthError').textContent = '';
+        document.getElementById('customerAuthTitle').textContent = 'Customer Login';
+        document.getElementById('customerAuthSubmit').innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+        document.getElementById('customerNameGroup').style.display = 'none';
+        document.getElementById('customerEmail').value = '';
+        document.getElementById('customerPassword').value = '';
+        document.getElementById('customerName').value = '';
+        document.getElementById('ownerLoginError').textContent = '';
+        document.getElementById('ownerPassword').value = '';
+        switchAuthTab('customerPanel');
+      }
     });
-    function switchAuthTab(panelId) { document.querySelectorAll('.auth-tab').forEach(tab => { tab.classList.remove('active'); if (tab.getAttribute('data-auth-tab') === panelId) tab.classList.add('active'); }); document.querySelectorAll('.auth-panel').forEach(panel => { panel.classList.remove('active'); }); document.getElementById(panelId).classList.add('active'); }
-    document.querySelectorAll('.auth-tab').forEach(tab => { tab.addEventListener('click', function() { switchAuthTab(tab.getAttribute('data-auth-tab')); }); });
-    document.getElementById('customerAuthForm').addEventListener('submit', function(e) { e.preventDefault(); var email = document.getElementById('customerEmail').value.trim(); var password = document.getElementById('customerPassword').value; var name = document.getElementById('customerName').value.trim(); var isRegisterMode = document.getElementById('customerNameGroup').style.display === 'block'; if (isRegisterMode) { if (!name) { document.getElementById('customerAuthError').textContent = 'Please enter your name'; return; } customerRegister(name, email, password); } else { customerLogin(email, password); } });
-    document.getElementById('customerToggleMode').addEventListener('click', function(e) { e.preventDefault(); var nameGroup = document.getElementById('customerNameGroup'); var title = document.getElementById('customerAuthTitle'); var submitBtn = document.getElementById('customerAuthSubmit'); if (nameGroup.style.display === 'block') { nameGroup.style.display = 'none'; title.textContent = 'Customer Login'; submitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login'; } else { nameGroup.style.display = 'block'; title.textContent = 'Create Account'; submitBtn.innerHTML = '<i class="fas fa-user-plus"></i> Register'; } document.getElementById('customerAuthError').textContent = ''; });
-    document.getElementById('ownerLoginForm').addEventListener('submit', function(e) { e.preventDefault(); var email = document.getElementById('ownerEmail').value.trim(); var password = document.getElementById('ownerPassword').value; adminLogin(email, password); });
-    document.getElementById('customerAuthClose').addEventListener('click', function() { document.getElementById('customerAuthOverlay').style.display = 'none'; });
-    document.getElementById('customerAuthOverlay').addEventListener('click', function(e) { if (e.target === this) document.getElementById('customerAuthOverlay').style.display = 'none'; });
-    document.getElementById('orderClose').addEventListener('click', function() { document.getElementById('orderOverlay').style.display = 'none'; });
-    document.getElementById('orderOverlay').addEventListener('click', function(e) { if (e.target === this) document.getElementById('orderOverlay').style.display = 'none'; });
+
+    function switchAuthTab(panelId) {
+      document.querySelectorAll('.auth-tab').forEach(tab => {
+        tab.classList.remove('active');
+        if (tab.getAttribute('data-auth-tab') === panelId) tab.classList.add('active');
+      });
+      document.querySelectorAll('.auth-panel').forEach(panel => {
+        panel.classList.remove('active');
+      });
+      document.getElementById(panelId).classList.add('active');
+    }
+
+    document.querySelectorAll('.auth-tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        switchAuthTab(tab.getAttribute('data-auth-tab'));
+      });
+    });
+
+    document.getElementById('customerAuthForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var email = document.getElementById('customerEmail').value.trim();
+      var password = document.getElementById('customerPassword').value;
+      var name = document.getElementById('customerName').value.trim();
+      var isRegisterMode = document.getElementById('customerNameGroup').style.display === 'block';
+      if (isRegisterMode) {
+        if (!name) {
+          document.getElementById('customerAuthError').textContent = 'Please enter your name';
+          return;
+        }
+        customerRegister(name, email, password);
+      } else {
+        customerLogin(email, password);
+      }
+    });
+
+    document.getElementById('customerToggleMode').addEventListener('click', function(e) {
+      e.preventDefault();
+      var nameGroup = document.getElementById('customerNameGroup');
+      var title = document.getElementById('customerAuthTitle');
+      var submitBtn = document.getElementById('customerAuthSubmit');
+      if (nameGroup.style.display === 'block') {
+        nameGroup.style.display = 'none';
+        title.textContent = 'Customer Login';
+        submitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+      } else {
+        nameGroup.style.display = 'block';
+        title.textContent = 'Create Account';
+        submitBtn.innerHTML = '<i class="fas fa-user-plus"></i> Register';
+      }
+      document.getElementById('customerAuthError').textContent = '';
+    });
+
+    // 🔥 Owner Login Form - Secure API call
+    document.getElementById('ownerLoginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var email = document.getElementById('ownerEmail').value.trim();
+      var password = document.getElementById('ownerPassword').value;
+      adminLogin(email, password);
+    });
+
+    document.getElementById('customerAuthClose').addEventListener('click', function() {
+      document.getElementById('customerAuthOverlay').style.display = 'none';
+    });
+    document.getElementById('customerAuthOverlay').addEventListener('click', function(e) {
+      if (e.target === this) document.getElementById('customerAuthOverlay').style.display = 'none';
+    });
+
+    // ========== ORDER MODAL ==========
+    document.getElementById('orderClose').addEventListener('click', function() {
+      document.getElementById('orderOverlay').style.display = 'none';
+    });
+    document.getElementById('orderOverlay').addEventListener('click', function(e) {
+      if (e.target === this) document.getElementById('orderOverlay').style.display = 'none';
+    });
     document.getElementById('orderForm').addEventListener('submit', placeOrderFromForm);
-    document.querySelectorAll('.bottom-nav-btn').forEach(btn => { btn.addEventListener('click', function(e) { e.preventDefault(); document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active')); document.getElementById(btn.getAttribute('data-target')).classList.add('active'); document.querySelectorAll('.bottom-nav-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); window.scrollTo({ top: 0, behavior: 'smooth' }); }); });
-    document.querySelectorAll('.order-tab-btn').forEach(btn => { btn.addEventListener('click', function() { document.querySelectorAll('.order-tab-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); renderOrdersDashboard(); }); });
+
+    // ========== ORDER TABS ==========
+    document.querySelectorAll('.order-tab-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.order-tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderOrdersDashboard();
+      });
+    });
+
     document.getElementById('orderIdSearchBtn').addEventListener('click', function() {
-      var query = document.getElementById('orderIdSearchInput').value.trim().toLowerCase(); if (!query) { renderOrdersDashboard(); return; }
-      var container = document.getElementById('ordersListContainer'); var matched = orders.filter(o => o.id.toLowerCase().includes(query)); container.innerHTML = '';
-      if (matched.length === 0) { container.innerHTML = '<div class="no-orders-msg">No orders found for this ID.</div>'; return; }
-      matched.forEach(order => { var card = document.createElement('div'); card.className = 'order-card-item'; card.innerHTML = '<div class="order-top"><span class="order-id">Order #' + order.id.slice(-5) + '</span></div>' + '<div class="order-item-details">' + order.productName + ' x' + (order.qty||1) + ' - ' + order.price + '</div>' + '<div class="order-item-details">Status: ' + order.status + '</div>'; container.appendChild(card); });
+      var query = document.getElementById('orderIdSearchInput').value.trim().toLowerCase();
+      if (!query) {
+        renderOrdersDashboard();
+        return;
+      }
+      var container = document.getElementById('ordersListContainer');
+      var matched = orders.filter(o => o.id.toLowerCase().includes(query));
+      container.innerHTML = '';
+      if (matched.length === 0) {
+        container.innerHTML = '<div class="no-orders-msg">No orders found for this ID.</div>';
+        return;
+      }
+      matched.forEach(order => {
+        var card = document.createElement('div');
+        card.className = 'order-card-item';
+        card.innerHTML = '<div class="order-top"><span class="order-id">Order #' + order.id.slice(-5) + '</span></div>' + '<div class="order-item-details">' + order.productName + ' x' + (order.qty||1) + ' - ' + order.price + '</div>' + '<div class="order-item-details">Status: ' + order.status + '</div>';
+        container.appendChild(card);
+      });
     });
+
+    // ========== SOCIAL CARDS ==========
     document.getElementById('facebookSocialCard').addEventListener('click', async function(e) {
-      e.preventDefault(); var url = this.getAttribute('data-url');
-      if (url && url !== '#') { window.open(url, '_blank'); }
-      else { if (isLoggedIn) { var newUrl = await prompt('Enter Facebook page URL:'); if (newUrl && newUrl.trim() !== '') { contactInfo.social.facebook = newUrl.trim(); saveContact(); updateSocialLinksUI(); showToast('Facebook link saved successfully!', 'success'); } } else { showToast('Facebook link not set by owner yet', 'info'); } }
+      e.preventDefault();
+      var url = this.getAttribute('data-url');
+      if (url && url !== '#') {
+        window.open(url, '_blank');
+      } else {
+        if (isLoggedIn) {
+          var newUrl = await prompt('Enter Facebook page URL:');
+          if (newUrl && newUrl.trim() !== '') {
+            contactInfo.social.facebook = newUrl.trim();
+            saveContact();
+            updateSocialLinksUI();
+            showToast('Facebook link saved successfully!', 'success');
+          }
+        } else {
+          showToast('Facebook link not set by owner yet', 'info');
+        }
+      }
     });
+
     document.getElementById('instagramSocialCard').addEventListener('click', async function(e) {
-      e.preventDefault(); var url = this.getAttribute('data-url');
-      if (url && url !== '#') { window.open(url, '_blank'); }
-      else { if (isLoggedIn) { var newUrl = await prompt('Enter Instagram profile URL:'); if (newUrl && newUrl.trim() !== '') { contactInfo.social.instagram = newUrl.trim(); saveContact(); updateSocialLinksUI(); showToast('Instagram link saved successfully!', 'success'); } } else { showToast('Instagram link not set by owner yet', 'info'); } }
+      e.preventDefault();
+      var url = this.getAttribute('data-url');
+      if (url && url !== '#') {
+        window.open(url, '_blank');
+      } else {
+        if (isLoggedIn) {
+          var newUrl = await prompt('Enter Instagram profile URL:');
+          if (newUrl && newUrl.trim() !== '') {
+            contactInfo.social.instagram = newUrl.trim();
+            saveContact();
+            updateSocialLinksUI();
+            showToast('Instagram link saved successfully!', 'success');
+          }
+        } else {
+          showToast('Instagram link not set by owner yet', 'info');
+        }
+      }
     });
+
+    // ========== INFO CARDS ==========
     document.getElementById('addressCard').addEventListener('click', openMap);
-    document.getElementById('phoneCard').addEventListener('click', function() { window.location.href = 'tel:' + contactInfo.phone.replace(/\D/g,''); });
-    document.getElementById('hoursCard').addEventListener('click', function() { alert('Open daily 6AM - 9PM'); });
-    document.getElementById('viewAllBtn').addEventListener('click', function() { document.querySelector('.product-grid').scrollIntoView({behavior:'smooth'}); });
-    document.getElementById('promoBanner').addEventListener('click', function() { 
+    document.getElementById('phoneCard').addEventListener('click', function() {
+      window.location.href = 'tel:' + contactInfo.phone.replace(/\D/g,'');
+    });
+    document.getElementById('hoursCard').addEventListener('click', function() {
+      alert('Open daily 6AM - 9PM');
+    });
+
+    // ========== VIEW ALL ==========
+    document.getElementById('viewAllBtn').addEventListener('click', function() {
+      document.querySelector('.product-grid').scrollIntoView({behavior:'smooth'});
+    });
+
+    // ========== PROMO BANNER ==========
+    document.getElementById('promoBanner').addEventListener('click', function() {
       var imgSrc = this.querySelector('img').src;
       if (imgSrc) {
         document.getElementById('galleryLightboxImage').src = imgSrc;
         document.getElementById('galleryLightboxOverlay').style.display = 'flex';
       }
     });
-    document.getElementById('adminImageFile').addEventListener('change', function() { handleFileSelect(this, function(dataUrl) { document.getElementById('adminImagePreview').src = dataUrl; document.getElementById('adminImagePreview').style.display = 'block'; document.getElementById('adminEmoji').value = ''; window.productImageData = dataUrl; }); });
-    document.getElementById('categoryImageFile').addEventListener('change', function() { handleFileSelect(this, function(dataUrl) { document.getElementById('categoryImagePreview').src = dataUrl; document.getElementById('categoryImagePreview').style.display = 'block'; document.getElementById('newCategoryEmoji').value = ''; window.categoryImageData = dataUrl; }); });
-    document.getElementById('galleryInlineFile').addEventListener('change', function() { handleFileSelect(this, function(dataUrl) { document.getElementById('galleryInlinePreview').src = dataUrl; document.getElementById('galleryInlinePreview').style.display = 'block'; window.galleryInlineImageData = dataUrl; }); });
-    document.getElementById('editGalleryFileInput').addEventListener('change', function() { handleFileSelect(this, function(dataUrl) { if (editingGalleryIndex >= 0 && editingGalleryIndex < galleryImages.length) { galleryImages[editingGalleryIndex] = dataUrl; saveGallery(); renderGallery(); renderGalleryInlineList(); editingGalleryIndex = -1; } }); this.value = ''; });
-    document.getElementById('adminForm').addEventListener('submit', function(e) {
-      e.preventDefault(); var id = document.getElementById('adminProductId').value; var name = document.getElementById('adminName').value.trim();
-      var price = document.getElementById('adminPrice').value.trim(); var rating = document.getElementById('adminRating').value.trim() || '⭐ 4.5';
-      var categoryInput = document.getElementById('adminCategoryInput').value.trim(); var description = document.getElementById('adminDescription').value.trim();
-      var imageValue; if (window.productImageData) { imageValue = window.productImageData; window.productImageData = null; } else imageValue = document.getElementById('adminEmoji').value.trim();
-      if (!imageValue && id) { var existing = products.find(p => p.id === id); if (existing) imageValue = existing.emoji; }
-      if (!imageValue) imageValue = '🍽️';
-      if (!name || !price || !categoryInput) { alert('Please fill name, price, and category'); return; }
-      var categoryId = getCategoryIdFromInput(categoryInput);
-      if (id) { var idx = products.findIndex(p => p.id === id); if (idx >= 0) products[idx] = { id, emoji:imageValue, name, price, rating, category:categoryId, description }; }
-      else { products.push({ id: Date.now().toString(), emoji:imageValue, name, price, rating, category:categoryId, description }); }
-      saveProducts(); resetAdminForm(); renderProducts(); renderAdminProductList(); renderCategoryPills(); populateCategorySuggestions(); renderAdminCategoryList();
-    });
-    document.getElementById('adminCancelBtn').addEventListener('click', resetAdminForm);
-    document.getElementById('categoryForm').addEventListener('submit', function(e) {
-      e.preventDefault(); var name = document.getElementById('newCategoryName').value.trim(); var emojiValue = '';
-      if (window.categoryImageData) { emojiValue = window.categoryImageData; window.categoryImageData = null; } else emojiValue = document.getElementById('newCategoryEmoji').value.trim() || '🍽️';
-      if (!name) { alert('Please fill name'); return; }
-      var id = name.toLowerCase().replace(/[^a-z0-9]/g, '') || Date.now().toString();
-      if (categories.some(c => c.id === id)) { alert('Category already exists'); return; }
-      categories.push({ id, name, emoji: emojiValue }); saveCategories(); renderCategoryPills(); populateCategorySuggestions(); renderAdminCategoryList();
-      document.getElementById('newCategoryName').value = ''; document.getElementById('newCategoryEmoji').value = ''; document.getElementById('categoryImagePreview').style.display = 'none'; document.getElementById('categoryImageFile').value = '';
-    });
-    document.getElementById('galleryInlineForm').addEventListener('submit', function(e) { e.preventDefault(); if (window.galleryInlineImageData) { galleryImages.push(window.galleryInlineImageData); window.galleryInlineImageData = null; saveGallery(); renderGallery(); renderGalleryInlineList(); document.getElementById('galleryInlinePreview').style.display = 'none'; document.getElementById('galleryInlineFile').value = ''; } else alert('Please choose an image file'); });
-    document.getElementById('contactInlineForm').addEventListener('submit', function(e) { e.preventDefault(); contactInfo.address = document.getElementById('contactInlineAddress').value; contactInfo.phone = document.getElementById('contactInlinePhone').value; contactInfo.hours = document.getElementById('contactInlineHours').value; saveContact(); updateContactUI(); alert('Contact info updated!'); });
-    document.getElementById('socialForm').addEventListener('submit', function(e) { e.preventDefault(); contactInfo.social.instagram = document.getElementById('socialInstagram').value.trim(); contactInfo.social.facebook = document.getElementById('socialFacebook').value.trim(); contactInfo.social.whatsapp = document.getElementById('socialWhatsApp').value.trim(); saveContact(); updateSocialLinksUI(); showToast('Social links saved successfully!', 'success'); });
-    document.getElementById('clearOrdersBtn').addEventListener('click', async function() { if (await confirm('Clear all orders?')) { orders = []; saveOrders(); renderAdminOrdersList(); renderOrdersDashboard(); updateNotifBadge(); } });
-    document.getElementById('ownerClearOrdersBtn').addEventListener('click', async function() { if (await confirm('Clear all orders?')) { orders = []; saveOrders(); renderAdminOrdersList(); renderOrdersDashboard(); updateNotifBadge(); } });
-    document.querySelectorAll('.admin-tab-btn').forEach(btn => { btn.addEventListener('click', function() { document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active')); document.getElementById('admin' + btn.getAttribute('data-tab').charAt(0).toUpperCase() + btn.getAttribute('data-tab').slice(1) + 'Section').classList.add('active'); }); });
-    if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').then(registration => console.log('SW registered:', registration.scope)).catch(err => console.log('SW registration failed:', err)); }); }
-
-    // ========== INIT ==========
-    loadData();
-    checkLogin();
-    renderAll();
-    applyToSample();
 
     document.getElementById('galleryLightboxClose').addEventListener('click', function() {
       document.getElementById('galleryLightboxOverlay').style.display = 'none';
@@ -1875,6 +2944,274 @@
         document.getElementById('galleryLightboxImage').src = '';
       }
     });
+
+    // ========== ADMIN PANEL ==========
+    document.getElementById('adminImageFile').addEventListener('change', function() {
+      handleFileSelect(this, function(dataUrl) {
+        document.getElementById('adminImagePreview').src = dataUrl;
+        document.getElementById('adminImagePreview').style.display = 'block';
+        document.getElementById('adminEmoji').value = '';
+        window.productImageData = dataUrl;
+      });
+    });
+
+    document.getElementById('categoryImageFile').addEventListener('change', function() {
+      handleFileSelect(this, function(dataUrl) {
+        document.getElementById('categoryImagePreview').src = dataUrl;
+        document.getElementById('categoryImagePreview').style.display = 'block';
+        document.getElementById('newCategoryEmoji').value = '';
+        window.categoryImageData = dataUrl;
+      });
+    });
+
+    document.getElementById('galleryInlineFile').addEventListener('change', function() {
+      handleFileSelect(this, function(dataUrl) {
+        document.getElementById('galleryInlinePreview').src = dataUrl;
+        document.getElementById('galleryInlinePreview').style.display = 'block';
+        window.galleryInlineImageData = dataUrl;
+      });
+    });
+
+    document.getElementById('editGalleryFileInput').addEventListener('change', function() {
+      handleFileSelect(this, function(dataUrl) {
+        if (editingGalleryIndex >= 0 && editingGalleryIndex < galleryImages.length) {
+          galleryImages[editingGalleryIndex] = dataUrl;
+          saveGallery();
+          renderGallery();
+          renderGalleryInlineList();
+          editingGalleryIndex = -1;
+        }
+      });
+      this.value = '';
+    });
+
+    document.getElementById('adminForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var id = document.getElementById('adminProductId').value;
+      var name = document.getElementById('adminName').value.trim();
+      var price = document.getElementById('adminPrice').value.trim();
+      var rating = document.getElementById('adminRating').value.trim() || '⭐ 4.5';
+      var categoryInput = document.getElementById('adminCategoryInput').value.trim();
+      var description = document.getElementById('adminDescription').value.trim();
+      var imageValue;
+      if (window.productImageData) {
+        imageValue = window.productImageData;
+        window.productImageData = null;
+      } else {
+        imageValue = document.getElementById('adminEmoji').value.trim();
+      }
+      if (!imageValue && id) {
+        var existing = products.find(p => p.id === id);
+        if (existing) imageValue = existing.emoji;
+      }
+      if (!imageValue) imageValue = '🍽️';
+      if (!name || !price || !categoryInput) {
+        alert('Please fill name, price, and category');
+        return;
+      }
+      var categoryId = getCategoryIdFromInput(categoryInput);
+      if (id) {
+        var idx = products.findIndex(p => p.id === id);
+        if (idx >= 0) products[idx] = { id, emoji:imageValue, name, price, rating, category:categoryId, description };
+      } else {
+        products.push({ id: Date.now().toString(), emoji:imageValue, name, price, rating, category:categoryId, description });
+      }
+      saveProducts();
+      resetAdminForm();
+      renderProducts();
+      renderAdminProductList();
+      renderCategoryPills();
+      populateCategorySuggestions();
+      renderAdminCategoryList();
+    });
+
+    document.getElementById('adminCancelBtn').addEventListener('click', resetAdminForm);
+
+    document.getElementById('categoryForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var name = document.getElementById('newCategoryName').value.trim();
+      var emojiValue = '';
+      if (window.categoryImageData) {
+        emojiValue = window.categoryImageData;
+        window.categoryImageData = null;
+      } else {
+        emojiValue = document.getElementById('newCategoryEmoji').value.trim() || '🍽️';
+      }
+      if (!name) {
+        alert('Please fill name');
+        return;
+      }
+      var id = name.toLowerCase().replace(/[^a-z0-9]/g, '') || Date.now().toString();
+      if (categories.some(c => c.id === id)) {
+        alert('Category already exists');
+        return;
+      }
+      categories.push({ id, name, emoji: emojiValue });
+      saveCategories();
+      renderCategoryPills();
+      populateCategorySuggestions();
+      renderAdminCategoryList();
+      document.getElementById('newCategoryName').value = '';
+      document.getElementById('newCategoryEmoji').value = '';
+      document.getElementById('categoryImagePreview').style.display = 'none';
+      document.getElementById('categoryImageFile').value = '';
+    });
+
+    document.getElementById('galleryInlineForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (window.galleryInlineImageData) {
+        galleryImages.push(window.galleryInlineImageData);
+        window.galleryInlineImageData = null;
+        saveGallery();
+        renderGallery();
+        renderGalleryInlineList();
+        document.getElementById('galleryInlinePreview').style.display = 'none';
+        document.getElementById('galleryInlineFile').value = '';
+      } else {
+        alert('Please choose an image file');
+      }
+    });
+
+    document.getElementById('contactInlineForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      contactInfo.address = document.getElementById('contactInlineAddress').value;
+      contactInfo.phone = document.getElementById('contactInlinePhone').value;
+      contactInfo.hours = document.getElementById('contactInlineHours').value;
+      saveContact();
+      updateContactUI();
+      alert('Contact info updated!');
+    });
+
+    document.getElementById('socialForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      contactInfo.social.instagram = document.getElementById('socialInstagram').value.trim();
+      contactInfo.social.facebook = document.getElementById('socialFacebook').value.trim();
+      contactInfo.social.whatsapp = document.getElementById('socialWhatsApp').value.trim();
+      saveContact();
+      updateSocialLinksUI();
+      showToast('Social links saved successfully!', 'success');
+    });
+
+    document.getElementById('clearOrdersBtn').addEventListener('click', async function() {
+      if (await confirm('Clear all orders?')) {
+        orders = [];
+        saveOrders();
+        renderAdminOrdersList();
+        renderOrdersDashboard();
+        updateNotifBadge();
+      }
+    });
+
+    document.getElementById('ownerClearOrdersBtn').addEventListener('click', async function() {
+      if (await confirm('Clear all orders?')) {
+        orders = [];
+        saveOrders();
+        renderAdminOrdersList();
+        renderOrdersDashboard();
+        updateNotifBadge();
+      }
+    });
+
+    document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+        document.getElementById('admin' + btn.getAttribute('data-tab').charAt(0).toUpperCase() + btn.getAttribute('data-tab').slice(1) + 'Section').classList.add('active');
+      });
+    });
+
+    // ========== LAYOUT EDITOR ==========
+    document.querySelectorAll('.move-btn').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var dir = this.getAttribute('data-dir');
+        var dx = 0, dy = 0;
+        var STEP = 1;
+        if (dir === 'up') dy = -STEP;
+        else if (dir === 'down') dy = STEP;
+        else if (dir === 'left') dx = -STEP;
+        else if (dir === 'right') dx = STEP;
+        moveSelected(dx, dy);
+      });
+    });
+
+    document.getElementById('layoutTargetSelect').addEventListener('change', function() {
+      updatePositionInfo();
+    });
+
+    document.getElementById('imgScale').addEventListener('input', function() {
+      var val = parseInt(this.value);
+      document.getElementById('imgScaleVal').textContent = val + '%';
+      layoutScales.img = val;
+      applyToSample();
+    });
+
+    document.getElementById('nameSize').addEventListener('input', function() {
+      var val = parseInt(this.value);
+      document.getElementById('nameSizeVal').textContent = val + 'px';
+      layoutScales.name = val;
+      applyToSample();
+    });
+
+    document.getElementById('priceSize').addEventListener('input', function() {
+      var val = parseInt(this.value);
+      document.getElementById('priceSizeVal').textContent = val + 'px';
+      layoutScales.price = val;
+      applyToSample();
+    });
+
+    document.getElementById('saveLayoutBtn').addEventListener('click', function() {
+      saveLayoutState();
+      renderProducts();
+      showToast('✅ Layout saved locally!', 'success');
+    });
+
+    document.getElementById('resetLayoutBtn').addEventListener('click', function() {
+      resetPositions();
+      renderProducts();
+      showToast('🔄 Reset to Perfect Defaults!', 'info');
+    });
+
+    document.getElementById('applyFontBtn').addEventListener('click', function() {
+      var fontPath = document.getElementById('cardFontName').value.trim();
+      if (!fontPath) {
+        alert('Please enter a font file path (e.g., fonts/MyFont.ttf)');
+        return;
+      }
+      cardFontName = fontPath;
+      applyFontToCards(fontPath);
+      localStorage.setItem('aura_card_font', fontPath);
+      renderProducts();
+      showToast('✅ Font applied to all cards!', 'success');
+    });
+
+    document.getElementById('resetFontBtn').addEventListener('click', function() {
+      resetFont();
+    });
+
+    // ========== SERVICE WORKER ==========
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(registration => console.log('SW registered:', registration.scope))
+          .catch(err => console.log('SW registration failed:', err));
+      });
+    }
+
+    // ========== EMAILJS INIT ==========
+    (function() {
+      try {
+        emailjs.init("YOUR_PUBLIC_KEY");
+      } catch(e) {}
+    })();
+
+    function sendOrderNotification(order, customerEmail) {
+      // EmailJS integration placeholder
+    }
+
+    console.log('🚀 Aura Cafe loaded with JSONBin + Secure Admin Login!');
+    console.log('🔒 Admin password is now stored securely on Vercel (Environment Variable).');
   </script>
 </body>
 </html>
