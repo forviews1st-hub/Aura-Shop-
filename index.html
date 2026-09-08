@@ -10,7 +10,6 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <style id="dynamicCardFontStyle"></style>
   <style>
-    /* ========== CSS VARIABLES ========== */
     :root {
       --bg-body: #F5F5F5;
       --bg-header: #F5F5F5;
@@ -213,10 +212,14 @@
     .auth-panel .toggle-link a { color:var(--text-primary); font-weight:600; cursor:pointer; text-decoration:underline; }
     input[type="password"] { font-size:18px; letter-spacing:2px; }
 
+    /* ===== ADMIN PANEL ===== */
     .admin-panel { background:#fff; border-radius:16px; padding:16px; margin-bottom:16px; box-shadow:0 2px 8px rgba(0,0,0,0.08); border:1px solid var(--border-color); display:none; }
     .admin-panel.active { display:block; animation:fadeIn 0.3s ease; }
+    .admin-tabs { display:flex; gap:6px; margin-bottom:14px; flex-wrap:wrap; }
     .admin-tab-btn { background:var(--bg-hover); border:none; border-radius:20px; padding:6px 14px; font-size:12px; font-weight:600; cursor:pointer; color:var(--text-secondary); transition:all 0.2s; }
     .admin-tab-btn.active { background:var(--text-primary); color:#fff; }
+    .admin-section { display:none; }
+    .admin-section.active { display:block; animation:fadeIn 0.2s ease; }
     .admin-form .form-group { margin-bottom:10px; }
     .admin-form label { display:block; font-size:12px; font-weight:600; margin-bottom:4px; color:var(--text-secondary); }
     .admin-form input, .admin-form select, .admin-form textarea { width:100%; padding:8px 10px; border:1.5px solid var(--border-color); border-radius:8px; font-size:13px; background:var(--bg-input); transition:all 0.2s; font-family:inherit; color:var(--text-primary); }
@@ -272,19 +275,22 @@
     .file-input-wrapper .file-btn { display:inline-block; background:var(--bg-hover); border:1px solid var(--border-color); border-radius:8px; padding:8px 14px; font-size:12px; font-weight:600; color:var(--text-primary); cursor:pointer; }
     .image-preview { margin-top:6px; max-width:80px; max-height:80px; border-radius:8px; object-fit:cover; display:none; }
 
-    .admin-gallery-controls, .admin-contact-controls { background:#fff; border-radius:16px; padding:16px; margin-bottom:16px; box-shadow:0 2px 8px rgba(0,0,0,0.08); display:none; border:1px solid var(--border-color); }
-    .admin-gallery-controls.active, .admin-contact-controls.active { display:block; }
-    .admin-gallery-controls label, .admin-contact-controls label { display:block; font-size:12px; font-weight:600; color:var(--text-secondary); margin-bottom:4px; }
-    .admin-gallery-controls input, .admin-contact-controls input, .admin-contact-controls textarea { width:100%; padding:8px 10px; border:1px solid var(--border-color); border-radius:8px; font-size:13px; background:var(--bg-input); color:var(--text-primary); }
-    .admin-gallery-controls button, .admin-contact-controls button { background:var(--text-primary); color:#fff; border:none; border-radius:30px; padding:8px 18px; font-size:12px; font-weight:600; cursor:pointer; }
+    .admin-gallery-controls { background:#fff; border-radius:16px; padding:16px; margin-bottom:16px; box-shadow:0 2px 8px rgba(0,0,0,0.08); display:none; border:1px solid var(--border-color); }
+    .admin-gallery-controls.active { display:block; }
+    .admin-gallery-controls .form-group { margin-bottom:10px; }
+    .admin-gallery-controls label { display:block; font-size:12px; font-weight:600; color:var(--text-secondary); margin-bottom:4px; }
+    .admin-gallery-controls input { width:100%; padding:8px 10px; border:1px solid var(--border-color); border-radius:8px; font-size:13px; background:var(--bg-input); color:var(--text-primary); }
+    .admin-gallery-controls button { background:var(--text-primary); color:#fff; border:none; border-radius:30px; padding:8px 18px; font-size:12px; font-weight:600; cursor:pointer; }
 
-    .owner-orders-panel { background:#fff; border-radius:16px; padding:16px; margin-bottom:16px; box-shadow:0 4px 12px rgba(0,0,0,0.08); border:1px solid var(--border-color); }
-    .owner-orders-header h3 { font-size:16px; font-weight:800; color:var(--text-primary); display:flex; justify-content:space-between; align-items:center; }
+    .owner-orders-panel { background:var(--bg-input); border-radius:12px; padding:12px; margin-top:12px; border:1px solid var(--border-color); }
+    .owner-orders-header h3 { font-size:14px; font-weight:700; color:var(--text-primary); display:flex; justify-content:space-between; align-items:center; }
     .clear-orders-btn { background:#ffe5e5; color:#FF4D4D; border:none; border-radius:20px; padding:4px 12px; font-size:11px; font-weight:600; cursor:pointer; transition:all 0.2s; }
     .clear-orders-btn:hover { background:#FF4D4D; color:#fff; }
-    .owner-order-item { background:var(--bg-input); border-radius:10px; padding:10px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; border:1px solid var(--border-color); }
+    .owner-order-item { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--border-color); }
+    .owner-order-item:last-child { border-bottom:none; }
     .owner-order-info .order-name { font-weight:700; font-size:13px; color:var(--text-primary); }
-    .owner-order-info .order-meta { font-size:11px; color:var(--text-secondary); margin-top:2px; }
+    .owner-order-info .order-meta { font-size:11px; color:var(--text-secondary); }
+    .owner-order-delete { background:none; border:none; font-size:14px; cursor:pointer; color:#FF4D4D; }
 
     .cart-items { max-height:260px; overflow-y:auto; margin-bottom:12px; }
     .cart-item { display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--border-color); }
@@ -353,22 +359,19 @@
       </div>
     </header>
     <main>
-      <div class="owner-orders-panel" id="ownerOrdersPanel" style="display:none;">
-        <div class="owner-orders-header"><h3>📦 Customer Orders <button id="ownerClearOrdersBtn" class="clear-orders-btn">Clear All</button></h3></div>
-        <div id="ownerOrdersList"></div>
-      </div>
-
       <section id="menuSection" class="tab-section active">
         <div class="categories" id="categoryPillsContainer"></div>
         <div class="promo" id="promoBanner"><img src="https://i.ibb.co/TBf4vD7c/a29a73fd4a16586290659ff4454f025e3039c5f7ab5b0fc33599018a62148e20.png" alt="Aura Cafe Shop" /></div>
         <div class="admin-panel" id="adminPanel">
           <h3 style="margin-bottom:12px;font-size:18px;font-weight:800;color:var(--text-primary);">🛠️ Website Owner Panel</h3>
           <div class="admin-tabs">
-            <button class="admin-tab-btn active" data-tab="products">Products</button>
-            <button class="admin-tab-btn" data-tab="categories">Categories</button>
-            <button class="admin-tab-btn" data-tab="orders">Orders</button>
-            <button class="admin-tab-btn" data-tab="social">Social</button>
+            <button class="admin-tab-btn active" data-tab="products">🍽️ Menu</button>
+            <button class="admin-tab-btn" data-tab="categories">📂 Categories</button>
+            <button class="admin-tab-btn" data-tab="orders">📦 Orders</button>
+            <button class="admin-tab-btn" data-tab="contact">📞 Contact</button>
           </div>
+
+          <!-- Products Tab -->
           <div class="admin-section active" id="adminProductsSection">
             <div class="layout-editor-box">
               <h4 style="margin-bottom:8px;font-size:15px;font-weight:700;color:var(--text-primary);">🎨 Visual Card Layout Editor</h4>
@@ -402,15 +405,42 @@
             </form>
             <hr style="margin:12px 0;border-color:var(--border-color);" /><h4 style="font-size:14px;font-weight:700;color:var(--text-primary);">Existing Products</h4><div id="adminProductList"></div>
           </div>
+
+          <!-- Categories Tab -->
           <div class="admin-section" id="adminCategoriesSection">
             <form class="admin-form" id="categoryForm"><div class="form-group"><label>Image (file)</label><div class="file-input-wrapper"><input type="file" id="categoryImageFile" accept="image/*" /><span class="file-btn">📁 Choose</span></div><img id="categoryImagePreview" class="image-preview" alt="Preview" /></div><div class="form-group"><label>Or Emoji</label><input type="text" id="newCategoryEmoji" placeholder="🍣" /></div><div class="form-group"><label>Name</label><input type="text" id="newCategoryName" placeholder="Sushi" required /></div><button type="submit">➕ Add</button></form>
             <hr style="margin:12px 0;border-color:var(--border-color);" /><h4 style="font-size:14px;font-weight:700;color:var(--text-primary);">Existing Categories</h4><div id="adminCategoryList"></div>
           </div>
-          <div class="admin-section" id="adminOrdersSection"><h4 style="font-size:14px;font-weight:700;color:var(--text-primary);">Customer Orders</h4><div id="adminOrdersList"></div><button class="secondary" id="clearOrdersBtn" style="margin-top:12px;">🗑️ Clear All</button></div>
-          <div class="admin-section" id="adminSocialSection">
-            <form class="admin-form" id="socialForm"><div class="form-group"><label>Instagram URL</label><input type="text" id="socialInstagram" placeholder="https://instagram.com/..." /></div><div class="form-group"><label>Facebook URL</label><input type="text" id="socialFacebook" placeholder="https://facebook.com/..." /></div><div class="form-group"><label>WhatsApp</label><input type="text" id="socialWhatsApp" placeholder="+61 478 706 251" /></div><button type="submit">💾 Save</button></form>
+
+          <!-- Orders Tab -->
+          <div class="admin-section" id="adminOrdersSection">
+            <h4 style="font-size:14px;font-weight:700;color:var(--text-primary);">📦 Customer Orders</h4>
+            <div id="adminOrdersList"></div>
+            <button class="secondary" id="clearOrdersBtn" style="margin-top:12px;">🗑️ Clear All</button>
+            <hr style="margin:16px 0;border-color:var(--border-color);" />
+            <div class="owner-orders-panel">
+              <div class="owner-orders-header"><h3>📋 Owner Orders View</h3><button id="ownerClearOrdersBtn" class="clear-orders-btn">Clear All</button></div>
+              <div id="ownerOrdersList"></div>
+            </div>
+          </div>
+
+          <!-- Contact Tab -->
+          <div class="admin-section" id="adminContactSection">
+            <h4 style="font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:12px;">📞 Contact Information</h4>
+            <form class="admin-form" id="contactForm">
+              <div class="form-group"><label>Address</label><textarea id="contactAdminAddress" rows="2" required>279 Prospect Rd, Blair Athol SA 5084, Australia</textarea></div>
+              <div class="form-group"><label>Phone</label><input type="text" id="contactAdminPhone" value="+61 478 706 251" required /></div>
+              <div class="form-group"><label>Opening Hours</label><input type="text" id="contactAdminHours" value="Monday – Sunday, 6:00 AM – 9:00 PM" required /></div>
+              <hr style="margin:12px 0;border-color:var(--border-color);" />
+              <h4 style="font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:8px;">🔗 Social Links</h4>
+              <div class="form-group"><label>Instagram URL</label><input type="text" id="socialInstagram" placeholder="https://instagram.com/..." /></div>
+              <div class="form-group"><label>Facebook URL</label><input type="text" id="socialFacebook" placeholder="https://facebook.com/..." /></div>
+              <div class="form-group"><label>WhatsApp</label><input type="text" id="socialWhatsApp" placeholder="+61 478 706 251" /></div>
+              <button type="submit">💾 Save Contact & Social</button>
+            </form>
           </div>
         </div>
+
         <div class="heading-row"><h1>Our Menu</h1><a id="viewAllBtn">View all</a></div>
         <div class="product-grid" id="productGrid"></div>
       </section>
@@ -426,10 +456,7 @@
 
       <section id="contactSection" class="tab-section">
         <div class="section-title">Contact</div>
-        <div class="admin-contact-controls" id="adminContactControls">
-          <form id="contactInlineForm"><div class="form-group"><label>Address</label><textarea id="contactInlineAddress" rows="2" required>279 Prospect Rd, Blair Athol SA 5084, Australia</textarea></div><div class="form-group"><label>Phone</label><input type="text" id="contactInlinePhone" value="+61 478 706 251" required /></div><div class="form-group"><label>Hours</label><input type="text" id="contactInlineHours" value="Monday – Sunday, 6:00 AM – 9:00 PM" required /></div><button type="submit">💾 Save</button></form>
-        </div>
-        <div class="section-title">Follow Us</div>
+        <div class="section-title" style="margin-top:20px;">Follow Us</div>
         <div class="social-cards">
           <a href="#" id="facebookSocialCard" class="social-card facebook" target="_blank"><div class="social-icon"><i class="fab fa-facebook-f"></i></div><div class="social-name">Facebook</div><div class="social-handle" id="facebookHandle">Follow</div></a>
           <a href="#" id="instagramSocialCard" class="social-card instagram" target="_blank"><div class="social-icon"><i class="fab fa-instagram"></i></div><div class="social-name">Instagram</div><div class="social-handle" id="instagramHandle">Follow</div></a>
@@ -456,89 +483,19 @@
   <button class="call-btn" id="callBtn"><img src="https://i.ibb.co/zH5GG5H5/Gemini-Generated-Image-y95m0by95m0by95m.png" alt="Call" /></button>
 
   <!-- ===== MODALS ===== -->
-  <div class="modal-overlay" id="customerAuthOverlay">
-    <div class="modal">
-      <button class="modal-close" id="customerAuthClose">&times;</button>
-      <div class="auth-tabs"><button class="auth-tab active" data-auth-tab="customerPanel"><i class="fas fa-user"></i> Customer</button><button class="auth-tab" data-auth-tab="ownerPanel"><i class="fas fa-key"></i> Owner</button></div>
-      <div class="auth-panel active" id="customerPanel">
-        <h3 id="customerAuthTitle">Customer Login</h3>
-        <form class="login-form" id="customerAuthForm">
-          <div class="form-group" id="customerNameGroup" style="display:none;"><label>Full Name</label><input type="text" id="customerName" placeholder="Your name" /></div>
-          <div class="form-group"><label>Email</label><input type="email" id="customerEmail" placeholder="you@email.com" required /></div>
-          <div class="form-group"><label>Password</label><input type="password" id="customerPassword" placeholder="••••••" required /></div>
-          <button type="submit" class="login-btn" id="customerAuthSubmit"><i class="fas fa-sign-in-alt"></i> Login</button>
-          <p class="customer-auth-link"><a href="#" id="customerToggleMode">Create Account</a></p>
-          <p id="customerAuthError" class="error-msg"></p>
-        </form>
-      </div>
-      <div class="auth-panel" id="ownerPanel">
-        <h3>🔐 Owner Login</h3>
-        <form class="login-form" id="ownerLoginForm">
-          <div class="form-group"><label>Email</label><input type="email" id="ownerEmail" placeholder="Owner@Gmail.com" required /></div>
-          <div class="form-group"><label>Password</label><input type="password" id="ownerPassword" placeholder="••••••" required /></div>
-          <button type="submit" class="login-btn"><i class="fas fa-key"></i> Login as Owner</button>
-          <p id="ownerLoginError" class="error-msg"></p>
-        </form>
-      </div>
-    </div>
-  </div>
+  <div class="modal-overlay" id="customerAuthOverlay"><div class="modal"><button class="modal-close" id="customerAuthClose">&times;</button><div class="auth-tabs"><button class="auth-tab active" data-auth-tab="customerPanel"><i class="fas fa-user"></i> Customer</button><button class="auth-tab" data-auth-tab="ownerPanel"><i class="fas fa-key"></i> Owner</button></div><div class="auth-panel active" id="customerPanel"><h3 id="customerAuthTitle">Customer Login</h3><form class="login-form" id="customerAuthForm"><div class="form-group" id="customerNameGroup" style="display:none;"><label>Full Name</label><input type="text" id="customerName" placeholder="Your name" /></div><div class="form-group"><label>Email</label><input type="email" id="customerEmail" placeholder="you@email.com" required /></div><div class="form-group"><label>Password</label><input type="password" id="customerPassword" placeholder="••••••" required /></div><button type="submit" class="login-btn" id="customerAuthSubmit"><i class="fas fa-sign-in-alt"></i> Login</button><p class="customer-auth-link"><a href="#" id="customerToggleMode">Create Account</a></p><p id="customerAuthError" class="error-msg"></p></form></div><div class="auth-panel" id="ownerPanel"><h3>🔐 Owner Login</h3><form class="login-form" id="ownerLoginForm"><div class="form-group"><label>Email</label><input type="email" id="ownerEmail" placeholder="Owner@Gmail.com" required /></div><div class="form-group"><label>Password</label><input type="password" id="ownerPassword" placeholder="••••••" required /></div><button type="submit" class="login-btn"><i class="fas fa-key"></i> Login as Owner</button><p id="ownerLoginError" class="error-msg"></p></form></div></div></div>
 
-  <div class="modal-overlay" id="productOverlay">
-    <div class="modal">
-      <button class="modal-close" id="productClose">&times;</button>
-      <div class="modal-image-area" id="modalImageArea">🍕</div>
-      <div class="modal-content">
-        <h3 id="modalName">Margherita Pizza</h3>
-        <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:6px;"><span class="modal-price" id="modalPrice">$12.00</span><span class="modal-rating" id="modalRating">⭐ 4.8</span></div>
-        <p class="modal-description" id="modalDescription">Freshly baked pizza.</p>
-        <div class="qty-selector" style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:10px;"><button id="qtyMinus">−</button><span id="qtyValue">1</span><button id="qtyPlus">+</button></div>
-        <div class="special-instructions"><label>Special Instructions</label><input type="text" id="specialInstructionsInput" placeholder="e.g., no onions..." /></div>
-        <div class="modal-buttons" style="display:flex;gap:8px;margin-bottom:10px;"><button class="modal-add-btn" id="modalAddBtn">🛒 Add</button><button class="modal-buy-btn" id="modalBuyBtn">⚡ Buy</button></div>
-        <div class="reviews-section" id="reviewsSection"><h4>Reviews</h4><div id="reviewsList"></div><button class="add-review-btn" id="addReviewBtn">Write a Review</button></div>
-        <span class="reviews-toggle" id="reviewsToggle" style="font-size:12px;font-weight:600;color:var(--text-muted);cursor:pointer;">💬 Show Reviews</span>
-      </div>
-    </div>
-  </div>
+  <div class="modal-overlay" id="productOverlay"><div class="modal"><button class="modal-close" id="productClose">&times;</button><div class="modal-image-area" id="modalImageArea">🍕</div><div class="modal-content"><h3 id="modalName">Margherita Pizza</h3><div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:6px;"><span class="modal-price" id="modalPrice">$12.00</span><span class="modal-rating" id="modalRating">⭐ 4.8</span></div><p class="modal-description" id="modalDescription">Freshly baked pizza.</p><div class="qty-selector" style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:10px;"><button id="qtyMinus">−</button><span id="qtyValue">1</span><button id="qtyPlus">+</button></div><div class="special-instructions"><label>Special Instructions</label><input type="text" id="specialInstructionsInput" placeholder="e.g., no onions..." /></div><div class="modal-buttons" style="display:flex;gap:8px;margin-bottom:10px;"><button class="modal-add-btn" id="modalAddBtn">🛒 Add</button><button class="modal-buy-btn" id="modalBuyBtn">⚡ Buy</button></div><div class="reviews-section" id="reviewsSection"><h4>Reviews</h4><div id="reviewsList"></div><button class="add-review-btn" id="addReviewBtn">Write a Review</button></div><span class="reviews-toggle" id="reviewsToggle" style="font-size:12px;font-weight:600;color:var(--text-muted);cursor:pointer;">💬 Show Reviews</span></div></div></div>
 
-  <div class="modal-overlay" id="cartOverlay">
-    <div class="modal"><button class="modal-close" id="cartClose">&times;</button>
-      <div class="modal-content"><h3>🛒 Your Cart</h3><div class="cart-items" id="cartItems"></div><div class="cart-total" id="cartTotal">Total: $0.00</div><button class="modal-add-btn" id="cartCheckoutBtn" style="width:100%;">Checkout</button></div>
-    </div>
-  </div>
+  <div class="modal-overlay" id="cartOverlay"><div class="modal"><button class="modal-close" id="cartClose">&times;</button><div class="modal-content"><h3>🛒 Your Cart</h3><div class="cart-items" id="cartItems"></div><div class="cart-total" id="cartTotal">Total: $0.00</div><button class="modal-add-btn" id="cartCheckoutBtn" style="width:100%;">Checkout</button></div></div></div>
 
-  <div class="modal-overlay" id="orderOverlay">
-    <div class="modal"><button class="modal-close" id="orderClose">&times;</button>
-      <div class="modal-content" style="text-align:left;"><h3 style="text-align:center;">📝 Delivery Details</h3>
-        <form class="order-form" id="orderForm">
-          <div class="form-group"><label>Full Name</label><input type="text" id="orderName" placeholder="Your name" required /></div>
-          <div class="form-group"><label>Phone</label><input type="tel" id="orderPhone" placeholder="Your phone" required /></div>
-          <div class="form-group"><label>Address</label><textarea id="orderAddress" rows="2" placeholder="Your address" required></textarea></div>
-          <div class="form-group" id="savedAddressesGroup" style="display:none;"><label>Saved Addresses</label><div id="savedAddressesList"></div></div>
-          <div class="form-group"><label>Email (optional)</label><input type="email" id="orderEmail" placeholder="you@email.com" /></div>
-          <button type="submit" class="login-btn">Place Order ✅</button>
-        </form>
-      </div>
-    </div>
-  </div>
+  <div class="modal-overlay" id="orderOverlay"><div class="modal"><button class="modal-close" id="orderClose">&times;</button><div class="modal-content" style="text-align:left;"><h3 style="text-align:center;">📝 Delivery Details</h3><form class="order-form" id="orderForm"><div class="form-group"><label>Full Name</label><input type="text" id="orderName" placeholder="Your name" required /></div><div class="form-group"><label>Phone</label><input type="tel" id="orderPhone" placeholder="Your phone" required /></div><div class="form-group"><label>Address</label><textarea id="orderAddress" rows="2" placeholder="Your address" required></textarea></div><div class="form-group" id="savedAddressesGroup" style="display:none;"><label>Saved Addresses</label><div id="savedAddressesList"></div></div><div class="form-group"><label>Email (optional)</label><input type="email" id="orderEmail" placeholder="you@email.com" /></div><button type="submit" class="login-btn">Place Order ✅</button></form></div></div></div>
 
-  <div class="success-overlay" id="successOverlay" style="display:none;">
-    <div class="success-modal"><div class="success-checkmark"><svg viewBox="0 0 52 52" style="width:100%;height:100%;"><circle class="success-checkmark-circle" cx="26" cy="26" r="25" fill="none" stroke="#4CAF50" stroke-width="2" stroke-dasharray="166" stroke-dashoffset="166" /><path class="success-checkmark-check" fill="none" stroke="#4CAF50" stroke-width="3" d="M14.1 27.2l7.1 7.2 16.7-16.8" stroke-dasharray="48" stroke-dashoffset="48" /></svg></div>
-      <div class="success-title">Order Successful!</div>
-      <div class="success-message" id="successMessage">Thank you! We will contact you soon.</div>
-      <div class="success-order-details" id="successOrderDetails" style="display:none;"></div>
-      <button class="success-btn" id="successCloseBtn">Continue</button>
-    </div>
-    <div class="confetti-container" id="confettiContainer"></div>
-  </div>
+  <div class="success-overlay" id="successOverlay" style="display:none;"><div class="success-modal"><div class="success-checkmark"><svg viewBox="0 0 52 52" style="width:100%;height:100%;"><circle class="success-checkmark-circle" cx="26" cy="26" r="25" fill="none" stroke="#4CAF50" stroke-width="2" stroke-dasharray="166" stroke-dashoffset="166" /><path class="success-checkmark-check" fill="none" stroke="#4CAF50" stroke-width="3" d="M14.1 27.2l7.1 7.2 16.7-16.8" stroke-dasharray="48" stroke-dashoffset="48" /></svg></div><div class="success-title">Order Successful!</div><div class="success-message" id="successMessage">Thank you! We will contact you soon.</div><div class="success-order-details" id="successOrderDetails" style="display:none;"></div><button class="success-btn" id="successCloseBtn">Continue</button></div><div class="confetti-container" id="confettiContainer"></div></div>
 
   <div id="toastContainer" style="position:fixed;bottom:85px;right:16px;z-index:3000;display:flex;flex-direction:column;gap:8px;pointer-events:none;"></div>
 
-  <div class="modal-overlay" id="galleryLightboxOverlay">
-    <div class="modal" style="max-width:90%;max-height:90%;background:transparent;box-shadow:none;border:none;overflow:visible;">
-      <button class="modal-close" id="galleryLightboxClose" style="top:-10px;right:-10px;background:#fff;">&times;</button>
-      <img id="galleryLightboxImage" src="" style="width:100%;height:auto;max-height:80vh;object-fit:contain;border-radius:12px;display:block;" />
-    </div>
-  </div>
+  <div class="modal-overlay" id="galleryLightboxOverlay"><div class="modal" style="max-width:90%;max-height:90%;background:transparent;box-shadow:none;border:none;overflow:visible;"><button class="modal-close" id="galleryLightboxClose" style="top:-10px;right:-10px;background:#fff;">&times;</button><img id="galleryLightboxImage" src="" style="width:100%;height:auto;max-height:80vh;object-fit:contain;border-radius:12px;display:block;" /></div></div>
 
   <nav class="bottom-nav" id="bottomNav">
     <button class="bottom-nav-btn active" data-target="menuSection"><span class="nav-icon">🍕</span><span>Menu</span></button>
@@ -562,7 +519,7 @@
     // ============================================================
     // 📦 DEFAULT DATA - EMPTY PRODUCTS
     // ============================================================
-    const defaultProducts = []; // 🔥 Completely empty
+    const defaultProducts = [];
     const defaultCategories = [
       { id: 'pizza', name: 'Pizza', emoji: '🍕' }, { id: 'drinks', name: 'Drinks', emoji: '🥤' },
       { id: 'cakes', name: 'Cakes', emoji: '🍰' }, { id: 'breads', name: 'Breads', emoji: '🥖' },
@@ -1187,9 +1144,9 @@
 
     function renderAdminOrdersList() {
       var list = document.getElementById('adminOrdersList');
+      var topList = document.getElementById('ownerOrdersList');
       if (!list) return;
       list.innerHTML = '';
-      var topList = document.getElementById('ownerOrdersList');
       if (topList) topList.innerHTML = '';
       if (orders.length === 0) {
         list.innerHTML = '<p style="color:var(--text-muted);font-size:13px;">No orders yet.</p>';
@@ -1223,7 +1180,6 @@
           var topDelBtn = document.createElement('button');
           topDelBtn.className = 'owner-order-delete';
           topDelBtn.textContent = '🗑️';
-          topDelBtn.style.cssText = 'background:none;border:none;font-size:14px;cursor:pointer;color:#FF4D4D;';
           topDelBtn.onclick = async function() { if (await confirm('Delete this order?')) { orders.splice(index,1); saveOrders(); renderAdminOrdersList(); renderOrdersDashboard(); updateNotifBadge(); } };
           topItem.appendChild(topDelBtn);
           topList.appendChild(topItem);
@@ -1447,9 +1403,10 @@
       if (addr) addr.innerHTML = contactInfo.address.replace(/\n/g, '<br>');
       if (phone) phone.textContent = contactInfo.phone;
       if (hours) hours.innerHTML = contactInfo.hours.replace(/\n/g, '<br>');
-      var ca = document.getElementById('contactInlineAddress');
-      var cp = document.getElementById('contactInlinePhone');
-      var ch = document.getElementById('contactInlineHours');
+      // Admin contact form fields
+      var ca = document.getElementById('contactAdminAddress');
+      var cp = document.getElementById('contactAdminPhone');
+      var ch = document.getElementById('contactAdminHours');
       if (ca) ca.value = contactInfo.address;
       if (cp) cp.value = contactInfo.phone;
       if (ch) ch.value = contactInfo.hours;
@@ -1537,9 +1494,7 @@
           isLoggedIn = true; localStorage.setItem('samoon99_loggedin', 'true');
           updateCustomerUI();
           document.getElementById('adminPanel').classList.add('active');
-          document.getElementById('ownerOrdersPanel').style.display = 'block';
           document.getElementById('adminGalleryControls').classList.add('active');
-          document.getElementById('adminContactControls').classList.add('active');
           document.getElementById('customerAuthOverlay').style.display = 'none';
           document.getElementById('ownerLoginError').textContent = '';
           document.getElementById('cloudStatus').classList.add('visible');
@@ -1556,9 +1511,7 @@
     function checkLogin() {
       if (localStorage.getItem('samoon99_loggedin') === 'true') {
         isLoggedIn = true; updateCustomerUI(); document.getElementById('adminPanel').classList.add('active');
-        document.getElementById('ownerOrdersPanel').style.display = 'block';
         document.getElementById('adminGalleryControls').classList.add('active');
-        document.getElementById('adminContactControls').classList.add('active');
         updateNotifBadge(); document.getElementById('cloudStatus').classList.add('visible');
       } else { document.getElementById('cloudStatus').classList.remove('visible'); }
     }
@@ -1566,9 +1519,7 @@
       if (await confirm('Logout?')) {
         isLoggedIn = false; localStorage.removeItem('samoon99_loggedin');
         updateCustomerUI(); document.getElementById('adminPanel').classList.remove('active');
-        document.getElementById('ownerOrdersPanel').style.display = 'none';
         document.getElementById('adminGalleryControls').classList.remove('active');
-        document.getElementById('adminContactControls').classList.remove('active');
         renderAll(); document.getElementById('cloudStatus').classList.remove('visible');
         showToast('Logged out', 'info');
       }
@@ -1603,7 +1554,7 @@
         document.getElementById('cardFontName').value = cardFontName;
         applyFontToCards(cardFontName);
       }
-      console.log('🚀 Aura Cafe Loaded Successfully!');
+      console.log('🚀 Aura Cafe Loaded Successfully! Admin panel restructured.');
     });
 
     // ========== BOTTOM NAV ==========
@@ -1834,20 +1785,16 @@
       } else { alert('Please choose an image'); }
     });
 
-    document.getElementById('contactInlineForm').addEventListener('submit', function(e) {
+    // Contact Form (Admin Contact Tab)
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      contactInfo.address = document.getElementById('contactInlineAddress').value;
-      contactInfo.phone = document.getElementById('contactInlinePhone').value;
-      contactInfo.hours = document.getElementById('contactInlineHours').value;
-      saveContact(); updateContactUI(); alert('Contact info updated!');
-    });
-
-    document.getElementById('socialForm').addEventListener('submit', function(e) {
-      e.preventDefault();
+      contactInfo.address = document.getElementById('contactAdminAddress').value;
+      contactInfo.phone = document.getElementById('contactAdminPhone').value;
+      contactInfo.hours = document.getElementById('contactAdminHours').value;
       contactInfo.social.instagram = document.getElementById('socialInstagram').value.trim();
       contactInfo.social.facebook = document.getElementById('socialFacebook').value.trim();
       contactInfo.social.whatsapp = document.getElementById('socialWhatsApp').value.trim();
-      saveContact(); updateSocialLinksUI(); showToast('Social links saved!', 'success');
+      saveContact(); updateContactUI(); updateSocialLinksUI(); showToast('Contact & Social saved!', 'success');
     });
 
     document.getElementById('clearOrdersBtn').addEventListener('click', async function() {
@@ -1935,7 +1882,7 @@
     }
     (function() { try { emailjs.init("YOUR_PUBLIC_KEY"); } catch(e) {} })();
     
-    console.log('🚀 Aura Cafe Loaded Successfully! Default products removed.');
+    console.log('🚀 Aura Cafe Loaded Successfully! Admin panel restructured.');
   </script>
 </body>
 </html>
