@@ -4,20 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aura Cafe | Bakery & Cake Shop</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Pacific&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="manifest" href="manifest.json" />
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <style id="dynamicCardFontStyle"></style>
   <style>
-    /* ========== ब्रांड फॉन्ट GitHub से लोड करें ========== */
-    @font-face {
-      font-family: 'Bluecherries';
-      src: url('YOUR_GITHUB_RAW_URL') format('truetype');
-      font-weight: normal;
-      font-style: normal;
-      font-display: swap;
-    }
     :root {
       --bg-body: #F5F5F5;
       --bg-header: #F5F5F5;
@@ -58,7 +50,7 @@
     .search-suggestion-item:hover { background:var(--bg-hover); }
     .search-suggestion-item:last-child { border-bottom:none; }
 
-    .brand-name { flex:1; text-align:center; font-family:'Bluecherries','Inter',cursive; font-size:26px; letter-spacing:1px; color:var(--text-primary); cursor:default; user-select:none; white-space:nowrap; }
+    .brand-name { flex:1; text-align:center; font-family:'Pacific','Inter',cursive; font-size:26px; letter-spacing:1px; color:var(--text-primary); cursor:default; user-select:none; white-space:nowrap; }
     .cart-btn { position:relative; cursor:pointer; background:none; border:none; font-size:20px; color:var(--text-primary); transition:transform 0.15s; }
     .cart-btn:hover { transform:scale(1.08); }
     .cart-badge { position:absolute; top:-4px; right:-4px; background:#FF4D4D; color:#fff; font-size:9px; font-weight:700; border-radius:50%; width:16px; height:16px; display:flex; align-items:center; justify-content:center; }
@@ -379,7 +371,6 @@
             <button class="admin-tab-btn" data-tab="contact">📞 Contact</button>
           </div>
 
-          <!-- Products Tab -->
           <div class="admin-section active" id="adminProductsSection">
             <div class="layout-editor-box">
               <h4 style="margin-bottom:8px;font-size:15px;font-weight:700;color:var(--text-primary);">🎨 Visual Card Layout Editor</h4>
@@ -414,13 +405,11 @@
             <hr style="margin:12px 0;border-color:var(--border-color);" /><h4 style="font-size:14px;font-weight:700;color:var(--text-primary);">Existing Products</h4><div id="adminProductList"></div>
           </div>
 
-          <!-- Categories Tab -->
           <div class="admin-section" id="adminCategoriesSection">
             <form class="admin-form" id="categoryForm"><div class="form-group"><label>Image (file)</label><div class="file-input-wrapper"><input type="file" id="categoryImageFile" accept="image/*" /><span class="file-btn">📁 Choose</span></div><img id="categoryImagePreview" class="image-preview" alt="Preview" /></div><div class="form-group"><label>Or Emoji</label><input type="text" id="newCategoryEmoji" placeholder="🍣" /></div><div class="form-group"><label>Name</label><input type="text" id="newCategoryName" placeholder="Sushi" required /></div><button type="submit">➕ Add</button></form>
             <hr style="margin:12px 0;border-color:var(--border-color);" /><h4 style="font-size:14px;font-weight:700;color:var(--text-primary);">Existing Categories</h4><div id="adminCategoryList"></div>
           </div>
 
-          <!-- Orders Tab -->
           <div class="admin-section" id="adminOrdersSection">
             <h4 style="font-size:14px;font-weight:700;color:var(--text-primary);">📦 Customer Orders</h4>
             <div id="adminOrdersList"></div>
@@ -432,7 +421,6 @@
             </div>
           </div>
 
-          <!-- Contact Tab -->
           <div class="admin-section" id="adminContactSection">
             <h4 style="font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:12px;">📞 Contact Information</h4>
             <form class="admin-form" id="contactForm">
@@ -491,7 +479,7 @@
   <button class="call-btn" id="callBtn"><img src="https://i.ibb.co/zH5GG5H5/Gemini-Generated-Image-y95m0by95m0by95m.png" alt="Call" /></button>
 
   <!-- ===== MODALS ===== -->
-  <div class="modal-overlay" id="customerAuthOverlay"><div class="modal"><button class="modal-close" id="customerAuthClose">&times;</button><div class="auth-tabs"><button class="auth-tab active" data-auth-tab="customerPanel"><i class="fas fa-user"></i> Customer</button><button class="auth-tab" data-auth-tab="ownerPanel"><i class="fas fa-key"></i> Owner</button></div><div class="auth-panel active" id="customerPanel"><h3 id="customerAuthTitle">Customer Login</h3><form class="login-form" id="customerAuthForm"><div class="form-group" id="customerNameGroup" style="display:none;"><label>Full Name</label><input type="text" id="customerName" placeholder="Your name" /></div><div class="form-group"><label>Email</label><input type="email" id="customerEmail" placeholder="you@email.com" required /></div><div class="form-group"><label>Password</label><input type="password" id="customerPassword" placeholder="••••••" required /></div><button type="submit" class="login-btn" id="customerAuthSubmit"><i class="fas fa-sign-in-alt"></i> Login</button><p class="customer-auth-link"><a href="#" id="customerToggleMode">Create Account</a></p><p id="customerAuthError" class="error-msg"></p></form></div><div class="auth-panel" id="ownerPanel"><h3>🔐 Owner Login</h3><form class="login-form" id="ownerLoginForm"><div class="form-group"><label>Email</label><input type="email" id="ownerEmail" placeholder="Owner@Gmail.com" required /></div><div class="form-group"><label>Password</label><input type="password" id="ownerPassword" placeholder="••••••" required /></div><button type="submit" class="login-btn"><i class="fas fa-key"></i> Login as Owner</button><p id="ownerLoginError" class="error-msg"></p></form></div></div></div>
+  <div class="modal-overlay" id="customerAuthOverlay"><div class="modal"><button class="modal-close" id="customerAuthClose">&times;</button><div class="auth-tabs"><button class="auth-tab active" data-auth-tab="customerPanel"><i class="fas fa-user"></i> Customer</button><button class="auth-tab" data-auth-tab="ownerPanel"><i class="fas fa-key"></i> Owner</button></div><div class="auth-panel active" id="customerPanel"><h3 id="customerAuthTitle">Customer Login</h3><form class="login-form" id="customerAuthForm"><div class="form-group" id="customerNameGroup" style="display:none;"><label>Full Name</label><input type="text" id="customerName" placeholder="Your name" /></div><div class="form-group"><label>Email</label><input type="email" id="customerEmail" placeholder="you@email.com" required /></div><div class="form-group"><label>Password</label><input type="password" id="customerPassword" placeholder="••••••" required /></div><button type="submit" class="login-btn" id="customerAuthSubmit"><i class="fas fa-sign-in-alt"></i> Login</button><p class="customer-auth-link"><a href="#" id="customerToggleMode">Create Account</a></p><p id="customerAuthError" class="error-msg"></p></form></div><div class="auth-panel" id="ownerPanel"><h3>🔐 Owner Login</h3><form class="login-form" id="ownerLoginForm"><div class="form-group"><label>Email</label><input type="text" id="ownerEmail" placeholder="Owner@Gmail.com" /></div><div class="form-group"><label>Password</label><input type="password" id="ownerPassword" placeholder="••••••" required /></div><button type="submit" class="login-btn"><i class="fas fa-key"></i> Login as Owner</button><p id="ownerLoginError" class="error-msg"></p></form></div></div></div>
 
   <div class="modal-overlay" id="productOverlay"><div class="modal"><button class="modal-close" id="productClose">&times;</button><div class="modal-image-area" id="modalImageArea">🍕</div><div class="modal-content"><h3 id="modalName">Margherita Pizza</h3><div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:6px;"><span class="modal-price" id="modalPrice">$12.00</span><span class="modal-rating" id="modalRating">⭐ 4.8</span></div><p class="modal-description" id="modalDescription">Freshly baked pizza.</p><div class="qty-selector" style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:10px;"><button id="qtyMinus">−</button><span id="qtyValue">1</span><button id="qtyPlus">+</button></div><div class="special-instructions"><label>Special Instructions</label><input type="text" id="specialInstructionsInput" placeholder="e.g., no onions..." /></div><div class="modal-buttons" style="display:flex;gap:8px;margin-bottom:10px;"><button class="modal-add-btn" id="modalAddBtn">🛒 Add</button><button class="modal-buy-btn" id="modalBuyBtn">⚡ Buy</button></div><div class="reviews-section" id="reviewsSection"><h4>Reviews</h4><div id="reviewsList"></div><button class="add-review-btn" id="addReviewBtn">Write a Review</button></div><span class="reviews-toggle" id="reviewsToggle" style="font-size:12px;font-weight:600;color:var(--text-muted);cursor:pointer;">💬 Show Reviews</span></div></div></div>
 
@@ -516,13 +504,13 @@
 
   <script>
     // ============================================================
-    // 🔐 CONFIG (अपनी असली Master Key और Bin ID डालें)
+    // 🔐 CONFIG - Apni values yahan daalein
     // ============================================================
     const CONFIG = {
-      MASTER_KEY: "$2a$10$PQsH0V/iensCRY8gc3g1Juyg4iB5.XHJVIICFVj7xiJcByySVZO2K",  // 👈 अपनी JSONBin.io Master Key डालें
-      BIN_ID: "6a9c752af5f4af5e296f3307",          // 👈 अपना Bin ID डालें
-      USE_CLOUD: true,                     // Cloud sync चालू है
-      ADMIN_PASSWORD: "aura123"            // Admin login password (बदल सकते हैं)
+      MASTER_KEY: "$2a$10$PQsH0V/iensCRY8gc3g1Juyg4iB5.XHJVIICFVj7xiJcByySVZO2K",  // 👈 JSONBin.io Master Key
+      BIN_ID: "6a9c752af5f4af5e296f3307",          // 👈 JSONBin.io Bin ID
+      USE_CLOUD: true,                     // Cloud sync ON
+      ADMIN_PASSWORD: "aura123"            // 👈 Admin password yahan set karein
     };
 
     // ============================================================
@@ -1494,21 +1482,34 @@
     function customerLogout() { currentCustomer = null; saveCurrentCustomer(); updateCustomerUI(); renderCartUI(); }
     function updateCustomerUI() { var a = document.getElementById('customerAvatar'); if (a) a.innerHTML = '<img src="https://i.ibb.co/RpdwtSRh/avatar.png" alt="Avatar" />'; }
 
-    async function adminLogin(email, password) {
-      if (password === CONFIG.ADMIN_PASSWORD) {
-        isLoggedIn = true; localStorage.setItem('samoon99_loggedin', 'true');
-        updateCustomerUI();
+    // ✅ FIXED: Admin login - ab async nahi, trim karke compare karta hai
+    function adminLogin(email, password) {
+      var enteredPassword = (password || '').trim();
+      var expectedPassword = (CONFIG.ADMIN_PASSWORD || '').trim();
+
+      console.log('🔑 Admin Login Attempt:', email, '| Password:', enteredPassword);
+
+      if (enteredPassword === expectedPassword) {
+        isLoggedIn = true;
+        localStorage.setItem('samoon99_loggedin', 'true');
+
         document.getElementById('adminPanel').classList.add('active');
         document.getElementById('adminGalleryControls').classList.add('active');
         document.getElementById('customerAuthOverlay').style.display = 'none';
         document.getElementById('ownerLoginError').textContent = '';
         document.getElementById('cloudStatus').classList.add('visible');
-        updateNotifBadge(); renderAll(); showToast('✅ Admin Login Successful!', 'success'); return true;
+
+        updateCustomerUI();
+        updateNotifBadge();
+        renderAll();
+        showToast('✅ Admin Login Successful!', 'success');
+        return true;
       } else {
-        document.getElementById('ownerLoginError').textContent = 'Invalid password';
+        document.getElementById('ownerLoginError').textContent = 'Invalid password!';
         return false;
       }
     }
+
     function checkLogin() {
       if (localStorage.getItem('samoon99_loggedin') === 'true') {
         isLoggedIn = true; updateCustomerUI(); document.getElementById('adminPanel').classList.add('active');
@@ -1658,11 +1659,16 @@
       else { nameGroup.style.display = 'block'; title.textContent = 'Create Account'; submitBtn.innerHTML = '<i class="fas fa-user-plus"></i> Register'; }
       document.getElementById('customerAuthError').textContent = '';
     });
+
+    // ✅ FIXED: Owner login form handler
     document.getElementById('ownerLoginForm').addEventListener('submit', function(e) {
       e.preventDefault();
+      var email = document.getElementById('ownerEmail').value;
       var password = document.getElementById('ownerPassword').value;
-      adminLogin('Owner@Gmail.com', password);
+      console.log('📝 Owner Form Submitted:', email, password);
+      adminLogin(email || 'Owner@Gmail.com', password);
     });
+
     document.getElementById('customerAuthClose').addEventListener('click', function() { document.getElementById('customerAuthOverlay').style.display = 'none'; });
     document.getElementById('customerAuthOverlay').addEventListener('click', function(e) { if (e.target === this) document.getElementById('customerAuthOverlay').style.display = 'none'; });
 
@@ -1786,7 +1792,6 @@
       } else { alert('Please choose an image'); }
     });
 
-    // Contact Form (Admin Contact Tab)
     document.getElementById('contactForm').addEventListener('submit', function(e) {
       e.preventDefault();
       contactInfo.address = document.getElementById('contactAdminAddress').value;
@@ -1883,7 +1888,7 @@
     }
     (function() { try { emailjs.init("YOUR_PUBLIC_KEY"); } catch(e) {} })();
     
-    console.log('🚀 Aura Cafe Loaded Successfully!');
+    console.log('🚀 Aura Cafe Loaded Successfully! Admin login FIXED.');
   </script>
 </body>
 </html>
