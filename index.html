@@ -10,6 +10,14 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <style id="dynamicCardFontStyle"></style>
   <style>
+    /* ========== ब्रांड फॉन्ट GitHub से लोड करें ========== */
+    @font-face {
+      font-family: 'Bluecherries';
+      src: url('YOUR_GITHUB_RAW_URL') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
     :root {
       --bg-body: #F5F5F5;
       --bg-header: #F5F5F5;
@@ -50,7 +58,7 @@
     .search-suggestion-item:hover { background:var(--bg-hover); }
     .search-suggestion-item:last-child { border-bottom:none; }
 
-    .brand-name { flex:1; text-align:center; font-family:'Bluecherries',cursive; font-size:26px; letter-spacing:1px; color:var(--text-primary); cursor:default; user-select:none; white-space:nowrap; }
+    .brand-name { flex:1; text-align:center; font-family:'Bluecherries','Inter',cursive; font-size:26px; letter-spacing:1px; color:var(--text-primary); cursor:default; user-select:none; white-space:nowrap; }
     .cart-btn { position:relative; cursor:pointer; background:none; border:none; font-size:20px; color:var(--text-primary); transition:transform 0.15s; }
     .cart-btn:hover { transform:scale(1.08); }
     .cart-badge { position:absolute; top:-4px; right:-4px; background:#FF4D4D; color:#fff; font-size:9px; font-weight:700; border-radius:50%; width:16px; height:16px; display:flex; align-items:center; justify-content:center; }
@@ -508,16 +516,17 @@
 
   <script>
     // ============================================================
-    // 🔐 JSONBin CONFIG
+    // 🔐 CONFIG (अपनी असली Master Key और Bin ID डालें)
     // ============================================================
     const CONFIG = {
-      MASTER_KEY: "$2a$10$PQsH0V/iensCRY8gc3g1Juyg4iB5.XHJVIICFVj7xiJcByySVZO2K",
-      BIN_ID: "6a9c752af5f4af5e296f3307",
-      USE_CLOUD: true
+      MASTER_KEY: "$2a$10$PQsH0V/iensCRY8gc3g1Juyg4iB5.XHJVIICFVj7xiJcByySVZO2K",  // 👈 अपनी JSONBin.io Master Key डालें
+      BIN_ID: "6a9c752af5f4af5e296f3307",          // 👈 अपना Bin ID डालें
+      USE_CLOUD: true,                     // Cloud sync चालू है
+      ADMIN_PASSWORD: "aura123"            // Admin login password (बदल सकते हैं)
     };
 
     // ============================================================
-    // 📦 DEFAULT DATA - EMPTY PRODUCTS
+    // 📦 DEFAULT DATA
     // ============================================================
     const defaultProducts = [];
     const defaultCategories = [
@@ -653,7 +662,7 @@
     }
 
     // ============================================================
-    // 📥 LOADDATA
+    // 📥 LOAD DATA
     // ============================================================
     async function loadData() {
       let cloudData = null, cloudHasData = false;
@@ -804,12 +813,12 @@
       if (sampleName) {
         sampleName.style.left = (BASE_POS.name.left + layoutOffsets.name.x) + '%';
         sampleName.style.top = (BASE_POS.name.top + layoutOffsets.name.y) + '%';
-        sampleName.style.fontSize = 'clamp(12px, 2.5cqw, 22px)';
+        sampleName.style.fontSize = 'clamp(' + (layoutScales.name * 0.8) + 'px, ' + (layoutScales.name * 1.2) + 'cqw, ' + (layoutScales.name * 2) + 'px)';
       }
       if (sampleFooter) {
         sampleFooter.style.left = (BASE_POS.price.left + layoutOffsets.price.x) + '%';
-        if (samplePrice) samplePrice.style.fontSize = 'clamp(11px, 2cqw, 18px)';
-        if (sampleRating) sampleRating.style.fontSize = 'clamp(10px, 1.8cqw, 16px)';
+        if (samplePrice) samplePrice.style.fontSize = 'clamp(' + (layoutScales.price * 0.7) + 'px, ' + (layoutScales.price * 1) + 'cqw, ' + (layoutScales.price * 1.5) + 'px)';
+        if (sampleRating) sampleRating.style.fontSize = 'clamp(' + (layoutScales.price * 0.6) + 'px, ' + (layoutScales.price * 0.9) + 'cqw, ' + (layoutScales.price * 1.3) + 'px)';
       }
       if (sampleWishlist) {
         sampleWishlist.style.left = (BASE_POS.wishlist.left + layoutOffsets.wishlist.x) + '%';
@@ -923,7 +932,7 @@
 
       filtered.forEach(function(product) {
         var card = document.createElement('div');
-        card.className = 'card';
+        card.className = 'card' + (isLoggedIn ? ' admin-mode' : '');
         card.setAttribute('data-id', product.id);
         card.setAttribute('data-description', product.description || '');
         card.innerHTML = '<button class="wishlist">♡</button>' +
@@ -947,12 +956,12 @@
         if (nameDiv) {
           nameDiv.style.left = (BASE_POS.name.left + layoutOffsets.name.x) + '%';
           nameDiv.style.top = (BASE_POS.name.top + layoutOffsets.name.y) + '%';
-          nameDiv.style.fontSize = 'clamp(12px, 2.5cqw, 22px)';
+          nameDiv.style.fontSize = 'clamp(' + (layoutScales.name * 0.8) + 'px, ' + (layoutScales.name * 1.2) + 'cqw, ' + (layoutScales.name * 2) + 'px)';
         }
         if (footerDiv) {
           footerDiv.style.left = (BASE_POS.price.left + layoutOffsets.price.x) + '%';
-          if (priceSpan) priceSpan.style.fontSize = 'clamp(11px, 2cqw, 18px)';
-          if (ratingSpan) ratingSpan.style.fontSize = 'clamp(10px, 1.8cqw, 16px)';
+          if (priceSpan) priceSpan.style.fontSize = 'clamp(' + (layoutScales.price * 0.7) + 'px, ' + (layoutScales.price * 1) + 'cqw, ' + (layoutScales.price * 1.5) + 'px)';
+          if (ratingSpan) ratingSpan.style.fontSize = 'clamp(' + (layoutScales.price * 0.6) + 'px, ' + (layoutScales.price * 0.9) + 'cqw, ' + (layoutScales.price * 1.3) + 'px)';
         }
         if (wishlistBtn) {
           wishlistBtn.style.left = (BASE_POS.wishlist.left + layoutOffsets.wishlist.x) + '%';
@@ -1403,7 +1412,6 @@
       if (addr) addr.innerHTML = contactInfo.address.replace(/\n/g, '<br>');
       if (phone) phone.textContent = contactInfo.phone;
       if (hours) hours.innerHTML = contactInfo.hours.replace(/\n/g, '<br>');
-      // Admin contact form fields
       var ca = document.getElementById('contactAdminAddress');
       var cp = document.getElementById('contactAdminPhone');
       var ch = document.getElementById('contactAdminHours');
@@ -1471,7 +1479,7 @@
     function hideSearchSuggestions() { var s = document.getElementById('searchSuggestions'); if (s) s.style.display = 'none'; }
 
     // ============================================================
-    // 🔐 AUTH
+    // 🔐 AUTH (FIXED)
     // ============================================================
     function customerLogin(email, password) {
       var customer = customers.find(c => c.email.toLowerCase() === email.toLowerCase() && c.password === password);
@@ -1487,24 +1495,17 @@
     function updateCustomerUI() { var a = document.getElementById('customerAvatar'); if (a) a.innerHTML = '<img src="https://i.ibb.co/RpdwtSRh/avatar.png" alt="Avatar" />'; }
 
     async function adminLogin(email, password) {
-      try {
-        const res = await fetch('/api/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password }) });
-        const data = await res.json();
-        if (data.success) {
-          isLoggedIn = true; localStorage.setItem('samoon99_loggedin', 'true');
-          updateCustomerUI();
-          document.getElementById('adminPanel').classList.add('active');
-          document.getElementById('adminGalleryControls').classList.add('active');
-          document.getElementById('customerAuthOverlay').style.display = 'none';
-          document.getElementById('ownerLoginError').textContent = '';
-          document.getElementById('cloudStatus').classList.add('visible');
-          updateNotifBadge(); renderAll(); showToast('✅ Admin Login Successful!', 'success'); return true;
-        } else {
-          document.getElementById('ownerLoginError').textContent = data.message || 'Invalid password';
-          return false;
-        }
-      } catch(e) {
-        document.getElementById('ownerLoginError').textContent = 'Network error. Please try again.';
+      if (password === CONFIG.ADMIN_PASSWORD) {
+        isLoggedIn = true; localStorage.setItem('samoon99_loggedin', 'true');
+        updateCustomerUI();
+        document.getElementById('adminPanel').classList.add('active');
+        document.getElementById('adminGalleryControls').classList.add('active');
+        document.getElementById('customerAuthOverlay').style.display = 'none';
+        document.getElementById('ownerLoginError').textContent = '';
+        document.getElementById('cloudStatus').classList.add('visible');
+        updateNotifBadge(); renderAll(); showToast('✅ Admin Login Successful!', 'success'); return true;
+      } else {
+        document.getElementById('ownerLoginError').textContent = 'Invalid password';
         return false;
       }
     }
@@ -1554,7 +1555,7 @@
         document.getElementById('cardFontName').value = cardFontName;
         applyFontToCards(cardFontName);
       }
-      console.log('🚀 Aura Cafe Loaded Successfully! Admin panel restructured.');
+      console.log('🚀 Aura Cafe Loaded Successfully!');
     });
 
     // ========== BOTTOM NAV ==========
@@ -1882,7 +1883,7 @@
     }
     (function() { try { emailjs.init("YOUR_PUBLIC_KEY"); } catch(e) {} })();
     
-    console.log('🚀 Aura Cafe Loaded Successfully! Admin panel restructured.');
+    console.log('🚀 Aura Cafe Loaded Successfully!');
   </script>
 </body>
 </html>
