@@ -4,7 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aura Cafe | Bakery & Cake Shop</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Pacific&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="manifest" href="manifest.json" />
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -50,7 +52,7 @@
     .search-suggestion-item:hover { background:var(--bg-hover); }
     .search-suggestion-item:last-child { border-bottom:none; }
 
-    .brand-name { flex:1; text-align:center; font-family:'Bluecherries',cursive; font-size:26px; letter-spacing:1px; color:var(--text-primary); cursor:default; user-select:none; white-space:nowrap; }
+    .brand-name { flex:1; text-align:center; font-family:'Pacific','Inter',cursive; font-size:26px; letter-spacing:1px; color:var(--text-primary); cursor:default; user-select:none; white-space:nowrap; }
     .cart-btn { position:relative; cursor:pointer; background:none; border:none; font-size:20px; color:var(--text-primary); transition:transform 0.15s; }
     .cart-btn:hover { transform:scale(1.08); }
     .cart-badge { position:absolute; top:-4px; right:-4px; background:#FF4D4D; color:#fff; font-size:9px; font-weight:700; border-radius:50%; width:16px; height:16px; display:flex; align-items:center; justify-content:center; }
@@ -371,7 +373,6 @@
             <button class="admin-tab-btn" data-tab="contact">📞 Contact</button>
           </div>
 
-          <!-- Products Tab -->
           <div class="admin-section active" id="adminProductsSection">
             <div class="layout-editor-box">
               <h4 style="margin-bottom:8px;font-size:15px;font-weight:700;color:var(--text-primary);">🎨 Visual Card Layout Editor</h4>
@@ -406,13 +407,11 @@
             <hr style="margin:12px 0;border-color:var(--border-color);" /><h4 style="font-size:14px;font-weight:700;color:var(--text-primary);">Existing Products</h4><div id="adminProductList"></div>
           </div>
 
-          <!-- Categories Tab -->
           <div class="admin-section" id="adminCategoriesSection">
             <form class="admin-form" id="categoryForm"><div class="form-group"><label>Image (file)</label><div class="file-input-wrapper"><input type="file" id="categoryImageFile" accept="image/*" /><span class="file-btn">📁 Choose</span></div><img id="categoryImagePreview" class="image-preview" alt="Preview" /></div><div class="form-group"><label>Or Emoji</label><input type="text" id="newCategoryEmoji" placeholder="🍣" /></div><div class="form-group"><label>Name</label><input type="text" id="newCategoryName" placeholder="Sushi" required /></div><button type="submit">➕ Add</button></form>
             <hr style="margin:12px 0;border-color:var(--border-color);" /><h4 style="font-size:14px;font-weight:700;color:var(--text-primary);">Existing Categories</h4><div id="adminCategoryList"></div>
           </div>
 
-          <!-- Orders Tab -->
           <div class="admin-section" id="adminOrdersSection">
             <h4 style="font-size:14px;font-weight:700;color:var(--text-primary);">📦 Customer Orders</h4>
             <div id="adminOrdersList"></div>
@@ -424,7 +423,6 @@
             </div>
           </div>
 
-          <!-- Contact Tab -->
           <div class="admin-section" id="adminContactSection">
             <h4 style="font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:12px;">📞 Contact Information</h4>
             <form class="admin-form" id="contactForm">
@@ -483,7 +481,7 @@
   <button class="call-btn" id="callBtn"><img src="https://i.ibb.co/zH5GG5H5/Gemini-Generated-Image-y95m0by95m0by95m.png" alt="Call" /></button>
 
   <!-- ===== MODALS ===== -->
-  <div class="modal-overlay" id="customerAuthOverlay"><div class="modal"><button class="modal-close" id="customerAuthClose">&times;</button><div class="auth-tabs"><button class="auth-tab active" data-auth-tab="customerPanel"><i class="fas fa-user"></i> Customer</button><button class="auth-tab" data-auth-tab="ownerPanel"><i class="fas fa-key"></i> Owner</button></div><div class="auth-panel active" id="customerPanel"><h3 id="customerAuthTitle">Customer Login</h3><form class="login-form" id="customerAuthForm"><div class="form-group" id="customerNameGroup" style="display:none;"><label>Full Name</label><input type="text" id="customerName" placeholder="Your name" /></div><div class="form-group"><label>Email</label><input type="email" id="customerEmail" placeholder="you@email.com" required /></div><div class="form-group"><label>Password</label><input type="password" id="customerPassword" placeholder="••••••" required /></div><button type="submit" class="login-btn" id="customerAuthSubmit"><i class="fas fa-sign-in-alt"></i> Login</button><p class="customer-auth-link"><a href="#" id="customerToggleMode">Create Account</a></p><p id="customerAuthError" class="error-msg"></p></form></div><div class="auth-panel" id="ownerPanel"><h3>🔐 Owner Login</h3><form class="login-form" id="ownerLoginForm"><div class="form-group"><label>Email</label><input type="email" id="ownerEmail" placeholder="Owner@Gmail.com" required /></div><div class="form-group"><label>Password</label><input type="password" id="ownerPassword" placeholder="••••••" required /></div><button type="submit" class="login-btn"><i class="fas fa-key"></i> Login as Owner</button><p id="ownerLoginError" class="error-msg"></p></form></div></div></div>
+  <div class="modal-overlay" id="customerAuthOverlay"><div class="modal"><button class="modal-close" id="customerAuthClose">&times;</button><div class="auth-tabs"><button class="auth-tab active" data-auth-tab="customerPanel"><i class="fas fa-user"></i> Customer</button><button class="auth-tab" data-auth-tab="ownerPanel"><i class="fas fa-key"></i> Owner</button></div><div class="auth-panel active" id="customerPanel"><h3 id="customerAuthTitle">Customer Login</h3><form class="login-form" id="customerAuthForm"><div class="form-group" id="customerNameGroup" style="display:none;"><label>Full Name</label><input type="text" id="customerName" placeholder="Your name" /></div><div class="form-group"><label>Email</label><input type="email" id="customerEmail" placeholder="you@email.com" required /></div><div class="form-group"><label>Password</label><input type="password" id="customerPassword" placeholder="••••••" required /></div><button type="submit" class="login-btn" id="customerAuthSubmit"><i class="fas fa-sign-in-alt"></i> Login</button><p class="customer-auth-link"><a href="#" id="customerToggleMode">Create Account</a></p><p id="customerAuthError" class="error-msg"></p></form></div><div class="auth-panel" id="ownerPanel"><h3>🔐 Owner Login</h3><form class="login-form" id="ownerLoginForm"><div class="form-group"><label>Email</label><input type="text" id="ownerEmail" placeholder="Owner@Gmail.com" /></div><div class="form-group"><label>Password</label><input type="password" id="ownerPassword" placeholder="••••••" required /></div><button type="submit" class="login-btn"><i class="fas fa-key"></i> Login as Owner</button><p id="ownerLoginError" class="error-msg"></p></form></div></div></div>
 
   <div class="modal-overlay" id="productOverlay"><div class="modal"><button class="modal-close" id="productClose">&times;</button><div class="modal-image-area" id="modalImageArea">🍕</div><div class="modal-content"><h3 id="modalName">Margherita Pizza</h3><div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:6px;"><span class="modal-price" id="modalPrice">$12.00</span><span class="modal-rating" id="modalRating">⭐ 4.8</span></div><p class="modal-description" id="modalDescription">Freshly baked pizza.</p><div class="qty-selector" style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:10px;"><button id="qtyMinus">−</button><span id="qtyValue">1</span><button id="qtyPlus">+</button></div><div class="special-instructions"><label>Special Instructions</label><input type="text" id="specialInstructionsInput" placeholder="e.g., no onions..." /></div><div class="modal-buttons" style="display:flex;gap:8px;margin-bottom:10px;"><button class="modal-add-btn" id="modalAddBtn">🛒 Add</button><button class="modal-buy-btn" id="modalBuyBtn">⚡ Buy</button></div><div class="reviews-section" id="reviewsSection"><h4>Reviews</h4><div id="reviewsList"></div><button class="add-review-btn" id="addReviewBtn">Write a Review</button></div><span class="reviews-toggle" id="reviewsToggle" style="font-size:12px;font-weight:600;color:var(--text-muted);cursor:pointer;">💬 Show Reviews</span></div></div></div>
 
@@ -508,27 +506,21 @@
 
   <script>
     // ============================================================
-    // 🔐 JSONBin CONFIG
+    // 🔐 CONFIG - Apni values yahan daalein
     // ============================================================
     const CONFIG = {
       MASTER_KEY: "$2a$10$PQsH0V/iensCRY8gc3g1Juyg4iB5.XHJVIICFVj7xiJcByySVZO2K",
       BIN_ID: "6a9c752af5f4af5e296f3307",
-      USE_CLOUD: true
+      USE_CLOUD: true,
+      ADMIN_PASSWORD: "aura123"
     };
 
     // ============================================================
-    // 📦 DEFAULT DATA - EMPTY PRODUCTS
+    // 📦 DEFAULT DATA - SAB KHALI
     // ============================================================
     const defaultProducts = [];
-    const defaultCategories = [
-      { id: 'pizza', name: 'Pizza', emoji: '🍕' }, { id: 'drinks', name: 'Drinks', emoji: '🥤' },
-      { id: 'cakes', name: 'Cakes', emoji: '🍰' }, { id: 'breads', name: 'Breads', emoji: '🥖' },
-      { id: 'pastries', name: 'Pastries', emoji: '🥐' }, { id: 'snacks', name: 'Snacks', emoji: '🍪' },
-      { id: 'breakfast', name: 'Breakfast', emoji: '🍳' }, { id: 'burgers', name: 'Burgers', emoji: '🍔' },
-      { id: 'soup', name: 'Soup', emoji: '🍲' }, { id: 'pasta', name: 'Pasta', emoji: '🍝' },
-      { id: 'salad', name: 'Salad', emoji: '🥗' }
-    ];
-    const defaultGallery = ['', '', '', '', '', ''];
+    const defaultCategories = [];
+    const defaultGallery = [];
     const defaultContact = { address: '279 Prospect Rd, Blair Athol SA 5084, Australia', phone: '+61 478 706 251', hours: 'Monday – Sunday, 6:00 AM – 9:00 PM', social: { instagram: '', facebook: '', whatsapp: '+61 478 706 251' } };
 
     // ============================================================
@@ -653,13 +645,13 @@
     }
 
     // ============================================================
-    // 📥 LOADDATA
+    // 📥 LOAD DATA
     // ============================================================
     async function loadData() {
       let cloudData = null, cloudHasData = false;
       if (CONFIG.USE_CLOUD && CONFIG.MASTER_KEY && CONFIG.MASTER_KEY !== 'YOUR_MASTER_KEY_HERE') {
         cloudData = await CloudService.fetchData();
-        if (cloudData && cloudData.products && cloudData.products.length > 0) cloudHasData = true;
+        if (cloudData && cloudData.products) cloudHasData = true;
       }
       if (cloudHasData) {
         setAllData(cloudData);
@@ -687,9 +679,9 @@
         const lg = parseFloat(localStorage.getItem('aura_layout_gap'));
         const cf = localStorage.getItem('aura_card_font');
         
-        products = (p && p.length > 0) ? p : [];
-        categories = (c && c.length > 0) ? c : defaultCategories.slice();
-        galleryImages = g || defaultGallery.slice();
+        products = p || [];
+        categories = c || [];
+        galleryImages = g || [];
         orders = o || [];
         cart = ca || [];
         reviews = r || [];
@@ -704,8 +696,8 @@
       } catch(e) {
         console.warn('⚠️ Using empty defaults');
         products = [];
-        categories = defaultCategories.slice();
-        galleryImages = defaultGallery.slice();
+        categories = [];
+        galleryImages = [];
         orders = []; cart = []; reviews = []; loyaltyPoints = {}; customers = []; currentCustomer = null;
         contactInfo = defaultContact;
         layoutOffsets = { img: {x:0,y:0}, name: {x:0,y:0}, price: {x:0,y:0}, wishlist: {x:0,y:0} };
@@ -715,7 +707,7 @@
 
       if (CONFIG.USE_CLOUD && CONFIG.MASTER_KEY && CONFIG.MASTER_KEY !== 'YOUR_MASTER_KEY_HERE') {
         const cloudCheck = await CloudService.fetchData();
-        if (!cloudCheck || !cloudCheck.products || cloudCheck.products.length === 0) {
+        if (!cloudCheck || !cloudCheck.products) {
           console.log('☁️ Uploading empty data to cloud...');
           await CloudService.saveData(getAllData());
         }
@@ -804,16 +796,17 @@
       if (sampleName) {
         sampleName.style.left = (BASE_POS.name.left + layoutOffsets.name.x) + '%';
         sampleName.style.top = (BASE_POS.name.top + layoutOffsets.name.y) + '%';
-        sampleName.style.fontSize = 'clamp(12px, 2.5cqw, 22px)';
+        sampleName.style.fontSize = 'clamp(' + (layoutScales.name * 0.8) + 'px, ' + (layoutScales.name * 1.2) + 'cqw, ' + (layoutScales.name * 2) + 'px)';
       }
       if (sampleFooter) {
         sampleFooter.style.left = (BASE_POS.price.left + layoutOffsets.price.x) + '%';
-        if (samplePrice) samplePrice.style.fontSize = 'clamp(11px, 2cqw, 18px)';
-        if (sampleRating) sampleRating.style.fontSize = 'clamp(10px, 1.8cqw, 16px)';
+        if (samplePrice) samplePrice.style.fontSize = 'clamp(' + (layoutScales.price * 0.7) + 'px, ' + (layoutScales.price * 1) + 'cqw, ' + (layoutScales.price * 1.5) + 'px)';
+        if (sampleRating) sampleRating.style.fontSize = 'clamp(' + (layoutScales.price * 0.6) + 'px, ' + (layoutScales.price * 0.9) + 'cqw, ' + (layoutScales.price * 1.3) + 'px)';
       }
       if (sampleWishlist) {
         sampleWishlist.style.left = (BASE_POS.wishlist.left + layoutOffsets.wishlist.x) + '%';
         sampleWishlist.style.top = (BASE_POS.wishlist.top + layoutOffsets.wishlist.y) + '%';
+        sampleWishlist.style.transform = 'translate(-50%, -50%)';
       }
 
       var sampleCardEl = document.querySelector('.sample-card');
@@ -923,7 +916,7 @@
 
       filtered.forEach(function(product) {
         var card = document.createElement('div');
-        card.className = 'card';
+        card.className = 'card' + (isLoggedIn ? ' admin-mode' : '');
         card.setAttribute('data-id', product.id);
         card.setAttribute('data-description', product.description || '');
         card.innerHTML = '<button class="wishlist">♡</button>' +
@@ -947,16 +940,17 @@
         if (nameDiv) {
           nameDiv.style.left = (BASE_POS.name.left + layoutOffsets.name.x) + '%';
           nameDiv.style.top = (BASE_POS.name.top + layoutOffsets.name.y) + '%';
-          nameDiv.style.fontSize = 'clamp(12px, 2.5cqw, 22px)';
+          nameDiv.style.fontSize = 'clamp(' + (layoutScales.name * 0.8) + 'px, ' + (layoutScales.name * 1.2) + 'cqw, ' + (layoutScales.name * 2) + 'px)';
         }
         if (footerDiv) {
           footerDiv.style.left = (BASE_POS.price.left + layoutOffsets.price.x) + '%';
-          if (priceSpan) priceSpan.style.fontSize = 'clamp(11px, 2cqw, 18px)';
-          if (ratingSpan) ratingSpan.style.fontSize = 'clamp(10px, 1.8cqw, 16px)';
+          if (priceSpan) priceSpan.style.fontSize = 'clamp(' + (layoutScales.price * 0.7) + 'px, ' + (layoutScales.price * 1) + 'cqw, ' + (layoutScales.price * 1.5) + 'px)';
+          if (ratingSpan) ratingSpan.style.fontSize = 'clamp(' + (layoutScales.price * 0.6) + 'px, ' + (layoutScales.price * 0.9) + 'cqw, ' + (layoutScales.price * 1.3) + 'px)';
         }
         if (wishlistBtn) {
           wishlistBtn.style.left = (BASE_POS.wishlist.left + layoutOffsets.wishlist.x) + '%';
           wishlistBtn.style.top = (BASE_POS.wishlist.top + layoutOffsets.wishlist.y) + '%';
+          wishlistBtn.style.transform = 'translate(-50%, -50%)';
         }
 
         grid.appendChild(card);
@@ -1040,6 +1034,10 @@
       var grid = document.getElementById('galleryGrid');
       if (!grid) return;
       grid.innerHTML = '';
+      if (galleryImages.length === 0) {
+        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--text-muted);">📷 No images yet.</div>';
+        return;
+      }
       galleryImages.forEach(function(img, index) {
         var item = document.createElement('div');
         item.className = 'gallery-item';
@@ -1062,6 +1060,10 @@
       var list = document.getElementById('galleryInlineList');
       if (!list) return;
       list.innerHTML = '';
+      if (galleryImages.length === 0) {
+        list.innerHTML = '<p style="color:var(--text-muted);font-size:13px;">No images yet.</p>';
+        return;
+      }
       galleryImages.forEach(function(img, index) {
         var div = document.createElement('div');
         div.className = 'admin-product-item';
@@ -1084,6 +1086,10 @@
       var list = document.getElementById('adminProductList');
       if (!list) return;
       list.innerHTML = '';
+      if (products.length === 0) {
+        list.innerHTML = '<p style="color:var(--text-muted);font-size:13px;">No products yet.</p>';
+        return;
+      }
       products.forEach(function(product) {
         var div = document.createElement('div');
         div.className = 'admin-product-item';
@@ -1106,6 +1112,10 @@
       var list = document.getElementById('adminCategoryList');
       if (!list) return;
       list.innerHTML = '';
+      if (categories.length === 0) {
+        list.innerHTML = '<p style="color:var(--text-muted);font-size:13px;">No categories yet.</p>';
+        return;
+      }
       categories.forEach(function(category) {
         var div = document.createElement('div');
         div.className = 'admin-product-item';
@@ -1403,7 +1413,6 @@
       if (addr) addr.innerHTML = contactInfo.address.replace(/\n/g, '<br>');
       if (phone) phone.textContent = contactInfo.phone;
       if (hours) hours.innerHTML = contactInfo.hours.replace(/\n/g, '<br>');
-      // Admin contact form fields
       var ca = document.getElementById('contactAdminAddress');
       var cp = document.getElementById('contactAdminPhone');
       var ch = document.getElementById('contactAdminHours');
@@ -1471,7 +1480,7 @@
     function hideSearchSuggestions() { var s = document.getElementById('searchSuggestions'); if (s) s.style.display = 'none'; }
 
     // ============================================================
-    // 🔐 AUTH
+    // 🔐 AUTH (FIXED - SIMPLE & WORKING)
     // ============================================================
     function customerLogin(email, password) {
       var customer = customers.find(c => c.email.toLowerCase() === email.toLowerCase() && c.password === password);
@@ -1486,28 +1495,32 @@
     function customerLogout() { currentCustomer = null; saveCurrentCustomer(); updateCustomerUI(); renderCartUI(); }
     function updateCustomerUI() { var a = document.getElementById('customerAvatar'); if (a) a.innerHTML = '<img src="https://i.ibb.co/RpdwtSRh/avatar.png" alt="Avatar" />'; }
 
-    async function adminLogin(email, password) {
-      try {
-        const res = await fetch('/api/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password }) });
-        const data = await res.json();
-        if (data.success) {
-          isLoggedIn = true; localStorage.setItem('samoon99_loggedin', 'true');
-          updateCustomerUI();
-          document.getElementById('adminPanel').classList.add('active');
-          document.getElementById('adminGalleryControls').classList.add('active');
-          document.getElementById('customerAuthOverlay').style.display = 'none';
-          document.getElementById('ownerLoginError').textContent = '';
-          document.getElementById('cloudStatus').classList.add('visible');
-          updateNotifBadge(); renderAll(); showToast('✅ Admin Login Successful!', 'success'); return true;
-        } else {
-          document.getElementById('ownerLoginError').textContent = data.message || 'Invalid password';
-          return false;
-        }
-      } catch(e) {
-        document.getElementById('ownerLoginError').textContent = 'Network error. Please try again.';
+    // ✅ SIMPLE ADMIN LOGIN - NO ASYNC, NO TRIM ISSUES
+    function adminLogin(email, password) {
+      var enteredPassword = String(password || '');
+      var expectedPassword = String(CONFIG.ADMIN_PASSWORD || 'aura123');
+
+      console.log('Admin Login:', email, enteredPassword);
+
+      if (enteredPassword === expectedPassword) {
+        isLoggedIn = true;
+        localStorage.setItem('samoon99_loggedin', 'true');
+        document.getElementById('adminPanel').classList.add('active');
+        document.getElementById('adminGalleryControls').classList.add('active');
+        document.getElementById('customerAuthOverlay').style.display = 'none';
+        document.getElementById('ownerLoginError').textContent = '';
+        document.getElementById('cloudStatus').classList.add('visible');
+        updateCustomerUI();
+        updateNotifBadge();
+        renderAll();
+        showToast('✅ Admin Login Successful!', 'success');
+        return true;
+      } else {
+        document.getElementById('ownerLoginError').textContent = 'Invalid password! Use: ' + expectedPassword;
         return false;
       }
     }
+
     function checkLogin() {
       if (localStorage.getItem('samoon99_loggedin') === 'true') {
         isLoggedIn = true; updateCustomerUI(); document.getElementById('adminPanel').classList.add('active');
@@ -1554,7 +1567,7 @@
         document.getElementById('cardFontName').value = cardFontName;
         applyFontToCards(cardFontName);
       }
-      console.log('🚀 Aura Cafe Loaded Successfully! Admin panel restructured.');
+      console.log('🚀 Aura Cafe Loaded Successfully!');
     });
 
     // ========== BOTTOM NAV ==========
@@ -1657,11 +1670,14 @@
       else { nameGroup.style.display = 'block'; title.textContent = 'Create Account'; submitBtn.innerHTML = '<i class="fas fa-user-plus"></i> Register'; }
       document.getElementById('customerAuthError').textContent = '';
     });
+
     document.getElementById('ownerLoginForm').addEventListener('submit', function(e) {
       e.preventDefault();
+      var email = document.getElementById('ownerEmail').value;
       var password = document.getElementById('ownerPassword').value;
-      adminLogin('Owner@Gmail.com', password);
+      adminLogin(email || 'Owner@Gmail.com', password);
     });
+
     document.getElementById('customerAuthClose').addEventListener('click', function() { document.getElementById('customerAuthOverlay').style.display = 'none'; });
     document.getElementById('customerAuthOverlay').addEventListener('click', function(e) { if (e.target === this) document.getElementById('customerAuthOverlay').style.display = 'none'; });
 
@@ -1785,7 +1801,6 @@
       } else { alert('Please choose an image'); }
     });
 
-    // Contact Form (Admin Contact Tab)
     document.getElementById('contactForm').addEventListener('submit', function(e) {
       e.preventDefault();
       contactInfo.address = document.getElementById('contactAdminAddress').value;
@@ -1882,7 +1897,7 @@
     }
     (function() { try { emailjs.init("YOUR_PUBLIC_KEY"); } catch(e) {} })();
     
-    console.log('🚀 Aura Cafe Loaded Successfully! Admin panel restructured.');
+    console.log('🚀 Aura Cafe Loaded Successfully! Admin password: aura123');
   </script>
 </body>
 </html>
