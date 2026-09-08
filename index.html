@@ -10,6 +10,7 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <style id="dynamicCardFontStyle"></style>
   <style>
+    /* ========== CSS VARIABLES ========== */
     :root {
       --bg-body: #F5F5F5;
       --bg-header: #F5F5F5;
@@ -559,26 +560,9 @@
     };
 
     // ============================================================
-    // 📦 DEFAULT DATA
+    // 📦 DEFAULT DATA - EMPTY PRODUCTS
     // ============================================================
-    const defaultProducts = [
-      { id: 'pizza1', name: 'Margherita Pizza', emoji: '🍕', price: '$12.00', rating: '⭐ 4.8', description: 'Classic vegetarian pizza.', category: 'pizza' },
-      { id: 'drink1', name: 'Cold Coffee', emoji: '🥤', price: '$4.50', rating: '⭐ 4.9', description: 'Chilled coffee.', category: 'drinks' },
-      { id: 'cake1', name: 'Chocolate Cake', emoji: '🍰', price: '$8.00', rating: '⭐ 4.7', description: 'Rich chocolate cake.', category: 'cakes' },
-      { id: 'pastry1', name: 'Butter Croissant', emoji: '🥐', price: '$3.50', rating: '⭐ 4.6', description: 'Flaky butter croissant.', category: 'pastries' },
-      { id: 'snack1', name: 'Chocolate Cookie', emoji: '🍪', price: '$2.50', rating: '⭐ 4.5', description: 'Soft cookie.', category: 'snacks' },
-      { id: 'bread1', name: 'Garlic Bread', emoji: '🥖', price: '$6.00', rating: '⭐ 4.9', description: 'Toasted garlic bread.', category: 'breads' },
-      { id: 'veggie1', name: 'Veggie Pizza', emoji: '🍕', price: '$13.50', rating: '⭐ 4.6', description: 'Loaded with veggies.', category: 'pizza' },
-      { id: 'avo1', name: 'Avocado Toast', emoji: '🥑', price: '$9.00', rating: '⭐ 4.7', description: 'Smashed avocado on toast.', category: 'breakfast' },
-      { id: 'halloumi1', name: 'Halloumi Burger', emoji: '🍔', price: '$11.00', rating: '⭐ 4.5', description: 'Grilled halloumi burger.', category: 'burgers' },
-      { id: 'soup1', name: 'Pumpkin Soup', emoji: '🎃', price: '$7.50', rating: '⭐ 4.8', description: 'Creamy pumpkin soup.', category: 'soup' },
-      { id: 'pasta1', name: 'Veggie Pasta', emoji: '🍝', price: '$12.00', rating: '⭐ 4.4', description: 'Penne with veggies.', category: 'pasta' },
-      { id: 'salad1', name: 'Garden Salad', emoji: '🥗', price: '$8.50', rating: '⭐ 4.6', description: 'Fresh garden salad.', category: 'salad' },
-      { id: 'drink2', name: 'Iced Chocolate', emoji: '🍫', price: '$5.00', rating: '⭐ 4.7', description: 'Rich iced chocolate.', category: 'drinks' },
-      { id: 'drink3', name: 'Lemon Lime', emoji: '🍋', price: '$4.00', rating: '⭐ 4.8', description: 'Lemon lime bitters.', category: 'drinks' },
-      { id: 'drink4', name: 'Orange Juice', emoji: '🍊', price: '$5.50', rating: '⭐ 4.9', description: 'Fresh orange juice.', category: 'drinks' },
-      { id: 'drink5', name: 'Iced Tea', emoji: '🧋', price: '$4.20', rating: '⭐ 4.5', description: 'Chilled iced tea.', category: 'drinks' }
-    ];
+    const defaultProducts = []; // 🔥 Completely empty
     const defaultCategories = [
       { id: 'pizza', name: 'Pizza', emoji: '🍕' }, { id: 'drinks', name: 'Drinks', emoji: '🥤' },
       { id: 'cakes', name: 'Cakes', emoji: '🍰' }, { id: 'breads', name: 'Breads', emoji: '🥖' },
@@ -746,7 +730,7 @@
         const lg = parseFloat(localStorage.getItem('aura_layout_gap'));
         const cf = localStorage.getItem('aura_card_font');
         
-        products = (p && p.length > 0) ? p : defaultProducts.slice();
+        products = (p && p.length > 0) ? p : [];
         categories = (c && c.length > 0) ? c : defaultCategories.slice();
         galleryImages = g || defaultGallery.slice();
         orders = o || [];
@@ -761,8 +745,8 @@
         cardFontName = cf || '';
         try { currentCustomer = JSON.parse(localStorage.getItem('samoon99_currentCustomer')) || null; } catch(e) {}
       } catch(e) {
-        console.warn('⚠️ Using defaults');
-        products = defaultProducts.slice();
+        console.warn('⚠️ Using empty defaults');
+        products = [];
         categories = defaultCategories.slice();
         galleryImages = defaultGallery.slice();
         orders = []; cart = []; reviews = []; loyaltyPoints = {}; customers = []; currentCustomer = null;
@@ -775,7 +759,7 @@
       if (CONFIG.USE_CLOUD && CONFIG.MASTER_KEY && CONFIG.MASTER_KEY !== 'YOUR_MASTER_KEY_HERE') {
         const cloudCheck = await CloudService.fetchData();
         if (!cloudCheck || !cloudCheck.products || cloudCheck.products.length === 0) {
-          console.log('☁️ Uploading to cloud...');
+          console.log('☁️ Uploading empty data to cloud...');
           await CloudService.saveData(getAllData());
         }
       }
@@ -955,8 +939,12 @@
       grid.innerHTML = '';
 
       if (!products || products.length === 0) {
-        products = defaultProducts.slice();
-        saveProducts();
+        grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px 20px;color:var(--text-muted);font-size:14px;">
+          <div style="font-size:48px;margin-bottom:12px;">🍽️</div>
+          <p>No products yet.</p>
+          <p style="font-size:12px;margin-top:4px;">Add products from the Admin Panel.</p>
+        </div>`;
+        return;
       }
 
       var filtered = products.filter(function(p) {
@@ -968,6 +956,13 @@
         }
         return matchesCategory && matchesSearch;
       });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:30px 20px;color:var(--text-muted);font-size:14px;">
+          <p>No products match your filter.</p>
+        </div>`;
+        return;
+      }
 
       filtered.forEach(function(product) {
         var card = document.createElement('div');
@@ -1940,7 +1935,7 @@
     }
     (function() { try { emailjs.init("YOUR_PUBLIC_KEY"); } catch(e) {} })();
     
-    console.log('🚀 Aura Cafe Loaded Successfully!');
+    console.log('🚀 Aura Cafe Loaded Successfully! Default products removed.');
   </script>
 </body>
 </html>
