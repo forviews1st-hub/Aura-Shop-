@@ -212,8 +212,16 @@
     .pill img { width:18px; height:18px; border-radius:50%; object-fit:cover; }
     .pill.active { background: #1A1A1A; color: #FFFFFF; border-color: #1A1A1A; }
 
-    .promo { width:100%; margin-bottom:16px; }
-    .promo img { display:block; width:100%; height:auto; border-radius:0; }
+    /* ========== BANNER ========== */
+    .promo { width:100%; margin-bottom:16px; background: transparent; }
+    .promo img { 
+      display:block; 
+      width:100%; 
+      height:auto; 
+      mix-blend-mode:multiply; 
+      border-radius:0;
+      background: transparent;
+    }
 
     .product-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-bottom:24px; }
     @media (min-width:600px) { .product-grid { grid-template-columns:repeat(3,1fr); } }
@@ -258,28 +266,29 @@
 
     .card > * { position: relative; z-index: 1; }
 
+    /* ========== WISHLIST - Movable via Layout Editor ========== */
     .wishlist {
       position: absolute;
       left: 21.7%;
       top: 13%;
       transform: translate(-50%, -50%);
-      background: rgba(255,255,255,0.9);
+      background: transparent !important;
       border: none;
       border-radius: 50%;
       width: 30px;
       height: 30px;
       font-size: 14px;
       cursor: pointer;
-      color: #ccc;
+      color: #FF4D4D;
       display: flex;
       align-items: center;
       justify-content: center;
-      backdrop-filter: blur(4px);
+      backdrop-filter: none !important;
       z-index: 5;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-      transition: background 0.3s ease, color 0.3s ease;
+      box-shadow: none !important;
+      transition: color 0.3s ease, left 0.15s ease, top 0.15s ease;
     }
-    .wishlist.active { color: #FF4D4D; background: #ffe5e5; }
+    .wishlist.active { color: #FF4D4D; background: transparent !important; }
 
     .card .admin-edit-delete {
       position: absolute;
@@ -303,6 +312,7 @@
       color: #1A1A1A;
     }
 
+    /* ========== CARD IMAGE ========== */
     .card-img {
       position: absolute;
       left: 50.35%;
@@ -314,11 +324,11 @@
       width: 35%;
       aspect-ratio: 1 / 1;
       border-radius: 50%;
-      background: transparent;
+      background: transparent !important;
       backdrop-filter: none;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      box-shadow: none !important;
       font-size: 38px;
-      transition: transform 0.15s ease;
+      transition: transform 0.15s ease, left 0.15s ease, top 0.15s ease;
     }
     .card-img img {
       width: 100%;
@@ -327,11 +337,11 @@
       border-radius: 50%;
     }
 
+    /* ========== CARD NAME ========== */
     .card-name {
       position: absolute;
       left: 8.8%;
       top: 60.5%;
-      font-size: 16px;
       font-weight: 700;
       color: #1A1A1A;
       text-align: left;
@@ -342,9 +352,10 @@
       word-break: break-word;
       font-family: 'Inter', sans-serif;
       text-shadow: 0 1px 4px rgba(255,255,255,0.8);
-      transition: font-size 0.15s ease, transform 0.15s ease;
+      transition: transform 0.15s ease, left 0.15s ease, top 0.15s ease;
       max-height: 2.5em;
-      overflow: visible;
+      overflow: hidden;
+      font-size: clamp(12px, 2.5cqw, 22px);
     }
 
     .card-footer {
@@ -356,14 +367,13 @@
       justify-content: flex-start;
       gap: 10px;
       flex-wrap: wrap;
-      transition: transform 0.15s ease;
+      transition: transform 0.15s ease, left 0.15s ease, top 0.15s ease;
       width: 82%;
     }
     
     .price {
       font-weight: 700;
       color: #1A1A1A;
-      font-size: 14px;
       background: none;
       box-shadow: none;
       border: none;
@@ -371,10 +381,10 @@
       border-radius: 0;
       backdrop-filter: none;
       transition: font-size 0.15s ease;
+      font-size: clamp(11px, 2cqw, 18px);
     }
     
     .rating {
-      font-size: 13px;
       color: #f5a623;
       font-weight: 600;
       background: none;
@@ -384,13 +394,14 @@
       border-radius: 0;
       backdrop-filter: none;
       transition: font-size 0.15s ease;
+      font-size: clamp(10px, 1.8cqw, 16px);
     }
 
     @media (max-width:600px) {
       .card-img { width: 30%; font-size: 30px; top: 29.5%; }
-      .card-name { font-size: 14px; top: 59.5%; max-height: 2.5em; }
-      .price { font-size: 12px; }
-      .rating { font-size: 11px; }
+      .card-name { font-size: clamp(11px, 2.2cqw, 18px); top: 59.5%; max-height: 2.5em; }
+      .price { font-size: clamp(10px, 1.8cqw, 16px); }
+      .rating { font-size: clamp(9px, 1.6cqw, 14px); }
       .card-footer { top: 69.5%; gap: 6px; }
       .wishlist { width: 26px; height: 26px; font-size: 12px; left: 21.5%; top: 12.5%; }
       .card .admin-edit-delete { top: 20%; }
@@ -398,9 +409,9 @@
     }
     @media (max-width:400px) {
       .card-img { width: 26%; font-size: 24px; top: 28.5%; }
-      .card-name { font-size: 12px; top: 58.5%; max-height: 2.4em; }
-      .price { font-size: 11px; }
-      .rating { font-size: 10px; }
+      .card-name { font-size: clamp(10px, 2cqw, 16px); top: 58.5%; max-height: 2.4em; }
+      .price { font-size: clamp(9px, 1.6cqw, 14px); }
+      .rating { font-size: clamp(8px, 1.4cqw, 12px); }
       .card-footer { top: 68.5%; gap: 5px; }
       .wishlist { width: 22px; height: 22px; font-size: 10px; left: 21.3%; top: 12%; }
       .card .admin-edit-delete { top: 19%; }
@@ -408,12 +419,18 @@
     }
 
     .section-title { font-size:18px; font-weight:800; color: #1A1A1A; margin-bottom:12px; }
+
+    /* ========== GALLERY ========== */
     .gallery-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-bottom:24px; }
     @media (min-width:600px) { .gallery-grid { grid-template-columns:repeat(3,1fr); } }
     @media (min-width:900px) { .gallery-grid { grid-template-columns:repeat(4,1fr); } }
     .gallery-item { 
       background: #FFFFFF; 
-      border-radius:16px; height:120px; display:flex; align-items:center; justify-content:center; 
+      border-radius:16px; 
+      aspect-ratio: 9 / 16;
+      height: auto; 
+      width: 100%;
+      display:flex; align-items:center; justify-content:center; 
       box-shadow:0 2px 6px rgba(0,0,0,0.08); color: #999999; font-size:32px; 
       cursor:pointer; transition:all 0.2s; 
       background-image:repeating-linear-gradient(45deg, #F0F0F0 0px, #F0F0F0 10px, #E0E0E0 10px, #E0E0E0 20px); 
@@ -667,21 +684,21 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      font-size:76px;  /* 🔥 CHANGED: 28px se 76px kiya - ab customer card ke barabar */
-      box-shadow:0 2px 8px rgba(0,0,0,0.08);
+      font-size:76px;
+      box-shadow: none;
     }
     .layout-editor-box .sample-card .card-name {
       position:absolute;
       left:8.8%;
       top:60.5%;
-      font-size:15px;
+      font-size:clamp(12px, 2.5cqw, 22px);
       margin:0;
       color: #1A1A1A;
       text-align:left;
       font-weight:700;
       text-shadow:0 1px 4px rgba(255,255,255,0.8);
       max-height:2.5em;
-      overflow:visible;
+      overflow:hidden;
     }
     .layout-editor-box .sample-card .card-footer {
       position:absolute;
@@ -693,7 +710,7 @@
       width:82%;
     }
     .layout-editor-box .sample-card .price {
-      font-size:13px;
+      font-size:clamp(11px, 2cqw, 18px);
       padding:0;
       background:none;
       box-shadow:none;
@@ -702,12 +719,34 @@
       color: #1A1A1A;
     }
     .layout-editor-box .sample-card .rating {
-      font-size:12px;
+      font-size:clamp(10px, 1.8cqw, 16px);
       padding:0;
       background:none;
       box-shadow:none;
       border:none;
       border-radius:0;
+    }
+    /* Sample card wishlist - movable via editor */
+    .layout-editor-box .sample-card .wishlist {
+      position: absolute;
+      left: 21.7%;
+      top: 13%;
+      transform: translate(-50%, -50%);
+      background: transparent !important;
+      border: none;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      font-size: 14px;
+      cursor: pointer;
+      color: #FF4D4D;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: none !important;
+      z-index: 5;
+      box-shadow: none !important;
+      transition: left 0.15s ease, top 0.15s ease;
     }
 
     .layout-editor-controls { display:flex; flex-direction:column; align-items:center; gap:10px; width:100%; }
@@ -730,11 +769,12 @@
     .font-controls button { background: #1A1A1A; color: #FFFFFF; border:none; padding:5px 14px; border-radius:20px; cursor:pointer; font-weight:600; font-size:12px; }
     .font-controls button:hover { background: #333333; }
 
+    /* ========== BOTTOM NAV ========== */
     .bottom-nav { 
-      position:sticky;
-      bottom:0;
-      left:0;
-      right:0;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
       background: #FFFFFF; 
       border-top:1px solid #E0E0E0; 
       display:flex; justify-content:space-around; align-items:center; 
@@ -879,6 +919,8 @@
                     <span class="price" id="samplePrice">$10.00</span>
                     <span class="rating" id="sampleRating">⭐ 4.5</span>
                   </div>
+                  <!-- SAMPLE WISHLIST -->
+                  <button class="wishlist" id="sampleWishlist">♡</button>
                 </div>
               </div>
               <div class="layout-editor-controls">
@@ -888,6 +930,7 @@
                     <option value="img">🖼️ Image</option>
                     <option value="name">📝 Name</option>
                     <option value="price">💰 Price+Rating</option>
+                    <option value="wishlist">❤️ Wishlist</option>
                   </select>
                 </div>
                 <div class="control-row">
@@ -1153,7 +1196,7 @@
     </div>
   </div>
 
-  <div class="success-overlay" id="successOverlay">
+  <div class="success-overlay" id="successOverlay" style="display:none;">
     <div class="success-modal">
       <div class="success-checkmark">
         <svg viewBox="0 0 52 52" style="width:100%;height:100%;">
@@ -1178,6 +1221,7 @@
     </div>
   </div>
 
+  <!-- ========== BOTTOM NAV ========== -->
   <nav class="bottom-nav" id="bottomNav">
     <button class="bottom-nav-btn active" data-target="menuSection"><span class="nav-icon">🍕</span><span>Menu</span></button>
     <button class="bottom-nav-btn" data-target="gallerySection"><span class="nav-icon">📸</span><span>Gallery</span></button>
@@ -1255,7 +1299,8 @@
     let products = [], categories = [], galleryImages = [], orders = [], cart = [], reviews = [];
     let loyaltyPoints = {}, customers = [], currentCustomer = null;
     let contactInfo = { address: '279 Prospect Rd, Blair Athol SA 5084, Australia', phone: '+61 478 706 251', hours: 'Monday – Sunday, 6:00 AM – 9:00 PM', social: { instagram: '', facebook: '', whatsapp: '+61 478 706 251' } };
-    let layoutOffsets = { img: { x: 0, y: 0 }, name: { x: 0, y: 0 }, price: { x: 0, y: 0 } };
+    // 🔥 Added wishlist to layoutOffsets
+    let layoutOffsets = { img: { x: 0, y: 0 }, name: { x: 0, y: 0 }, price: { x: 0, y: 0 }, wishlist: { x: 0, y: 0 } };
     let layoutScales = { img: 100, name: 18, price: 16 };
     let layoutGap = 3;
     let cardFontName = '';
@@ -1390,7 +1435,7 @@
         products = defaultProducts.slice(); categories = defaultCategories.slice(); galleryImages = defaultGallery.slice();
         orders = []; cart = []; reviews = []; loyaltyPoints = {}; customers = []; currentCustomer = null;
         contactInfo = { address: '279 Prospect Rd, Blair Athol SA 5084, Australia', phone: '+61 478 706 251', hours: 'Monday – Sunday, 6:00 AM – 9:00 PM', social: { instagram: '', facebook: '', whatsapp: '+61 478 706 251' } };
-        layoutOffsets = { img: {x:0,y:0}, name: {x:0,y:0}, price: {x:0,y:0} };
+        layoutOffsets = { img: {x:0,y:0}, name: {x:0,y:0}, price: {x:0,y:0}, wishlist: {x:0,y:0} };
         layoutScales = { img:100, name:18, price:16 }; layoutGap = 3; cardFontName = '';
         saveToLocalStorage();
       }
@@ -1560,14 +1605,23 @@
     }
 
     // ============================================================
-    // 📐 LAYOUT
+    // 📐 LAYOUT (WITH WISHLIST SUPPORT)
     // ============================================================
     function loadLayout() {
       try {
         var savedOffsets = JSON.parse(localStorage.getItem('aura_layout_offsets'));
-        if (savedOffsets) { if (savedOffsets.img) layoutOffsets.img = savedOffsets.img; if (savedOffsets.name) layoutOffsets.name = savedOffsets.name; if (savedOffsets.price) layoutOffsets.price = savedOffsets.price; }
+        if (savedOffsets) {
+          if (savedOffsets.img) layoutOffsets.img = savedOffsets.img;
+          if (savedOffsets.name) layoutOffsets.name = savedOffsets.name;
+          if (savedOffsets.price) layoutOffsets.price = savedOffsets.price;
+          if (savedOffsets.wishlist) layoutOffsets.wishlist = savedOffsets.wishlist;
+        }
         var savedScales = JSON.parse(localStorage.getItem('aura_layout_scales'));
-        if (savedScales) { if (savedScales.img) layoutScales.img = savedScales.img; if (savedScales.name) layoutScales.name = savedScales.name; if (savedScales.price) layoutScales.price = savedScales.price; }
+        if (savedScales) {
+          if (savedScales.img) layoutScales.img = savedScales.img;
+          if (savedScales.name) layoutScales.name = savedScales.name;
+          if (savedScales.price) layoutScales.price = savedScales.price;
+        }
         var savedGap = parseFloat(localStorage.getItem('aura_layout_gap'));
         if (!isNaN(savedGap)) layoutGap = savedGap;
         var savedFont = localStorage.getItem('aura_card_font');
@@ -1575,7 +1629,7 @@
       } catch(e) {}
     }
     function resetPositions() {
-      layoutOffsets = { img: {x:0,y:0}, name: {x:0,y:0}, price: {x:0,y:0} };
+      layoutOffsets = { img: {x:0,y:0}, name: {x:0,y:0}, price: {x:0,y:0}, wishlist: {x:0,y:0} };
       layoutScales = { img:100, name:18, price:16 };
       layoutGap = 3;
       saveLayoutState(); applyToSample(); renderProducts();
@@ -1587,28 +1641,50 @@
       styleTag.innerHTML = `@font-face { font-family: '${fontFamilyName}'; src: url('${fontPath}') format('truetype'); font-weight: normal; font-style: normal; font-display: swap; } .card .card-name, .card .price, .card .rating { font-family: '${fontFamilyName}', 'Inter', sans-serif !important; } .sample-card .card-name, .sample-card .price, .sample-card .rating { font-family: '${fontFamilyName}', 'Inter', sans-serif !important; }`;
     }
     function resetFont() { cardFontName = ''; localStorage.removeItem('aura_card_font'); document.getElementById('dynamicCardFontStyle').innerHTML = ''; document.getElementById('cardFontName').value = ''; applyToSample(); renderProducts(); showToast('Font reset!', 'info'); }
-    const BASE_POS = { img: { left: 50.35, top: 30.5 }, name: { left: 8.8, top: 60.5 }, price: { left: 8.8, top: 70.5 } };
+    
+    const BASE_POS = { 
+      img: { left: 50.35, top: 30.5 },
+      name: { left: 8.8, top: 60.5 },
+      price: { left: 8.8, top: 70.5 },
+      wishlist: { left: 21.7, top: 13 }
+    };
+
     function applyToSample() {
       var sampleImg = document.getElementById('sampleImg');
       var sampleName = document.getElementById('sampleName');
       var sampleFooter = document.getElementById('sampleFooter');
       var samplePrice = document.getElementById('samplePrice');
       var sampleRating = document.getElementById('sampleRating');
+      var sampleWishlist = document.getElementById('sampleWishlist');
       var imgScaleVal = layoutScales.img / 100;
+
+      // Image
       sampleImg.style.left = (BASE_POS.img.left + layoutOffsets.img.x) + '%';
       sampleImg.style.top = (BASE_POS.img.top + layoutOffsets.img.y) + '%';
       sampleImg.style.transform = 'translate(-50%, -50%) scale(' + imgScaleVal + ')';
+
+      // Name
       sampleName.style.left = (BASE_POS.name.left + layoutOffsets.name.x) + '%';
       sampleName.style.top = (BASE_POS.name.top + layoutOffsets.name.y) + '%';
-      sampleName.style.fontSize = (layoutScales.name / 170 * 100) + 'cqw';
+      sampleName.style.fontSize = 'clamp(12px, 2.5cqw, 22px)';
+
+      // Price+Rating
       sampleFooter.style.left = (BASE_POS.price.left + layoutOffsets.price.x) + '%';
-      samplePrice.style.fontSize = (layoutScales.price / 170 * 100) + 'cqw';
-      sampleRating.style.fontSize = (layoutScales.price / 170 * 100) + 'cqw';
+      samplePrice.style.fontSize = 'clamp(11px, 2cqw, 18px)';
+      sampleRating.style.fontSize = 'clamp(10px, 1.8cqw, 16px)';
+      
+      // Wishlist (Heart)
+      if (sampleWishlist) {
+        sampleWishlist.style.left = (BASE_POS.wishlist.left + layoutOffsets.wishlist.x) + '%';
+        sampleWishlist.style.top = (BASE_POS.wishlist.top + layoutOffsets.wishlist.y) + '%';
+      }
+
       var sampleCardEl = sampleImg.closest('.sample-card');
       var cardRect = sampleCardEl.getBoundingClientRect();
       var nameRect = sampleName.getBoundingClientRect();
       var nameBottomPercent = ((nameRect.bottom - cardRect.top) / cardRect.height) * 100;
       sampleFooter.style.top = (nameBottomPercent + layoutGap + layoutOffsets.price.y) + '%';
+      
       updatePositionInfo();
     }
     function updatePositionInfo() {
@@ -1687,23 +1763,39 @@
         card.innerHTML = '<button class="wishlist">♡</button>' +
           (isLoggedIn ? '<div class="admin-edit-delete"><button class="admin-edit-btn">✏️</button><button class="admin-delete-btn">🗑️</button></div>' : '') +
           '<div class="card-img"></div><div class="card-name">' + product.name + '</div><div class="card-footer"><span class="price">' + product.price + '</span><span class="rating">' + product.rating + '</span></div>';
+        
         var imgDiv = card.querySelector('.card-img');
         var nameDiv = card.querySelector('.card-name');
         var footerDiv = card.querySelector('.card-footer');
         var priceSpan = card.querySelector('.price');
         var ratingSpan = card.querySelector('.rating');
+        var wishlistBtn = card.querySelector('.wishlist');
         var imgScaleVal = layoutScales.img / 100;
+
+        // Image
         imgDiv.style.left = (BASE_POS.img.left + layoutOffsets.img.x) + '%';
         imgDiv.style.top = (BASE_POS.img.top + layoutOffsets.img.y) + '%';
         imgDiv.style.transform = 'translate(-50%, -50%) scale(' + imgScaleVal + ')';
+
+        // Name
         nameDiv.style.left = (BASE_POS.name.left + layoutOffsets.name.x) + '%';
         nameDiv.style.top = (BASE_POS.name.top + layoutOffsets.name.y) + '%';
-        nameDiv.style.fontSize = (layoutScales.name / 170 * 100) + 'cqw';
+        nameDiv.style.fontSize = 'clamp(12px, 2.5cqw, 22px)';
+
+        // Price+Rating
         footerDiv.style.left = (BASE_POS.price.left + layoutOffsets.price.x) + '%';
-        priceSpan.style.fontSize = (layoutScales.price / 170 * 100) + 'cqw';
-        ratingSpan.style.fontSize = (layoutScales.price / 170 * 100) + 'cqw';
+        priceSpan.style.fontSize = 'clamp(11px, 2cqw, 18px)';
+        ratingSpan.style.fontSize = 'clamp(10px, 1.8cqw, 16px)';
+
+        // Wishlist (Heart) - 🔥 Movable via Layout Editor
+        if (wishlistBtn) {
+          wishlistBtn.style.left = (BASE_POS.wishlist.left + layoutOffsets.wishlist.x) + '%';
+          wishlistBtn.style.top = (BASE_POS.wishlist.top + layoutOffsets.wishlist.y) + '%';
+        }
+
         setImageOrEmoji(imgDiv, product.emoji, '76px');
         grid.appendChild(card);
+
         var cardRect = card.getBoundingClientRect();
         var nameRect = nameDiv.getBoundingClientRect();
         var nameBottomPercent = ((nameRect.bottom - cardRect.top) / cardRect.height) * 100;
@@ -2179,6 +2271,8 @@
     // 🎯 EVENT LISTENERS
     // ============================================================
     document.addEventListener('DOMContentLoaded', async function() {
+      document.getElementById('successOverlay').style.display = 'none';
+      
       await loadData();
       checkLogin();
       renderAll();
@@ -2195,7 +2289,7 @@
         document.getElementById('cloudDot').className = 'dot offline';
         document.getElementById('cloudLabel').textContent = 'Local Only';
       }
-      console.log('✅ Aura Cafe loaded! Dark Mode removed.');
+      console.log('🚀 Aura Cafe loaded! All 7 problems fixed + Wishlist movable!');
     });
 
     // Bottom Nav
@@ -2525,8 +2619,7 @@
     }
     (function() { try { emailjs.init("YOUR_PUBLIC_KEY"); } catch(e) {} })();
     
-    console.log('🚀 Aura Cafe loaded! Dark Mode removed.');
-    console.log('📐 Admin preview matches customer card exactly!');
+    console.log('🚀 Aura Cafe loaded! All 7 problems fixed + Wishlist movable!');
   </script>
 </body>
 </html>
