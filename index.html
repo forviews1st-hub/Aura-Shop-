@@ -9,7 +9,6 @@
   <link rel="manifest" href="manifest.json" />
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <style>
-    /* ========== FONT FACE (Bluecherries) ========== */
     @font-face {
       font-family: 'Bluecherries';
       src: url('fonts/blue_cheries/BLUECHERIES.ttf') format('truetype');
@@ -18,16 +17,14 @@
       font-display: swap;
     }
 
-    /* ========== RESET & BASE ========== */
     * { margin:0; padding:0; box-sizing:border-box; }
-    * { -webkit-tap-highlight-color: transparent; -webkit-tap-highlight-color: rgba(0,0,0,0); }
+    * { -webkit-tap-highlight-color: transparent; }
     :focus { outline: none; }
     :focus-visible { outline: 2px solid #1A1A1A; outline-offset: 2px; border-radius: 4px; }
 
     body { font-family:'Inter',sans-serif; background:#F5F5F5; min-height:100vh; width:100%; overflow-x:hidden; padding-bottom:80px; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
     .app { width:100%; min-height:100vh; background:#F5F5F5; }
 
-    /* ========== HEADER ========== */
     .header { position:relative; height:90px; background:#F5F5F5; padding:15px 20px; display:flex; align-items:center; z-index:500; }
     .header-row { display:flex; align-items:center; gap:12px; width:100%; }
     .search-container { display:flex; align-items:center; background:#fff; border-radius:30px; padding:0 10px; margin-right:10px; border:1px solid #ddd; transition: all 0.2s; max-width:40px; overflow:hidden; cursor:pointer; }
@@ -65,7 +62,6 @@
     .avatar img { width:100%; height:100%; object-fit:cover; display:block; }
     .notif-badge { position:absolute; top:-5px; right:-5px; background:#FF4D4D; color:#fff; font-size:10px; font-weight:700; border-radius:50%; width:18px; height:18px; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(255,77,77,0.4); }
 
-    /* ========== MAIN CONTENT ========== */
     main { padding:20px; max-width:1200px; margin:0 auto; }
     .heading-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; }
     .heading-row h1 { font-size:24px; font-weight:800; color:#000; letter-spacing:-0.3px; }
@@ -79,189 +75,48 @@
     .pill img { width:20px; height:20px; border-radius:50%; object-fit:cover; }
     .pill.active { background:#1A1A1A; color:#fff; border-color:#1A1A1A; box-shadow:0 4px 12px rgba(26,26,26,0.25); }
 
-    /* ========== HERO BANNER (No Image) ========== */
-    .hero-banner {
-      background: 
-        radial-gradient(circle at 20% 25%, rgba(255,248,240,0.9) 0%, transparent 50%),
-        radial-gradient(circle at 80% 75%, rgba(217,181,138,0.2) 0%, transparent 50%),
-        linear-gradient(145deg, #fdf6ec 0%, #f9efe2 40%, #f5e6d3 100%);
-      border-radius: 32px;
-      padding: 40px 24px 36px;
-      margin-bottom: 24px;
-      text-align: center;
-      position: relative;
+    /* ========== IMAGE BANNER – 1774×887 ========== */
+    .image-banner {
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto 24px;
+      border-radius: 28px;
       overflow: hidden;
-      border: 2px solid #f0e0c9;
-      box-shadow: 
-        0 16px 40px rgba(0,0,0,0.12), 
-        0 6px 12px rgba(0,0,0,0.06),
-        inset 0 0 0 2px rgba(255,255,255,0.8);
+      aspect-ratio: 1774 / 887;
+      background: transparent;
       transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s ease;
       cursor: pointer;
+      box-shadow: 
+        0 12px 30px rgba(0,0,0,0.12),
+        0 4px 8px rgba(0,0,0,0.06);
     }
 
-    .hero-banner:hover {
+    .image-banner:hover {
       transform: translateY(-6px) scale(1.01);
       box-shadow: 
-        0 28px 50px rgba(0,0,0,0.2), 
-        0 10px 20px rgba(0,0,0,0.10),
-        inset 0 0 0 2px rgba(255,255,255,0.9);
+        0 25px 50px rgba(0,0,0,0.2),
+        0 8px 16px rgba(0,0,0,0.10);
     }
 
-    .hero-banner::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-image:
-        repeating-linear-gradient(30deg, rgba(180,150,120,0.05) 0px, rgba(180,150,120,0.05) 2px, transparent 2px, transparent 10px),
-        repeating-linear-gradient(150deg, rgba(180,150,120,0.04) 0px, rgba(180,150,120,0.04) 2px, transparent 2px, transparent 12px),
-        repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 1px, transparent 1px, transparent 5px);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .hero-banner::after {
-      content: '';
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      right: 10px;
-      bottom: 10px;
-      border: 3px dashed #d9b58a;
-      border-radius: 22px;
-      pointer-events: none;
-      opacity: 0.7;
-      z-index: 1;
-    }
-
-    .hero-banner-inner {
-      position: relative;
-      z-index: 2;
-    }
-
-    .hero-banner-icons {
-      display: flex;
-      justify-content: center;
-      gap: 18px;
-      margin-bottom: 10px;
-    }
-
-    .hero-icon {
-      font-size: 34px;
-      display: inline-block;
-      animation: floatIcon 3s ease-in-out infinite;
-      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
-    }
-
-    .hero-icon:nth-child(1) { animation-delay: 0s; }
-    .hero-icon:nth-child(2) { animation-delay: 0.4s; }
-    .hero-icon:nth-child(3) { animation-delay: 0.8s; }
-    .hero-icon:nth-child(4) { animation-delay: 1.2s; }
-
-    @keyframes floatIcon {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-8px) rotate(4deg); }
-    }
-
-    .hero-title {
-      font-family: 'Bluecherries', cursive;
-      font-size: 38px;
-      font-weight: 400;
-      color: #2A1F14;
-      margin-bottom: 6px;
-      letter-spacing: 1px;
-      text-shadow: 0 2px 4px rgba(255,255,255,0.7);
-    }
-
-    .hero-title span {
-      color: #8B6B4A;
-      text-shadow: 0 2px 4px rgba(139,107,74,0.2);
-    }
-
-    .hero-tagline {
-      font-size: 18px;
-      font-weight: 600;
-      color: #5a4a3a;
-      margin-bottom: 12px;
-      letter-spacing: 0.3px;
-      text-shadow: 0 1px 2px rgba(255,255,255,0.8);
-    }
-
-    .hero-divider {
-      width: 80px;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, #d9b58a, transparent);
-      margin: 8px auto 12px;
-      border-radius: 4px;
-    }
-
-    .hero-hours {
-      font-size: 15px;
-      font-weight: 600;
-      color: #6a5a4a;
-      margin-bottom: 14px;
-      letter-spacing: 0.5px;
-      background: rgba(255,255,255,0.4);
-      display: inline-block;
-      padding: 4px 18px;
-      border-radius: 30px;
-      backdrop-filter: blur(4px);
-    }
-
-    .hero-cta {
-      display: inline-block;
-      background: #2A1F14;
-      color: #fff;
-      font-size: 14px;
-      font-weight: 700;
-      padding: 10px 28px;
-      border-radius: 30px;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(42,31,20,0.25);
-      letter-spacing: 0.3px;
-    }
-
-    .hero-cta:hover {
-      background: #4a3a2a;
-      transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 8px 20px rgba(42,31,20,0.35);
+    .image-banner img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: transparent;
     }
 
     @media (max-width: 600px) {
-      .hero-banner {
-        padding: 28px 16px 24px;
-      }
-      .hero-title {
-        font-size: 28px;
-      }
-      .hero-tagline {
-        font-size: 15px;
-      }
-      .hero-icon {
-        font-size: 26px;
-      }
-      .hero-banner-icons {
-        gap: 12px;
-      }
-      .hero-hours {
-        font-size: 13px;
-        padding: 3px 14px;
-      }
-      .hero-cta {
-        font-size: 13px;
-        padding: 8px 20px;
-      }
+      .image-banner { border-radius: 20px; }
+    }
+    @media (max-width: 400px) {
+      .image-banner { border-radius: 16px; }
     }
 
     .product-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:22px; margin-bottom:30px; }
     @media (min-width:600px) { .product-grid { grid-template-columns:repeat(3,1fr); } }
     @media (min-width:900px) { .product-grid { grid-template-columns:repeat(4,1fr); } }
 
-    /* ========== ENHANCED FELTED ART STYLE PRODUCT CARDS ========== */
     .card {
       background: #fefcf9;
       border-radius: 32px;
@@ -413,16 +268,8 @@
     .gallery-item:hover { box-shadow:0 6px 16px rgba(0,0,0,0.1); transform:scale(1.02); }
     .gallery-item img { width:100%; height:100%; object-fit:cover; border-radius:20px; }
 
-    /* ========== PREMIUM FELTED INFO CARDS ========== */
-    .info-grid { 
-      display:grid; 
-      grid-template-columns:repeat(2,1fr); 
-      gap:24px; 
-      margin-bottom:30px; 
-    }
-    @media (min-width:600px) { 
-      .info-grid { grid-template-columns:repeat(3,1fr); } 
-    }
+    .info-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:24px; margin-bottom:30px; }
+    @media (min-width:600px) { .info-grid { grid-template-columns:repeat(3,1fr); } }
 
     .info-card { 
       background: 
@@ -510,7 +357,6 @@
       text-shadow: 0 1px 0 rgba(255,255,255,0.5);
     }
 
-    /* ========== SOCIAL CARDS ========== */
     .social-cards { 
       display: flex; 
       flex-direction: row; 
@@ -522,13 +368,8 @@
     }
 
     @media (max-width: 450px) {
-      .social-cards {
-        gap: 15px;
-      }
-      .social-card {
-        width: 140px !important;
-        padding: 18px 12px 16px !important;
-      }
+      .social-cards { gap: 15px; }
+      .social-card { width: 140px !important; padding: 18px 12px 16px !important; }
     }
 
     .social-card { 
@@ -831,7 +672,6 @@
     .cart-item-remove { background:none; border:none; color:#FF4D4D; cursor:pointer; font-size:14px; }
     .cart-total { font-weight:800; font-size:18px; text-align:right; margin:12px 0; color:#000; }
 
-    /* ========== FLOATING CALL BUTTON ========== */
     .call-btn {
       position: fixed;
       bottom: 80px;
@@ -862,7 +702,6 @@
       border-radius: 0;
     }
 
-    /* ========== SUCCESS MODAL ========== */
     .success-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); display:none; justify-content:center; align-items:center; z-index:2000; padding:20px; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); }
     .success-modal { background:#fff; border-radius:28px; max-width:380px; width:100%; padding:35px 30px; text-align:center; box-shadow:0 25px 60px rgba(0,0,0,0.3); position:relative; overflow:hidden; animation: successModalIn 0.5s cubic-bezier(0.34,1.56,0.64,1); }
     @keyframes successModalIn { 0% { opacity:0; transform: scale(0.7) translateY(30px); } 100% { opacity:1; transform: scale(1) translateY(0); } }
@@ -952,21 +791,9 @@
       <section id="menuSection" class="tab-section active">
         <div class="categories" id="categoryPillsContainer"></div>
 
-        <!-- ===== HERO BANNER ===== -->
-        <div class="hero-banner" id="promoBanner">
-          <div class="hero-banner-inner">
-            <div class="hero-banner-icons">
-              <span class="hero-icon">☕</span>
-              <span class="hero-icon">🥐</span>
-              <span class="hero-icon">🍰</span>
-              <span class="hero-icon">🍕</span>
-            </div>
-            <h1 class="hero-title">Welcome to <span>Aura Cafe</span></h1>
-            <p class="hero-tagline">Fresh, Delicious &amp; Made with Love ❤️</p>
-            <div class="hero-divider"></div>
-            <p class="hero-hours">🕒 Open Daily &bull; 6:00 AM – 9:00 PM</p>
-            <a href="#contactSection" class="hero-cta">📍 Find Us</a>
-          </div>
+        <!-- ===== IMAGE BANNER – 1774×887 ===== -->
+        <div class="image-banner" id="promoBanner">
+          <img src="/images/banner.png" alt="Aura Cafe Banner" />
         </div>
 
         <div class="admin-panel" id="adminPanel">
@@ -1243,7 +1070,6 @@
   <input type="file" id="editGalleryFileInput" accept="image/*" style="display:none" />
 
   <script>
-    // ========== CUSTOM ALERT/CONFIRM/PROMPT ==========
     (function() {
       function createOverlay() {
         var overlay = document.createElement('div');
@@ -1335,17 +1161,11 @@
       };
     })();
 
-    // ====================================================================
-    // 📦 DEFAULT PRODUCTS – 24 PRODUCTS (Including Blue Lemon Virgin Mojito)
-    // ====================================================================
     const defaultProducts = [
-      // ----- BREAKFAST -----
       { id: 'chocolate_banana_pancakes', emoji: '/images/chocolate_banana_pancakes.png', name: 'Chocolate Banana Pancakes', price: '$9.00', rating: '⭐ 4.8', category: 'breakfast', description: 'Fluffy pancakes with chocolate chips & fresh banana slices.' },
       { id: 'classic_avocado_toast', emoji: '/images/classic_avocado_toast.png', name: 'Classic Avocado Toast', price: '$6.50', rating: '⭐ 4.4', category: 'breakfast', description: 'Smashed avocado on toasted sourdough with sea salt.' },
       { id: 'avocado_feta_toast', emoji: '/images/avocado_feta_toast.png', name: 'Avocado Feta Toast', price: '$7.00', rating: '⭐ 4.5', category: 'breakfast', description: 'Avocado topped with crumbled feta and cherry tomatoes.' },
       { id: 'mixed_berry_pancakes', emoji: '/images/mixed_berry_pancakes.png', name: 'Mixed Berry Pancakes', price: '$9.50', rating: '⭐ 4.9', category: 'breakfast', description: 'Fluffy pancakes loaded with mixed berries and maple syrup.' },
-
-      // ----- DRINKS -----
       { id: 'lemon_lime_mint_cooler', emoji: '/images/lemon_lime_mint_cooler.png', name: 'Lemon Lime Mint Cooler', price: '$3.50', rating: '⭐ 4.5', category: 'drinks', description: 'Refreshing blend of lemon, lime, and fresh mint.' },
       { id: 'coca_cola', emoji: '/images/coca_cola.png', name: 'Coca-Cola', price: '$2.50', rating: '⭐ 4.2', category: 'drinks', description: 'Classic refreshing cola.' },
       { id: 'fresh_orange_juice', emoji: '/images/fresh_orange_juice.png', name: 'Fresh Orange Juice', price: '$3.50', rating: '⭐ 4.3', category: 'drinks', description: 'Freshly squeezed orange juice.' },
@@ -1354,41 +1174,20 @@
       { id: 'blue_lemon_virgin_mojito', emoji: '/images/blue_lemon_virgin_mojito.png', name: 'Blue Lemon Virgin Mojito', price: '$5.00', rating: '⭐ 4.7', category: 'drinks', description: 'Refreshing blue lemon mojito with mint and lime.' },
       { id: 'chocolate_milkshake', emoji: '/images/chocolate_milkshake.png', name: 'Chocolate Milkshake', price: '$6.00', rating: '⭐ 4.7', category: 'drinks', description: 'Creamy chocolate milkshake topped with whipped cream.' },
       { id: 'watermelon_soda', emoji: '/images/watermelon_soda.png', name: 'Watermelon Soda', price: '$3.00', rating: '⭐ 4.1', category: 'drinks', description: 'Sparkling watermelon soda with a hint of lime.' },
-
-      // ----- SALAD -----
       { id: 'garden_fresh_vegetable_salad', emoji: '/images/garden_fresh_vegetable_salad.png', name: 'Garden Fresh Vegetable Salad', price: '$7.50', rating: '⭐ 4.3', category: 'salad', description: 'Mixed greens with cherry tomatoes, cucumbers, and balsamic dressing.' },
-
-      // ----- PASTA -----
       { id: 'creamy_vegetable_penne_pasta', emoji: '/images/creamy_vegetable_penne_pasta.png', name: 'Creamy Vegetable Penne Pasta', price: '$11.00', rating: '⭐ 4.6', category: 'pasta', description: 'Penne pasta tossed in a creamy sauce with seasonal vegetables.' },
-
-      // ----- BREADS -----
       { id: 'garlic_bread', emoji: '/images/garlic_bread.png', name: 'Garlic Bread', price: '$4.00', rating: '⭐ 4.4', category: 'breads', description: 'Toasted baguette with garlic butter and herbs.' },
-
-      // ----- SNACKS -----
       { id: 'chocolate_chip_cookie', emoji: '/images/chocolate_chip_cookie.png', name: 'Chocolate Chip Cookie', price: '$2.50', rating: '⭐ 4.2', category: 'snacks', description: 'Soft-baked cookie loaded with chocolate chips.' },
-
-      // ----- PASTRIES -----
       { id: 'butter_croissant', emoji: '/images/butter_croissant.png', name: 'Butter Croissant', price: '$3.50', rating: '⭐ 4.5', category: 'pastries', description: 'Flaky, buttery French croissant.' },
-
-      // ----- CAKES / DESSERTS -----
       { id: 'chocolate_fudge_cake', emoji: '/images/chocolate_fudge_cake.png', name: 'Chocolate Fudge Cake', price: '$8.00', rating: '⭐ 4.7', category: 'cakes', description: 'Rich chocolate cake with a smooth fudge icing.' },
       { id: 'chocolate_sundae', emoji: '/images/chocolate_sundae.png', name: 'Chocolate Sundae', price: '$5.50', rating: '⭐ 4.6', category: 'cakes', description: 'Creamy vanilla ice cream with chocolate sauce and nuts.' },
-
-      // ----- BURGERS -----
       { id: 'classic_cheeseburger', emoji: '/images/classic_cheeseburger.png', name: 'Classic Cheeseburger', price: '$10.00', rating: '⭐ 4.6', category: 'burgers', description: 'Juicy beef patty with cheddar, lettuce, tomato, and onion.' },
-
-      // ----- PIZZA -----
       { id: 'pepperoni_pizza', emoji: '/images/pepperoni_pizza.png', name: 'Pepperoni Pizza', price: '$12.00', rating: '⭐ 4.8', category: 'pizza', description: 'Classic pizza topped with pepperoni and mozzarella.' },
       { id: 'veggie_supreme_pizza', emoji: '/images/veggie_supreme_pizza.png', name: 'Veggie Supreme Pizza', price: '$14.00', rating: '⭐ 4.6', category: 'pizza', description: 'Bell peppers, olives, onions, mushrooms & fresh tomatoes.' },
       { id: 'loaded_veggie_pizza', emoji: '/images/loaded_veggie_pizza.png', name: 'Loaded Veggie Pizza', price: '$15.00', rating: '⭐ 4.7', category: 'pizza', description: 'Extra loaded with grilled vegetables and three cheese blend.' },
-
-      // ----- NOODLES -----
       { id: 'noodles', emoji: '/images/noodles.png', name: 'Noodles', price: '$9.00', rating: '⭐ 4.5', category: 'noodles', description: 'Stir-fried noodles with fresh vegetables and savory sauce.' }
     ];
 
-    // ====================================================================
-    // 📂 DEFAULT CATEGORIES
-    // ====================================================================
     const defaultCategories = [
       { id: 'pizza', name: 'Pizza', emoji: '🍕' },
       { id: 'drinks', name: 'Drinks', emoji: '🥤' },
@@ -1403,9 +1202,6 @@
       { id: 'noodles', name: 'Noodles', emoji: '🍜' }
     ];
 
-    // ====================================================================
-    // 🗄️ DEFAULT DATA FOR OTHER STORAGE
-    // ====================================================================
     const defaultGallery = ['', '', '', '', '', ''];
     const defaultOrders = [];
     const defaultCart = [];
@@ -1512,7 +1308,6 @@
     }
     function normalizePhone(phone) { return phone.replace(/\D/g, ''); }
 
-    // ========== CUSTOMER AUTH ==========
     function customerLogin(email, password) {
       var customer = customers.find(c => c.email.toLowerCase() === email.toLowerCase() && c.password === password);
       if (!customer) { document.getElementById('customerAuthError').textContent = 'Invalid email or password'; return false; }
@@ -1526,11 +1321,9 @@
     function customerLogout() { currentCustomer = null; saveCurrentCustomer(); updateCustomerUI(); renderCartUI(); }
     function updateCustomerUI() { var avatar = document.getElementById('customerAvatar'); avatar.innerHTML = '<img src="https://i.ibb.co/RpdwtSRh/avatar.png" alt="Avatar" />'; }
 
-    // ========== EMAIL NOTIFICATIONS (placeholder) ==========
     (function() { emailjs.init("YOUR_PUBLIC_KEY"); })();
     function sendOrderNotification(order, customerEmail) { /* emailjs integration - replace with actual credentials */ }
 
-    // ========== ADMIN LOGIN ==========
     var isLoggedIn = false;
     var adminCredentials = { email: 'Owner@Gmail.com', password: 'admin123' };
     function adminLogin(email, password) {
@@ -1864,7 +1657,6 @@
       } else { window.open('https://www.google.com/maps/search/?api=1&query=' + query, '_blank'); }
     }
 
-    // ========== EVENT LISTENERS ==========
     document.getElementById('searchToggleBtn').addEventListener('click', function() { document.getElementById('searchContainer').classList.toggle('active'); if (document.getElementById('searchContainer').classList.contains('active')) document.getElementById('searchInput').focus(); else { document.getElementById('searchInput').value = ''; searchQuery = ''; renderProducts(); hideSearchSuggestions(); } });
     document.getElementById('searchInput').addEventListener('input', function() { searchQuery = this.value; renderProducts(); if (this.value.trim().length > 0) { showSearchSuggestions(this.value.trim().toLowerCase()); } else { hideSearchSuggestions(); } });
     document.addEventListener('click', function(e) { if (!e.target.closest('.search-container') && !e.target.closest('.search-suggestions')) { hideSearchSuggestions(); } });
@@ -1958,12 +1750,10 @@
     document.querySelectorAll('.admin-tab-btn').forEach(btn => { btn.addEventListener('click', function() { document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active')); document.getElementById('admin' + btn.getAttribute('data-tab').charAt(0).toUpperCase() + btn.getAttribute('data-tab').slice(1) + 'Section').classList.add('active'); }); });
     if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').then(registration => console.log('SW registered:', registration.scope)).catch(err => console.log('SW registration failed:', err)); }); }
 
-    // ========== INIT ==========
     loadData();
     checkLogin();
     renderAll();
 
-    // Lightbox close handlers
     document.getElementById('galleryLightboxClose').addEventListener('click', function() {
       document.getElementById('galleryLightboxOverlay').style.display = 'none';
       document.getElementById('galleryLightboxImage').src = '';
