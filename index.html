@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aura Cafe | Bakery & Cake Shop</title>
-  <!-- Google Fonts: Inter (for body) -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="manifest" href="manifest.json" />
@@ -80,26 +79,182 @@
     .pill img { width:20px; height:20px; border-radius:50%; object-fit:cover; }
     .pill.active { background:#1A1A1A; color:#fff; border-color:#1A1A1A; box-shadow:0 4px 12px rgba(26,26,26,0.25); }
 
-    /* ===== SHOP IMAGE BANNER ===== */
-    .shop-banner {
-      display: block;
-      width: 100%;
-      margin-bottom: 20px;
-      border-radius: 28px;
+    /* ========== HERO BANNER (No Image) ========== */
+    .hero-banner {
+      background: 
+        radial-gradient(circle at 20% 25%, rgba(255,248,240,0.9) 0%, transparent 50%),
+        radial-gradient(circle at 80% 75%, rgba(217,181,138,0.2) 0%, transparent 50%),
+        linear-gradient(145deg, #fdf6ec 0%, #f9efe2 40%, #f5e6d3 100%);
+      border-radius: 32px;
+      padding: 40px 24px 36px;
+      margin-bottom: 24px;
+      text-align: center;
+      position: relative;
       overflow: hidden;
+      border: 2px solid #f0e0c9;
+      box-shadow: 
+        0 16px 40px rgba(0,0,0,0.12), 
+        0 6px 12px rgba(0,0,0,0.06),
+        inset 0 0 0 2px rgba(255,255,255,0.8);
+      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s ease;
       cursor: pointer;
-      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s ease;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
     }
-    .shop-banner:hover {
-      transform: scale(1.01);
-      box-shadow: 0 16px 40px rgba(0,0,0,0.15);
+
+    .hero-banner:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 
+        0 28px 50px rgba(0,0,0,0.2), 
+        0 10px 20px rgba(0,0,0,0.10),
+        inset 0 0 0 2px rgba(255,255,255,0.9);
     }
-    .shop-banner img {
-      display: block;
-      width: 100%;
-      height: auto;
-      border-radius: 28px;
+
+    .hero-banner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image:
+        repeating-linear-gradient(30deg, rgba(180,150,120,0.05) 0px, rgba(180,150,120,0.05) 2px, transparent 2px, transparent 10px),
+        repeating-linear-gradient(150deg, rgba(180,150,120,0.04) 0px, rgba(180,150,120,0.04) 2px, transparent 2px, transparent 12px),
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 1px, transparent 1px, transparent 5px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-banner::after {
+      content: '';
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+      border: 3px dashed #d9b58a;
+      border-radius: 22px;
+      pointer-events: none;
+      opacity: 0.7;
+      z-index: 1;
+    }
+
+    .hero-banner-inner {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-banner-icons {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      margin-bottom: 10px;
+    }
+
+    .hero-icon {
+      font-size: 34px;
+      display: inline-block;
+      animation: floatIcon 3s ease-in-out infinite;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+    }
+
+    .hero-icon:nth-child(1) { animation-delay: 0s; }
+    .hero-icon:nth-child(2) { animation-delay: 0.4s; }
+    .hero-icon:nth-child(3) { animation-delay: 0.8s; }
+    .hero-icon:nth-child(4) { animation-delay: 1.2s; }
+
+    @keyframes floatIcon {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-8px) rotate(4deg); }
+    }
+
+    .hero-title {
+      font-family: 'Bluecherries', cursive;
+      font-size: 38px;
+      font-weight: 400;
+      color: #2A1F14;
+      margin-bottom: 6px;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 4px rgba(255,255,255,0.7);
+    }
+
+    .hero-title span {
+      color: #8B6B4A;
+      text-shadow: 0 2px 4px rgba(139,107,74,0.2);
+    }
+
+    .hero-tagline {
+      font-size: 18px;
+      font-weight: 600;
+      color: #5a4a3a;
+      margin-bottom: 12px;
+      letter-spacing: 0.3px;
+      text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+    }
+
+    .hero-divider {
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #d9b58a, transparent);
+      margin: 8px auto 12px;
+      border-radius: 4px;
+    }
+
+    .hero-hours {
+      font-size: 15px;
+      font-weight: 600;
+      color: #6a5a4a;
+      margin-bottom: 14px;
+      letter-spacing: 0.5px;
+      background: rgba(255,255,255,0.4);
+      display: inline-block;
+      padding: 4px 18px;
+      border-radius: 30px;
+      backdrop-filter: blur(4px);
+    }
+
+    .hero-cta {
+      display: inline-block;
+      background: #2A1F14;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 10px 28px;
+      border-radius: 30px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(42,31,20,0.25);
+      letter-spacing: 0.3px;
+    }
+
+    .hero-cta:hover {
+      background: #4a3a2a;
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 8px 20px rgba(42,31,20,0.35);
+    }
+
+    @media (max-width: 600px) {
+      .hero-banner {
+        padding: 28px 16px 24px;
+      }
+      .hero-title {
+        font-size: 28px;
+      }
+      .hero-tagline {
+        font-size: 15px;
+      }
+      .hero-icon {
+        font-size: 26px;
+      }
+      .hero-banner-icons {
+        gap: 12px;
+      }
+      .hero-hours {
+        font-size: 13px;
+        padding: 3px 14px;
+      }
+      .hero-cta {
+        font-size: 13px;
+        padding: 8px 20px;
+      }
     }
 
     .product-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:22px; margin-bottom:30px; }
@@ -258,7 +413,7 @@
     .gallery-item:hover { box-shadow:0 6px 16px rgba(0,0,0,0.1); transform:scale(1.02); }
     .gallery-item img { width:100%; height:100%; object-fit:cover; border-radius:20px; }
 
-    /* ========== PREMIUM FELTED INFO CARDS (Cartoonist Professional) ========== */
+    /* ========== PREMIUM FELTED INFO CARDS ========== */
     .info-grid { 
       display:grid; 
       grid-template-columns:repeat(2,1fr); 
@@ -355,7 +510,7 @@
       text-shadow: 0 1px 0 rgba(255,255,255,0.5);
     }
 
-    /* ========== PREMIUM FELTED SOCIAL CARDS (Side by Side) ========== */
+    /* ========== SOCIAL CARDS ========== */
     .social-cards { 
       display: flex; 
       flex-direction: row; 
@@ -509,7 +664,7 @@
     footer { background:#fff; padding:20px; text-align:center; border-top:1px solid #eee; }
     .copyright { font-size:12px; color:#bbb; }
 
-    /* ========== PREMIUM COMPACT PRODUCT MODAL ========== */
+    /* ========== MODALS ========== */
     .modal-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); display:none; justify-content:center; align-items:center; z-index:1000; padding:20px; overflow-y:auto; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); }
     .modal { background:#fff; border-radius:24px; max-width:300px; width:100%; position:relative; box-shadow:0 20px 50px rgba(0,0,0,0.2); animation:premiumScaleIn 0.3s cubic-bezier(0.34,1.56,0.64,1); overflow:hidden; border:1px solid #e8e8e8; }
     @keyframes premiumScaleIn { from { opacity:0; transform:scale(0.85) translateY(20px); } to { opacity:1; transform:scale(1) translateY(0); } }
@@ -676,7 +831,7 @@
     .cart-item-remove { background:none; border:none; color:#FF4D4D; cursor:pointer; font-size:14px; }
     .cart-total { font-weight:800; font-size:18px; text-align:right; margin:12px 0; color:#000; }
 
-    /* ========== FLOATING CALL BUTTON - LARGER SIZE ========== */
+    /* ========== FLOATING CALL BUTTON ========== */
     .call-btn {
       position: fixed;
       bottom: 80px;
@@ -715,8 +870,6 @@
     .success-checkmark-circle { stroke-dasharray: 166; stroke-dashoffset: 166; stroke-width: 2; stroke-miterlimit: 10; stroke: #4CAF50; fill: none; animation: stroke 0.6s cubic-bezier(0.65,0,0.45,1) forwards; }
     .success-checkmark-check { transform-origin: 50% 50%; stroke-dasharray: 48; stroke-dashoffset: 48; stroke-width: 3; stroke: #4CAF50; fill: none; animation: stroke 0.3s cubic-bezier(0.65,0,0.45,1) 0.6s forwards; }
     @keyframes stroke { to { stroke-dashoffset: 0; } }
-    .success-icon-animation { font-size:70px; margin-bottom:15px; display:inline-block; animation: successBounce 0.8s ease; }
-    @keyframes successBounce { 0% { transform:scale(0); } 50% { transform:scale(1.2); } 70% { transform:scale(0.9); } 100% { transform:scale(1); } }
     .success-title { font-size:24px; font-weight:800; color:#000; margin-bottom:10px; letter-spacing:-0.3px; }
     .success-message { font-size:14px; color:#555; line-height:1.6; margin-bottom:20px; }
     .success-order-details { background:#f9f9f9; border-radius:12px; padding:12px; margin-bottom:20px; text-align:left; font-size:13px; color:#333; }
@@ -737,48 +890,10 @@
     .confetti-piece { position:absolute; width:10px; height:10px; opacity:0.9; animation: confettiFall linear forwards; }
     @keyframes confettiFall { 0% { transform: translateY(-10vh) rotate(0deg); opacity:1; } 100% { transform: translateY(110vh) rotate(720deg); opacity:0; } }
 
-    .user-orders-modal { background:#fff; border-radius:28px; padding:25px; box-shadow:0 20px 40px rgba(0,0,0,0.15); position:relative; max-width:400px; width:100%; }
-    .user-orders-modal h3 { font-size:22px; font-weight:800; margin-bottom:20px; text-align:center; color:#000; }
-    .user-orders-modal .form-group { margin-bottom:15px; }
-    .user-orders-modal label { display:block; font-size:13px; font-weight:600; color:#555; margin-bottom:6px; }
-    .user-orders-modal input { width:100%; padding:13px 16px; border:2px solid #e0e0e0; border-radius:14px; font-size:14px; background:#fafafa; transition:all 0.2s; font-family:inherit; }
-    .user-orders-modal input:focus { border-color:#1A1A1A; background:#fff; box-shadow:0 0 0 4px rgba(26,26,26,0.05); outline:none; }
-    .user-orders-modal .search-btn { background:#1A1A1A; color:#fff; border:none; border-radius:14px; padding:13px; font-size:15px; font-weight:700; cursor:pointer; width:100%; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:8px; }
-    .user-orders-modal .search-btn:hover { background:#333; }
-    .user-orders-modal .user-orders-list { margin-top:18px; max-height:300px; overflow-y:auto; }
-    .user-orders-modal .order-card { background:#fafafa; border-radius:14px; padding:14px; margin-bottom:10px; border:1px solid #f0f0f0; }
-    .user-orders-modal .order-card .order-name { font-weight:700; font-size:14px; color:#000; }
-    .user-orders-modal .order-card .order-meta { font-size:12px; color:#555; margin-top:2px; }
-    .user-orders-modal .no-orders { text-align:center; color:#999; padding:20px 0; font-size:14px; }
-    .customer-auth-link { text-align:center; margin-top:10px; font-size:13px; color:#555; }
-    .customer-auth-link a { color:#1A1A1A; font-weight:600; cursor:pointer; text-decoration:underline; }
-
-    .custom-alert-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center; z-index:3000; padding:20px; backdrop-filter:blur(4px); }
-    .custom-alert-box { background:#fff; border-radius:24px; padding:30px 25px; max-width:360px; width:100%; text-align:center; box-shadow:0 20px 40px rgba(0,0,0,0.2); animation:modalFadeIn 0.25s ease; }
-    .custom-alert-icon { font-size:46px; margin-bottom:10px; }
-    .custom-alert-title { font-size:20px; font-weight:800; color:#000; margin-bottom:8px; }
-    .custom-alert-message { font-size:14px; color:#555; margin-bottom:20px; line-height:1.5; }
-    .custom-alert-btn { background:#1A1A1A; color:#fff; border:none; border-radius:30px; padding:12px 24px; font-size:14px; font-weight:700; cursor:pointer; min-width:120px; transition:all 0.2s; }
-    .custom-alert-btn:hover { background:#333; }
-    .custom-alert-btn.secondary { background:#f0f0f0; color:#000; margin-left:10px; }
-    .custom-prompt-input { width:100%; padding:12px 14px; border:2px solid #e0e0e0; border-radius:12px; font-size:15px; margin-bottom:15px; box-sizing:border-box; font-family:inherit; }
-    .custom-prompt-input:focus { border-color:#1A1A1A; outline:none; box-shadow:0 0 0 4px rgba(26,26,26,0.05); }
-
-    .status-badge { padding:4px 10px; border-radius:20px; font-size:11px; font-weight:600; }
-    .status-accepted { background:#e6f7ff; color:#1890ff; }
-    .status-preparing { background:#fff7e6; color:#fa8c16; }
-    .status-delivered { background:#f6ffed; color:#52c41a; }
-    .loyalty-points { margin-top:15px; font-weight:700; color:#000; font-size:13px; }
     .saved-address-item { display:flex; justify-content:space-between; align-items:center; padding:10px 12px; border:1px solid #eee; border-radius:8px; margin-bottom:6px; cursor:pointer; transition:background 0.15s; font-size:13px; }
     .saved-address-item:hover { background:#fafafa; }
     .saved-address-item button { background:none; border:none; cursor:pointer; font-size:13px; color:#FF4D4D; transition:transform 0.15s; }
     .saved-address-item button:hover { transform:scale(1.1); }
-
-    .boom-effect { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:9999; display:none; }
-    .boom-particle { position:absolute; border-radius:50%; animation: boomParticle 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
-    @keyframes boomParticle { 0% { transform: translate(0, 0) scale(1); opacity:1; } 100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity:0; } }
-    .shockwave-ring { position:absolute; border-radius:50%; border:3px solid rgba(255,215,0,0.8); animation: shockwave 0.7s ease-out forwards; }
-    @keyframes shockwave { 0% { width:20px; height:20px; opacity:1; border-width:6px; } 100% { width:500px; height:500px; opacity:0; border-width:1px; } }
 
     #orderOverlay .modal { max-width:400px; }
     #orderOverlay .modal-content { padding:20px; text-align:left; }
@@ -837,9 +952,21 @@
       <section id="menuSection" class="tab-section active">
         <div class="categories" id="categoryPillsContainer"></div>
 
-        <!-- ===== SHOP IMAGE BANNER ===== -->
-        <div class="shop-banner" id="promoBanner">
-          <img src="/banner.png" alt="Aura Cafe Shop" />
+        <!-- ===== HERO BANNER (No Image) ===== -->
+        <div class="hero-banner" id="promoBanner">
+          <div class="hero-banner-inner">
+            <div class="hero-banner-icons">
+              <span class="hero-icon">☕</span>
+              <span class="hero-icon">🥐</span>
+              <span class="hero-icon">🍰</span>
+              <span class="hero-icon">🍕</span>
+            </div>
+            <h1 class="hero-title">Welcome to <span>Aura Cafe</span></h1>
+            <p class="hero-tagline">Fresh, Delicious &amp; Made with Love ❤️</p>
+            <div class="hero-divider"></div>
+            <p class="hero-hours">🕒 Open Daily &bull; 6:00 AM – 9:00 PM</p>
+            <a href="#contactSection" class="hero-cta">📍 Find Us</a>
+          </div>
         </div>
 
         <div class="admin-panel" id="adminPanel">
@@ -984,6 +1111,7 @@
     <img src="https://i.ibb.co/zH5GG5H5/Gemini-Generated-Image-y95m0by95m0by95m.png" alt="Call" />
   </button>
 
+  <!-- ===== MODALS ===== -->
   <div class="modal-overlay" id="customerAuthOverlay">
     <div class="modal">
       <button class="modal-close" id="customerAuthClose">&times;</button>
@@ -1208,7 +1336,7 @@
     })();
 
     // ====================================================================
-    // 📦 DEFAULT PRODUCTS – 21 PRODUCTS WITH IMAGE PATHS
+    // 📦 DEFAULT PRODUCTS – 23 PRODUCTS WITH IMAGE PATHS (Including Coffee)
     // ====================================================================
     const defaultProducts = [
       // ----- BREAKFAST -----
@@ -1222,6 +1350,7 @@
       { id: 'coca_cola', emoji: '/images/coca_cola.png', name: 'Coca-Cola', price: '$2.50', rating: '⭐ 4.2', category: 'drinks', description: 'Classic refreshing cola.' },
       { id: 'fresh_orange_juice', emoji: '/images/fresh_orange_juice.png', name: 'Fresh Orange Juice', price: '$3.50', rating: '⭐ 4.3', category: 'drinks', description: 'Freshly squeezed orange juice.' },
       { id: 'lemon_lime_bitters', emoji: '/images/lemon_lime_berries.png', name: 'Lemon Lime Bitters', price: '$4.00', rating: '⭐ 4.4', category: 'drinks', description: 'Zesty lemon lime with a hint of bitters.' },
+      { id: 'coffee', emoji: '/images/coffee.png', name: 'Coffee', price: '$4.00', rating: '⭐ 4.6', category: 'drinks', description: 'Freshly brewed hot coffee with rich aroma.' },
       { id: 'chocolate_milkshake', emoji: '/images/chocolate_milkshake.png', name: 'Chocolate Milkshake', price: '$6.00', rating: '⭐ 4.7', category: 'drinks', description: 'Creamy chocolate milkshake topped with whipped cream.' },
       { id: 'watermelon_soda', emoji: '/images/watermelon_soda.png', name: 'Watermelon Soda', price: '$3.00', rating: '⭐ 4.1', category: 'drinks', description: 'Sparkling watermelon soda with a hint of lime.' },
 
@@ -1250,11 +1379,14 @@
       // ----- PIZZA -----
       { id: 'pepperoni_pizza', emoji: '/images/pepperoni_pizza.png', name: 'Pepperoni Pizza', price: '$12.00', rating: '⭐ 4.8', category: 'pizza', description: 'Classic pizza topped with pepperoni and mozzarella.' },
       { id: 'veggie_supreme_pizza', emoji: '/images/veggie_supreme_pizza.png', name: 'Veggie Supreme Pizza', price: '$14.00', rating: '⭐ 4.6', category: 'pizza', description: 'Bell peppers, olives, onions, mushrooms & fresh tomatoes.' },
-      { id: 'loaded_veggie_pizza', emoji: '/images/loaded_veggie_pizza.png', name: 'Loaded Veggie Pizza', price: '$15.00', rating: '⭐ 4.7', category: 'pizza', description: 'Extra loaded with grilled vegetables and three cheese blend.' }
+      { id: 'loaded_veggie_pizza', emoji: '/images/loaded_veggie_pizza.png', name: 'Loaded Veggie Pizza', price: '$15.00', rating: '⭐ 4.7', category: 'pizza', description: 'Extra loaded with grilled vegetables and three cheese blend.' },
+
+      // ----- NOODLES -----
+      { id: 'noodles', emoji: '/images/noodles.png', name: 'Noodles', price: '$9.00', rating: '⭐ 4.5', category: 'noodles', description: 'Stir-fried noodles with fresh vegetables and savory sauce.' }
     ];
 
     // ====================================================================
-    // 📂 DEFAULT CATEGORIES
+    // 📂 DEFAULT CATEGORIES (11 Categories)
     // ====================================================================
     const defaultCategories = [
       { id: 'pizza', name: 'Pizza', emoji: '🍕' },
@@ -1266,7 +1398,8 @@
       { id: 'breakfast', name: 'Breakfast', emoji: '🍳' },
       { id: 'burgers', name: 'Burgers', emoji: '🍔' },
       { id: 'salad', name: 'Salad', emoji: '🥗' },
-      { id: 'pasta', name: 'Pasta', emoji: '🍝' }
+      { id: 'pasta', name: 'Pasta', emoji: '🍝' },
+      { id: 'noodles', name: 'Noodles', emoji: '🍜' }
     ];
 
     // ====================================================================
@@ -1787,7 +1920,6 @@
     document.getElementById('hoursCard').addEventListener('click', function() { alert('Open daily 6AM - 9PM'); });
     document.getElementById('viewAllBtn').addEventListener('click', function() { document.querySelector('.product-grid').scrollIntoView({behavior:'smooth'}); });
     document.getElementById('promoBanner').addEventListener('click', function() {
-      // Banner click pe kya karna hai? Aap chahein toh contact section open kar sakte hain
       document.querySelector('[data-target="contactSection"]').click();
     });
     document.getElementById('adminImageFile').addEventListener('change', function() { handleFileSelect(this, function(dataUrl) { document.getElementById('adminImagePreview').src = dataUrl; document.getElementById('adminImagePreview').style.display = 'block'; document.getElementById('adminEmoji').value = ''; window.productImageData = dataUrl; }); });
