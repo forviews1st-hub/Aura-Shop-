@@ -80,115 +80,26 @@
     .pill img { width:20px; height:20px; border-radius:50%; object-fit:cover; }
     .pill.active { background:#1A1A1A; color:#fff; border-color:#1A1A1A; box-shadow:0 4px 12px rgba(26,26,26,0.25); }
 
-    /* ===== FELT ART STYLE PROMO BANNER ===== */
-    .promo {
-      background: 
-        radial-gradient(circle at 25% 15%, rgba(255,255,255,0.7) 0%, transparent 50%),
-        radial-gradient(circle at 80% 85%, rgba(217,181,138,0.15) 0%, transparent 50%),
-        linear-gradient(145deg, #fffdf8 0%, #fdf6ec 40%, #f9efe2 100%);
-      border-radius: 28px;
-      padding: 24px 22px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
+    /* ===== SHOP IMAGE BANNER ===== */
+    .shop-banner {
+      display: block;
+      width: 100%;
       margin-bottom: 20px;
-      color: #2A1F14;
-      flex-wrap: wrap;
-      cursor: pointer;
-      position: relative;
+      border-radius: 28px;
       overflow: hidden;
-      box-shadow: 
-        0 16px 40px rgba(0,0,0,0.16), 
-        0 6px 12px rgba(0,0,0,0.08), 
-        inset 0 0 0 2px rgba(255,255,255,0.8),
-        inset 0 -6px 12px rgba(217,181,138,0.15);
-      border: 2px solid #f0e0c9;
+      cursor: pointer;
       transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s ease;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
     }
-
-    .promo::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-image:
-        repeating-linear-gradient(30deg, rgba(180,150,120,0.04) 0px, rgba(180,150,120,0.04) 2px, transparent 2px, transparent 8px),
-        repeating-linear-gradient(150deg, rgba(180,150,120,0.03) 0px, rgba(180,150,120,0.03) 2px, transparent 2px, transparent 10px),
-        repeating-linear-gradient(0deg, rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 1px, transparent 1px, transparent 4px);
-      pointer-events: none;
-      z-index: 0;
+    .shop-banner:hover {
+      transform: scale(1.01);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.15);
     }
-
-    .promo::after {
-      content: '';
-      position: absolute;
-      top: 7px;
-      left: 7px;
-      right: 7px;
-      bottom: 7px;
-      border: 3px dashed #d9b58a;
-      border-radius: 20px;
-      pointer-events: none;
-      opacity: 0.7;
-      z-index: 1;
-    }
-
-    .promo:hover {
-      transform: translateY(-10px) rotate(-0.5deg) scale(1.03);
-      box-shadow: 
-        0 35px 60px rgba(0,0,0,0.3), 
-        0 10px 20px rgba(0,0,0,0.15),
-        inset 0 0 0 2px rgba(255,255,255,0.9);
-    }
-
-    .promo-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      order: 1;
-      z-index: 2;
-    }
-
-    .promo-text {
-      order: 2;
-      text-align: left;
-      flex: 1;
-      z-index: 2;
-    }
-
-    .promo-text h2 {
-      font-size: 22px;
-      font-weight: 800;
-      margin-bottom: 5px;
-      letter-spacing: -0.3px;
-      color: #2A1F14;
-      text-shadow: 0 1px 0 rgba(255,255,255,0.8);
-    }
-
-    .promo-text a {
-      color: #5a4a3a;
-      font-size: 13px;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    .promo-img {
-      font-size: 60px;
-      animation: tick 2s ease-in-out infinite;
-      transform-origin: center;
-      display: inline-block;
-      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
-    }
-
-    @keyframes tick {
-      0% { transform: rotate(-10deg); }
-      25% { transform: rotate(5deg); }
-      50% { transform: rotate(-5deg); }
-      75% { transform: rotate(3deg); }
-      100% { transform: rotate(-10deg); }
+    .shop-banner img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 28px;
     }
 
     .product-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:22px; margin-bottom:30px; }
@@ -925,14 +836,12 @@
 
       <section id="menuSection" class="tab-section active">
         <div class="categories" id="categoryPillsContainer"></div>
-        <!-- ===== FELT ART PROMO BANNER ===== -->
-        <div class="promo" id="promoBanner">
-          <div class="promo-left"><span class="promo-img">🕒</span></div>
-          <div class="promo-text">
-            <h2>Open Daily</h2>
-            <a>6:00 AM – 9:00 PM</a>
-          </div>
+
+        <!-- ===== SHOP IMAGE BANNER ===== -->
+        <div class="shop-banner" id="promoBanner">
+          <img src="/banner.png" alt="Aura Cafe Shop" />
         </div>
+
         <div class="admin-panel" id="adminPanel">
           <h3 style="margin-bottom:15px;">🛠️ Website Owner Panel</h3>
           <div class="admin-tabs">
@@ -1877,7 +1786,10 @@
     document.getElementById('phoneCard').addEventListener('click', function() { window.location.href = 'tel:' + contactInfo.phone.replace(/\D/g,''); });
     document.getElementById('hoursCard').addEventListener('click', function() { alert('Open daily 6AM - 9PM'); });
     document.getElementById('viewAllBtn').addEventListener('click', function() { document.querySelector('.product-grid').scrollIntoView({behavior:'smooth'}); });
-    document.getElementById('promoBanner').addEventListener('click', function() { alert('Open daily 6AM - 9PM'); });
+    document.getElementById('promoBanner').addEventListener('click', function() {
+      // Banner click pe kya karna hai? Aap chahein toh contact section open kar sakte hain
+      document.querySelector('[data-target="contactSection"]').click();
+    });
     document.getElementById('adminImageFile').addEventListener('change', function() { handleFileSelect(this, function(dataUrl) { document.getElementById('adminImagePreview').src = dataUrl; document.getElementById('adminImagePreview').style.display = 'block'; document.getElementById('adminEmoji').value = ''; window.productImageData = dataUrl; }); });
     document.getElementById('categoryImageFile').addEventListener('change', function() { handleFileSelect(this, function(dataUrl) { document.getElementById('categoryImagePreview').src = dataUrl; document.getElementById('categoryImagePreview').style.display = 'block'; document.getElementById('newCategoryEmoji').value = ''; window.categoryImageData = dataUrl; }); });
     document.getElementById('galleryInlineFile').addEventListener('change', function() { handleFileSelect(this, function(dataUrl) { document.getElementById('galleryInlinePreview').src = dataUrl; document.getElementById('galleryInlinePreview').style.display = 'block'; window.galleryInlineImageData = dataUrl; }); });
