@@ -503,7 +503,7 @@
 
   <script>
     // ============================================================
-    // 📦 DEFAULT PRODUCTS – 22 ITEMS (ALL .png)
+    // 📦 DEFAULT PRODUCTS – 22 ITEMS
     // ============================================================
     const defaultProducts = [
       // ----- BREAKFAST -----
@@ -516,7 +516,7 @@
       { id: 'lemon_lime_mint_cooler', emoji: '/images/lemon_lime_mint_cooler.png', name: 'Lemon Lime Mint Cooler', price: '$3.50', rating: '⭐ 4.5', category: 'drinks', description: 'Refreshing blend of lemon, lime, and fresh mint.' },
       { id: 'coca_cola', emoji: '/images/coca_cola.png', name: 'Coca-Cola', price: '$2.50', rating: '⭐ 4.2', category: 'drinks', description: 'Classic refreshing cola.' },
       { id: 'fresh_orange_juice', emoji: '/images/fresh_orange_juice.png', name: 'Fresh Orange Juice', price: '$3.50', rating: '⭐ 4.3', category: 'drinks', description: 'Freshly squeezed orange juice.' },
-      { id: 'lemon_lime_bitters', emoji: '/images/lemon_lime_bitters.png', name: 'Lemon Lime Bitters', price: '$4.00', rating: '⭐ 4.4', category: 'drinks', description: 'Zesty lemon lime with a hint of bitters.' },
+      { id: 'lemon_lime_bitters', emoji: '/images/lemon_lime_berries.png', name: 'Lemon Lime Bitters', price: '$4.00', rating: '⭐ 4.4', category: 'drinks', description: 'Zesty lemon lime with a hint of bitters.' },
       { id: 'chocolate_milkshake', emoji: '/images/chocolate_milkshake.png', name: 'Chocolate Milkshake', price: '$6.00', rating: '⭐ 4.7', category: 'drinks', description: 'Creamy chocolate milkshake topped with whipped cream.' },
       { id: 'watermelon_soda', emoji: '/images/watermelon_soda.png', name: 'Watermelon Soda', price: '$3.00', rating: '⭐ 4.1', category: 'drinks', description: 'Sparkling watermelon soda with a hint of lime.' },
       
@@ -626,7 +626,6 @@
     async function loadData() {
       console.log('📦 Loading hardcoded default products (No backend, No localStorage override)');
       
-      // Load only cart, orders, customers from localStorage (for persistence)
       try {
         const savedCart = JSON.parse(localStorage.getItem('samoon99_cart'));
         if (savedCart) cart = savedCart;
@@ -677,7 +676,7 @@
     }
 
     // ============================================================
-    // 🖼️ RENDER FUNCTIONS (FULL CODE)
+    // 🖼️ RENDER FUNCTIONS
     // ============================================================
     function renderAll() {
       renderCategoryPills();
