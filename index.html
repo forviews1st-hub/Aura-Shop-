@@ -212,7 +212,6 @@
     .auth-panel .toggle-link a { color:var(--text-primary); font-weight:600; cursor:pointer; text-decoration:underline; }
     input[type="password"] { font-size:18px; letter-spacing:2px; }
 
-    /* ===== ADMIN PANEL ===== */
     .admin-panel { background:#fff; border-radius:16px; padding:16px; margin-bottom:16px; box-shadow:0 2px 8px rgba(0,0,0,0.08); border:1px solid var(--border-color); display:none; }
     .admin-panel.active { display:block; animation:fadeIn 0.3s ease; }
     .admin-tabs { display:flex; gap:6px; margin-bottom:14px; flex-wrap:wrap; }
@@ -343,7 +342,7 @@
   </style>
 </head>
 <body>
-  <div class="cloud-status" id="cloudStatus"><span class="dot" id="cloudDot"></span><span id="cloudLabel">Connecting...</span></div>
+  <div class="cloud-status" id="cloudStatus"><span class="dot" id="cloudDot"></span><span id="cloudLabel">Demo</span></div>
 
   <div class="app">
     <header class="header">
@@ -371,7 +370,6 @@
             <button class="admin-tab-btn" data-tab="contact">📞 Contact</button>
           </div>
 
-          <!-- Products Tab -->
           <div class="admin-section active" id="adminProductsSection">
             <div class="layout-editor-box">
               <h4 style="margin-bottom:8px;font-size:15px;font-weight:700;color:var(--text-primary);">🎨 Visual Card Layout Editor</h4>
@@ -406,13 +404,11 @@
             <hr style="margin:12px 0;border-color:var(--border-color);" /><h4 style="font-size:14px;font-weight:700;color:var(--text-primary);">Existing Products</h4><div id="adminProductList"></div>
           </div>
 
-          <!-- Categories Tab -->
           <div class="admin-section" id="adminCategoriesSection">
             <form class="admin-form" id="categoryForm"><div class="form-group"><label>Image (file)</label><div class="file-input-wrapper"><input type="file" id="categoryImageFile" accept="image/*" /><span class="file-btn">📁 Choose</span></div><img id="categoryImagePreview" class="image-preview" alt="Preview" /></div><div class="form-group"><label>Or Emoji</label><input type="text" id="newCategoryEmoji" placeholder="🍣" /></div><div class="form-group"><label>Name</label><input type="text" id="newCategoryName" placeholder="Sushi" required /></div><button type="submit">➕ Add</button></form>
             <hr style="margin:12px 0;border-color:var(--border-color);" /><h4 style="font-size:14px;font-weight:700;color:var(--text-primary);">Existing Categories</h4><div id="adminCategoryList"></div>
           </div>
 
-          <!-- Orders Tab -->
           <div class="admin-section" id="adminOrdersSection">
             <h4 style="font-size:14px;font-weight:700;color:var(--text-primary);">📦 Customer Orders</h4>
             <div id="adminOrdersList"></div>
@@ -424,7 +420,6 @@
             </div>
           </div>
 
-          <!-- Contact Tab -->
           <div class="admin-section" id="adminContactSection">
             <h4 style="font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:12px;">📞 Contact Information</h4>
             <form class="admin-form" id="contactForm">
@@ -508,25 +503,57 @@
 
   <script>
     // ============================================================
-    // 🔐 JSONBin CONFIG
+    // 📦 DEFAULT PRODUCTS – 22 ITEMS (ALL .png)
     // ============================================================
-    const CONFIG = {
-      MASTER_KEY: "YOUR_MASTER_KEY_HERE",
-      BIN_ID: "YOUR_BIN_ID_HERE",
-      USE_CLOUD: true
-    };
+    const defaultProducts = [
+      // ----- BREAKFAST -----
+      { id: 'chocolate_banana_pancakes', emoji: '/images/chocolate_banana_pancakes.png', name: 'Chocolate Banana Pancakes', price: '$9.00', rating: '⭐ 4.8', category: 'breakfast', description: 'Fluffy pancakes with chocolate chips & fresh banana slices.' },
+      { id: 'classic_avocado_toast', emoji: '/images/classic_avocado_toast.png', name: 'Classic Avocado Toast', price: '$6.50', rating: '⭐ 4.4', category: 'breakfast', description: 'Smashed avocado on toasted sourdough with sea salt.' },
+      { id: 'avocado_feta_toast', emoji: '/images/avocado_feta_toast.png', name: 'Avocado Feta Toast', price: '$7.00', rating: '⭐ 4.5', category: 'breakfast', description: 'Avocado topped with crumbled feta and cherry tomatoes.' },
+      { id: 'mixed_berry_pancakes', emoji: '/images/mixed_berry_pancakes.png', name: 'Mixed Berry Pancakes', price: '$9.50', rating: '⭐ 4.9', category: 'breakfast', description: 'Fluffy pancakes loaded with mixed berries and maple syrup.' },
+      
+      // ----- DRINKS -----
+      { id: 'lemon_lime_mint_cooler', emoji: '/images/lemon_lime_mint_cooler.png', name: 'Lemon Lime Mint Cooler', price: '$3.50', rating: '⭐ 4.5', category: 'drinks', description: 'Refreshing blend of lemon, lime, and fresh mint.' },
+      { id: 'coca_cola', emoji: '/images/coca_cola.png', name: 'Coca-Cola', price: '$2.50', rating: '⭐ 4.2', category: 'drinks', description: 'Classic refreshing cola.' },
+      { id: 'fresh_orange_juice', emoji: '/images/fresh_orange_juice.png', name: 'Fresh Orange Juice', price: '$3.50', rating: '⭐ 4.3', category: 'drinks', description: 'Freshly squeezed orange juice.' },
+      { id: 'lemon_lime_bitters', emoji: '/images/lemon_lime_bitters.png', name: 'Lemon Lime Bitters', price: '$4.00', rating: '⭐ 4.4', category: 'drinks', description: 'Zesty lemon lime with a hint of bitters.' },
+      { id: 'chocolate_milkshake', emoji: '/images/chocolate_milkshake.png', name: 'Chocolate Milkshake', price: '$6.00', rating: '⭐ 4.7', category: 'drinks', description: 'Creamy chocolate milkshake topped with whipped cream.' },
+      { id: 'watermelon_soda', emoji: '/images/watermelon_soda.png', name: 'Watermelon Soda', price: '$3.00', rating: '⭐ 4.1', category: 'drinks', description: 'Sparkling watermelon soda with a hint of lime.' },
+      
+      // ----- SALAD -----
+      { id: 'garden_fresh_vegetable_salad', emoji: '/images/garden_fresh_vegetable_salad.png', name: 'Garden Fresh Vegetable Salad', price: '$7.50', rating: '⭐ 4.3', category: 'salad', description: 'Mixed greens with cherry tomatoes, cucumbers, and balsamic dressing.' },
+      
+      // ----- PASTA -----
+      { id: 'creamy_vegetable_penne_pasta', emoji: '/images/creamy_vegetable_penne_pasta.png', name: 'Creamy Vegetable Penne Pasta', price: '$11.00', rating: '⭐ 4.6', category: 'pasta', description: 'Penne pasta tossed in a creamy sauce with seasonal vegetables.' },
+      
+      // ----- BREADS -----
+      { id: 'garlic_bread', emoji: '/images/garlic_bread.png', name: 'Garlic Bread', price: '$4.00', rating: '⭐ 4.4', category: 'breads', description: 'Toasted baguette with garlic butter and herbs.' },
+      
+      // ----- SNACKS -----
+      { id: 'chocolate_chip_cookie', emoji: '/images/chocolate_chip_cookie.png', name: 'Chocolate Chip Cookie', price: '$2.50', rating: '⭐ 4.2', category: 'snacks', description: 'Soft-baked cookie loaded with chocolate chips.' },
+      
+      // ----- PASTRIES -----
+      { id: 'butter_croissant', emoji: '/images/butter_croissant.png', name: 'Butter Croissant', price: '$3.50', rating: '⭐ 4.5', category: 'pastries', description: 'Flaky, buttery French croissant.' },
+      
+      // ----- CAKES / DESSERTS -----
+      { id: 'chocolate_fudge_cake', emoji: '/images/chocolate_fudge_cake.png', name: 'Chocolate Fudge Cake', price: '$8.00', rating: '⭐ 4.7', category: 'cakes', description: 'Rich chocolate cake with a smooth fudge icing.' },
+      { id: 'chocolate_sundae', emoji: '/images/chocolate_sundae.png', name: 'Chocolate Sundae', price: '$5.50', rating: '⭐ 4.6', category: 'cakes', description: 'Creamy vanilla ice cream with chocolate sauce and nuts.' },
+      
+      // ----- BURGERS -----
+      { id: 'classic_cheeseburger', emoji: '/images/classic_cheeseburger.png', name: 'Classic Cheeseburger', price: '$10.00', rating: '⭐ 4.6', category: 'burgers', description: 'Juicy beef patty with cheddar, lettuce, tomato, and onion.' },
+      
+      // ----- PIZZA -----
+      { id: 'pepperoni_pizza', emoji: '/images/pepperoni_pizza.png', name: 'Pepperoni Pizza', price: '$12.00', rating: '⭐ 4.8', category: 'pizza', description: 'Classic pizza topped with pepperoni and mozzarella.' },
+      { id: 'veggie_supreme_pizza', emoji: '/images/veggie_supreme_pizza.png', name: 'Veggie Supreme Pizza', price: '$14.00', rating: '⭐ 4.6', category: 'pizza', description: 'Bell peppers, olives, onions, mushrooms & fresh tomatoes.' },
+      { id: 'loaded_veggie_pizza', emoji: '/images/loaded_veggie_pizza.png', name: 'Loaded Veggie Pizza', price: '$15.00', rating: '⭐ 4.7', category: 'pizza', description: 'Extra loaded with grilled vegetables and three cheese blend.' }
+    ];
 
-    // ============================================================
-    // 📦 DEFAULT DATA - EMPTY PRODUCTS
-    // ============================================================
-    const defaultProducts = [];
     const defaultCategories = [
       { id: 'pizza', name: 'Pizza', emoji: '🍕' }, { id: 'drinks', name: 'Drinks', emoji: '🥤' },
       { id: 'cakes', name: 'Cakes', emoji: '🍰' }, { id: 'breads', name: 'Breads', emoji: '🥖' },
       { id: 'pastries', name: 'Pastries', emoji: '🥐' }, { id: 'snacks', name: 'Snacks', emoji: '🍪' },
       { id: 'breakfast', name: 'Breakfast', emoji: '🍳' }, { id: 'burgers', name: 'Burgers', emoji: '🍔' },
-      { id: 'soup', name: 'Soup', emoji: '🍲' }, { id: 'pasta', name: 'Pasta', emoji: '🍝' },
-      { id: 'salad', name: 'Salad', emoji: '🥗' }
+      { id: 'salad', name: 'Salad', emoji: '🥗' }, { id: 'pasta', name: 'Pasta', emoji: '🍝' }
     ];
     const defaultGallery = ['', '', '', '', '', ''];
     const defaultContact = { address: '279 Prospect Rd, Blair Athol SA 5084, Australia', phone: '+61 478 706 251', hours: 'Monday – Sunday, 6:00 AM – 9:00 PM', social: { instagram: '', facebook: '', whatsapp: '+61 478 706 251' } };
@@ -534,9 +561,16 @@
     // ============================================================
     // 🚀 GLOBAL VARIABLES
     // ============================================================
-    let products = [], categories = [], galleryImages = [], orders = [], cart = [], reviews = [];
-    let loyaltyPoints = {}, customers = [], currentCustomer = null;
-    let contactInfo = { address: '279 Prospect Rd, Blair Athol SA 5084, Australia', phone: '+61 478 706 251', hours: 'Monday – Sunday, 6:00 AM – 9:00 PM', social: { instagram: '', facebook: '', whatsapp: '+61 478 706 251' } };
+    let products = defaultProducts.slice();
+    let categories = defaultCategories.slice();
+    let galleryImages = defaultGallery.slice();
+    let orders = [];
+    let cart = [];
+    let reviews = [];
+    let loyaltyPoints = {};
+    let customers = [];
+    let currentCustomer = null;
+    let contactInfo = defaultContact;
     let layoutOffsets = { img: { x: 0, y: 0 }, name: { x: 0, y: 0 }, price: { x: 0, y: 0 }, wishlist: { x: 0, y: 0 } };
     let layoutScales = { img: 100, name: 18, price: 16 };
     let layoutGap = 3;
@@ -545,302 +579,105 @@
     let currentFilter = 'all', searchQuery = '', currentProductId = null, currentQty = 1, currentProductToOrder = null, orderContext = null, editingGalleryIndex = -1;
 
     // ============================================================
-    // ☁️ JSONBin CLOUD SERVICE
+    // ☁️ CLOUD STATUS (DEMO MODE)
     // ============================================================
     const CloudService = {
-      _cache: null, _debounceTimer: null,
       _statusEl: document.getElementById('cloudStatus'),
       _dotEl: document.getElementById('cloudDot'),
       _labelEl: document.getElementById('cloudLabel'),
       _setStatus(state, label) {
         if (!this._dotEl) return;
         this._dotEl.className = 'dot ' + state;
-        if (this._labelEl) this._labelEl.textContent = label || (state === 'online' ? 'Cloud' : state === 'offline' ? 'Offline' : 'Syncing...');
+        if (this._labelEl) this._labelEl.textContent = label || (state === 'online' ? 'Demo' : 'Demo');
+        if (this._statusEl) this._statusEl.classList.add('visible');
       },
-      async fetchData() {
-        if (!CONFIG.USE_CLOUD || !CONFIG.MASTER_KEY || CONFIG.MASTER_KEY === 'YOUR_MASTER_KEY_HERE') {
-          this._setStatus('offline', 'Local Only'); return null;
-        }
-        try {
-          this._setStatus('syncing', 'Loading...');
-          const res = await fetch(`https://api.jsonbin.io/v3/b/${CONFIG.BIN_ID}`, {
-            headers: { 'X-Master-Key': CONFIG.MASTER_KEY, 'Content-Type': 'application/json' }
-          });
-          if (!res.ok) { if (res.status === 404) return null; throw new Error(res.status); }
-          const data = await res.json();
-          this._cache = data.record;
-          this._setStatus('online', 'Cloud');
-          return this._cache;
-        } catch(e) { console.warn('❌ JSONBin fetch:', e); this._setStatus('offline', 'Offline'); return null; }
-      },
-      async saveData(data) {
-        if (!CONFIG.USE_CLOUD || !CONFIG.MASTER_KEY || CONFIG.MASTER_KEY === 'YOUR_MASTER_KEY_HERE') return false;
-        try {
-          this._setStatus('syncing', 'Saving...');
-          const url = CONFIG.BIN_ID && CONFIG.BIN_ID !== 'YOUR_BIN_ID_HERE' ? `https://api.jsonbin.io/v3/b/${CONFIG.BIN_ID}` : `https://api.jsonbin.io/v3/b`;
-          const method = CONFIG.BIN_ID && CONFIG.BIN_ID !== 'YOUR_BIN_ID_HERE' ? 'PUT' : 'POST';
-          const headers = { 'X-Master-Key': CONFIG.MASTER_KEY, 'Content-Type': 'application/json' };
-          if (method === 'POST') headers['X-Collection-Name'] = 'aura-shop-data';
-          const res = await fetch(url, { method, headers, body: JSON.stringify(data) });
-          if (!res.ok) { const err = await res.text(); throw new Error(err); }
-          const result = await res.json();
-          if (method === 'POST' && result.metadata?.id) { localStorage.setItem('aura_bin_id', result.metadata.id); CONFIG.BIN_ID = result.metadata.id; }
-          this._cache = data;
-          this._setStatus('online', 'Cloud');
-          return true;
-        } catch(e) { console.error('❌ JSONBin save:', e); this._setStatus('offline', 'Offline'); return false; }
-      },
-      debouncedSave(data) {
-        if (this._debounceTimer) clearTimeout(this._debounceTimer);
-        this._debounceTimer = setTimeout(() => { this.saveData(data); this._debounceTimer = null; }, 1500);
+      init() {
+        this._setStatus('online', 'Demo Mode');
       }
     };
 
     // ============================================================
-    // 🗄️ STORAGE FUNCTIONS
+    // 🗄️ STORAGE (Only for cart, orders, customers – no products override)
     // ============================================================
-    function getAllData() {
-      return { products, categories, gallery: galleryImages, orders, cart, reviews, loyalty: loyaltyPoints, customers, contact: contactInfo, layoutOffsets, layoutScales, layoutGap, cardFont: cardFontName, version: '6.0.0' };
-    }
-    function setAllData(data) {
-      if (data.products) products = data.products;
-      if (data.categories) categories = data.categories;
-      if (data.gallery) galleryImages = data.gallery;
-      if (data.orders) orders = data.orders;
-      if (data.cart) cart = data.cart;
-      if (data.reviews) reviews = data.reviews;
-      if (data.loyalty) loyaltyPoints = data.loyalty;
-      if (data.customers) customers = data.customers;
-      if (data.contact) contactInfo = data.contact;
-      if (data.layoutOffsets) layoutOffsets = data.layoutOffsets;
-      if (data.layoutScales) layoutScales = data.layoutScales;
-      if (data.layoutGap !== undefined) layoutGap = data.layoutGap;
-      if (data.cardFont) cardFontName = data.cardFont;
-    }
     function saveToLocalStorage() {
-      localStorage.setItem('samoon99_products', JSON.stringify(products));
-      localStorage.setItem('samoon99_categories', JSON.stringify(categories));
-      localStorage.setItem('samoon99_gallery', JSON.stringify(galleryImages));
       localStorage.setItem('samoon99_orders', JSON.stringify(orders));
       localStorage.setItem('samoon99_cart', JSON.stringify(cart));
-      localStorage.setItem('samoon99_reviews', JSON.stringify(reviews));
-      localStorage.setItem('samoon99_loyalty', JSON.stringify(loyaltyPoints));
       localStorage.setItem('samoon99_customers', JSON.stringify(customers));
+      localStorage.setItem('samoon99_loyalty', JSON.stringify(loyaltyPoints));
       localStorage.setItem('samoon99_contact', JSON.stringify(contactInfo));
-      localStorage.setItem('aura_layout_offsets', JSON.stringify(layoutOffsets));
-      localStorage.setItem('aura_layout_scales', JSON.stringify(layoutScales));
-      localStorage.setItem('aura_layout_gap', layoutGap.toString());
-      localStorage.setItem('aura_card_font', cardFontName);
-      localStorage.setItem('samoon99_version', '6.0.0');
+      try { if (currentCustomer) localStorage.setItem('samoon99_currentCustomer', JSON.stringify(currentCustomer)); } catch(e) {}
     }
-    function syncToCloud(debounce) { if (!CONFIG.USE_CLOUD) return; if (debounce) CloudService.debouncedSave(getAllData()); else CloudService.saveData(getAllData()); }
-    function saveProducts() { localStorage.setItem('samoon99_products', JSON.stringify(products)); syncToCloud(true); }
-    function saveCategories() { localStorage.setItem('samoon99_categories', JSON.stringify(categories)); syncToCloud(true); }
-    function saveGallery() { localStorage.setItem('samoon99_gallery', JSON.stringify(galleryImages)); syncToCloud(true); }
-    function saveOrders() { localStorage.setItem('samoon99_orders', JSON.stringify(orders)); syncToCloud(true); }
-    function saveCart() { localStorage.setItem('samoon99_cart', JSON.stringify(cart)); syncToCloud(true); }
-    function saveReviews() { localStorage.setItem('samoon99_reviews', JSON.stringify(reviews)); syncToCloud(true); }
-    function saveLoyalty() { localStorage.setItem('samoon99_loyalty', JSON.stringify(loyaltyPoints)); syncToCloud(true); }
-    function saveCustomers() { localStorage.setItem('samoon99_customers', JSON.stringify(customers)); syncToCloud(true); }
-    function saveContact() { localStorage.setItem('samoon99_contact', JSON.stringify(contactInfo)); syncToCloud(true); }
+    function saveOrders() { localStorage.setItem('samoon99_orders', JSON.stringify(orders)); }
+    function saveCart() { localStorage.setItem('samoon99_cart', JSON.stringify(cart)); }
+    function saveCustomers() { localStorage.setItem('samoon99_customers', JSON.stringify(customers)); }
+    function saveLoyalty() { localStorage.setItem('samoon99_loyalty', JSON.stringify(loyaltyPoints)); }
+    function saveContact() { localStorage.setItem('samoon99_contact', JSON.stringify(contactInfo)); }
     function saveCurrentCustomer() { if (currentCustomer) localStorage.setItem('samoon99_currentCustomer', JSON.stringify(currentCustomer)); else localStorage.removeItem('samoon99_currentCustomer'); }
     function saveLayoutState() {
       localStorage.setItem('aura_layout_offsets', JSON.stringify(layoutOffsets));
       localStorage.setItem('aura_layout_scales', JSON.stringify(layoutScales));
       localStorage.setItem('aura_layout_gap', layoutGap.toString());
       localStorage.setItem('aura_card_font', cardFontName);
-      syncToCloud(true);
     }
 
     // ============================================================
-    // 📥 LOADDATA
+    // 📥 LOADDATA (Hardcoded – No Backend / No localStorage override)
     // ============================================================
     async function loadData() {
-      let cloudData = null, cloudHasData = false;
-      if (CONFIG.USE_CLOUD && CONFIG.MASTER_KEY && CONFIG.MASTER_KEY !== 'YOUR_MASTER_KEY_HERE') {
-        cloudData = await CloudService.fetchData();
-        if (cloudData && cloudData.products && cloudData.products.length > 0) cloudHasData = true;
-      }
-      if (cloudHasData) {
-        setAllData(cloudData);
-        saveToLocalStorage();
-        try { currentCustomer = JSON.parse(localStorage.getItem('samoon99_currentCustomer')) || null; } catch(e) {}
-        const savedBinId = localStorage.getItem('aura_bin_id');
-        if (savedBinId && CONFIG.BIN_ID === 'YOUR_BIN_ID_HERE') CONFIG.BIN_ID = savedBinId;
-        updateUI();
-        return;
-      }
-
-      console.log('📁 Loading from localStorage...');
+      console.log('📦 Loading hardcoded default products (No backend, No localStorage override)');
+      
+      // Load only cart, orders, customers from localStorage (for persistence)
       try {
-        const p = JSON.parse(localStorage.getItem('samoon99_products'));
-        const c = JSON.parse(localStorage.getItem('samoon99_categories'));
-        const g = JSON.parse(localStorage.getItem('samoon99_gallery'));
-        const o = JSON.parse(localStorage.getItem('samoon99_orders'));
-        const ca = JSON.parse(localStorage.getItem('samoon99_cart'));
-        const r = JSON.parse(localStorage.getItem('samoon99_reviews'));
-        const l = JSON.parse(localStorage.getItem('samoon99_loyalty'));
-        const cu = JSON.parse(localStorage.getItem('samoon99_customers'));
-        const co = JSON.parse(localStorage.getItem('samoon99_contact'));
-        const lo = JSON.parse(localStorage.getItem('aura_layout_offsets'));
-        const ls = JSON.parse(localStorage.getItem('aura_layout_scales'));
-        const lg = parseFloat(localStorage.getItem('aura_layout_gap'));
-        const cf = localStorage.getItem('aura_card_font');
-        
-        products = (p && p.length > 0) ? p : [];
-        categories = (c && c.length > 0) ? c : defaultCategories.slice();
-        galleryImages = g || defaultGallery.slice();
-        orders = o || [];
-        cart = ca || [];
-        reviews = r || [];
-        loyaltyPoints = l || {};
-        customers = cu || [];
-        contactInfo = co || defaultContact;
-        if (lo) layoutOffsets = lo;
-        if (ls) layoutScales = ls;
-        if (!isNaN(lg)) layoutGap = lg;
-        cardFontName = cf || '';
-        try { currentCustomer = JSON.parse(localStorage.getItem('samoon99_currentCustomer')) || null; } catch(e) {}
-      } catch(e) {
-        console.warn('⚠️ Using empty defaults');
-        products = [];
-        categories = defaultCategories.slice();
-        galleryImages = defaultGallery.slice();
-        orders = []; cart = []; reviews = []; loyaltyPoints = {}; customers = []; currentCustomer = null;
-        contactInfo = defaultContact;
-        layoutOffsets = { img: {x:0,y:0}, name: {x:0,y:0}, price: {x:0,y:0}, wishlist: {x:0,y:0} };
-        layoutScales = { img:100, name:18, price:16 }; layoutGap = 3; cardFontName = '';
-        saveToLocalStorage();
-      }
-
-      if (CONFIG.USE_CLOUD && CONFIG.MASTER_KEY && CONFIG.MASTER_KEY !== 'YOUR_MASTER_KEY_HERE') {
-        const cloudCheck = await CloudService.fetchData();
-        if (!cloudCheck || !cloudCheck.products || cloudCheck.products.length === 0) {
-          console.log('☁️ Uploading empty data to cloud...');
-          await CloudService.saveData(getAllData());
-        }
-      }
-      updateUI();
-    }
-
-    function updateUI() {
-      updateContactUI(); updateSocialLinksUI(); updateCustomerUI(); loadLayout();
-      if (cardFontName && cardFontName.trim() !== '') {
-        document.getElementById('cardFontName').value = cardFontName;
-        applyFontToCards(cardFontName);
-      }
-      document.getElementById('imgScale').value = layoutScales.img;
-      document.getElementById('nameSize').value = layoutScales.name;
-      document.getElementById('priceSize').value = layoutScales.price;
-      document.getElementById('namePriceGap').value = layoutGap;
-      document.getElementById('imgScaleVal').textContent = layoutScales.img + '%';
-      document.getElementById('nameSizeVal').textContent = layoutScales.name + 'px';
-      document.getElementById('priceSizeVal').textContent = layoutScales.price + 'px';
-      document.getElementById('namePriceGapVal').textContent = layoutGap + '%';
-      applyToSample();
-    }
-
-    // ============================================================
-    // 📐 LAYOUT FUNCTIONS
-    // ============================================================
-    function loadLayout() {
-      try {
-        var savedOffsets = JSON.parse(localStorage.getItem('aura_layout_offsets'));
-        if (savedOffsets) {
-          if (savedOffsets.img) layoutOffsets.img = savedOffsets.img;
-          if (savedOffsets.name) layoutOffsets.name = savedOffsets.name;
-          if (savedOffsets.price) layoutOffsets.price = savedOffsets.price;
-          if (savedOffsets.wishlist) layoutOffsets.wishlist = savedOffsets.wishlist;
-        }
-        var savedScales = JSON.parse(localStorage.getItem('aura_layout_scales'));
-        if (savedScales) {
-          if (savedScales.img) layoutScales.img = savedScales.img;
-          if (savedScales.name) layoutScales.name = savedScales.name;
-          if (savedScales.price) layoutScales.price = savedScales.price;
-        }
-        var savedGap = parseFloat(localStorage.getItem('aura_layout_gap'));
-        if (!isNaN(savedGap)) layoutGap = savedGap;
-        var savedFont = localStorage.getItem('aura_card_font');
-        if (savedFont) cardFontName = savedFont;
+        const savedCart = JSON.parse(localStorage.getItem('samoon99_cart'));
+        if (savedCart) cart = savedCart;
       } catch(e) {}
-    }
+      try {
+        const savedOrders = JSON.parse(localStorage.getItem('samoon99_orders'));
+        if (savedOrders) orders = savedOrders;
+      } catch(e) {}
+      try {
+        const savedCustomers = JSON.parse(localStorage.getItem('samoon99_customers'));
+        if (savedCustomers) customers = savedCustomers;
+      } catch(e) {}
+      try {
+        const savedLoyalty = JSON.parse(localStorage.getItem('samoon99_loyalty'));
+        if (savedLoyalty) loyaltyPoints = savedLoyalty;
+      } catch(e) {}
+      try {
+        const savedContact = JSON.parse(localStorage.getItem('samoon99_contact'));
+        if (savedContact) contactInfo = savedContact;
+      } catch(e) {}
+      try {
+        const savedLayoutOffsets = JSON.parse(localStorage.getItem('aura_layout_offsets'));
+        if (savedLayoutOffsets) layoutOffsets = savedLayoutOffsets;
+      } catch(e) {}
+      try {
+        const savedLayoutScales = JSON.parse(localStorage.getItem('aura_layout_scales'));
+        if (savedLayoutScales) layoutScales = savedLayoutScales;
+      } catch(e) {}
+      try {
+        const savedLayoutGap = parseFloat(localStorage.getItem('aura_layout_gap'));
+        if (!isNaN(savedLayoutGap)) layoutGap = savedLayoutGap;
+      } catch(e) {}
+      try {
+        const savedCardFont = localStorage.getItem('aura_card_font');
+        if (savedCardFont) cardFontName = savedCardFont;
+      } catch(e) {}
+      try {
+        currentCustomer = JSON.parse(localStorage.getItem('samoon99_currentCustomer')) || null;
+      } catch(e) {}
 
-    function resetPositions() {
-      layoutOffsets = { img: {x:0,y:0}, name: {x:0,y:0}, price: {x:0,y:0}, wishlist: {x:0,y:0} };
-      layoutScales = { img:100, name:18, price:16 };
-      layoutGap = 3;
-      saveLayoutState(); applyToSample(); renderProducts();
-    }
-
-    function applyFontToCards(fontPath) {
-      var styleTag = document.getElementById('dynamicCardFontStyle');
-      if (!fontPath || fontPath.trim() === '') { styleTag.innerHTML = ''; return; }
-      var fontFamilyName = 'CustomCardFont_' + Date.now();
-      styleTag.innerHTML = `@font-face { font-family: '${fontFamilyName}'; src: url('${fontPath}') format('truetype'); font-weight: normal; font-style: normal; font-display: swap; } .card .card-name, .card .price, .card .rating { font-family: '${fontFamilyName}', 'Inter', sans-serif !important; } .sample-card .card-name, .sample-card .price, .sample-card .rating { font-family: '${fontFamilyName}', 'Inter', sans-serif !important; }`;
-    }
-    function resetFont() { cardFontName = ''; localStorage.removeItem('aura_card_font'); document.getElementById('dynamicCardFontStyle').innerHTML = ''; document.getElementById('cardFontName').value = ''; applyToSample(); renderProducts(); showToast('Font reset!', 'info'); }
-
-    const BASE_POS = { 
-      img: { left: 50.35, top: 30.5 },
-      name: { left: 8.8, top: 60.5 },
-      price: { left: 8.8, top: 70.5 },
-      wishlist: { left: 21.7, top: 13 }
-    };
-
-    function applyToSample() {
-      var sampleImg = document.getElementById('sampleImg');
-      var sampleName = document.getElementById('sampleName');
-      var sampleFooter = document.getElementById('sampleFooter');
-      var samplePrice = document.getElementById('samplePrice');
-      var sampleRating = document.getElementById('sampleRating');
-      var sampleWishlist = document.getElementById('sampleWishlist');
-      var imgScaleVal = layoutScales.img / 100;
-
-      if (sampleImg) {
-        sampleImg.style.left = (BASE_POS.img.left + layoutOffsets.img.x) + '%';
-        sampleImg.style.top = (BASE_POS.img.top + layoutOffsets.img.y) + '%';
-        sampleImg.style.transform = 'translate(-50%, -50%) scale(' + imgScaleVal + ')';
-      }
-      if (sampleName) {
-        sampleName.style.left = (BASE_POS.name.left + layoutOffsets.name.x) + '%';
-        sampleName.style.top = (BASE_POS.name.top + layoutOffsets.name.y) + '%';
-        sampleName.style.fontSize = 'clamp(12px, 2.5cqw, 22px)';
-      }
-      if (sampleFooter) {
-        sampleFooter.style.left = (BASE_POS.price.left + layoutOffsets.price.x) + '%';
-        if (samplePrice) samplePrice.style.fontSize = 'clamp(11px, 2cqw, 18px)';
-        if (sampleRating) sampleRating.style.fontSize = 'clamp(10px, 1.8cqw, 16px)';
-      }
-      if (sampleWishlist) {
-        sampleWishlist.style.left = (BASE_POS.wishlist.left + layoutOffsets.wishlist.x) + '%';
-        sampleWishlist.style.top = (BASE_POS.wishlist.top + layoutOffsets.wishlist.y) + '%';
-      }
-
-      var sampleCardEl = document.querySelector('.sample-card');
-      if (sampleCardEl && sampleName) {
-        var cardRect = sampleCardEl.getBoundingClientRect();
-        var nameRect = sampleName.getBoundingClientRect();
-        var nameBottomPercent = ((nameRect.bottom - cardRect.top) / cardRect.height) * 100;
-        if (sampleFooter) sampleFooter.style.top = (nameBottomPercent + layoutGap + layoutOffsets.price.y) + '%';
-      }
-      updatePositionInfo();
-    }
-
-    function updatePositionInfo() {
-      var target = document.getElementById('layoutTargetSelect').value;
-      var pos = layoutOffsets[target] || {x:0,y:0};
-      document.getElementById('positionInfo').textContent = 'X:' + pos.x + ' Y:' + pos.y;
-    }
-    function moveSelected(dx, dy) {
-      var target = document.getElementById('layoutTargetSelect').value;
-      if (!layoutOffsets[target]) return;
-      layoutOffsets[target].x += dx;
-      layoutOffsets[target].y += dy;
+      updateUI();
+      renderAll();
       applyToSample();
+      if (cardFontName) applyFontToCards(cardFontName);
+      CloudService.init();
+      console.log('✅ Products loaded! Total:', products.length);
+      return;
     }
 
     // ============================================================
-    // 🖼️ RENDER FUNCTIONS
+    // 🖼️ RENDER FUNCTIONS (FULL CODE)
     // ============================================================
     function renderAll() {
       renderCategoryPills();
@@ -899,7 +736,6 @@
         grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px 20px;color:var(--text-muted);font-size:14px;">
           <div style="font-size:48px;margin-bottom:12px;">🍽️</div>
           <p>No products yet.</p>
-          <p style="font-size:12px;margin-top:4px;">Add products from the Admin Panel.</p>
         </div>`;
         return;
       }
@@ -939,24 +775,24 @@
         var imgScaleVal = layoutScales.img / 100;
 
         if (imgDiv) {
-          imgDiv.style.left = (BASE_POS.img.left + layoutOffsets.img.x) + '%';
-          imgDiv.style.top = (BASE_POS.img.top + layoutOffsets.img.y) + '%';
+          imgDiv.style.left = (50.35 + layoutOffsets.img.x) + '%';
+          imgDiv.style.top = (30.5 + layoutOffsets.img.y) + '%';
           imgDiv.style.transform = 'translate(-50%, -50%) scale(' + imgScaleVal + ')';
           setImageOrEmoji(imgDiv, product.emoji, '76px');
         }
         if (nameDiv) {
-          nameDiv.style.left = (BASE_POS.name.left + layoutOffsets.name.x) + '%';
-          nameDiv.style.top = (BASE_POS.name.top + layoutOffsets.name.y) + '%';
+          nameDiv.style.left = (8.8 + layoutOffsets.name.x) + '%';
+          nameDiv.style.top = (60.5 + layoutOffsets.name.y) + '%';
           nameDiv.style.fontSize = 'clamp(12px, 2.5cqw, 22px)';
         }
         if (footerDiv) {
-          footerDiv.style.left = (BASE_POS.price.left + layoutOffsets.price.x) + '%';
+          footerDiv.style.left = (8.8 + layoutOffsets.price.x) + '%';
           if (priceSpan) priceSpan.style.fontSize = 'clamp(11px, 2cqw, 18px)';
           if (ratingSpan) ratingSpan.style.fontSize = 'clamp(10px, 1.8cqw, 16px)';
         }
         if (wishlistBtn) {
-          wishlistBtn.style.left = (BASE_POS.wishlist.left + layoutOffsets.wishlist.x) + '%';
-          wishlistBtn.style.top = (BASE_POS.wishlist.top + layoutOffsets.wishlist.y) + '%';
+          wishlistBtn.style.left = (21.7 + layoutOffsets.wishlist.x) + '%';
+          wishlistBtn.style.top = (13 + layoutOffsets.wishlist.y) + '%';
         }
 
         grid.appendChild(card);
@@ -971,19 +807,18 @@
       attachCardEvents();
     }
 
-    function isImageValue(v) { return /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp|svg))/i.test(v) || v.startsWith('data:image/'); }
+    function isImageValue(v) { return /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp|svg))/i.test(v) || v.startsWith('data:image/') || v.startsWith('/images/'); }
     function setImageOrEmoji(container, value, fontSize) {
       container.innerHTML = '';
       if (isImageValue(value)) {
         var img = document.createElement('img');
-        img.src = value; img.alt = ''; img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:12px;';
+        img.src = value; img.alt = ''; img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%;';
         container.appendChild(img);
       } else {
         container.textContent = value || '🍽️';
         if (fontSize) container.style.fontSize = fontSize;
       }
     }
-    function normalizePhone(p) { return p.replace(/\D/g, ''); }
 
     function attachCardEvents() {
       document.querySelectorAll('.wishlist').forEach(btn => {
@@ -1011,7 +846,6 @@
             var id = btn.closest('.card').getAttribute('data-id');
             if (await confirm('Delete this product?')) {
               products = products.filter(p => p.id !== id);
-              saveProducts();
               renderProducts();
               renderAdminProductList();
             }
@@ -1073,7 +907,7 @@
         editBtn.onclick = function() { editingGalleryIndex = index; document.getElementById('editGalleryFileInput').click(); };
         var delBtn = document.createElement('button');
         delBtn.textContent = '🗑️';
-        delBtn.onclick = async function() { if (await confirm('Delete?')) { galleryImages.splice(index,1); saveGallery(); renderGallery(); renderGalleryInlineList(); } };
+        delBtn.onclick = async function() { if (await confirm('Delete?')) { galleryImages.splice(index,1); renderGallery(); renderGalleryInlineList(); } };
         actions.appendChild(editBtn); actions.appendChild(delBtn);
         div.appendChild(actions);
         list.appendChild(div);
@@ -1095,7 +929,7 @@
         editBtn.onclick = function() { fillAdminForm(product); };
         var delBtn = document.createElement('button');
         delBtn.textContent = '🗑️';
-        delBtn.onclick = async function() { if (await confirm('Delete ' + product.name + '?')) { products = products.filter(p => p.id !== product.id); saveProducts(); renderProducts(); renderAdminProductList(); } };
+        delBtn.onclick = async function() { if (await confirm('Delete ' + product.name + '?')) { products = products.filter(p => p.id !== product.id); renderProducts(); renderAdminProductList(); } };
         actions.appendChild(editBtn); actions.appendChild(delBtn);
         div.appendChild(actions);
         list.appendChild(div);
@@ -1114,7 +948,7 @@
         actions.className = 'admin-actions';
         var delBtn = document.createElement('button');
         delBtn.textContent = '🗑️';
-        delBtn.onclick = async function() { if (await confirm('Delete "' + category.name + '"?')) { categories = categories.filter(c => c.id !== category.id); saveCategories(); renderCategoryPills(); populateCategorySuggestions(); renderAdminCategoryList(); } };
+        delBtn.onclick = async function() { if (await confirm('Delete "' + category.name + '"?')) { categories = categories.filter(c => c.id !== category.id); renderCategoryPills(); populateCategorySuggestions(); renderAdminCategoryList(); } };
         actions.appendChild(delBtn);
         div.appendChild(actions);
         list.appendChild(div);
@@ -1135,7 +969,6 @@
       var newId = trimmed.replace(/[^a-z0-9]/g, '') || Date.now().toString();
       var newCategory = { id: newId, name: inputValue.trim(), emoji: '🍽️' };
       categories.push(newCategory);
-      saveCategories();
       renderCategoryPills();
       renderAdminCategoryList();
       populateCategorySuggestions();
@@ -1335,7 +1168,7 @@
       showSuccessModal(newOrders);
       playOrderSound();
     }
-    function addLoyaltyPoints(phone, points) { var normalized = normalizePhone(phone); if (!loyaltyPoints[normalized]) loyaltyPoints[normalized] = 0; loyaltyPoints[normalized] += points; saveLoyalty(); }
+    function addLoyaltyPoints(phone, points) { var normalized = phone.replace(/\D/g, ''); if (!loyaltyPoints[normalized]) loyaltyPoints[normalized] = 0; loyaltyPoints[normalized] += points; saveLoyalty(); }
     function showSuccessModal(orderList) {
       var modal = document.getElementById('successOverlay');
       if (!modal) return;
@@ -1389,7 +1222,6 @@
       var rating = await prompt('Rating (1-5):'); if (!rating) return;
       var text = await prompt('Your review:'); if (!text) return;
       reviews.push({ productId, name, rating, text });
-      saveReviews();
       renderReviews(productId);
     }
 
@@ -1403,7 +1235,6 @@
       if (addr) addr.innerHTML = contactInfo.address.replace(/\n/g, '<br>');
       if (phone) phone.textContent = contactInfo.phone;
       if (hours) hours.innerHTML = contactInfo.hours.replace(/\n/g, '<br>');
-      // Admin contact form fields
       var ca = document.getElementById('contactAdminAddress');
       var cp = document.getElementById('contactAdminPhone');
       var ch = document.getElementById('contactAdminHours');
@@ -1486,39 +1317,34 @@
     function customerLogout() { currentCustomer = null; saveCurrentCustomer(); updateCustomerUI(); renderCartUI(); }
     function updateCustomerUI() { var a = document.getElementById('customerAvatar'); if (a) a.innerHTML = '<img src="https://i.ibb.co/RpdwtSRh/avatar.png" alt="Avatar" />'; }
 
-    async function adminLogin(email, password) {
-      try {
-        const res = await fetch('/api/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password }) });
-        const data = await res.json();
-        if (data.success) {
-          isLoggedIn = true; localStorage.setItem('samoon99_loggedin', 'true');
-          updateCustomerUI();
-          document.getElementById('adminPanel').classList.add('active');
-          document.getElementById('adminGalleryControls').classList.add('active');
-          document.getElementById('customerAuthOverlay').style.display = 'none';
-          document.getElementById('ownerLoginError').textContent = '';
-          document.getElementById('cloudStatus').classList.add('visible');
-          updateNotifBadge(); renderAll(); showToast('✅ Admin Login Successful!', 'success'); return true;
-        } else {
-          document.getElementById('ownerLoginError').textContent = data.message || 'Invalid password';
-          return false;
-        }
-      } catch(e) {
-        document.getElementById('ownerLoginError').textContent = 'Network error. Please try again.';
+    // ADMIN LOGIN (demo)
+    function adminLogin(email, password) {
+      if (password === 'admin123') {
+        isLoggedIn = true;
+        localStorage.setItem('samoon99_loggedin', 'true');
+        document.getElementById('adminPanel').classList.add('active');
+        document.getElementById('adminGalleryControls').classList.add('active');
+        document.getElementById('customerAuthOverlay').style.display = 'none';
+        document.getElementById('ownerLoginError').textContent = '';
+        document.getElementById('cloudStatus').classList.add('visible');
+        updateNotifBadge(); renderAll(); showToast('✅ Admin Login Successful!', 'success');
+        return true;
+      } else {
+        document.getElementById('ownerLoginError').textContent = 'Invalid password (use: admin123)';
         return false;
       }
     }
     function checkLogin() {
       if (localStorage.getItem('samoon99_loggedin') === 'true') {
-        isLoggedIn = true; updateCustomerUI(); document.getElementById('adminPanel').classList.add('active');
+        isLoggedIn = true; document.getElementById('adminPanel').classList.add('active');
         document.getElementById('adminGalleryControls').classList.add('active');
         updateNotifBadge(); document.getElementById('cloudStatus').classList.add('visible');
-      } else { document.getElementById('cloudStatus').classList.remove('visible'); }
+      }
     }
     async function logout() {
       if (await confirm('Logout?')) {
         isLoggedIn = false; localStorage.removeItem('samoon99_loggedin');
-        updateCustomerUI(); document.getElementById('adminPanel').classList.remove('active');
+        document.getElementById('adminPanel').classList.remove('active');
         document.getElementById('adminGalleryControls').classList.remove('active');
         renderAll(); document.getElementById('cloudStatus').classList.remove('visible');
         showToast('Logged out', 'info');
@@ -1554,7 +1380,7 @@
         document.getElementById('cardFontName').value = cardFontName;
         applyFontToCards(cardFontName);
       }
-      console.log('🚀 Aura Cafe Loaded Successfully! Admin panel restructured.');
+      console.log('🚀 Aura Cafe Loaded Successfully! (Demo Mode - No Backend)');
     });
 
     // ========== BOTTOM NAV ==========
@@ -1737,7 +1563,7 @@
       handleFileSelect(this, function(dataUrl) { document.getElementById('galleryInlinePreview').src = dataUrl; document.getElementById('galleryInlinePreview').style.display = 'block'; window.galleryInlineImageData = dataUrl; });
     });
     document.getElementById('editGalleryFileInput').addEventListener('change', function() {
-      handleFileSelect(this, function(dataUrl) { if (editingGalleryIndex >= 0 && editingGalleryIndex < galleryImages.length) { galleryImages[editingGalleryIndex] = dataUrl; saveGallery(); renderGallery(); renderGalleryInlineList(); editingGalleryIndex = -1; } });
+      handleFileSelect(this, function(dataUrl) { if (editingGalleryIndex >= 0 && editingGalleryIndex < galleryImages.length) { galleryImages[editingGalleryIndex] = dataUrl; renderGallery(); renderGalleryInlineList(); editingGalleryIndex = -1; } });
       this.value = '';
     });
 
@@ -1757,7 +1583,7 @@
       if (id) { var idx = products.findIndex(p => p.id === id); if (idx >= 0) products[idx] = { id, emoji:imageValue, name, price, rating, category:categoryId, description }; }
       else { products.push({ id: Date.now().toString(), emoji:imageValue, name, price, rating, category:categoryId, description }); }
       window.productImageData = null;
-      saveProducts(); resetAdminForm(); renderProducts(); renderAdminProductList(); renderCategoryPills(); populateCategorySuggestions(); renderAdminCategoryList();
+      resetAdminForm(); renderProducts(); renderAdminProductList(); renderCategoryPills(); populateCategorySuggestions(); renderAdminCategoryList();
     });
     document.getElementById('adminCancelBtn').addEventListener('click', resetAdminForm);
 
@@ -1770,7 +1596,7 @@
       if (categories.some(c => c.id === id)) { alert('Category already exists'); return; }
       window.categoryImageData = null;
       categories.push({ id, name, emoji: emojiValue });
-      saveCategories(); renderCategoryPills(); populateCategorySuggestions(); renderAdminCategoryList();
+      renderCategoryPills(); populateCategorySuggestions(); renderAdminCategoryList();
       document.getElementById('newCategoryName').value = ''; document.getElementById('newCategoryEmoji').value = ''; document.getElementById('categoryImagePreview').style.display = 'none'; document.getElementById('categoryImageFile').value = '';
     });
 
@@ -1779,13 +1605,12 @@
       if (window.galleryInlineImageData) {
         galleryImages.push(window.galleryInlineImageData);
         window.galleryInlineImageData = null;
-        saveGallery(); renderGallery(); renderGalleryInlineList();
+        renderGallery(); renderGalleryInlineList();
         document.getElementById('galleryInlinePreview').style.display = 'none';
         document.getElementById('galleryInlineFile').value = '';
       } else { alert('Please choose an image'); }
     });
 
-    // Contact Form (Admin Contact Tab)
     document.getElementById('contactForm').addEventListener('submit', function(e) {
       e.preventDefault();
       contactInfo.address = document.getElementById('contactAdminAddress').value;
@@ -1823,10 +1648,18 @@
         else if (dir === 'down') dy = STEP;
         else if (dir === 'left') dx = -STEP;
         else if (dir === 'right') dx = STEP;
-        moveSelected(dx, dy);
+        var target = document.getElementById('layoutTargetSelect').value;
+        if (!layoutOffsets[target]) return;
+        layoutOffsets[target].x += dx;
+        layoutOffsets[target].y += dy;
+        applyToSample();
       });
     });
-    document.getElementById('layoutTargetSelect').addEventListener('change', updatePositionInfo);
+    document.getElementById('layoutTargetSelect').addEventListener('change', function() {
+      var target = this.value;
+      var pos = layoutOffsets[target] || {x:0,y:0};
+      document.getElementById('positionInfo').textContent = 'X:' + pos.x + ' Y:' + pos.y;
+    });
     document.getElementById('imgScale').addEventListener('input', function() {
       var val = parseInt(this.value);
       document.getElementById('imgScaleVal').textContent = val + '%';
@@ -1872,9 +1705,85 @@
       renderProducts();
       showToast('✅ Font applied!', 'success');
     });
-    document.getElementById('resetFontBtn').addEventListener('click', resetFont);
+    document.getElementById('resetFontBtn').addEventListener('click', function() {
+      cardFontName = ''; localStorage.removeItem('aura_card_font');
+      document.getElementById('dynamicCardFontStyle').innerHTML = '';
+      document.getElementById('cardFontName').value = '';
+      applyToSample(); renderProducts();
+      showToast('Font reset!', 'info');
+    });
 
-    // ========== SERVICE WORKER ==========
+    // ============================================================
+    // 📐 LAYOUT UTILITY FUNCTIONS
+    // ============================================================
+    function applyToSample() {
+      var sampleImg = document.getElementById('sampleImg');
+      var sampleName = document.getElementById('sampleName');
+      var sampleFooter = document.getElementById('sampleFooter');
+      var samplePrice = document.getElementById('samplePrice');
+      var sampleRating = document.getElementById('sampleRating');
+      var sampleWishlist = document.getElementById('sampleWishlist');
+      var imgScaleVal = layoutScales.img / 100;
+
+      if (sampleImg) {
+        sampleImg.style.left = (50.35 + layoutOffsets.img.x) + '%';
+        sampleImg.style.top = (30.5 + layoutOffsets.img.y) + '%';
+        sampleImg.style.transform = 'translate(-50%, -50%) scale(' + imgScaleVal + ')';
+      }
+      if (sampleName) {
+        sampleName.style.left = (8.8 + layoutOffsets.name.x) + '%';
+        sampleName.style.top = (60.5 + layoutOffsets.name.y) + '%';
+        sampleName.style.fontSize = 'clamp(12px, 2.5cqw, 22px)';
+      }
+      if (sampleFooter) {
+        sampleFooter.style.left = (8.8 + layoutOffsets.price.x) + '%';
+        if (samplePrice) samplePrice.style.fontSize = 'clamp(11px, 2cqw, 18px)';
+        if (sampleRating) sampleRating.style.fontSize = 'clamp(10px, 1.8cqw, 16px)';
+      }
+      if (sampleWishlist) {
+        sampleWishlist.style.left = (21.7 + layoutOffsets.wishlist.x) + '%';
+        sampleWishlist.style.top = (13 + layoutOffsets.wishlist.y) + '%';
+      }
+
+      var sampleCardEl = document.querySelector('.sample-card');
+      if (sampleCardEl && sampleName) {
+        var cardRect = sampleCardEl.getBoundingClientRect();
+        var nameRect = sampleName.getBoundingClientRect();
+        var nameBottomPercent = ((nameRect.bottom - cardRect.top) / cardRect.height) * 100;
+        if (sampleFooter) sampleFooter.style.top = (nameBottomPercent + layoutGap + layoutOffsets.price.y) + '%';
+      }
+    }
+
+    function applyFontToCards(fontPath) {
+      var styleTag = document.getElementById('dynamicCardFontStyle');
+      if (!fontPath || fontPath.trim() === '') { styleTag.innerHTML = ''; return; }
+      var fontFamilyName = 'CustomCardFont_' + Date.now();
+      styleTag.innerHTML = `@font-face { font-family: '${fontFamilyName}'; src: url('${fontPath}') format('truetype'); font-weight: normal; font-style: normal; font-display: swap; } .card .card-name, .card .price, .card .rating { font-family: '${fontFamilyName}', 'Inter', sans-serif !important; } .sample-card .card-name, .sample-card .price, .sample-card .rating { font-family: '${fontFamilyName}', 'Inter', sans-serif !important; }`;
+    }
+
+    function resetPositions() {
+      layoutOffsets = { img: {x:0,y:0}, name: {x:0,y:0}, price: {x:0,y:0}, wishlist: {x:0,y:0} };
+      layoutScales = { img:100, name:18, price:16 };
+      layoutGap = 3;
+      saveLayoutState(); applyToSample(); renderProducts();
+    }
+
+    function updateUI() {
+      updateContactUI(); updateSocialLinksUI(); updateCustomerUI(); 
+      document.getElementById('imgScale').value = layoutScales.img;
+      document.getElementById('nameSize').value = layoutScales.name;
+      document.getElementById('priceSize').value = layoutScales.price;
+      document.getElementById('namePriceGap').value = layoutGap;
+      document.getElementById('imgScaleVal').textContent = layoutScales.img + '%';
+      document.getElementById('nameSizeVal').textContent = layoutScales.name + 'px';
+      document.getElementById('priceSizeVal').textContent = layoutScales.price + 'px';
+      document.getElementById('namePriceGapVal').textContent = layoutGap + '%';
+      applyToSample();
+    }
+
+    // ============================================================
+    // ☁️ SERVICE WORKER
+    // ============================================================
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js').then(reg => console.log('SW registered:', reg.scope)).catch(err => console.log('SW failed:', err));
@@ -1882,7 +1791,7 @@
     }
     (function() { try { emailjs.init("YOUR_PUBLIC_KEY"); } catch(e) {} })();
     
-    console.log('🚀 Aura Cafe Loaded Successfully! Admin panel restructured.');
+    console.log('🚀 Aura Cafe Loaded Successfully! (Demo Mode - No Backend)');
   </script>
 </body>
 </html>
