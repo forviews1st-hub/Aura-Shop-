@@ -1319,7 +1319,19 @@
       customers.push(newCustomer); saveCustomers(); currentCustomer = newCustomer; saveCurrentCustomer(); updateCustomerUI(); document.getElementById('customerAuthOverlay').style.display = 'none'; return true;
     }
     function customerLogout() { currentCustomer = null; saveCurrentCustomer(); updateCustomerUI(); renderCartUI(); }
-    function updateCustomerUI() { var avatar = document.getElementById('customerAvatar'); avatar.innerHTML = '<img src="https://i.ibb.co/RpdwtSRh/avatar.png" alt="Avatar" />'; }
+
+    /* ===== BUG 2 FIX: Customer UI update after login/register ===== */
+    function updateCustomerUI() {
+      var avatar = document.getElementById('customerAvatar');
+      if (currentCustomer && currentCustomer.name) {
+        var initial = currentCustomer.name.trim().charAt(0).toUpperCase();
+        avatar.innerHTML = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#1A1A1A;color:#fff;font-weight:800;font-size:18px;border-radius:50%;">' + initial + '</div>';
+        avatar.title = currentCustomer.name;
+      } else {
+        avatar.innerHTML = '<img src="https://i.ibb.co/RpdwtSRh/avatar.png" alt="Avatar" />';
+        avatar.title = 'Profile';
+      }
+    }
 
     (function() { emailjs.init("YOUR_PUBLIC_KEY"); })();
     function sendOrderNotification(order, customerEmail) { /* emailjs integration - replace with actual credentials */ }
@@ -1399,7 +1411,8 @@
       });
       filtered.forEach(function(product) {
         var card = document.createElement('div');
-        card.className = 'card';
+        /* ===== BUG 1 FIX: Add admin-mode class so edit/delete buttons show for owner ===== */
+        card.className = 'card' + (isLoggedIn ? ' admin-mode' : '');
         card.setAttribute('data-id', product.id);
         card.setAttribute('data-description', product.description);
         card.innerHTML = '<button class="wishlist">♡</button>' +
@@ -1533,12 +1546,29 @@
         topItem.appendChild(topDelBtn); topList.appendChild(topItem);
       });
     }
+
+    /* ===== BUG 3 FIX: Only show logged-in customer's orders ===== */
     function renderOrdersDashboard() {
       var container = document.getElementById('ordersListContainer'); if (!container) return; container.innerHTML = '';
       var activeTab = document.querySelector('.order-tab-btn.active')?.getAttribute('data-order-tab') || 'activeOrders';
+
+      // Only show orders belonging to the logged-in customer
+      if (!currentCustomer) {
+        container.innerHTML = '<div class="no-orders-msg">Please login to see your orders.</div>';
+        return;
+      }
+
+      var customerOrders = orders.filter(function(o) {
+        if (currentCustomer.email && o.email) {
+          return o.email.toLowerCase() === currentCustomer.email.toLowerCase();
+        }
+        return o.customerName && currentCustomer.name &&
+               o.customerName.toLowerCase() === currentCustomer.name.toLowerCase();
+      });
+
       var filteredOrders = [];
-      if (activeTab === 'activeOrders') { filteredOrders = orders.filter(o => (o.status !== 'delivered' && o.status !== 'completed')); }
-      else { filteredOrders = orders.filter(o => o.status === 'delivered' || o.status === 'completed'); }
+      if (activeTab === 'activeOrders') { filteredOrders = customerOrders.filter(o => (o.status !== 'delivered' && o.status !== 'completed')); }
+      else { filteredOrders = customerOrders.filter(o => o.status === 'delivered' || o.status === 'completed'); }
       if (filteredOrders.length === 0) { container.innerHTML = '<div class="no-orders-msg">No ' + (activeTab === 'activeOrders' ? 'active' : 'past') + ' orders.</div>'; return; }
       filteredOrders.forEach(order => {
         var card = document.createElement('div'); card.className = 'order-card-item';
