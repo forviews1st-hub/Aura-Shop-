@@ -113,9 +113,6 @@
     .card:hover { transform: translateY(-10px) rotate(-1deg) scale(1.01); box-shadow: 0 25px 45px rgba(0,0,0,0.25), 0 6px 12px rgba(0,0,0,0.1); }
     .card::after { content: ''; position: absolute; top: 6px; left: 6px; right: 6px; bottom: 6px; border: 2px dashed #d9b58a; border-radius: 26px; pointer-events: none; opacity: 0.5; z-index: 1; }
 
-    /* ============================================
-       💎 PREMIUM 3D WISHLIST HEART
-       ============================================ */
     .wishlist {
       position: absolute;
       top: 12px;
@@ -227,7 +224,6 @@
       100% { transform: scale(1); }
     }
 
-    /* Ripple effect inside button */
     .wishlist-ripple {
       position: absolute;
       border-radius: 50%;
@@ -241,7 +237,6 @@
       to { transform: scale(3.5); opacity: 0; }
     }
 
-    /* Floating hearts (spawn on body for best effect) */
     .floating-heart {
       position: fixed;
       font-size: 16px;
@@ -258,7 +253,6 @@
       100% { transform: translate(var(--tx2), -80px) scale(0.3) rotate(15deg); opacity: 0; }
     }
 
-    /* Sparkles */
     .wishlist-sparkle {
       position: fixed;
       font-size: 13px;
@@ -272,7 +266,6 @@
       30%  { transform: translate(var(--sx), var(--sy)) scale(1.3) rotate(120deg); opacity: 1; }
       100% { transform: translate(calc(var(--sx) * 1.9), calc(var(--sy) * 1.9)) scale(0) rotate(360deg); opacity: 0; }
     }
-    /* ============================================ */
 
     .card-img {
       width: 100%;
@@ -320,11 +313,7 @@
       border-radius: 28px; 
       padding: 26px 22px; 
       position: relative; 
-      box-shadow: 
-        0 16px 40px rgba(0,0,0,0.16), 
-        0 6px 12px rgba(0,0,0,0.08), 
-        inset 0 0 0 2px rgba(255,255,255,0.8),
-        inset 0 -6px 12px rgba(217,181,138,0.15);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.16), 0 6px 12px rgba(0,0,0,0.08), inset 0 0 0 2px rgba(255,255,255,0.8), inset 0 -6px 12px rgba(217,181,138,0.15);
       border: 2px solid #f0e0c9; 
       cursor: pointer; 
       transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s ease; 
@@ -1047,7 +1036,12 @@
       };
     })();
 
+    /* ============================================
+       ✨ PRODUCTS — Pepperoni Pizza #1, Classic Cheeseburger #2
+       ============================================ */
     const defaultProducts = [
+      { id: 'pepperoni_pizza', emoji: '/images/pepperoni_pizza.png', name: 'Pepperoni Pizza', price: '$12.00', rating: '⭐ 4.8', category: 'pizza', description: 'Classic pizza topped with pepperoni and mozzarella.' },
+      { id: 'classic_cheeseburger', emoji: '/images/classic_cheeseburger.png', name: 'Classic Cheeseburger', price: '$10.00', rating: '⭐ 4.6', category: 'burgers', description: 'Juicy beef patty with cheddar, lettuce, tomato, and onion.' },
       { id: 'chocolate_banana_pancakes', emoji: '/images/chocolate_banana_pancakes.png', name: 'Chocolate Banana Pancakes', price: '$9.00', rating: '⭐ 4.8', category: 'breakfast', description: 'Fluffy pancakes with chocolate chips & fresh banana slices.' },
       { id: 'classic_avocado_toast', emoji: '/images/classic_avocado_toast.png', name: 'Classic Avocado Toast', price: '$6.50', rating: '⭐ 4.4', category: 'breakfast', description: 'Smashed avocado on toasted sourdough with sea salt.' },
       { id: 'avocado_feta_toast', emoji: '/images/avocado_feta_toast.png', name: 'Avocado Feta Toast', price: '$7.00', rating: '⭐ 4.5', category: 'breakfast', description: 'Avocado topped with crumbled feta and cherry tomatoes.' },
@@ -1067,8 +1061,6 @@
       { id: 'butter_croissant', emoji: '/images/butter_croissant.png', name: 'Butter Croissant', price: '$3.50', rating: '⭐ 4.5', category: 'pastries', description: 'Flaky, buttery French croissant.' },
       { id: 'chocolate_fudge_cake', emoji: '/images/chocolate_fudge_cake.png', name: 'Chocolate Fudge Cake', price: '$8.00', rating: '⭐ 4.7', category: 'cakes', description: 'Rich chocolate cake with a smooth fudge icing.' },
       { id: 'chocolate_sundae', emoji: '/images/chocolate_sundae.png', name: 'Chocolate Sundae', price: '$5.50', rating: '⭐ 4.6', category: 'cakes', description: 'Creamy vanilla ice cream with chocolate sauce and nuts.' },
-      { id: 'classic_cheeseburger', emoji: '/images/classic_cheeseburger.png', name: 'Classic Cheeseburger', price: '$10.00', rating: '⭐ 4.6', category: 'burgers', description: 'Juicy beef patty with cheddar, lettuce, tomato, and onion.' },
-      { id: 'pepperoni_pizza', emoji: '/images/pepperoni_pizza.png', name: 'Pepperoni Pizza', price: '$12.00', rating: '⭐ 4.8', category: 'pizza', description: 'Classic pizza topped with pepperoni and mozzarella.' },
       { id: 'veggie_supreme_pizza', emoji: '/images/veggie_supreme_pizza.png', name: 'Veggie Supreme Pizza', price: '$14.00', rating: '⭐ 4.6', category: 'pizza', description: 'Bell peppers, olives, onions, mushrooms & fresh tomatoes.' },
       { id: 'loaded_veggie_pizza', emoji: '/images/loaded_veggie_pizza.png', name: 'Loaded Veggie Pizza', price: '$15.00', rating: '⭐ 4.7', category: 'pizza', description: 'Extra loaded with grilled vegetables and three cheese blend.' },
       { id: 'noodles', emoji: '/images/noodles.png', name: 'Noodles', price: '$9.00', rating: '⭐ 4.5', category: 'noodles', description: 'Stir-fried noodles with fresh vegetables and savory sauce.' }
@@ -1247,9 +1239,6 @@
       } catch(e) {}
     }
 
-    /* ============================================
-       ✨ PREMIUM WISHLIST EFFECTS
-       ============================================ */
     function spawnWishlistRipple(btn) {
       var rect = btn.getBoundingClientRect();
       var ripple = document.createElement('span');
@@ -1302,7 +1291,6 @@
         (function(s) { setTimeout(function() { s.remove(); }, 1100); })(sp);
       }
     }
-    /* ============================================ */
 
     function renderAll() {
       renderCategoryPills(); renderProducts(); renderGallery(); renderAdminProductList(); renderAdminCategoryList();
