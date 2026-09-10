@@ -745,6 +745,137 @@
     #galleryLightboxClose { top:-10px; right:-10px; background:#fff; }
     #galleryLightboxImage { width:100%; height:auto; max-height:80vh; object-fit:contain; border-radius:12px; display:block; }
 
+    /* ============================================
+       ✅ NEW: CUSTOM ALERT / CONFIRM / PROMPT CSS
+       ============================================ */
+    .custom-alert-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 20px;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      animation: fadeIn 0.2s ease;
+    }
+    .custom-alert-box {
+      background: #fff;
+      border-radius: 24px;
+      padding: 28px 24px;
+      max-width: 340px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+      animation: premiumScaleIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .custom-alert-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+      line-height: 1;
+    }
+    .custom-alert-title {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      color: #000;
+      letter-spacing: -0.3px;
+    }
+    .custom-alert-message {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .custom-alert-btn {
+      background: #1A1A1A;
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      margin-bottom: 8px;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    .custom-alert-btn:hover {
+      background: #333;
+      transform: translateY(-1px);
+    }
+    .custom-alert-btn.secondary {
+      background: #f0f0f0;
+      color: #000;
+      margin-bottom: 0;
+    }
+    .custom-alert-btn.secondary:hover {
+      background: #e0e0e0;
+    }
+    .custom-prompt-input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      font-size: 15px;
+      margin-bottom: 16px;
+      font-family: inherit;
+      background: #fafafa;
+      transition: all 0.2s;
+    }
+    .custom-prompt-input:focus {
+      outline: none;
+      border-color: #1A1A1A;
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(26,26,26,0.06);
+    }
+
+    /* ============================================
+       ✅ NEW: EDIT PRODUCT MODAL STYLES
+       ============================================ */
+    #editProductOverlay .modal { max-width: 400px; }
+    #editProductOverlay .modal-content { text-align: left; max-height: 80vh; overflow-y: auto; }
+    #editProductOverlay h3 { text-align: center; margin-bottom: 18px; }
+    .edit-form-group { margin-bottom: 12px; }
+    .edit-form-group label { display: block; font-size: 13px; font-weight: 600; color: #555; margin-bottom: 5px; }
+    .edit-form-group input[type="text"],
+    .edit-form-group textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 14px;
+      font-family: inherit;
+      background: #fafafa;
+      transition: all 0.2s;
+    }
+    .edit-form-group input[type="text"]:focus,
+    .edit-form-group textarea:focus {
+      outline: none;
+      border-color: #1A1A1A;
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(26,26,26,0.06);
+    }
+    .edit-modal-buttons { display: flex; gap: 10px; margin-top: 16px; }
+    .edit-modal-buttons button {
+      flex: 1;
+      border: none;
+      border-radius: 25px;
+      padding: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    .edit-modal-buttons .save-btn { background: #1A1A1A; color: #fff; }
+    .edit-modal-buttons .save-btn:hover { background: #333; transform: translateY(-1px); box-shadow: 0 6px 15px rgba(26,26,26,0.3); }
+    .edit-modal-buttons .cancel-btn { background: #f0f0f0; color: #000; }
+    .edit-modal-buttons .cancel-btn:hover { background: #e0e0e0; }
+
     @media (max-width:600px) {
       .brand-name { font-size: 24px; }
       .card-img { height: 140px; }
@@ -1060,6 +1191,54 @@
     </div>
   </div>
 
+  <!-- ============================================
+       ✅ NEW: EDIT PRODUCT MODAL (Option B)
+       ============================================ -->
+  <div class="modal-overlay" id="editProductOverlay">
+    <div class="modal">
+      <button class="modal-close" id="editProductClose">&times;</button>
+      <div class="modal-content">
+        <h3>✏️ Edit Product</h3>
+        <form id="editProductForm">
+          <input type="hidden" id="editProductId" />
+          <div class="edit-form-group">
+            <label>Image (Choose file or emoji)</label>
+            <div class="file-input-wrapper">
+              <input type="file" id="editImageFile" accept="image/*" />
+              <span class="file-btn">📁 Choose Image</span>
+            </div>
+            <img id="editImagePreview" class="image-preview" alt="Preview" />
+            <input type="text" id="editEmoji" placeholder="Or enter emoji (e.g., 🍕)" style="margin-top:8px;" />
+          </div>
+          <div class="edit-form-group">
+            <label>Name</label>
+            <input type="text" id="editName" required />
+          </div>
+          <div class="edit-form-group">
+            <label>Price</label>
+            <input type="text" id="editPrice" required />
+          </div>
+          <div class="edit-form-group">
+            <label>Rating</label>
+            <input type="text" id="editRating" required />
+          </div>
+          <div class="edit-form-group">
+            <label>Category</label>
+            <input type="text" id="editCategory" list="categorySuggestions" required />
+          </div>
+          <div class="edit-form-group">
+            <label>Description</label>
+            <textarea id="editDescription" rows="2"></textarea>
+          </div>
+          <div class="edit-modal-buttons">
+            <button type="submit" class="save-btn">💾 Save Changes</button>
+            <button type="button" id="editCancelBtn" class="cancel-btn">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <nav class="bottom-nav" id="bottomNav">
     <button class="bottom-nav-btn active" data-target="menuSection"><span class="nav-icon">🍕</span><span>Menu</span></button>
     <button class="bottom-nav-btn" data-target="gallerySection"><span class="nav-icon">📸</span><span>Gallery</span></button>
@@ -1311,14 +1490,14 @@
     function customerLogin(email, password) {
       var customer = customers.find(c => c.email.toLowerCase() === email.toLowerCase() && c.password === password);
       if (!customer) { document.getElementById('customerAuthError').textContent = 'Invalid email or password'; return false; }
-      currentCustomer = customer; saveCurrentCustomer(); updateCustomerUI(); document.getElementById('customerAuthOverlay').style.display = 'none'; return true;
+      currentCustomer = customer; saveCurrentCustomer(); updateCustomerUI(); renderOrdersDashboard(); document.getElementById('customerAuthOverlay').style.display = 'none'; return true;
     }
     function customerRegister(name, email, password) {
       if (customers.some(c => c.email.toLowerCase() === email.toLowerCase())) { document.getElementById('customerAuthError').textContent = 'Email already registered'; return false; }
       var newCustomer = { id: Date.now().toString(), name, email, password, addresses: [], orders: [] };
-      customers.push(newCustomer); saveCustomers(); currentCustomer = newCustomer; saveCurrentCustomer(); updateCustomerUI(); document.getElementById('customerAuthOverlay').style.display = 'none'; return true;
+      customers.push(newCustomer); saveCustomers(); currentCustomer = newCustomer; saveCurrentCustomer(); updateCustomerUI(); renderOrdersDashboard(); document.getElementById('customerAuthOverlay').style.display = 'none'; return true;
     }
-    function customerLogout() { currentCustomer = null; saveCurrentCustomer(); updateCustomerUI(); renderCartUI(); }
+    function customerLogout() { currentCustomer = null; saveCurrentCustomer(); updateCustomerUI(); renderCartUI(); renderOrdersDashboard(); }
 
     /* ===== BUG 2 FIX: Customer UI update after login/register ===== */
     function updateCustomerUI() {
@@ -1344,7 +1523,7 @@
         document.getElementById('adminPanel').classList.add('active'); document.getElementById('ownerOrdersPanel').style.display = 'block';
         document.getElementById('adminGalleryControls').classList.add('active'); document.getElementById('adminContactControls').classList.add('active');
         document.getElementById('customerAuthOverlay').style.display = 'none'; document.getElementById('ownerLoginError').textContent = '';
-        updateNotifBadge(); renderAll(); return true;
+        updateNotifBadge(); renderAll(); showToast('Welcome back, Owner! 👑', 'success'); return true;
       } else { document.getElementById('ownerLoginError').textContent = 'Invalid email or password'; return false; }
     }
     function checkLogin() {
@@ -1357,7 +1536,7 @@
     async function logout() {
       if (await confirm('Logout?')) { isLoggedIn = false; localStorage.removeItem('samoon99_loggedin'); updateCustomerUI();
         document.getElementById('adminPanel').classList.remove('active'); document.getElementById('ownerOrdersPanel').style.display = 'none';
-        document.getElementById('adminGalleryControls').classList.remove('active'); document.getElementById('adminContactControls').classList.remove('active'); renderAll(); }
+        document.getElementById('adminGalleryControls').classList.remove('active'); document.getElementById('adminContactControls').classList.remove('active'); renderAll(); showToast('Logged out', 'info'); }
     }
     function updateNotifBadge() { var badge = document.getElementById('notifBadge'); if (orders.length > 0 && isLoggedIn) { badge.style.display = 'flex'; badge.textContent = orders.length; } else badge.style.display = 'none'; }
 
@@ -1411,7 +1590,6 @@
       });
       filtered.forEach(function(product) {
         var card = document.createElement('div');
-        /* ===== BUG 1 FIX: Add admin-mode class so edit/delete buttons show for owner ===== */
         card.className = 'card' + (isLoggedIn ? ' admin-mode' : '');
         card.setAttribute('data-id', product.id);
         card.setAttribute('data-description', product.description);
@@ -1439,8 +1617,27 @@
         });
       });
       if (isLoggedIn) {
-        document.querySelectorAll('.admin-edit-btn').forEach(btn => { btn.addEventListener('click', function(e) { e.stopPropagation(); var product = products.find(p => p.id === btn.closest('.card').getAttribute('data-id')); if (product) fillAdminForm(product); }); });
-        document.querySelectorAll('.admin-delete-btn').forEach(btn => { btn.addEventListener('click', async function(e) { e.stopPropagation(); var id = btn.closest('.card').getAttribute('data-id'); if (await confirm('Delete this product?')) { products = products.filter(p => p.id !== id); saveProducts(); renderProducts(); renderAdminProductList(); } }); });
+        document.querySelectorAll('.admin-edit-btn').forEach(btn => { 
+          btn.addEventListener('click', function(e) { 
+            e.stopPropagation(); 
+            var product = products.find(p => p.id === btn.closest('.card').getAttribute('data-id')); 
+            if (product) openEditProductModal(product);
+          }); 
+        });
+        document.querySelectorAll('.admin-delete-btn').forEach(btn => { 
+          btn.addEventListener('click', async function(e) { 
+            e.stopPropagation(); 
+            var id = btn.closest('.card').getAttribute('data-id'); 
+            var product = products.find(p => p.id === id);
+            if (await confirm('Delete "' + (product ? product.name : 'this product') + '"?')) { 
+              products = products.filter(p => p.id !== id); 
+              saveProducts(); 
+              renderProducts(); 
+              renderAdminProductList(); 
+              showToast('Product deleted 🗑️', 'success');
+            } 
+          }); 
+        });
       }
     }
     function openPremiumProductModal(product) {
@@ -1451,6 +1648,33 @@
       document.getElementById('specialInstructionsInput').value = ''; renderReviews(product.id);
       document.getElementById('productOverlay').style.display = 'flex'; document.getElementById('reviewsSection').style.display = 'none'; document.getElementById('reviewsToggle').textContent = '💬 Show Reviews';
     }
+
+    /* ============================================
+       ✅ NEW: Open Edit Product Modal (Option B)
+       ============================================ */
+    function openEditProductModal(product) {
+      document.getElementById('editProductId').value = product.id;
+      document.getElementById('editName').value = product.name;
+      document.getElementById('editPrice').value = product.price;
+      document.getElementById('editRating').value = product.rating;
+      document.getElementById('editCategory').value = categories.find(c => c.id === product.category)?.name || '';
+      document.getElementById('editDescription').value = product.description || '';
+
+      var preview = document.getElementById('editImagePreview');
+      var emojiInput = document.getElementById('editEmoji');
+      if (isImageValue(product.emoji)) {
+        preview.src = product.emoji;
+        preview.style.display = 'block';
+        emojiInput.value = '';
+      } else {
+        preview.style.display = 'none';
+        emojiInput.value = product.emoji || '';
+      }
+      document.getElementById('editImageFile').value = '';
+      window.editProductImageData = null;
+      document.getElementById('editProductOverlay').style.display = 'flex';
+    }
+
     function renderGallery() {
       var grid = document.getElementById('galleryGrid');
       grid.innerHTML = '';
@@ -1491,7 +1715,7 @@
         div.innerHTML = '<span>Item ' + (index+1) + ': ' + (isImageValue(img) ? '📷 Image' : (img || '📷')) + '</span>';
         var actions = document.createElement('div'); actions.className = 'admin-actions';
         var editBtn = document.createElement('button'); editBtn.textContent = '✏️'; editBtn.onclick = function() { editingGalleryIndex = index; document.getElementById('editGalleryFileInput').click(); };
-        var delBtn = document.createElement('button'); delBtn.textContent = '🗑️'; delBtn.onclick = async function() { if (await confirm('Delete this gallery item?')) { galleryImages.splice(index,1); saveGallery(); renderGallery(); renderGalleryInlineList(); } };
+        var delBtn = document.createElement('button'); delBtn.textContent = '🗑️'; delBtn.onclick = async function() { if (await confirm('Delete this gallery item?')) { galleryImages.splice(index,1); saveGallery(); renderGallery(); renderGalleryInlineList(); showToast('Gallery image deleted 🗑️', 'success'); } };
         actions.appendChild(editBtn); actions.appendChild(delBtn); div.appendChild(actions); list.appendChild(div);
       });
     }
@@ -1501,8 +1725,8 @@
       products.forEach(function(product) {
         var div = document.createElement('div'); div.className = 'admin-product-item'; div.innerHTML = '<span>' + product.emoji + ' ' + product.name + ' - ' + product.price + '</span>';
         var actions = document.createElement('div'); actions.className = 'admin-actions';
-        var editBtn = document.createElement('button'); editBtn.textContent = '✏️'; editBtn.onclick = function() { fillAdminForm(product); };
-        var delBtn = document.createElement('button'); delBtn.textContent = '🗑️'; delBtn.onclick = async function() { if (await confirm('Delete ' + product.name + '?')) { products = products.filter(p => p.id !== product.id); saveProducts(); renderProducts(); renderAdminProductList(); } };
+        var editBtn = document.createElement('button'); editBtn.textContent = '✏️'; editBtn.onclick = function() { openEditProductModal(product); };
+        var delBtn = document.createElement('button'); delBtn.textContent = '🗑️'; delBtn.onclick = async function() { if (await confirm('Delete "' + product.name + '"?')) { products = products.filter(p => p.id !== product.id); saveProducts(); renderProducts(); renderAdminProductList(); showToast('Product deleted 🗑️', 'success'); } };
         actions.appendChild(editBtn); actions.appendChild(delBtn); div.appendChild(actions); list.appendChild(div);
       });
     }
@@ -1512,7 +1736,7 @@
         var div = document.createElement('div'); div.className = 'admin-product-item';
         div.innerHTML = '<span>' + (isImageValue(category.emoji) ? '<img src="' + category.emoji + '" style="width:28px;height:28px;border-radius:50%;object-fit:cover;margin-right:8px;vertical-align:middle;" />' : category.emoji + ' ') + category.name + '</span>';
         var actions = document.createElement('div'); actions.className = 'admin-actions';
-        var delBtn = document.createElement('button'); delBtn.textContent = '🗑️'; delBtn.onclick = async function() { if (await confirm('Delete category "' + category.name + '"?')) { categories = categories.filter(c => c.id !== category.id); saveCategories(); renderCategoryPills(); populateCategorySuggestions(); renderAdminCategoryList(); } };
+        var delBtn = document.createElement('button'); delBtn.textContent = '🗑️'; delBtn.onclick = async function() { if (await confirm('Delete category "' + category.name + '"?')) { categories = categories.filter(c => c.id !== category.id); saveCategories(); renderCategoryPills(); populateCategorySuggestions(); renderAdminCategoryList(); showToast('Category deleted 🗑️', 'success'); } };
         actions.appendChild(delBtn); div.appendChild(actions); list.appendChild(div);
       });
     }
@@ -1552,7 +1776,6 @@
       var container = document.getElementById('ordersListContainer'); if (!container) return; container.innerHTML = '';
       var activeTab = document.querySelector('.order-tab-btn.active')?.getAttribute('data-order-tab') || 'activeOrders';
 
-      // Only show orders belonging to the logged-in customer
       if (!currentCustomer) {
         container.innerHTML = '<div class="no-orders-msg">Please login to see your orders.</div>';
         return;
@@ -1602,7 +1825,7 @@
       document.getElementById('cartTotal').textContent = 'Total: $' + total.toFixed(2);
       document.querySelectorAll('.cart-plus').forEach(btn => { btn.onclick = function() { var idx = parseInt(this.getAttribute('data-index')); cart[idx].qty++; saveCart(); renderCartUI(); }; });
       document.querySelectorAll('.cart-minus').forEach(btn => { btn.onclick = function() { var idx = parseInt(this.getAttribute('data-index')); if (cart[idx].qty > 1) { cart[idx].qty--; saveCart(); renderCartUI(); } }; });
-      document.querySelectorAll('.cart-item-remove').forEach(btn => { btn.onclick = async function() { var idx = parseInt(this.getAttribute('data-index')); if (await confirm('Remove this item?')) { cart.splice(idx,1); saveCart(); renderCartUI(); } }; });
+      document.querySelectorAll('.cart-item-remove').forEach(btn => { btn.onclick = async function() { var idx = parseInt(this.getAttribute('data-index')); if (await confirm('Remove this item?')) { cart.splice(idx,1); saveCart(); renderCartUI(); showToast('Item removed from cart', 'success'); } }; });
     }
     function addToCart(product) { var existing = cart.find(item => item.id === product.id); if (existing) existing.qty += currentQty; else cart.push({ id: product.id, name: product.name, emoji: product.emoji, price: product.price, qty: currentQty }); saveCart(); renderCartUI(); }
     function checkout() { if (cart.length === 0) return; openOrderModal('cart'); }
@@ -1663,7 +1886,7 @@
       if (productReviews.length === 0) { list.innerHTML = '<p style="color:#999;font-size:11px;">No reviews yet.</p>'; return; }
       productReviews.forEach(r => { var stars = '⭐'.repeat(parseInt(r.rating) || 0); var div = document.createElement('div'); div.className = 'review-item'; div.innerHTML = '<div class="review-name">' + r.name + '</div><div class="review-rating">' + stars + '</div><div class="review-text">' + r.text + '</div>'; list.appendChild(div); });
     }
-    async function addReview(productId) { var name = await prompt('Enter your name:'); if (!name) return; var rating = await prompt('Rate (1-5):'); if (!rating) return; var text = await prompt('Write your review:'); if (!text) return; reviews.push({ productId, name, rating, text }); saveReviews(); renderReviews(productId); }
+    async function addReview(productId) { var name = await prompt('Enter your name:'); if (!name) return; var rating = await prompt('Rate (1-5):'); if (!rating) return; var text = await prompt('Write your review:'); if (!text) return; reviews.push({ productId, name, rating, text }); saveReviews(); renderReviews(productId); showToast('Review added! ⭐', 'success'); }
     function showSearchSuggestions(query) {
       var suggestions = products.filter(p => p.name.toLowerCase().includes(query) || (p.description && p.description.toLowerCase().includes(query)));
       var container = document.getElementById('searchSuggestions'); container.innerHTML = '';
@@ -1748,7 +1971,59 @@
     document.getElementById('adminImageFile').addEventListener('change', function() { handleFileSelect(this, function(dataUrl) { document.getElementById('adminImagePreview').src = dataUrl; document.getElementById('adminImagePreview').style.display = 'block'; document.getElementById('adminEmoji').value = ''; window.productImageData = dataUrl; }); });
     document.getElementById('categoryImageFile').addEventListener('change', function() { handleFileSelect(this, function(dataUrl) { document.getElementById('categoryImagePreview').src = dataUrl; document.getElementById('categoryImagePreview').style.display = 'block'; document.getElementById('newCategoryEmoji').value = ''; window.categoryImageData = dataUrl; }); });
     document.getElementById('galleryInlineFile').addEventListener('change', function() { handleFileSelect(this, function(dataUrl) { document.getElementById('galleryInlinePreview').src = dataUrl; document.getElementById('galleryInlinePreview').style.display = 'block'; window.galleryInlineImageData = dataUrl; }); });
-    document.getElementById('editGalleryFileInput').addEventListener('change', function() { handleFileSelect(this, function(dataUrl) { if (editingGalleryIndex >= 0 && editingGalleryIndex < galleryImages.length) { galleryImages[editingGalleryIndex] = dataUrl; saveGallery(); renderGallery(); renderGalleryInlineList(); editingGalleryIndex = -1; } }); this.value = ''; });
+    document.getElementById('editGalleryFileInput').addEventListener('change', function() { handleFileSelect(this, function(dataUrl) { if (editingGalleryIndex >= 0 && editingGalleryIndex < galleryImages.length) { galleryImages[editingGalleryIndex] = dataUrl; saveGallery(); renderGallery(); renderGalleryInlineList(); showToast('Gallery image updated ✅', 'success'); editingGalleryIndex = -1; } }); this.value = ''; });
+
+    /* ============================================
+       ✅ NEW: Edit Product Modal Event Listeners
+       ============================================ */
+    document.getElementById('editProductClose').addEventListener('click', function() {
+      document.getElementById('editProductOverlay').style.display = 'none';
+    });
+    document.getElementById('editCancelBtn').addEventListener('click', function() {
+      document.getElementById('editProductOverlay').style.display = 'none';
+    });
+    document.getElementById('editProductOverlay').addEventListener('click', function(e) {
+      if (e.target === this) document.getElementById('editProductOverlay').style.display = 'none';
+    });
+    document.getElementById('editImageFile').addEventListener('change', function() {
+      handleFileSelect(this, function(dataUrl) {
+        document.getElementById('editImagePreview').src = dataUrl;
+        document.getElementById('editImagePreview').style.display = 'block';
+        document.getElementById('editEmoji').value = '';
+        window.editProductImageData = dataUrl;
+      });
+    });
+    document.getElementById('editProductForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var id = document.getElementById('editProductId').value;
+      var name = document.getElementById('editName').value.trim();
+      var price = document.getElementById('editPrice').value.trim();
+      var rating = document.getElementById('editRating').value.trim() || '⭐ 4.5';
+      var categoryInput = document.getElementById('editCategory').value.trim();
+      var description = document.getElementById('editDescription').value.trim();
+      var imageValue;
+      if (window.editProductImageData) { imageValue = window.editProductImageData; window.editProductImageData = null; }
+      else imageValue = document.getElementById('editEmoji').value.trim();
+      if (!imageValue) { var existing = products.find(p => p.id === id); if (existing) imageValue = existing.emoji; }
+      if (!imageValue) imageValue = '🍽️';
+      if (!name || !price || !categoryInput) { alert('Please fill name, price, and category'); return; }
+      var categoryId = getCategoryIdFromInput(categoryInput);
+      var idx = products.findIndex(p => p.id === id);
+      if (idx >= 0) {
+        products[idx] = { id, emoji: imageValue, name, price, rating, category: categoryId, description };
+        saveProducts();
+        renderProducts();
+        renderAdminProductList();
+        renderCategoryPills();
+        populateCategorySuggestions();
+        renderAdminCategoryList();
+        document.getElementById('editProductOverlay').style.display = 'none';
+        showToast('Product updated! ✅', 'success');
+      } else {
+        showToast('Product not found', 'error');
+      }
+    });
+
     document.getElementById('adminForm').addEventListener('submit', function(e) {
       e.preventDefault(); var id = document.getElementById('adminProductId').value; var name = document.getElementById('adminName').value.trim();
       var price = document.getElementById('adminPrice').value.trim(); var rating = document.getElementById('adminRating').value.trim() || '⭐ 4.5';
@@ -1758,8 +2033,8 @@
       if (!imageValue) imageValue = '🍽️';
       if (!name || !price || !categoryInput) { alert('Please fill name, price, and category'); return; }
       var categoryId = getCategoryIdFromInput(categoryInput);
-      if (id) { var idx = products.findIndex(p => p.id === id); if (idx >= 0) products[idx] = { id, emoji:imageValue, name, price, rating, category:categoryId, description }; }
-      else { products.push({ id: Date.now().toString(), emoji:imageValue, name, price, rating, category:categoryId, description }); }
+      if (id) { var idx = products.findIndex(p => p.id === id); if (idx >= 0) products[idx] = { id, emoji:imageValue, name, price, rating, category:categoryId, description }; showToast('Product updated! ✅', 'success'); }
+      else { products.push({ id: Date.now().toString(), emoji:imageValue, name, price, rating, category:categoryId, description }); showToast('Product added! ✅', 'success'); }
       saveProducts(); resetAdminForm(); renderProducts(); renderAdminProductList(); renderCategoryPills(); populateCategorySuggestions(); renderAdminCategoryList();
     });
     document.getElementById('adminCancelBtn').addEventListener('click', resetAdminForm);
@@ -1771,12 +2046,13 @@
       if (categories.some(c => c.id === id)) { alert('Category already exists'); return; }
       categories.push({ id, name, emoji: emojiValue }); saveCategories(); renderCategoryPills(); populateCategorySuggestions(); renderAdminCategoryList();
       document.getElementById('newCategoryName').value = ''; document.getElementById('newCategoryEmoji').value = ''; document.getElementById('categoryImagePreview').style.display = 'none'; document.getElementById('categoryImageFile').value = '';
+      showToast('Category added! ✅', 'success');
     });
-    document.getElementById('galleryInlineForm').addEventListener('submit', function(e) { e.preventDefault(); if (window.galleryInlineImageData) { galleryImages.push(window.galleryInlineImageData); window.galleryInlineImageData = null; saveGallery(); renderGallery(); renderGalleryInlineList(); document.getElementById('galleryInlinePreview').style.display = 'none'; document.getElementById('galleryInlineFile').value = ''; } else alert('Please choose an image file'); });
-    document.getElementById('contactInlineForm').addEventListener('submit', function(e) { e.preventDefault(); contactInfo.address = document.getElementById('contactInlineAddress').value; contactInfo.phone = document.getElementById('contactInlinePhone').value; contactInfo.hours = document.getElementById('contactInlineHours').value; saveContact(); updateContactUI(); alert('Contact info updated!'); });
+    document.getElementById('galleryInlineForm').addEventListener('submit', function(e) { e.preventDefault(); if (window.galleryInlineImageData) { galleryImages.push(window.galleryInlineImageData); window.galleryInlineImageData = null; saveGallery(); renderGallery(); renderGalleryInlineList(); document.getElementById('galleryInlinePreview').style.display = 'none'; document.getElementById('galleryInlineFile').value = ''; showToast('Image added to gallery! ✅', 'success'); } else alert('Please choose an image file'); });
+    document.getElementById('contactInlineForm').addEventListener('submit', function(e) { e.preventDefault(); contactInfo.address = document.getElementById('contactInlineAddress').value; contactInfo.phone = document.getElementById('contactInlinePhone').value; contactInfo.hours = document.getElementById('contactInlineHours').value; saveContact(); updateContactUI(); showToast('Contact info updated! ✅', 'success'); });
     document.getElementById('socialForm').addEventListener('submit', function(e) { e.preventDefault(); contactInfo.social.instagram = document.getElementById('socialInstagram').value.trim(); contactInfo.social.facebook = document.getElementById('socialFacebook').value.trim(); contactInfo.social.whatsapp = document.getElementById('socialWhatsApp').value.trim(); saveContact(); updateSocialLinksUI(); showToast('Social links saved successfully!', 'success'); });
-    document.getElementById('clearOrdersBtn').addEventListener('click', async function() { if (await confirm('Clear all orders?')) { orders = []; saveOrders(); renderAdminOrdersList(); renderOrdersDashboard(); updateNotifBadge(); } });
-    document.getElementById('ownerClearOrdersBtn').addEventListener('click', async function() { if (await confirm('Clear all orders?')) { orders = []; saveOrders(); renderAdminOrdersList(); renderOrdersDashboard(); updateNotifBadge(); } });
+    document.getElementById('clearOrdersBtn').addEventListener('click', async function() { if (await confirm('Clear all orders?')) { orders = []; saveOrders(); renderAdminOrdersList(); renderOrdersDashboard(); updateNotifBadge(); showToast('All orders cleared', 'success'); } });
+    document.getElementById('ownerClearOrdersBtn').addEventListener('click', async function() { if (await confirm('Clear all orders?')) { orders = []; saveOrders(); renderAdminOrdersList(); renderOrdersDashboard(); updateNotifBadge(); showToast('All orders cleared', 'success'); } });
     document.querySelectorAll('.admin-tab-btn').forEach(btn => { btn.addEventListener('click', function() { document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active')); document.getElementById('admin' + btn.getAttribute('data-tab').charAt(0).toUpperCase() + btn.getAttribute('data-tab').slice(1) + 'Section').classList.add('active'); }); });
     if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').then(registration => console.log('SW registered:', registration.scope)).catch(err => console.log('SW registration failed:', err)); }); }
 
