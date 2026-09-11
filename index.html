@@ -60,6 +60,37 @@
     .product-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:22px; margin-bottom:30px; }
     @media (min-width:600px) { .product-grid { grid-template-columns:repeat(3,1fr); } }
     @media (min-width:900px) { .product-grid { grid-template-columns:repeat(4,1fr); } }
+    
+    /* ============================================
+       🎨 COMBO ANIMATION: 3D Bubble Pop + Neon Glow
+       ============================================ */
+    @keyframes bubbleMaterialize {
+      0% {
+        opacity: 0;
+        transform: scale(0.3) rotate(-3deg);
+        filter: blur(8px) drop-shadow(0 0 0px rgba(217, 181, 138, 0));
+      }
+      40% {
+        opacity: 1;
+        transform: scale(1.15) rotate(1deg);
+        filter: blur(0px) drop-shadow(0 0 20px rgba(217, 181, 138, 0.9));
+      }
+      70% {
+        transform: scale(0.95) rotate(-0.5deg);
+        filter: blur(0px) drop-shadow(0 0 10px rgba(217, 181, 138, 0.5));
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+        filter: blur(0px) drop-shadow(0 0 0px rgba(217, 181, 138, 0));
+      }
+    }
+    .animate-card {
+      animation: bubbleMaterialize 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      opacity: 0; /* Shuru mein invisible rahega */
+    }
+    /* ============================================ */
+
     .card { background: #fefcf9; border-radius: 32px; overflow: hidden; box-shadow: 0 12px 28px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.08), inset 0 0 0 2px rgba(255,255,255,0.6); display: flex; flex-direction: column; cursor: pointer; transition: transform 0.25s ease, box-shadow 0.25s ease; border: 2px solid #f0e0c9; padding: 0; position: relative; }
     .card:hover { transform: translateY(-10px) rotate(-1deg) scale(1.01); box-shadow: 0 25px 45px rgba(0,0,0,0.25), 0 6px 12px rgba(0,0,0,0.1); }
     .card::after { content: ''; position: absolute; top: 6px; left: 6px; right: 6px; bottom: 6px; border: 2px dashed #d9b58a; border-radius: 26px; pointer-events: none; opacity: 0.5; z-index: 1; }
@@ -1145,6 +1176,8 @@
       });
     }
     var currentFilter = 'all'; var searchQuery = '';
+    
+    // 🔥 YAHAN CHANGE KIYA GAYA HAI (Animation add ki gayi hai)
     function renderProducts() {
       var grid = document.getElementById('productGrid'); grid.innerHTML = '';
       var filtered = products.filter(function(p) {
@@ -1153,11 +1186,13 @@
         if (searchQuery.trim() !== '') { var q = searchQuery.trim().toLowerCase(); matchesSearch = p.name.toLowerCase().indexOf(q) !== -1 || (p.description && p.description.toLowerCase().indexOf(q) !== -1); }
         return matchesCategory && matchesSearch;
       });
-      filtered.forEach(function(product) {
+      filtered.forEach(function(product, index) {
         var card = document.createElement('div');
-        card.className = 'card' + (isLoggedIn ? ' admin-mode' : '');
+        card.className = 'card animate-card' + (isLoggedIn ? ' admin-mode' : '');
         card.setAttribute('data-id', product.id);
         card.setAttribute('data-description', product.description);
+        card.style.animationDelay = (index * 0.08) + 's'; // Har card 0.08s ke gap se aayega
+        
         var isWishlisted = wishlistItems.indexOf(product.id) !== -1;
         card.innerHTML = '<button class="wishlist' + (isWishlisted ? ' active' : '') + '">' + (isWishlisted ? '♥' : '♡') + '</button>' +
           (isLoggedIn ? '<div class="admin-edit-delete"><button class="admin-edit-btn">✏️</button><button class="admin-delete-btn">🗑️</button></div>' : '') +
