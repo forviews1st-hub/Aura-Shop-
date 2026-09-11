@@ -46,10 +46,12 @@
     .heading-row a:hover { color:#1A1A1A; }
     .categories { display:flex; gap:10px; overflow-x:auto; padding-bottom:10px; margin-bottom:20px; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
     .categories::-webkit-scrollbar { display:none; }
-    .pill { flex:0 0 auto; background:#fff; border:none; border-radius:30px; padding:8px 16px; font-size:14px; font-weight:600; box-shadow:0 2px 6px rgba(0,0,0,0.05); cursor:pointer; white-space:nowrap; transition:all 0.2s; display:flex; align-items:center; gap:6px; color:#1A1A1A; border:1px solid #f0f0f0; }
+    .pill { flex:0 0 auto; background:#fff; border:none; border-radius:30px; padding:6px 16px 6px 6px; font-size:14px; font-weight:600; box-shadow:0 2px 6px rgba(0,0,0,0.05); cursor:pointer; white-space:nowrap; transition:all 0.2s; display:flex; align-items:center; gap:8px; color:#1A1A1A; border:1px solid #f0f0f0; }
     .pill:hover { box-shadow:0 4px 10px rgba(0,0,0,0.08); }
-    .pill img { width:20px; height:20px; border-radius:50%; object-fit:cover; }
-    .pill.active { background:#1A1A1A; color:#fff; border-color:#1A1A1A; box-shadow:0 4px 12px rgba(26,26,26,0.25); }
+    .pill img { width:28px; height:28px; border-radius:50%; object-fit:cover; box-shadow: 0 2px 5px rgba(0,0,0,0.15); border: 1.5px solid rgba(217,181,138,0.5); transition: transform 0.2s, box-shadow 0.2s; flex-shrink: 0; }
+    .pill:hover img { transform: scale(1.1); box-shadow: 0 3px 8px rgba(0,0,0,0.2); }
+    .pill.active img { border-color: rgba(255,255,255,0.4); box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
+    .pill.active { background:#1A1A1A; color:#fff; border-color:#1A1A1A; box-shadow:0 4px 12px rgba(26,26,26,0.25); padding: 6px 16px; }
     .image-banner { width: 100%; max-width: 1000px; margin: 0 auto 24px; border-radius: 28px; overflow: hidden; aspect-ratio: 1774 / 887; background: transparent; transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s ease; cursor: pointer; box-shadow: 0 12px 30px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.06); }
     .image-banner:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 25px 50px rgba(0,0,0,0.2), 0 8px 16px rgba(0,0,0,0.10); }
     .image-banner img { display: block; width: 100%; height: 100%; object-fit: contain; background: transparent; }
@@ -786,17 +788,17 @@
     ];
 
     const defaultCategories = [
-      { id: 'pizza', name: 'Pizza', emoji: '🍕' },
-      { id: 'drinks', name: 'Drinks', emoji: '🥤' },
-      { id: 'cakes', name: 'Cakes', emoji: '🍰' },
-      { id: 'breads', name: 'Breads', emoji: '🥖' },
-      { id: 'pastries', name: 'Pastries', emoji: '🥐' },
-      { id: 'snacks', name: 'Snacks', emoji: '🍪' },
-      { id: 'breakfast', name: 'Breakfast', emoji: '🍳' },
-      { id: 'burgers', name: 'Burgers', emoji: '🍔' },
-      { id: 'salad', name: 'Salad', emoji: '🥗' },
-      { id: 'pasta', name: 'Pasta', emoji: '🍝' },
-      { id: 'noodles', name: 'Noodles', emoji: '🍜' }
+      { id: 'pizza', name: 'Pizza', emoji: '/images/pepperoni_pizza.png' },
+      { id: 'drinks', name: 'Drinks', emoji: '/images/watermelon_soda.png' },
+      { id: 'cakes', name: 'Cakes', emoji: '/images/chocolate_sundae.png' },
+      { id: 'breads', name: 'Breads', emoji: '/images/garlic_bread.png' },
+      { id: 'pastries', name: 'Pastries', emoji: '/images/butter_croissant.png' },
+      { id: 'snacks', name: 'Snacks', emoji: '/images/chocolate_chip_cookie.png' },
+      { id: 'breakfast', name: 'Breakfast', emoji: '/images/avocado_feta_toast.png' },
+      { id: 'burgers', name: 'Burgers', emoji: '/images/classic_cheeseburger.png' },
+      { id: 'salad', name: 'Salad', emoji: '/images/garden_fresh_vegetable_salad.png' },
+      { id: 'pasta', name: 'Pasta', emoji: '/images/creamy_vegetable_penne_pasta.png' },
+      { id: 'noodles', name: 'Noodles', emoji: '/images/noodles.png' }
     ];
 
     const defaultGallery = ['', '', '', '', '', ''];
@@ -814,7 +816,7 @@
     var contactInfo = { address: '279 Prospect Rd, Blair Athol SA 5084, Australia', phone: '+61 478 706 251', hours: 'Monday – Sunday, 6:00 AM – 9:00 PM', social: { instagram: '', facebook: '', whatsapp: '+61 478 706 251' } };
 
     function loadData() {
-      var CURRENT_VERSION = '2.0.0';
+      var CURRENT_VERSION = '2.1.0';
       var storedVersion = localStorage.getItem('samoon99_version');
       if (storedVersion !== CURRENT_VERSION) { localStorage.clear(); localStorage.setItem('samoon99_version', CURRENT_VERSION); }
       try {
@@ -1099,7 +1101,7 @@
       var allBtn = document.createElement('button'); allBtn.className = 'pill active'; allBtn.setAttribute('data-category', 'all'); allBtn.textContent = 'All'; container.appendChild(allBtn);
       categories.forEach(function(category) {
         var btn = document.createElement('button'); btn.className = 'pill'; btn.setAttribute('data-category', category.id);
-        if (isImageValue(category.emoji)) { var img = document.createElement('img'); img.src = category.emoji; img.alt = category.name; img.loading = 'lazy'; img.style.width = '20px'; img.style.height = '20px'; img.style.borderRadius = '50%'; img.style.objectFit = 'cover'; btn.appendChild(img); }
+        if (isImageValue(category.emoji)) { var img = document.createElement('img'); img.src = category.emoji; img.alt = category.name; img.loading = 'lazy'; btn.appendChild(img); }
         else { btn.textContent = category.emoji + ' '; }
         btn.appendChild(document.createTextNode(category.name)); container.appendChild(btn);
       });
@@ -1617,16 +1619,12 @@
     document.querySelectorAll('.admin-tab-btn').forEach(btn => { btn.addEventListener('click', function() { document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active')); document.getElementById('admin' + btn.getAttribute('data-tab').charAt(0).toUpperCase() + btn.getAttribute('data-tab').slice(1) + 'Section').classList.add('active'); }); });
     if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').then(registration => console.log('SW registered:', registration.scope)).catch(err => console.log('SW registration failed:', err)); }); }
 
-    /* ============================================
-       INIT: Load data + show skeletons briefly then render
-       ============================================ */
     loadData();
     checkLogin();
     showProductSkeletons(6);
     setTimeout(function() {
       renderAll();
     }, 250);
-    /* ============================================ */
 
     document.getElementById('galleryLightboxClose').addEventListener('click', function() {
       document.getElementById('galleryLightboxOverlay').style.display = 'none';
