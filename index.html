@@ -559,7 +559,7 @@
       <div class="copyright">© 2026 Aura Cafe. All rights reserved.</div>
     </footer>
   </div>
-  <button class="call-btn" id="callBtn" title="Call Us">
+  <button class="call-btn animate-card" id="callBtn" title="Call Us" style="animation-delay: 0.4s;">
     <img src="https://i.ibb.co/zH5GG5H5/Gemini-Generated-Image-y95m0by95m0by95m.png" alt="Call" />
   </button>
   <div class="modal-overlay" id="customerAuthOverlay">
@@ -1084,15 +1084,40 @@
     }
     function renderCategoryPills() {
       var container = document.getElementById('categoryPillsContainer'); container.innerHTML = '';
-      var allBtn = document.createElement('button'); allBtn.className = 'pill active'; allBtn.setAttribute('data-category', 'all'); allBtn.textContent = 'All'; container.appendChild(allBtn);
-      categories.forEach(function(category) {
-        var btn = document.createElement('button'); btn.className = 'pill'; btn.setAttribute('data-category', category.id);
-        if (isImageValue(category.emoji)) { var img = document.createElement('img'); img.src = category.emoji; img.alt = category.name; img.loading = 'lazy'; btn.appendChild(img); }
-        else { btn.textContent = category.emoji + ' '; }
-        btn.appendChild(document.createTextNode(category.name)); container.appendChild(btn);
+      
+      var allBtn = document.createElement('button'); 
+      allBtn.className = 'pill active animate-card'; 
+      allBtn.setAttribute('data-category', 'all'); 
+      allBtn.textContent = 'All'; 
+      allBtn.style.animationDelay = '0s'; 
+      container.appendChild(allBtn);
+      
+      categories.forEach(function(category, index) {
+        var btn = document.createElement('button'); 
+        btn.className = 'pill animate-card'; 
+        btn.setAttribute('data-category', category.id);
+        btn.style.animationDelay = ((index + 1) * 0.05) + 's'; // Har pill 0.05s ke gap se aayega
+        
+        if (isImageValue(category.emoji)) { 
+          var img = document.createElement('img'); 
+          img.src = category.emoji; 
+          img.alt = category.name; 
+          img.loading = 'lazy'; 
+          btn.appendChild(img); 
+        } else { 
+          btn.textContent = category.emoji + ' '; 
+        }
+        btn.appendChild(document.createTextNode(category.name)); 
+        container.appendChild(btn);
       });
+      
       container.querySelectorAll('.pill').forEach(function(pill) {
-        pill.addEventListener('click', function() { container.querySelectorAll('.pill').forEach(p => p.classList.remove('active')); pill.classList.add('active'); currentFilter = pill.getAttribute('data-category'); renderProducts(); });
+        pill.addEventListener('click', function() { 
+          container.querySelectorAll('.pill').forEach(p => p.classList.remove('active')); 
+          pill.classList.add('active'); 
+          currentFilter = pill.getAttribute('data-category'); 
+          renderProducts(); 
+        });
       });
     }
     var currentFilter = 'all'; var searchQuery = '';
