@@ -60,37 +60,20 @@
     .product-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:22px; margin-bottom:30px; }
     @media (min-width:600px) { .product-grid { grid-template-columns:repeat(3,1fr); } }
     @media (min-width:900px) { .product-grid { grid-template-columns:repeat(4,1fr); } }
-    
     /* ============================================
        🎨 COMBO ANIMATION: 3D Bubble Pop + Neon Glow
        ============================================ */
     @keyframes bubbleMaterialize {
-      0% {
-        opacity: 0;
-        transform: scale(0.3) rotate(-3deg);
-        filter: blur(8px) drop-shadow(0 0 0px rgba(217, 181, 138, 0));
-      }
-      40% {
-        opacity: 1;
-        transform: scale(1.15) rotate(1deg);
-        filter: blur(0px) drop-shadow(0 0 20px rgba(217, 181, 138, 0.9));
-      }
-      70% {
-        transform: scale(0.95) rotate(-0.5deg);
-        filter: blur(0px) drop-shadow(0 0 10px rgba(217, 181, 138, 0.5));
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1) rotate(0deg);
-        filter: blur(0px) drop-shadow(0 0 0px rgba(217, 181, 138, 0));
-      }
+      0% { opacity: 0; transform: scale(0.3) rotate(-3deg); filter: blur(8px) drop-shadow(0 0 0px rgba(217, 181, 138, 0)); }
+      40% { opacity: 1; transform: scale(1.15) rotate(1deg); filter: blur(0px) drop-shadow(0 0 20px rgba(217, 181, 138, 0.9)); }
+      70% { transform: scale(0.95) rotate(-0.5deg); filter: blur(0px) drop-shadow(0 0 10px rgba(217, 181, 138, 0.5)); }
+      100% { opacity: 1; transform: scale(1) rotate(0deg); filter: blur(0px) drop-shadow(0 0 0px rgba(217, 181, 138, 0)); }
     }
     .animate-card {
       animation: bubbleMaterialize 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-      opacity: 0; /* Shuru mein invisible rahega */
+      opacity: 0;
     }
     /* ============================================ */
-
     .card { background: #fefcf9; border-radius: 32px; overflow: hidden; box-shadow: 0 12px 28px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.08), inset 0 0 0 2px rgba(255,255,255,0.6); display: flex; flex-direction: column; cursor: pointer; transition: transform 0.25s ease, box-shadow 0.25s ease; border: 2px solid #f0e0c9; padding: 0; position: relative; }
     .card:hover { transform: translateY(-10px) rotate(-1deg) scale(1.01); box-shadow: 0 25px 45px rgba(0,0,0,0.25), 0 6px 12px rgba(0,0,0,0.1); }
     .card::after { content: ''; position: absolute; top: 6px; left: 6px; right: 6px; bottom: 6px; border: 2px dashed #d9b58a; border-radius: 26px; pointer-events: none; opacity: 0.5; z-index: 1; }
@@ -280,39 +263,14 @@
     .admin-actions button { background:none; border:none; cursor:pointer; font-size:15px; margin-left:6px; transition:transform 0.15s; }
     .admin-actions button:hover { transform:scale(1.2); }
     .card.admin-mode { position:relative; }
-
-    /* ============================================
-       🎨 BOTTOM NAV WITH STICKER IMAGES
-       ============================================ */
     .bottom-nav { position:fixed; bottom:0; left:0; right:0; background:#fff; border-top:1px solid #eee; display:grid; grid-template-columns:repeat(4,1fr); align-items:center; padding:8px 0 10px; z-index:999; box-shadow:0 -2px 10px rgba(0,0,0,0.05); }
     .bottom-nav-btn { background:none; border:none; cursor:pointer; font-family:inherit; display:flex; align-items:center; justify-content:center; transition:all 0.2s; padding:4px 4px; position:relative; width:100%; overflow:hidden; }
     .bottom-nav-btn > * { position: relative; z-index: 2; }
-    .bottom-nav-btn .nav-icon-img {
-      width: 52px;
-      height: 52px;
-      object-fit: contain;
-      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.25s ease;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.12));
-      display: block;
-      pointer-events: none;
-    }
-    .bottom-nav-btn:hover .nav-icon-img {
-      transform: translateY(-2px) scale(1.08);
-      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.18));
-    }
-    .bottom-nav-btn.active .nav-icon-img {
-      transform: scale(1.15);
-      filter: drop-shadow(0 4px 10px rgba(217, 181, 138, 0.55));
-    }
-    .bottom-nav-btn:active .nav-icon-img {
-      transform: scale(0.95);
-    }
-
-    @media (max-width: 400px) {
-      .bottom-nav-btn .nav-icon-img { width: 46px; height: 46px; }
-    }
-    /* ============================================ */
-
+    .bottom-nav-btn .nav-icon-img { width: 52px; height: 52px; object-fit: contain; transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.25s ease; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.12)); display: block; pointer-events: none; }
+    .bottom-nav-btn:hover .nav-icon-img { transform: translateY(-2px) scale(1.08); filter: drop-shadow(0 4px 8px rgba(0,0,0,0.18)); }
+    .bottom-nav-btn.active .nav-icon-img { transform: scale(1.15); filter: drop-shadow(0 4px 10px rgba(217, 181, 138, 0.55)); }
+    .bottom-nav-btn:active .nav-icon-img { transform: scale(0.95); }
+    @media (max-width: 400px) { .bottom-nav-btn .nav-icon-img { width: 46px; height: 46px; } }
     .tab-section { display:none; }
     .tab-section.active { display:block; }
     .file-input-wrapper { position:relative; display:inline-block; cursor:pointer; }
@@ -444,9 +402,9 @@
           <input type="text" id="searchInput" placeholder="Search food..." autocomplete="off" />
         </div>
         <div class="search-suggestions" id="searchSuggestions"></div>
-        <div class="brand-name" id="brandName">Aura Cafe</div>
-        <button class="cart-btn" id="cartBtn" aria-label="Cart">🛒<span class="cart-badge" id="cartBadge" style="display:none;">0</span></button>
-        <button class="profile" id="customerProfileBtn" aria-label="Profile" style="position:relative;">
+        <div class="brand-name animate-card" id="brandName" style="animation-delay: 0s;">Aura Cafe</div>
+        <button class="cart-btn animate-card" id="cartBtn" aria-label="Cart" style="animation-delay: 0.1s;">🛒<span class="cart-badge" id="cartBadge" style="display:none;">0</span></button>
+        <button class="profile animate-card" id="customerProfileBtn" aria-label="Profile" style="position:relative; animation-delay: 0.2s;">
           <div class="avatar" id="customerAvatar">
             <img src="https://i.ibb.co/RpdwtSRh/avatar.png" alt="Avatar" />
           </div>
@@ -462,10 +420,9 @@
         </div>
         <div id="ownerOrdersList"></div>
       </div>
-
       <section id="menuSection" class="tab-section active">
         <div class="categories" id="categoryPillsContainer"></div>
-        <div class="image-banner" id="promoBanner">
+        <div class="image-banner animate-card" id="promoBanner" style="animation-delay: 0.3s;">
           <img src="/images/banner.png" alt="Aura Cafe Banner" loading="lazy" decoding="async" />
         </div>
         <div class="admin-panel" id="adminPanel">
@@ -538,7 +495,6 @@
         <div class="heading-row"><h1>Our Menu</h1><a id="viewAllBtn">View all</a></div>
         <div class="product-grid" id="productGrid"></div>
       </section>
-
       <section id="gallerySection" class="tab-section">
         <div class="section-title">Gallery</div>
         <div class="admin-gallery-controls" id="adminGalleryControls">
@@ -555,7 +511,6 @@
         </div>
         <div class="gallery-grid" id="galleryGrid"></div>
       </section>
-
       <section id="contactSection" class="tab-section">
         <div class="section-title">Info</div>
         <div class="admin-contact-controls" id="adminContactControls">
@@ -580,12 +535,11 @@
           </a>
         </div>
         <div class="info-grid">
-          <div class="info-card" id="addressCard"><h4>📍 Address</h4><p id="contactAddress">279 Prospect Rd,<br>Blair Athol SA 5084,<br>Australia</p></div>
-          <div class="info-card" id="phoneCard"><h4>📞 Phone</h4><p id="contactPhone">+61 478 706 251</p></div>
-          <div class="info-card" id="hoursCard"><h4>🕒 Opening Hours</h4><p id="contactHours">Monday – Sunday<br>6:00 AM – 9:00 PM</p></div>
+          <div class="info-card animate-card" id="addressCard" style="animation-delay: 0s;"><h4>📍 Address</h4><p id="contactAddress">279 Prospect Rd,<br>Blair Athol SA 5084,<br>Australia</p></div>
+          <div class="info-card animate-card" id="phoneCard" style="animation-delay: 0.1s;"><h4>📞 Phone</h4><p id="contactPhone">+61 478 706 251</p></div>
+          <div class="info-card animate-card" id="hoursCard" style="animation-delay: 0.2s;"><h4>🕒 Opening Hours</h4><p id="contactHours">Monday – Sunday<br>6:00 AM – 9:00 PM</p></div>
         </div>
       </section>
-
       <section id="ordersSection" class="tab-section">
         <div class="section-title">My Orders</div>
         <div class="orders-section-content">
@@ -605,11 +559,9 @@
       <div class="copyright">© 2026 Aura Cafe. All rights reserved.</div>
     </footer>
   </div>
-
   <button class="call-btn" id="callBtn" title="Call Us">
     <img src="https://i.ibb.co/zH5GG5H5/Gemini-Generated-Image-y95m0by95m0by95m.png" alt="Call" />
   </button>
-
   <div class="modal-overlay" id="customerAuthOverlay">
     <div class="modal">
       <button class="modal-close" id="customerAuthClose">&times;</button>
@@ -642,7 +594,6 @@
       </div>
     </div>
   </div>
-
   <div class="modal-overlay" id="productOverlay">
     <div class="modal">
       <button class="modal-close" id="productClose">&times;</button>
@@ -676,7 +627,6 @@
       </div>
     </div>
   </div>
-
   <div class="modal-overlay" id="cartOverlay">
     <div class="modal">
       <button class="modal-close" id="cartClose">&times;</button>
@@ -688,7 +638,6 @@
       </div>
     </div>
   </div>
-
   <div class="modal-overlay" id="orderOverlay">
     <div class="modal">
       <button class="modal-close" id="orderClose">&times;</button>
@@ -705,7 +654,6 @@
       </div>
     </div>
   </div>
-
   <div class="success-overlay" id="successOverlay">
     <div class="success-modal">
       <div class="success-checkmark">
@@ -722,16 +670,13 @@
     </div>
     <div class="confetti-container" id="confettiContainer"></div>
   </div>
-
   <div id="toastContainer"></div>
-
   <div class="modal-overlay" id="galleryLightboxOverlay">
     <div class="modal" style="max-width:90%; max-height:90%; background:transparent; box-shadow:none; border:none; overflow:visible;">
       <button class="modal-close" id="galleryLightboxClose" style="top:-10px; right:-10px; background:#fff;">&times;</button>
       <img id="galleryLightboxImage" src="" style="width:100%; height:auto; max-height:80vh; object-fit:contain; border-radius:12px; display:block;" />
     </div>
   </div>
-
   <div class="modal-overlay" id="editProductOverlay">
     <div class="modal">
       <button class="modal-close" id="editProductClose">&times;</button>
@@ -761,25 +706,21 @@
       </div>
     </div>
   </div>
-
-  <!-- ===== BOTTOM NAV WITH STICKER IMAGES ===== -->
   <nav class="bottom-nav" id="bottomNav">
-    <button class="bottom-nav-btn active" data-target="menuSection" aria-label="Menu">
+    <button class="bottom-nav-btn active animate-card" data-target="menuSection" aria-label="Menu" style="animation-delay: 0s;">
       <img class="nav-icon-img" src="/images/nav_menu.png" alt="Menu" />
     </button>
-    <button class="bottom-nav-btn" data-target="gallerySection" aria-label="Gallery">
+    <button class="bottom-nav-btn animate-card" data-target="gallerySection" aria-label="Gallery" style="animation-delay: 0.1s;">
       <img class="nav-icon-img" src="/images/nav_gallery.png" alt="Gallery" />
     </button>
-    <button class="bottom-nav-btn" data-target="contactSection" aria-label="Info">
+    <button class="bottom-nav-btn animate-card" data-target="contactSection" aria-label="Info" style="animation-delay: 0.2s;">
       <img class="nav-icon-img" src="/images/nav_info.png" alt="Info" />
     </button>
-    <button class="bottom-nav-btn" data-target="ordersSection" aria-label="Orders">
+    <button class="bottom-nav-btn animate-card" data-target="ordersSection" aria-label="Orders" style="animation-delay: 0.3s;">
       <img class="nav-icon-img" src="/images/nav_orders.png" alt="Orders" />
     </button>
   </nav>
-
   <input type="file" id="editGalleryFileInput" accept="image/*" style="display:none" />
-
   <script>
     (function() {
       function createOverlay() {
@@ -825,7 +766,6 @@
         });
       };
     })();
-
     const defaultProducts = [
       { id: 'pepperoni_pizza', emoji: '/images/pepperoni_pizza.png', name: 'Pepperoni Pizza', price: '$12.00', rating: '⭐ 4.8', category: 'pizza', description: 'Classic pizza topped with pepperoni and mozzarella.' },
       { id: 'classic_cheeseburger', emoji: '/images/classic_cheeseburger.png', name: 'Classic Cheeseburger', price: '$10.00', rating: '⭐ 4.6', category: 'burgers', description: 'Juicy beef patty with cheddar, lettuce, tomato, and onion.' },
@@ -852,7 +792,6 @@
       { id: 'loaded_veggie_pizza', emoji: '/images/loaded_veggie_pizza.png', name: 'Loaded Veggie Pizza', price: '$15.00', rating: '⭐ 4.7', category: 'pizza', description: 'Extra loaded with grilled vegetables and three cheese blend.' },
       { id: 'noodles', emoji: '/images/noodles.png', name: 'Noodles', price: '$9.00', rating: '⭐ 4.5', category: 'noodles', description: 'Stir-fried noodles with fresh vegetables and savory sauce.' }
     ];
-
     const defaultCategories = [
       { id: 'pizza', name: 'Pizza', emoji: '/images/pepperoni_pizza.png' },
       { id: 'drinks', name: 'Drinks', emoji: '/images/watermelon_soda.png' },
@@ -866,21 +805,18 @@
       { id: 'pasta', name: 'Pasta', emoji: '/images/creamy_vegetable_penne_pasta.png' },
       { id: 'noodles', name: 'Noodles', emoji: '/images/noodles.png' }
     ];
-
     const defaultGallery = ['', '', '', '', '', ''];
     const defaultOrders = [];
     const defaultCart = [];
     const defaultReviews = [];
     const defaultLoyalty = {};
     const defaultCustomers = [];
-
     var products = [], categories = [], galleryImages = [], orders = [], cart = [], reviews = [];
     var loyaltyPoints = {};
     var customers = [];
     var currentCustomer = null;
     var wishlistItems = [];
     var contactInfo = { address: '279 Prospect Rd, Blair Athol SA 5084, Australia', phone: '+61 478 706 251', hours: 'Monday – Sunday, 6:00 AM – 9:00 PM', social: { instagram: '', facebook: '', whatsapp: '+61 478 706 251' } };
-
     function loadData() {
       var CURRENT_VERSION = '2.2.0';
       var storedVersion = localStorage.getItem('samoon99_version');
@@ -905,7 +841,6 @@
       }
       updateContactUI(); updateSocialLinksUI(); updateCustomerUI();
     }
-
     function saveAll() { saveProducts(); saveCategories(); saveGallery(); saveOrders(); saveCart(); saveReviews(); saveLoyalty(); saveContact(); saveCustomers(); saveWishlist(); }
     function saveProducts() { localStorage.setItem('samoon99_products', JSON.stringify(products)); }
     function saveCategories() { localStorage.setItem('samoon99_categories', JSON.stringify(categories)); }
@@ -918,7 +853,6 @@
     function saveCustomers() { localStorage.setItem('samoon99_customers', JSON.stringify(customers)); }
     function saveWishlist() { localStorage.setItem('samoon99_wishlist', JSON.stringify(wishlistItems)); }
     function saveCurrentCustomer() { if (currentCustomer) localStorage.setItem('samoon99_currentCustomer', JSON.stringify(currentCustomer)); else localStorage.removeItem('samoon99_currentCustomer'); }
-
     function updateContactUI() {
       document.getElementById('contactAddress').innerHTML = contactInfo.address.replace(/\n/g, '<br>');
       document.getElementById('contactPhone').textContent = contactInfo.phone;
@@ -927,7 +861,6 @@
       document.getElementById('contactInlinePhone').value = contactInfo.phone;
       document.getElementById('contactInlineHours').value = contactInfo.hours;
     }
-
     function updateSocialLinksUI() {
       document.getElementById('socialInstagram').value = contactInfo.social.instagram || '';
       document.getElementById('socialFacebook').value = contactInfo.social.facebook || '';
@@ -941,9 +874,7 @@
       if (contactInfo.social.facebook) { fbCard.href = contactInfo.social.facebook; fbCard.setAttribute('data-url', contactInfo.social.facebook); fbHandle.textContent = 'Follow us'; }
       else { fbCard.href = '#'; fbCard.removeAttribute('data-url'); fbHandle.textContent = 'Follow us'; }
     }
-
     function isImageValue(value) { return /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp|svg))$/i.test(value) || value.startsWith('data:image/') || value.startsWith('/images/'); }
-
     function getEmojiOrImageHTML(value, size, shape) {
       size = size || 28;
       shape = shape || 'round';
@@ -952,7 +883,6 @@
       }
       return '<span style="font-size:' + size + 'px;display:inline-block;line-height:1;">' + (value || '🍽️') + '</span>';
     }
-
     function setImageOrEmoji(container, value, fontSize) {
       container.innerHTML = '';
       if (isImageValue(value)) {
@@ -978,9 +908,7 @@
         if (fontSize) container.style.fontSize = fontSize;
       }
     }
-
     function normalizePhone(phone) { return phone.replace(/\D/g, ''); }
-
     function customerLogin(email, password) {
       var customer = customers.find(c => c.email.toLowerCase() === email.toLowerCase() && c.password === password);
       if (!customer) { document.getElementById('customerAuthError').textContent = 'Invalid email or password'; return false; }
@@ -992,7 +920,6 @@
       customers.push(newCustomer); saveCustomers(); currentCustomer = newCustomer; saveCurrentCustomer(); updateCustomerUI(); renderOrdersDashboard(); document.getElementById('customerAuthOverlay').style.display = 'none'; return true;
     }
     function customerLogout() { currentCustomer = null; saveCurrentCustomer(); updateCustomerUI(); renderCartUI(); renderOrdersDashboard(); }
-
     function updateCustomerUI() {
       var avatar = document.getElementById('customerAvatar');
       if (currentCustomer && currentCustomer.name) {
@@ -1004,10 +931,8 @@
         avatar.title = 'Profile';
       }
     }
-
     (function() { emailjs.init("YOUR_PUBLIC_KEY"); })();
     function sendOrderNotification(order, customerEmail) { }
-
     var isLoggedIn = false;
     var adminCredentials = { email: 'Owner@Gmail.com', password: 'admin123' };
     function adminLogin(email, password) {
@@ -1032,7 +957,6 @@
         document.getElementById('adminGalleryControls').classList.remove('active'); document.getElementById('adminContactControls').classList.remove('active'); renderAll(); showToast('Logged out', 'info'); }
     }
     function updateNotifBadge() { var badge = document.getElementById('notifBadge'); if (orders.length > 0 && isLoggedIn) { badge.style.display = 'flex'; badge.textContent = orders.length; } else badge.style.display = 'none'; }
-
     function showToast(message, type) {
       var container = document.getElementById('toastContainer');
       var toast = document.createElement('div');
@@ -1053,7 +977,6 @@
         oscillator1.start(); oscillator2.start(audioContext.currentTime + 0.1); oscillator1.stop(audioContext.currentTime + 1.5); oscillator2.stop(audioContext.currentTime + 1.5);
       } catch(e) {}
     }
-
     function spawnWishlistRipple(btn) {
       var rect = btn.getBoundingClientRect();
       var ripple = document.createElement('span');
@@ -1097,7 +1020,6 @@
         (function(s) { setTimeout(function() { s.remove(); }, 1100); })(sp);
       }
     }
-
     function spawnActionParticles(btn, type) {
       if (!btn) return;
       var rect = btn.getBoundingClientRect();
@@ -1141,7 +1063,6 @@
         (function(el) { setTimeout(function() { el.remove(); }, 1300); })(p);
       }
     }
-
     function spawnNavRipple(btn) {
       var rect = btn.getBoundingClientRect();
       var ripple = document.createElement('span');
@@ -1156,7 +1077,6 @@
       btn.appendChild(ripple);
       setTimeout(function() { ripple.remove(); }, 750);
     }
-
     function renderAll() {
       renderCategoryPills(); renderProducts(); renderGallery(); renderAdminProductList(); renderAdminCategoryList();
       renderAdminOrdersList(); renderGalleryInlineList(); renderCartUI(); populateCategorySuggestions();
@@ -1176,8 +1096,6 @@
       });
     }
     var currentFilter = 'all'; var searchQuery = '';
-    
-    // 🔥 YAHAN CHANGE KIYA GAYA HAI (Animation add ki gayi hai)
     function renderProducts() {
       var grid = document.getElementById('productGrid'); grid.innerHTML = '';
       var filtered = products.filter(function(p) {
@@ -1191,8 +1109,7 @@
         card.className = 'card animate-card' + (isLoggedIn ? ' admin-mode' : '');
         card.setAttribute('data-id', product.id);
         card.setAttribute('data-description', product.description);
-        card.style.animationDelay = (index * 0.08) + 's'; // Har card 0.08s ke gap se aayega
-        
+        card.style.animationDelay = (index * 0.08) + 's';
         var isWishlisted = wishlistItems.indexOf(product.id) !== -1;
         card.innerHTML = '<button class="wishlist' + (isWishlisted ? ' active' : '') + '">' + (isWishlisted ? '♥' : '♡') + '</button>' +
           (isLoggedIn ? '<div class="admin-edit-delete"><button class="admin-edit-btn">✏️</button><button class="admin-delete-btn">🗑️</button></div>' : '') +
@@ -1209,7 +1126,6 @@
       });
       attachCardEvents();
     }
-
     function showProductSkeletons(count) {
       var grid = document.getElementById('productGrid');
       if (!grid) return;
@@ -1222,7 +1138,6 @@
         grid.appendChild(sk);
       }
     }
-
     function attachCardEvents() {
       document.querySelectorAll('.wishlist').forEach(btn => { 
         btn.addEventListener('click', function(e) { 
@@ -1282,7 +1197,6 @@
       document.getElementById('specialInstructionsInput').value = ''; renderReviews(product.id);
       document.getElementById('productOverlay').style.display = 'flex'; document.getElementById('reviewsSection').style.display = 'none'; document.getElementById('reviewsToggle').textContent = '💬 Show Reviews';
     }
-
     function openEditProductModal(product) {
       document.getElementById('editProductId').value = product.id;
       document.getElementById('editName').value = product.name;
@@ -1298,13 +1212,13 @@
       window.editProductImageData = null;
       document.getElementById('editProductOverlay').style.display = 'flex';
     }
-
     function renderGallery() {
       var grid = document.getElementById('galleryGrid');
       grid.innerHTML = '';
       galleryImages.forEach(function(img, index) {
         var item = document.createElement('div');
-        item.className = 'gallery-item';
+        item.className = 'gallery-item animate-card';
+        item.style.animationDelay = (index * 0.08) + 's';
         if (img) {
           if (isImageValue(img)) { item.style.backgroundImage = 'url("' + img + '")'; item.style.backgroundSize = 'cover'; item.style.backgroundPosition = 'center'; }
           else { item.textContent = img; }
@@ -1331,7 +1245,6 @@
       });
     }
     var editingGalleryIndex = -1; var currentProductId = null; var currentQty = 1; var currentProductToOrder = null; var orderContext = null;
-
     function renderAdminProductList() {
       var list = document.getElementById('adminProductList'); list.innerHTML = '';
       products.forEach(function(product) {
@@ -1384,7 +1297,6 @@
         topItem.appendChild(topDelBtn); topList.appendChild(topItem);
       });
     }
-
     function renderOrdersDashboard() {
       var container = document.getElementById('ordersListContainer'); if (!container) return; container.innerHTML = '';
       var activeTab = document.querySelector('.order-tab-btn.active')?.getAttribute('data-order-tab') || 'activeOrders';
@@ -1573,7 +1485,6 @@
         else { var googleMapsUrl = 'comgooglemaps://?q=' + query; var appleMapsUrl = 'https://maps.apple.com/?q=' + query; window.location.href = googleMapsUrl; setTimeout(function() { if (!document.hidden) { window.location.href = appleMapsUrl; } }, 500); }
       } else { window.open('https://www.google.com/maps/search/?api=1&query=' + query, '_blank'); }
     }
-
     document.getElementById('searchToggleBtn').addEventListener('click', function() { document.getElementById('searchContainer').classList.toggle('active'); if (document.getElementById('searchContainer').classList.contains('active')) document.getElementById('searchInput').focus(); else { document.getElementById('searchInput').value = ''; searchQuery = ''; renderProducts(); hideSearchSuggestions(); } });
     document.getElementById('searchInput').addEventListener('input', function() { searchQuery = this.value; renderProducts(); if (this.value.trim().length > 0) { showSearchSuggestions(this.value.trim().toLowerCase()); } else { hideSearchSuggestions(); } });
     document.addEventListener('click', function(e) { if (!e.target.closest('.search-container') && !e.target.closest('.search-suggestions')) { hideSearchSuggestions(); } });
@@ -1688,14 +1599,12 @@
     document.getElementById('ownerClearOrdersBtn').addEventListener('click', async function() { if (await confirm('Clear all orders?')) { orders = []; saveOrders(); renderAdminOrdersList(); renderOrdersDashboard(); updateNotifBadge(); showToast('All orders cleared', 'success'); } });
     document.querySelectorAll('.admin-tab-btn').forEach(btn => { btn.addEventListener('click', function() { document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active')); document.getElementById('admin' + btn.getAttribute('data-tab').charAt(0).toUpperCase() + btn.getAttribute('data-tab').slice(1) + 'Section').classList.add('active'); }); });
     if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').then(registration => console.log('SW registered:', registration.scope)).catch(err => console.log('SW registration failed:', err)); }); }
-
     loadData();
     checkLogin();
     showProductSkeletons(6);
     setTimeout(function() {
       renderAll();
     }, 250);
-
     document.getElementById('galleryLightboxClose').addEventListener('click', function() {
       document.getElementById('galleryLightboxOverlay').style.display = 'none';
       document.getElementById('galleryLightboxImage').src = '';
