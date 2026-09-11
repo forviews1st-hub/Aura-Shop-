@@ -959,7 +959,7 @@
     .edit-modal-buttons .cancel-btn:hover { background: #e0e0e0; }
 
     /* ============================================
-       🖐️ HAND INTRO ANIMATION
+       🖐️ HAND INTRO ANIMATION (FIXED)
        ============================================ */
     .hand-intro {
       position: fixed;
@@ -968,39 +968,49 @@
       pointer-events: none;
       overflow: hidden;
     }
-    .hand-fabric {
+
+    .hand-cloth {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
       background-color: #fdf6ec;
       background-image:
-        repeating-linear-gradient(45deg, rgba(217,181,138,0.08) 0px, rgba(217,181,138,0.08) 3px, transparent 3px, transparent 12px),
-        repeating-linear-gradient(-45deg, rgba(217,181,138,0.06) 0px, rgba(217,181,138,0.06) 3px, transparent 3px, transparent 12px),
+        repeating-linear-gradient(45deg, rgba(217,181,138,0.10) 0px, rgba(217,181,138,0.10) 3px, transparent 3px, transparent 12px),
+        repeating-linear-gradient(-45deg, rgba(217,181,138,0.08) 0px, rgba(217,181,138,0.08) 3px, transparent 3px, transparent 12px),
         radial-gradient(circle at 30% 20%, rgba(255,255,255,0.95) 0%, transparent 45%),
         radial-gradient(circle at 70% 80%, rgba(217,181,138,0.35) 0%, transparent 50%),
         linear-gradient(160deg, #fefcf9 0%, #fdf6ec 40%, #f0e0c9 100%);
       box-shadow:
-        inset 0 -60px 100px rgba(180,150,120,0.18),
+        inset 0 -60px 100px rgba(180,150,120,0.20),
         inset 0 30px 60px rgba(255,255,255,0.55);
-      transform-origin: top center;
-      transition: transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease;
-      will-change: transform, opacity;
+      opacity: 0;
+      clip-path: inset(0 0 0 0);
+      transition: opacity 0.4s ease, clip-path 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, clip-path;
+      z-index: 9998;
     }
-    .hand-fabric::before {
+    .hand-cloth::before {
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
       background-image:
-        repeating-linear-gradient(90deg, rgba(180,150,120,0.05) 0px, rgba(180,150,120,0.05) 1px, transparent 1px, transparent 6px);
+        repeating-linear-gradient(90deg, rgba(180,150,120,0.06) 0px, rgba(180,150,120,0.06) 1px, transparent 1px, transparent 6px);
       opacity: 0.7;
       pointer-events: none;
     }
+    .hand-cloth.visible {
+      opacity: 1;
+    }
+    .hand-cloth.pulling {
+      clip-path: inset(100% 0 0 0);
+    }
+
     .hand-wrapper {
       position: absolute;
       top: 0;
       left: 50%;
       transform: translate(-50%, -400px) scale(1);
-      width: 220px;
-      z-index: 99998;
+      width: 240px;
+      z-index: 99999;
       pointer-events: none;
       will-change: transform;
     }
@@ -1008,18 +1018,19 @@
       display: block;
       width: 100%;
       height: auto;
-      filter: drop-shadow(0 25px 35px rgba(120, 90, 50, 0.4));
+      filter: drop-shadow(0 25px 35px rgba(120, 90, 50, 0.45));
     }
     .hand-wrapper.no-img img { display: none; }
     .hand-wrapper.no-img::before {
       content: '🤚';
       display: block;
-      font-size: 180px;
+      font-size: 200px;
       line-height: 1;
       text-align: center;
-      filter: drop-shadow(0 25px 35px rgba(120, 90, 50, 0.4));
+      filter: drop-shadow(0 25px 35px rgba(120, 90, 50, 0.45));
       transform: rotate(180deg);
     }
+
     .scroll-hint {
       position: absolute;
       bottom: 110px;
@@ -1035,7 +1046,7 @@
       box-shadow: 0 12px 28px rgba(26, 26, 26, 0.55), 0 5px 12px rgba(217, 181, 138, 0.4), inset 0 2px 4px rgba(255,255,255,0.15);
       opacity: 0;
       pointer-events: none;
-      z-index: 99999;
+      z-index: 100000;
       transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
       text-shadow: 0 1px 3px rgba(0,0,0,0.5);
       letter-spacing: 0.5px;
@@ -1045,30 +1056,31 @@
       transform: translateX(-50%) translateY(0);
     }
 
+    /* Hand states — -20px keeps arm-cut above viewport */
     .hand-wrapper.approach {
-      transform: translate(-50%, 340px) scale(1);
+      transform: translate(-50%, -20px) scale(1);
       transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-    .hand-wrapper.try-1 { animation: handTry 0.35s ease-in-out; }
-    .hand-wrapper.try-2 { animation: handTry 0.35s ease-in-out; }
-    .hand-wrapper.try-3 { animation: handTry 0.35s ease-in-out; }
+    .hand-wrapper.try-1,
+    .hand-wrapper.try-2,
+    .hand-wrapper.try-3 {
+      animation: handTry 0.35s ease-in-out;
+    }
     @keyframes handTry {
-      0%   { transform: translate(-50%, 340px) scale(1); }
-      40%  { transform: translate(-50%, 315px) scale(1.06) rotate(-3deg); }
-      70%  { transform: translate(-50%, 330px) scale(1.02) rotate(2deg); }
-      100% { transform: translate(-50%, 340px) scale(1); }
+      0%   { transform: translate(-50%, -20px) scale(1); }
+      40%  { transform: translate(-50%, -5px)  scale(1.06) rotate(-3deg); }
+      70%  { transform: translate(-50%, -15px) scale(1.02) rotate(2deg); }
+      100% { transform: translate(-50%, -20px) scale(1); }
     }
     .hand-wrapper.grab {
-      transform: translate(-50%, 340px) scale(0.94);
+      transform: translate(-50%, -20px) scale(0.94);
       transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
     .hand-wrapper.pull {
-      transform: translate(-50%, 200px) scale(0.94);
+      transform: translate(-50%, -180px) scale(0.94);
       transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
     }
-    .hand-fabric.pulling {
-      transform: scaleY(0.72);
-    }
+
     .hand-intro.fade-out {
       opacity: 0;
       transition: opacity 0.45s ease;
@@ -1076,8 +1088,8 @@
     }
 
     @media (max-width: 500px) {
-      .hand-wrapper { width: 170px; }
-      .hand-wrapper.no-img::before { font-size: 140px; }
+      .hand-wrapper { width: 190px; }
+      .hand-wrapper.no-img::before { font-size: 160px; }
       .scroll-hint { font-size: 13px; padding: 12px 20px; bottom: 90px; }
     }
     /* ============================================ */
@@ -1103,7 +1115,7 @@
 <body>
   <!-- 🖐️ HAND INTRO ANIMATION -->
   <div class="hand-intro" id="handIntro">
-    <div class="hand-fabric" id="handFabric"></div>
+    <div class="hand-cloth" id="handCloth"></div>
     <div class="hand-wrapper" id="handWrapper">
       <img src="/images/hand.png" alt="" />
     </div>
@@ -2433,14 +2445,14 @@
     }
 
     /* ============================================
-       🖐️ HAND INTRO ANIMATION
+       🖐️ HAND INTRO ANIMATION (FIXED)
        ============================================ */
     (function initHandIntro() {
       var intro = document.getElementById('handIntro');
       var hand = document.getElementById('handWrapper');
-      var fabric = document.getElementById('handFabric');
+      var cloth = document.getElementById('handCloth');
       var hint = document.getElementById('scrollHint');
-      if (!intro || !hand || !fabric) return;
+      if (!intro || !hand || !cloth) return;
 
       var img = hand.querySelector('img');
       if (img) {
@@ -2452,8 +2464,13 @@
       var cycleTimer = null;
 
       function resetStates() {
+        // Instantly reset cloth (no transition flash)
+        cloth.style.transition = 'none';
+        cloth.classList.remove('visible', 'pulling');
+        void cloth.offsetWidth;
+        cloth.style.transition = '';
+
         hand.className = 'hand-wrapper';
-        fabric.className = 'hand-fabric';
         hint.classList.remove('show');
       }
 
@@ -2461,48 +2478,55 @@
         if (stopped) return;
         resetStates();
 
+        // 0.0s — Approach (hand slides down from above)
         requestAnimationFrame(function() {
           if (stopped) return;
           hand.classList.add('approach');
         });
 
+        // 0.7s — Try 1
         setTimeout(function() {
           if (stopped) return;
           hand.classList.remove('approach');
           hand.classList.add('approach', 'try-1');
         }, 700);
 
+        // 1.05s — Try 2
         setTimeout(function() {
           if (stopped) return;
           hand.classList.remove('try-1');
           hand.classList.add('try-2');
         }, 1050);
 
+        // 1.4s — Try 3
         setTimeout(function() {
           if (stopped) return;
           hand.classList.remove('try-2');
           hand.classList.add('try-3');
         }, 1400);
 
+        // 1.75s — Grab: cloth fades in over website
         setTimeout(function() {
           if (stopped) return;
           hand.classList.remove('try-3');
           hand.classList.add('grab');
+          cloth.classList.add('visible');
         }, 1750);
 
+        // 2.15s — Pull: cloth slides UP revealing website + hint
         setTimeout(function() {
           if (stopped) return;
-          fabric.classList.add('pulling');
           hand.classList.remove('grab');
           hand.classList.add('pull');
+          cloth.classList.add('pulling');
           hint.classList.add('show');
         }, 2150);
 
+        // 3.05s — Reset for next cycle
         setTimeout(function() {
           if (stopped) return;
-          fabric.classList.remove('pulling');
           resetStates();
-        }, 2950);
+        }, 3050);
       }
 
       setTimeout(function() {
@@ -2511,7 +2535,7 @@
         cycleTimer = setInterval(function() {
           if (stopped) return;
           playCycle();
-        }, 3000);
+        }, 3300);
       }, 1500);
 
       function stopIntro() {
