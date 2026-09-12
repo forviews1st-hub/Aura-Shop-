@@ -48,7 +48,7 @@
     .categories::-webkit-scrollbar { display:none; }
     .pill { flex:0 0 auto; background:#fff; border:none; border-radius:30px; padding:6px 16px 6px 6px; font-size:14px; font-weight:600; box-shadow:0 2px 6px rgba(0,0,0,0.05); cursor:pointer; white-space:nowrap; transition:all 0.2s; display:flex; align-items:center; gap:8px; color:#1A1A1A; border:1px solid #f0f0f0; }
     .pill:hover { box-shadow:0 4px 10px rgba(0,0,0,0.08); }
-    .pill img { width:28px; height:28px; border-radius:50%; object-fit:cover; box-shadow: 0 2px 5px rgba(0,0,0,0.15); border: 1.5px solid rgba(217,181,138,0.5); transition: transform 0.2s, box-shadow 0.2s; flex-shrink: 0; }
+    .pill img { width:28px; height:28px; border-radius:50%; object-fit:cover; box-shadow: 0 2px 5px rgba(0,0,0,0.15); border: 1.5px solid rgba(217,181,138,0.5); transition: transform 0.2s, box-shadow 0.2s, filter 0.7s ease, opacity 0.6s ease; flex-shrink: 0; }
     .pill:hover img { transform: scale(1.1); box-shadow: 0 3px 8px rgba(0,0,0,0.2); }
     .pill.active img { border-color: rgba(255,255,255,0.4); box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
     .pill.active { background:#1A1A1A; color:#fff; border-color:#1A1A1A; box-shadow:0 4px 12px rgba(26,26,26,0.25); padding: 6px 16px; }
@@ -66,10 +66,13 @@
       70% { transform: scale(0.95) rotate(-0.5deg); filter: blur(0px) drop-shadow(0 0 10px rgba(217, 181, 138, 0.5)); }
       100% { opacity: 1; transform: scale(1) rotate(0deg); filter: blur(0px) drop-shadow(0 0 0px rgba(217, 181, 138, 0)); }
     }
-    .animate-card {
-      animation: bubbleMaterialize 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-      opacity: 0;
-    }
+    .animate-card { animation: bubbleMaterialize 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; opacity: 0; }
+    img.img-fade-in { opacity: 0; filter: blur(14px); transition: opacity 0.6s ease, filter 0.7s ease; will-change: opacity, filter; }
+    img.img-fade-in.loaded { opacity: 1; filter: blur(0); }
+    .nav-icon-img.img-fade-in { filter: blur(8px) drop-shadow(0 2px 4px rgba(0,0,0,0.12)); }
+    .nav-icon-img.img-fade-in.loaded { filter: blur(0) drop-shadow(0 2px 4px rgba(0,0,0,0.12)); }
+    .pill img.img-fade-in { filter: blur(8px); }
+    .pill img.img-fade-in.loaded { filter: blur(0); }
     .card { background: #fefcf9; border-radius: 32px; overflow: hidden; box-shadow: 0 12px 28px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.08), inset 0 0 0 2px rgba(255,255,255,0.6); display: flex; flex-direction: column; cursor: pointer; transition: transform 0.25s ease, box-shadow 0.25s ease; border: 2px solid #f0e0c9; padding: 0; position: relative; }
     .card:hover { transform: translateY(-10px) rotate(-1deg) scale(1.01); box-shadow: 0 25px 45px rgba(0,0,0,0.25), 0 6px 12px rgba(0,0,0,0.1); }
     .card::after { content: ''; position: absolute; top: 6px; left: 6px; right: 6px; bottom: 6px; border: 2px dashed #d9b58a; border-radius: 26px; pointer-events: none; opacity: 0.5; z-index: 1; }
@@ -262,9 +265,9 @@
     .bottom-nav { position:fixed; bottom:0; left:0; right:0; background:#fff; border-top:1px solid #eee; display:grid; grid-template-columns:repeat(4,1fr); align-items:center; padding:8px 0 10px; z-index:999; box-shadow:0 -2px 10px rgba(0,0,0,0.05); }
     .bottom-nav-btn { background:none; border:none; cursor:pointer; font-family:inherit; display:flex; align-items:center; justify-content:center; transition:all 0.2s; padding:4px 4px; position:relative; width:100%; overflow:hidden; }
     .bottom-nav-btn > * { position: relative; z-index: 2; }
-    .bottom-nav-btn .nav-icon-img { width: 52px; height: 52px; object-fit: contain; transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.25s ease; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.12)); display: block; pointer-events: none; }
-    .bottom-nav-btn:hover .nav-icon-img { transform: translateY(-2px) scale(1.08); filter: drop-shadow(0 4px 8px rgba(0,0,0,0.18)); }
-    .bottom-nav-btn.active .nav-icon-img { transform: scale(1.15); filter: drop-shadow(0 4px 10px rgba(217, 181, 138, 0.55)); }
+    .bottom-nav-btn .nav-icon-img { width: 52px; height: 52px; object-fit: contain; transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.7s ease, opacity 0.6s ease; display: block; pointer-events: none; }
+    .bottom-nav-btn:hover .nav-icon-img { transform: translateY(-2px) scale(1.08); }
+    .bottom-nav-btn.active .nav-icon-img { transform: scale(1.15); }
     .bottom-nav-btn:active .nav-icon-img { transform: scale(0.95); }
     @media (max-width: 400px) { .bottom-nav-btn .nav-icon-img { width: 46px; height: 46px; } }
     .tab-section { display:none; }
@@ -402,7 +405,7 @@
         <button class="cart-btn animate-card" id="cartBtn" aria-label="Cart" style="animation-delay: 0.1s;">🛒<span class="cart-badge" id="cartBadge" style="display:none;">0</span></button>
         <button class="profile animate-card" id="customerProfileBtn" aria-label="Profile" style="position:relative; animation-delay: 0.2s;">
           <div class="avatar" id="customerAvatar">
-            <img src="https://i.ibb.co/RpdwtSRh/avatar.png" alt="Avatar" />
+            <img class="img-fade-in" src="https://i.ibb.co/RpdwtSRh/avatar.png" alt="Avatar" />
           </div>
           <span class="notif-badge" id="notifBadge" style="display:none;"></span>
         </button>
@@ -419,7 +422,7 @@
       <section id="menuSection" class="tab-section active">
         <div class="categories" id="categoryPillsContainer"></div>
         <div class="image-banner animate-card" id="promoBanner" style="animation-delay: 0.3s;">
-          <img src="/images/banner.png" alt="Aura Cafe Banner" loading="lazy" decoding="async" />
+          <img class="img-fade-in" src="/images/banner.png" alt="Aura Cafe Banner" decoding="async" />
         </div>
         <div class="admin-panel" id="adminPanel">
           <h3 style="margin-bottom:15px;">🛠️ Website Owner Panel</h3>
@@ -562,9 +565,7 @@
     </footer>
   </div>
   <button class="call-btn animate-card" id="bookTableBtn" title="Book a Table" style="animation-delay: 0.4s;">
-    <div style="width: 60px; height: 60px; background: linear-gradient(145deg, #ffffff 0%, #fdf6ec 45%, #ecdcc4 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(120, 90, 50, 0.3), inset 0 2px 4px rgba(255, 255, 255, 1); border: 2px solid #d9b58a;">
-      <i class="fas fa-calendar-check" style="font-size: 28px; color: #1A1A1A;"></i>
-    </div>
+    <img class="img-fade-in" src="/images/book_table.png" alt="Book a Table" style="width: 100%; height: auto; mix-blend-mode: multiply; object-fit: contain;" />
   </button>
   <div class="modal-overlay" id="customerAuthOverlay">
     <div class="modal">
@@ -731,64 +732,38 @@
   </div>
   <nav class="bottom-nav" id="bottomNav">
     <button class="bottom-nav-btn active animate-card" data-target="menuSection" aria-label="Menu" style="animation-delay: 0s;">
-      <img class="nav-icon-img" src="/images/nav_menu.png" alt="Menu" />
+      <img class="nav-icon-img img-fade-in" src="/images/nav_menu.png" alt="Menu" />
     </button>
     <button class="bottom-nav-btn animate-card" data-target="gallerySection" aria-label="Gallery" style="animation-delay: 0.1s;">
-      <img class="nav-icon-img" src="/images/nav_gallery.png" alt="Gallery" />
+      <img class="nav-icon-img img-fade-in" src="/images/nav_gallery.png" alt="Gallery" />
     </button>
     <button class="bottom-nav-btn animate-card" data-target="contactSection" aria-label="Info" style="animation-delay: 0.2s;">
-      <img class="nav-icon-img" src="/images/nav_info.png" alt="Info" />
+      <img class="nav-icon-img img-fade-in" src="/images/nav_info.png" alt="Info" />
     </button>
     <button class="bottom-nav-btn animate-card" data-target="ordersSection" aria-label="Orders" style="animation-delay: 0.3s;">
-      <img class="nav-icon-img" src="/images/nav_orders.png" alt="Orders" />
+      <img class="nav-icon-img img-fade-in" src="/images/nav_orders.png" alt="Orders" />
     </button>
   </nav>
   <input type="file" id="editGalleryFileInput" accept="image/*" style="display:none" />
   <script>
     (function() {
-      function createOverlay() {
-        var overlay = document.createElement('div');
-        overlay.className = 'custom-alert-overlay';
-        document.body.appendChild(overlay);
-        return overlay;
-      }
-      window.alert = function(message) {
-        var overlay = createOverlay();
-        var box = document.createElement('div');
-        box.className = 'custom-alert-box';
-        box.innerHTML = `<div class="custom-alert-icon">🔔</div><div class="custom-alert-title">Message</div><div class="custom-alert-message">${message}</div><button class="custom-alert-btn" id="customAlertOk">OK</button>`;
-        overlay.appendChild(box);
-        document.body.style.overflow = 'hidden';
-        document.getElementById('customAlertOk').addEventListener('click', function() { overlay.remove(); document.body.style.overflow = ''; });
-        overlay.addEventListener('click', function(e) { if (e.target === overlay) { overlay.remove(); document.body.style.overflow = ''; } });
-      };
-      window.confirm = function(message) {
-        return new Promise(function(resolve) {
-          var overlay = createOverlay();
-          var box = document.createElement('div');
-          box.className = 'custom-alert-box';
-          box.innerHTML = `<div class="custom-alert-icon">❓</div><div class="custom-alert-title">Please Confirm</div><div class="custom-alert-message">${message}</div><button class="custom-alert-btn" id="customConfirmOk">OK</button><button class="custom-alert-btn secondary" id="customConfirmCancel">Cancel</button>`;
-          overlay.appendChild(box);
-          document.body.style.overflow = 'hidden';
-          document.getElementById('customConfirmOk').addEventListener('click', function() { overlay.remove(); document.body.style.overflow = ''; resolve(true); });
-          document.getElementById('customConfirmCancel').addEventListener('click', function() { overlay.remove(); document.body.style.overflow = ''; resolve(false); });
-          overlay.addEventListener('click', function(e) { if (e.target === overlay) { overlay.remove(); document.body.style.overflow = ''; resolve(false); } });
-        });
-      };
-      window.prompt = function(message, defaultValue) {
-        return new Promise(function(resolve) {
-          var overlay = createOverlay();
-          var box = document.createElement('div');
-          box.className = 'custom-alert-box';
-          box.innerHTML = `<div class="custom-alert-icon">✏️</div><div class="custom-alert-title">Input Required</div><div class="custom-alert-message">${message}</div><input class="custom-prompt-input" id="customPromptInput" value="${defaultValue || ''}" /><button class="custom-alert-btn" id="customPromptOk">OK</button><button class="custom-alert-btn secondary" id="customPromptCancel">Cancel</button>`;
-          overlay.appendChild(box);
-          document.body.style.overflow = 'hidden';
-          document.getElementById('customPromptOk').addEventListener('click', function() { var val = document.getElementById('customPromptInput').value; overlay.remove(); document.body.style.overflow = ''; resolve(val); });
-          document.getElementById('customPromptCancel').addEventListener('click', function() { overlay.remove(); document.body.style.overflow = ''; resolve(null); });
-          overlay.addEventListener('click', function(e) { if (e.target === overlay) { overlay.remove(); document.body.style.overflow = ''; resolve(null); } });
-        });
-      };
+      function createOverlay() { var overlay = document.createElement('div'); overlay.className = 'custom-alert-overlay'; document.body.appendChild(overlay); return overlay; }
+      window.alert = function(message) { var overlay = createOverlay(); var box = document.createElement('div'); box.className = 'custom-alert-box'; box.innerHTML = `<div class="custom-alert-icon">🔔</div><div class="custom-alert-title">Message</div><div class="custom-alert-message">${message}</div><button class="custom-alert-btn" id="customAlertOk">OK</button>`; overlay.appendChild(box); document.body.style.overflow = 'hidden'; document.getElementById('customAlertOk').addEventListener('click', function() { overlay.remove(); document.body.style.overflow = ''; }); overlay.addEventListener('click', function(e) { if (e.target === overlay) { overlay.remove(); document.body.style.overflow = ''; } }); };
+      window.confirm = function(message) { return new Promise(function(resolve) { var overlay = createOverlay(); var box = document.createElement('div'); box.className = 'custom-alert-box'; box.innerHTML = `<div class="custom-alert-icon">❓</div><div class="custom-alert-title">Please Confirm</div><div class="custom-alert-message">${message}</div><button class="custom-alert-btn" id="customConfirmOk">OK</button><button class="custom-alert-btn secondary" id="customConfirmCancel">Cancel</button>`; overlay.appendChild(box); document.body.style.overflow = 'hidden'; document.getElementById('customConfirmOk').addEventListener('click', function() { overlay.remove(); document.body.style.overflow = ''; resolve(true); }); document.getElementById('customConfirmCancel').addEventListener('click', function() { overlay.remove(); document.body.style.overflow = ''; resolve(false); }); overlay.addEventListener('click', function(e) { if (e.target === overlay) { overlay.remove(); document.body.style.overflow = ''; resolve(false); } }); }); };
+      window.prompt = function(message, defaultValue) { return new Promise(function(resolve) { var overlay = createOverlay(); var box = document.createElement('div'); box.className = 'custom-alert-box'; box.innerHTML = `<div class="custom-alert-icon">✏️</div><div class="custom-alert-title">Input Required</div><div class="custom-alert-message">${message}</div><input class="custom-prompt-input" id="customPromptInput" value="${defaultValue || ''}" /><button class="custom-alert-btn" id="customPromptOk">OK</button><button class="custom-alert-btn secondary" id="customPromptCancel">Cancel</button>`; overlay.appendChild(box); document.body.style.overflow = 'hidden'; document.getElementById('customPromptOk').addEventListener('click', function() { var val = document.getElementById('customPromptInput').value; overlay.remove(); document.body.style.overflow = ''; resolve(val); }); document.getElementById('customPromptCancel').addEventListener('click', function() { overlay.remove(); document.body.style.overflow = ''; resolve(null); }); overlay.addEventListener('click', function(e) { if (e.target === overlay) { overlay.remove(); document.body.style.overflow = ''; resolve(null); } }); }); };
     })();
+
+    function applyFadeIn(img) {
+      if (!img || img.classList.contains('img-fade-in')) { if (img && img.complete && img.naturalHeight !== 0) img.classList.add('loaded'); return; }
+      img.loading = 'eager'; img.classList.add('img-fade-in');
+      if (img.complete && img.naturalHeight !== 0) { img.classList.add('loaded'); }
+      else { img.addEventListener('load', function() { img.classList.add('loaded'); }); img.addEventListener('error', function() { img.classList.add('loaded'); }); }
+    }
+    function applyFadeInToAll() {
+      document.querySelectorAll('img:not(.img-fade-in)').forEach(function(img) { applyFadeIn(img); });
+      document.querySelectorAll('img.img-fade-in:not(.loaded)').forEach(function(img) { if (img.complete && img.naturalHeight !== 0) img.classList.add('loaded'); });
+    }
+
     const defaultProducts = [
       { id: 'pepperoni_pizza', emoji: '/images/pepperoni_pizza.png', name: 'Pepperoni Pizza', price: '$12.00', rating: '⭐ 4.8', category: 'pizza', description: 'Classic pizza topped with pepperoni and mozzarella.' },
       { id: 'classic_cheeseburger', emoji: '/images/classic_cheeseburger.png', name: 'Classic Cheeseburger', price: '$10.00', rating: '⭐ 4.6', category: 'burgers', description: 'Juicy beef patty with cheddar, lettuce, tomato, and onion.' },
@@ -829,40 +804,31 @@
       { id: 'noodles', name: 'Noodles', emoji: '/images/noodles.png' }
     ];
     const defaultGallery = ['', '', '', '', '', ''];
-    const defaultOrders = [];
-    const defaultCart = [];
-    const defaultReviews = [];
-    const defaultLoyalty = {};
-    const defaultCustomers = [];
     var products = [], categories = [], galleryImages = [], orders = [], cart = [], reviews = [], bookings = [];
     var loyaltyPoints = {};
     var customers = [];
     var currentCustomer = null;
     var wishlistItems = [];
     var contactInfo = { address: '279 Prospect Rd, Blair Athol SA 5084, Australia', phone: '+61 478 706 251', hours: 'Monday – Sunday, 6:00 AM – 9:00 PM', social: { instagram: '', facebook: '', whatsapp: '+61 478 706 251' } };
+
     function loadData() {
-      var CURRENT_VERSION = '2.3.0';
+      var CURRENT_VERSION = '2.3.1';
       var storedVersion = localStorage.getItem('samoon99_version');
       if (storedVersion !== CURRENT_VERSION) { localStorage.clear(); localStorage.setItem('samoon99_version', CURRENT_VERSION); }
       try {
         products = JSON.parse(localStorage.getItem('samoon99_products')) || defaultProducts.slice(); saveProducts();
         categories = JSON.parse(localStorage.getItem('samoon99_categories')) || defaultCategories.slice(); saveCategories();
         galleryImages = JSON.parse(localStorage.getItem('samoon99_gallery')) || defaultGallery.slice(); saveGallery();
-        orders = JSON.parse(localStorage.getItem('samoon99_orders')) || defaultOrders.slice(); saveOrders();
+        orders = JSON.parse(localStorage.getItem('samoon99_orders')) || []; saveOrders();
         bookings = JSON.parse(localStorage.getItem('samoon99_bookings')) || [];
-        cart = JSON.parse(localStorage.getItem('samoon99_cart')) || defaultCart.slice(); saveCart();
-        reviews = JSON.parse(localStorage.getItem('samoon99_reviews')) || defaultReviews.slice(); saveReviews();
-        loyaltyPoints = JSON.parse(localStorage.getItem('samoon99_loyalty')) || defaultLoyalty; saveLoyalty();
-        customers = JSON.parse(localStorage.getItem('samoon99_customers')) || defaultCustomers.slice(); saveCustomers();
+        cart = JSON.parse(localStorage.getItem('samoon99_cart')) || []; saveCart();
+        reviews = JSON.parse(localStorage.getItem('samoon99_reviews')) || []; saveReviews();
+        loyaltyPoints = JSON.parse(localStorage.getItem('samoon99_loyalty')) || {}; saveLoyalty();
+        customers = JSON.parse(localStorage.getItem('samoon99_customers')) || []; saveCustomers();
         currentCustomer = JSON.parse(localStorage.getItem('samoon99_currentCustomer')) || null;
         wishlistItems = JSON.parse(localStorage.getItem('samoon99_wishlist')) || [];
         contactInfo = JSON.parse(localStorage.getItem('samoon99_contact')) || contactInfo; saveContact();
-      } catch(e) {
-        products = defaultProducts.slice(); categories = defaultCategories.slice(); galleryImages = defaultGallery.slice();
-        orders = []; cart = []; reviews = []; loyaltyPoints = {}; customers = []; currentCustomer = null; wishlistItems = []; bookings = [];
-        contactInfo = { address:'279 Prospect Rd, Blair Athol SA 5084, Australia', phone:'+61 478 706 251', hours:'Monday – Sunday, 6:00 AM – 9:00 PM', social:{ instagram:'', facebook:'', whatsapp:'+61 478 706 251' } };
-        saveAll();
-      }
+      } catch(e) { products = defaultProducts.slice(); categories = defaultCategories.slice(); galleryImages = defaultGallery.slice(); orders = []; cart = []; reviews = []; loyaltyPoints = {}; customers = []; currentCustomer = null; wishlistItems = []; bookings = []; saveAll(); }
       updateContactUI(); updateSocialLinksUI(); updateCustomerUI();
     }
     function saveAll() { saveProducts(); saveCategories(); saveGallery(); saveOrders(); saveCart(); saveReviews(); saveLoyalty(); saveContact(); saveCustomers(); saveWishlist(); saveBookings(); }
@@ -878,431 +844,71 @@
     function saveCustomers() { localStorage.setItem('samoon99_customers', JSON.stringify(customers)); }
     function saveWishlist() { localStorage.setItem('samoon99_wishlist', JSON.stringify(wishlistItems)); }
     function saveCurrentCustomer() { if (currentCustomer) localStorage.setItem('samoon99_currentCustomer', JSON.stringify(currentCustomer)); else localStorage.removeItem('samoon99_currentCustomer'); }
-    function updateContactUI() {
-      document.getElementById('contactAddress').innerHTML = contactInfo.address.replace(/\n/g, '<br>');
-      document.getElementById('contactPhone').textContent = contactInfo.phone;
-      document.getElementById('contactHours').innerHTML = contactInfo.hours.replace(/\n/g, '<br>');
-      document.getElementById('contactInlineAddress').value = contactInfo.address;
-      document.getElementById('contactInlinePhone').value = contactInfo.phone;
-      document.getElementById('contactInlineHours').value = contactInfo.hours;
-    }
-    function updateSocialLinksUI() {
-      document.getElementById('socialInstagram').value = contactInfo.social.instagram || '';
-      document.getElementById('socialFacebook').value = contactInfo.social.facebook || '';
-      document.getElementById('socialWhatsApp').value = contactInfo.social.whatsapp || '';
-      var instaCard = document.getElementById('instagramSocialCard');
-      var fbCard = document.getElementById('facebookSocialCard');
-      var instaHandle = document.getElementById('instagramHandle');
-      var fbHandle = document.getElementById('facebookHandle');
-      if (contactInfo.social.instagram) { instaCard.href = contactInfo.social.instagram; instaCard.setAttribute('data-url', contactInfo.social.instagram); instaHandle.textContent = 'Follow us'; }
-      else { instaCard.href = '#'; instaCard.removeAttribute('data-url'); instaHandle.textContent = 'Follow us'; }
-      if (contactInfo.social.facebook) { fbCard.href = contactInfo.social.facebook; fbCard.setAttribute('data-url', contactInfo.social.facebook); fbHandle.textContent = 'Follow us'; }
-      else { fbCard.href = '#'; fbCard.removeAttribute('data-url'); fbHandle.textContent = 'Follow us'; }
-    }
+
+    function updateContactUI() { document.getElementById('contactAddress').innerHTML = contactInfo.address.replace(/\n/g, '<br>'); document.getElementById('contactPhone').textContent = contactInfo.phone; document.getElementById('contactHours').innerHTML = contactInfo.hours.replace(/\n/g, '<br>'); document.getElementById('contactInlineAddress').value = contactInfo.address; document.getElementById('contactInlinePhone').value = contactInfo.phone; document.getElementById('contactInlineHours').value = contactInfo.hours; }
+    function updateSocialLinksUI() { document.getElementById('socialInstagram').value = contactInfo.social.instagram || ''; document.getElementById('socialFacebook').value = contactInfo.social.facebook || ''; document.getElementById('socialWhatsApp').value = contactInfo.social.whatsapp || ''; var instaCard = document.getElementById('instagramSocialCard'); var fbCard = document.getElementById('facebookSocialCard'); if (contactInfo.social.instagram) { instaCard.href = contactInfo.social.instagram; instaCard.setAttribute('data-url', contactInfo.social.instagram); } else { instaCard.href = '#'; instaCard.removeAttribute('data-url'); } if (contactInfo.social.facebook) { fbCard.href = contactInfo.social.facebook; fbCard.setAttribute('data-url', contactInfo.social.facebook); } else { fbCard.href = '#'; fbCard.removeAttribute('data-url'); } }
+
     function isImageValue(value) { return /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp|svg))$/i.test(value) || value.startsWith('data:image/') || value.startsWith('/images/'); }
-    function getEmojiOrImageHTML(value, size, shape) {
-      size = size || 28;
-      shape = shape || 'round';
-      if (isImageValue(value)) {
-        return '<img src="' + value + '" style="width:' + size + 'px;height:' + size + 'px;border-radius:' + (shape === 'round' ? '50%' : '8px') + ';object-fit:cover;box-shadow:0 2px 4px rgba(0,0,0,0.1);flex-shrink:0;" />';
-      }
-      return '<span style="font-size:' + size + 'px;display:inline-block;line-height:1;">' + (value || '🍽️') + '</span>';
-    }
-    function setImageOrEmoji(container, value, fontSize) {
-      container.innerHTML = '';
-      if (isImageValue(value)) {
-        var img = document.createElement('img'); 
-        img.src = value; 
-        img.alt = '';
-        img.loading = 'lazy';
-        img.decoding = 'async';
-        img.style.maxWidth = '100%'; 
-        img.style.maxHeight = '100%'; 
-        img.style.objectFit = 'cover'; 
-        img.style.borderRadius = '12px';
-        img.classList.add('img-fade-in');
-        if (img.complete && img.naturalHeight !== 0) {
-          img.classList.add('loaded');
-        } else {
-          img.addEventListener('load', function() { img.classList.add('loaded'); });
-          img.addEventListener('error', function() { img.classList.add('loaded'); });
-        }
-        container.appendChild(img);
-      } else {
-        container.textContent = value || '🍽️';
-        if (fontSize) container.style.fontSize = fontSize;
-      }
-    }
+    function getEmojiOrImageHTML(value, size, shape) { size = size || 28; shape = shape || 'round'; if (isImageValue(value)) { return '<img class="img-fade-in" src="' + value + '" style="width:' + size + 'px;height:' + size + 'px;border-radius:' + (shape === 'round' ? '50%' : '8px') + ';object-fit:cover;box-shadow:0 2px 4px rgba(0,0,0,0.1);flex-shrink:0;" />'; } return '<span style="font-size:' + size + 'px;display:inline-block;line-height:1;">' + (value || '🍽️') + '</span>'; }
+    function setImageOrEmoji(container, value, fontSize) { container.innerHTML = ''; if (isImageValue(value)) { var img = document.createElement('img'); img.src = value; img.alt = ''; img.loading = 'eager'; img.decoding = 'async'; img.style.maxWidth = '100%'; img.style.maxHeight = '100%'; img.style.objectFit = 'cover'; img.style.borderRadius = '12px'; applyFadeIn(img); container.appendChild(img); } else { container.textContent = value || '🍽️'; if (fontSize) container.style.fontSize = fontSize; } }
     function normalizePhone(phone) { return phone.replace(/\D/g, ''); }
-    function customerLogin(email, password) {
-      var customer = customers.find(c => c.email.toLowerCase() === email.toLowerCase() && c.password === password);
-      if (!customer) { document.getElementById('customerAuthError').textContent = 'Invalid email or password'; return false; }
-      currentCustomer = customer; saveCurrentCustomer(); updateCustomerUI(); renderOrdersDashboard(); document.getElementById('customerAuthOverlay').style.display = 'none'; return true;
-    }
-    function customerRegister(name, email, password) {
-      if (customers.some(c => c.email.toLowerCase() === email.toLowerCase())) { document.getElementById('customerAuthError').textContent = 'Email already registered'; return false; }
-      var newCustomer = { id: Date.now().toString(), name, email, password, addresses: [], orders: [] };
-      customers.push(newCustomer); saveCustomers(); currentCustomer = newCustomer; saveCurrentCustomer(); updateCustomerUI(); renderOrdersDashboard(); document.getElementById('customerAuthOverlay').style.display = 'none'; return true;
-    }
+
+    function customerLogin(email, password) { var customer = customers.find(c => c.email.toLowerCase() === email.toLowerCase() && c.password === password); if (!customer) { document.getElementById('customerAuthError').textContent = 'Invalid email or password'; return false; } currentCustomer = customer; saveCurrentCustomer(); updateCustomerUI(); renderOrdersDashboard(); document.getElementById('customerAuthOverlay').style.display = 'none'; return true; }
+    function customerRegister(name, email, password) { if (customers.some(c => c.email.toLowerCase() === email.toLowerCase())) { document.getElementById('customerAuthError').textContent = 'Email already registered'; return false; } var newCustomer = { id: Date.now().toString(), name, email, password, addresses: [], orders: [] }; customers.push(newCustomer); saveCustomers(); currentCustomer = newCustomer; saveCurrentCustomer(); updateCustomerUI(); renderOrdersDashboard(); document.getElementById('customerAuthOverlay').style.display = 'none'; return true; }
     function customerLogout() { currentCustomer = null; saveCurrentCustomer(); updateCustomerUI(); renderCartUI(); renderOrdersDashboard(); }
-    function updateCustomerUI() {
-      var avatar = document.getElementById('customerAvatar');
-      if (currentCustomer && currentCustomer.name) {
-        var initial = currentCustomer.name.trim().charAt(0).toUpperCase();
-        avatar.innerHTML = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#1A1A1A;color:#fff;font-weight:800;font-size:18px;border-radius:50%;">' + initial + '</div>';
-        avatar.title = currentCustomer.name;
-      } else {
-        avatar.innerHTML = '<img src="https://i.ibb.co/RpdwtSRh/avatar.png" alt="Avatar" />';
-        avatar.title = 'Profile';
-      }
-    }
+    function updateCustomerUI() { var avatar = document.getElementById('customerAvatar'); if (currentCustomer && currentCustomer.name) { var initial = currentCustomer.name.trim().charAt(0).toUpperCase(); avatar.innerHTML = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#1A1A1A;color:#fff;font-weight:800;font-size:18px;border-radius:50%;">' + initial + '</div>'; avatar.title = currentCustomer.name; } else { avatar.innerHTML = '<img class="img-fade-in" src="https://i.ibb.co/RpdwtSRh/avatar.png" alt="Avatar" />'; avatar.title = 'Profile'; applyFadeInToAll(); } }
+
     (function() { emailjs.init("YOUR_PUBLIC_KEY"); })();
     function sendOrderNotification(order, customerEmail) { }
     var isLoggedIn = false;
     var adminCredentials = { email: 'Owner@Gmail.com', password: 'admin123' };
-    function adminLogin(email, password) {
-      if (email.toLowerCase() === adminCredentials.email.toLowerCase() && password === adminCredentials.password) {
-        isLoggedIn = true; localStorage.setItem('samoon99_loggedin', 'true'); updateCustomerUI();
-        document.getElementById('adminPanel').classList.add('active'); document.getElementById('ownerOrdersPanel').style.display = 'block';
-        document.getElementById('adminGalleryControls').classList.add('active'); document.getElementById('adminContactControls').classList.add('active');
-        document.getElementById('customerAuthOverlay').style.display = 'none'; document.getElementById('ownerLoginError').textContent = '';
-        updateNotifBadge(); renderAll(); showToast('Welcome back, Owner! 👑', 'success'); return true;
-      } else { document.getElementById('ownerLoginError').textContent = 'Invalid email or password'; return false; }
-    }
-    function checkLogin() {
-      if (localStorage.getItem('samoon99_loggedin') === 'true') {
-        isLoggedIn = true; updateCustomerUI(); document.getElementById('adminPanel').classList.add('active');
-        document.getElementById('ownerOrdersPanel').style.display = 'block'; document.getElementById('adminGalleryControls').classList.add('active');
-        document.getElementById('adminContactControls').classList.add('active'); updateNotifBadge();
-      }
-    }
-    async function logout() {
-      if (await confirm('Logout?')) { isLoggedIn = false; localStorage.removeItem('samoon99_loggedin'); updateCustomerUI();
-        document.getElementById('adminPanel').classList.remove('active'); document.getElementById('ownerOrdersPanel').style.display = 'none';
-        document.getElementById('adminGalleryControls').classList.remove('active'); document.getElementById('adminContactControls').classList.remove('active'); renderAll(); showToast('Logged out', 'info'); }
-    }
+    function adminLogin(email, password) { if (email.toLowerCase() === adminCredentials.email.toLowerCase() && password === adminCredentials.password) { isLoggedIn = true; localStorage.setItem('samoon99_loggedin', 'true'); updateCustomerUI(); document.getElementById('adminPanel').classList.add('active'); document.getElementById('ownerOrdersPanel').style.display = 'block'; document.getElementById('adminGalleryControls').classList.add('active'); document.getElementById('adminContactControls').classList.add('active'); document.getElementById('customerAuthOverlay').style.display = 'none'; document.getElementById('ownerLoginError').textContent = ''; updateNotifBadge(); renderAll(); showToast('Welcome back, Owner! 👑', 'success'); return true; } else { document.getElementById('ownerLoginError').textContent = 'Invalid email or password'; return false; } }
+    function checkLogin() { if (localStorage.getItem('samoon99_loggedin') === 'true') { isLoggedIn = true; updateCustomerUI(); document.getElementById('adminPanel').classList.add('active'); document.getElementById('ownerOrdersPanel').style.display = 'block'; document.getElementById('adminGalleryControls').classList.add('active'); document.getElementById('adminContactControls').classList.add('active'); updateNotifBadge(); } }
+    async function logout() { if (await confirm('Logout?')) { isLoggedIn = false; localStorage.removeItem('samoon99_loggedin'); updateCustomerUI(); document.getElementById('adminPanel').classList.remove('active'); document.getElementById('ownerOrdersPanel').style.display = 'none'; document.getElementById('adminGalleryControls').classList.remove('active'); document.getElementById('adminContactControls').classList.remove('active'); renderAll(); showToast('Logged out', 'info'); } }
     function updateNotifBadge() { var badge = document.getElementById('notifBadge'); if (orders.length > 0 && isLoggedIn) { badge.style.display = 'flex'; badge.textContent = orders.length; } else badge.style.display = 'none'; }
-    function showToast(message, type) {
-      var container = document.getElementById('toastContainer');
-      var toast = document.createElement('div');
-      toast.className = 'toast ' + (type || 'info');
-      var icon = type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️';
-      toast.innerHTML = '<span class="toast-icon">' + icon + '</span><span>' + message + '</span>';
-      container.appendChild(toast);
-      setTimeout(function() { toast.remove(); }, 3000);
-    }
-    function playOrderSound() {
-      try {
-        var audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        var oscillator1 = audioContext.createOscillator(); var oscillator2 = audioContext.createOscillator(); var gainNode = audioContext.createGain();
-        oscillator1.type = 'sine'; oscillator1.frequency.setValueAtTime(880, audioContext.currentTime);
-        oscillator2.type = 'sine'; oscillator2.frequency.setValueAtTime(1320, audioContext.currentTime + 0.1);
-        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime); gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 1.5);
-        oscillator1.connect(gainNode); oscillator2.connect(gainNode); gainNode.connect(audioContext.destination);
-        oscillator1.start(); oscillator2.start(audioContext.currentTime + 0.1); oscillator1.stop(audioContext.currentTime + 1.5); oscillator2.stop(audioContext.currentTime + 1.5);
-      } catch(e) {}
-    }
-    function spawnWishlistRipple(btn) {
-      var rect = btn.getBoundingClientRect();
-      var ripple = document.createElement('span');
-      ripple.className = 'wishlist-ripple';
-      var size = rect.width * 1.1;
-      ripple.style.width = size + 'px'; ripple.style.height = size + 'px'; ripple.style.left = '0'; ripple.style.top = '0';
-      btn.appendChild(ripple);
-      setTimeout(function() { ripple.remove(); }, 750);
-    }
-    function spawnFloatingHearts(btn) {
-      var rect = btn.getBoundingClientRect();
-      var baseX = rect.left + rect.width / 2; var baseY = rect.top + rect.height / 2;
-      var heartChars = ['❤️', '💖', '💗'];
-      for (var i = 0; i < 3; i++) {
-        var heart = document.createElement('span');
-        heart.className = 'floating-heart';
-        heart.textContent = heartChars[i % heartChars.length];
-        heart.style.left = (baseX - 10) + 'px'; heart.style.top = (baseY - 10) + 'px';
-        heart.style.setProperty('--tx1', (Math.random() * 34 - 17) + 'px');
-        heart.style.setProperty('--tx2', (Math.random() * 70 - 35) + 'px');
-        heart.style.animationDelay = (i * 0.08) + 's';
-        heart.style.fontSize = (12 + Math.random() * 7) + 'px';
-        document.body.appendChild(heart);
-        (function(h) { setTimeout(function() { h.remove(); }, 1400); })(heart);
-      }
-    }
-    function spawnSparkles(btn) {
-      var rect = btn.getBoundingClientRect();
-      var baseX = rect.left + rect.width / 2; var baseY = rect.top + rect.height / 2;
-      var sparkleChars = ['✨', '⭐', '💫', '🌟'];
-      for (var i = 0; i < 4; i++) {
-        var sp = document.createElement('span');
-        sp.className = 'wishlist-sparkle';
-        sp.textContent = sparkleChars[i % sparkleChars.length];
-        sp.style.left = (baseX - 7) + 'px'; sp.style.top = (baseY - 7) + 'px';
-        var angle = (Math.PI * 2 * i) / 4 - Math.PI / 2;
-        sp.style.setProperty('--sx', Math.round(Math.cos(angle) * 28) + 'px');
-        sp.style.setProperty('--sy', Math.round(Math.sin(angle) * 28) + 'px');
-        sp.style.animationDelay = (i * 0.04) + 's';
-        document.body.appendChild(sp);
-        (function(s) { setTimeout(function() { s.remove(); }, 1100); })(sp);
-      }
-    }
-    function spawnActionParticles(btn, type) {
-      if (!btn) return;
-      var rect = btn.getBoundingClientRect();
-      var cx = rect.left + rect.width / 2;
-      var cy = rect.top + rect.height / 2;
-      var colors, emojis;
-      if (type === 'buy') {
-        colors = ['#FF4D4D', '#e63e3e', '#FF8C00', '#FFC107', '#d9b58a'];
-        emojis = ['⚡', '🔥', '✨'];
-      } else {
-        colors = ['#4CAF50', '#8BC34A', '#FFC107', '#d9b58a', '#b8956a'];
-        emojis = ['🛒', '✓', '✨'];
-      }
-      var count = 14;
-      for (var i = 0; i < count; i++) {
-        var angle = (Math.PI * 2 * i) / count + (Math.random() * 0.5 - 0.25);
-        var dist = 55 + Math.random() * 55;
-        var p = document.createElement('span');
-        p.className = 'action-particle';
-        if (i % 3 === 0) {
-          p.textContent = emojis[i % emojis.length];
-          p.style.fontSize = (12 + Math.random() * 6) + 'px';
-          p.style.width = 'auto';
-          p.style.height = 'auto';
-          p.style.background = 'transparent';
-          p.style.borderRadius = '0';
-          p.style.filter = 'drop-shadow(0 3px 5px rgba(0,0,0,0.25))';
-        } else {
-          var size = 6 + Math.random() * 6;
-          p.style.width = size + 'px';
-          p.style.height = size + 'px';
-          p.style.background = colors[Math.floor(Math.random() * colors.length)];
-          p.style.boxShadow = '0 3px 6px rgba(0,0,0,0.2)';
-        }
-        p.style.left = cx + 'px';
-        p.style.top = cy + 'px';
-        p.style.setProperty('--px', Math.round(Math.cos(angle) * dist) + 'px');
-        p.style.setProperty('--py', Math.round(Math.sin(angle) * dist) + 'px');
-        p.style.animationDelay = (Math.random() * 0.1) + 's';
-        document.body.appendChild(p);
-        (function(el) { setTimeout(function() { el.remove(); }, 1300); })(p);
-      }
-    }
-    function spawnNavRipple(btn) {
-      var rect = btn.getBoundingClientRect();
-      var ripple = document.createElement('span');
-      ripple.className = 'nav-ripple';
-      var size = Math.max(rect.width, rect.height) * 1.5;
-      ripple.style.width = size + 'px';
-      ripple.style.height = size + 'px';
-      ripple.style.left = '50%';
-      ripple.style.top = '50%';
-      ripple.style.marginLeft = (-size / 2) + 'px';
-      ripple.style.marginTop = (-size / 2) + 'px';
-      btn.appendChild(ripple);
-      setTimeout(function() { ripple.remove(); }, 750);
-    }
-    function renderAll() {
-      renderCategoryPills(); renderProducts(); renderGallery(); renderAdminProductList(); renderAdminCategoryList();
-      renderAdminOrdersList(); renderAdminBookingsList(); renderGalleryInlineList(); renderCartUI(); populateCategorySuggestions();
-      updateCustomerUI(); updateSocialLinksUI(); renderOrdersDashboard();
-    }
-    function renderCategoryPills() {
-      var container = document.getElementById('categoryPillsContainer'); container.innerHTML = '';
-      var allBtn = document.createElement('button'); allBtn.className = 'pill active animate-card'; allBtn.setAttribute('data-category', 'all'); allBtn.textContent = 'All'; allBtn.style.animationDelay = '0s'; container.appendChild(allBtn);
-      categories.forEach(function(category, index) {
-        var btn = document.createElement('button'); btn.className = 'pill animate-card'; btn.setAttribute('data-category', category.id);
-        btn.style.animationDelay = ((index + 1) * 0.05) + 's';
-        if (isImageValue(category.emoji)) { var img = document.createElement('img'); img.src = category.emoji; img.alt = category.name; img.loading = 'lazy'; btn.appendChild(img); }
-        else { btn.textContent = category.emoji + ' '; }
-        btn.appendChild(document.createTextNode(category.name)); container.appendChild(btn);
-      });
-      container.querySelectorAll('.pill').forEach(function(pill) {
-        pill.addEventListener('click', function() { container.querySelectorAll('.pill').forEach(p => p.classList.remove('active')); pill.classList.add('active'); currentFilter = pill.getAttribute('data-category'); renderProducts(); });
-      });
-    }
+
+    function showToast(message, type) { var container = document.getElementById('toastContainer'); var toast = document.createElement('div'); toast.className = 'toast ' + (type || 'info'); var icon = type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'; toast.innerHTML = '<span class="toast-icon">' + icon + '</span><span>' + message + '</span>'; container.appendChild(toast); setTimeout(function() { toast.remove(); }, 3000); }
+    function playOrderSound() { try { var audioContext = new (window.AudioContext || window.webkitAudioContext)(); var oscillator1 = audioContext.createOscillator(); var oscillator2 = audioContext.createOscillator(); var gainNode = audioContext.createGain(); oscillator1.type = 'sine'; oscillator1.frequency.setValueAtTime(880, audioContext.currentTime); oscillator2.type = 'sine'; oscillator2.frequency.setValueAtTime(1320, audioContext.currentTime + 0.1); gainNode.gain.setValueAtTime(0.1, audioContext.currentTime); gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 1.5); oscillator1.connect(gainNode); oscillator2.connect(gainNode); gainNode.connect(audioContext.destination); oscillator1.start(); oscillator2.start(audioContext.currentTime + 0.1); oscillator1.stop(audioContext.currentTime + 1.5); oscillator2.stop(audioContext.currentTime + 1.5); } catch(e) {} }
+
+    function spawnWishlistRipple(btn) { var rect = btn.getBoundingClientRect(); var ripple = document.createElement('span'); ripple.className = 'wishlist-ripple'; var size = rect.width * 1.1; ripple.style.width = size + 'px'; ripple.style.height = size + 'px'; ripple.style.left = '0'; ripple.style.top = '0'; btn.appendChild(ripple); setTimeout(function() { ripple.remove(); }, 750); }
+    function spawnFloatingHearts(btn) { var rect = btn.getBoundingClientRect(); var baseX = rect.left + rect.width / 2; var baseY = rect.top + rect.height / 2; var heartChars = ['❤️', '💖', '💗']; for (var i = 0; i < 3; i++) { var heart = document.createElement('span'); heart.className = 'floating-heart'; heart.textContent = heartChars[i % heartChars.length]; heart.style.left = (baseX - 10) + 'px'; heart.style.top = (baseY - 10) + 'px'; heart.style.setProperty('--tx1', (Math.random() * 34 - 17) + 'px'); heart.style.setProperty('--tx2', (Math.random() * 70 - 35) + 'px'); heart.style.animationDelay = (i * 0.08) + 's'; heart.style.fontSize = (12 + Math.random() * 7) + 'px'; document.body.appendChild(heart); (function(h) { setTimeout(function() { h.remove(); }, 1400); })(heart); } }
+    function spawnSparkles(btn) { var rect = btn.getBoundingClientRect(); var baseX = rect.left + rect.width / 2; var baseY = rect.top + rect.height / 2; var sparkleChars = ['✨', '⭐', '💫', '🌟']; for (var i = 0; i < 4; i++) { var sp = document.createElement('span'); sp.className = 'wishlist-sparkle'; sp.textContent = sparkleChars[i % sparkleChars.length]; sp.style.left = (baseX - 7) + 'px'; sp.style.top = (baseY - 7) + 'px'; var angle = (Math.PI * 2 * i) / 4 - Math.PI / 2; sp.style.setProperty('--sx', Math.round(Math.cos(angle) * 28) + 'px'); sp.style.setProperty('--sy', Math.round(Math.sin(angle) * 28) + 'px'); sp.style.animationDelay = (i * 0.04) + 's'; document.body.appendChild(sp); (function(s) { setTimeout(function() { s.remove(); }, 1100); })(sp); } }
+    function spawnActionParticles(btn, type) { if (!btn) return; var rect = btn.getBoundingClientRect(); var cx = rect.left + rect.width / 2; var cy = rect.top + rect.height / 2; var colors, emojis; if (type === 'buy') { colors = ['#FF4D4D', '#e63e3e', '#FF8C00', '#FFC107', '#d9b58a']; emojis = ['⚡', '🔥', '✨']; } else { colors = ['#4CAF50', '#8BC34A', '#FFC107', '#d9b58a', '#b8956a']; emojis = ['🛒', '✓', '✨']; } var count = 14; for (var i = 0; i < count; i++) { var angle = (Math.PI * 2 * i) / count + (Math.random() * 0.5 - 0.25); var dist = 55 + Math.random() * 55; var p = document.createElement('span'); p.className = 'action-particle'; if (i % 3 === 0) { p.textContent = emojis[i % emojis.length]; p.style.fontSize = (12 + Math.random() * 6) + 'px'; p.style.width = 'auto'; p.style.height = 'auto'; p.style.background = 'transparent'; p.style.borderRadius = '0'; p.style.filter = 'drop-shadow(0 3px 5px rgba(0,0,0,0.25))'; } else { var size = 6 + Math.random() * 6; p.style.width = size + 'px'; p.style.height = size + 'px'; p.style.background = colors[Math.floor(Math.random() * colors.length)]; p.style.boxShadow = '0 3px 6px rgba(0,0,0,0.2)'; } p.style.left = cx + 'px'; p.style.top = cy + 'px'; p.style.setProperty('--px', Math.round(Math.cos(angle) * dist) + 'px'); p.style.setProperty('--py', Math.round(Math.sin(angle) * dist) + 'px'); p.style.animationDelay = (Math.random() * 0.1) + 's'; document.body.appendChild(p); (function(el) { setTimeout(function() { el.remove(); }, 1300); })(p); } }
+    function spawnNavRipple(btn) { var rect = btn.getBoundingClientRect(); var ripple = document.createElement('span'); ripple.className = 'nav-ripple'; var size = Math.max(rect.width, rect.height) * 1.5; ripple.style.width = size + 'px'; ripple.style.height = size + 'px'; ripple.style.left = '50%'; ripple.style.top = '50%'; ripple.style.marginLeft = (-size / 2) + 'px'; ripple.style.marginTop = (-size / 2) + 'px'; btn.appendChild(ripple); setTimeout(function() { ripple.remove(); }, 750); }
+
+    function renderAll() { renderCategoryPills(); renderProducts(); renderGallery(); renderAdminProductList(); renderAdminCategoryList(); renderAdminOrdersList(); renderAdminBookingsList(); renderGalleryInlineList(); renderCartUI(); populateCategorySuggestions(); updateCustomerUI(); updateSocialLinksUI(); renderOrdersDashboard(); setTimeout(applyFadeInToAll, 30); }
+
+    function renderCategoryPills() { var container = document.getElementById('categoryPillsContainer'); container.innerHTML = ''; var allBtn = document.createElement('button'); allBtn.className = 'pill active animate-card'; allBtn.setAttribute('data-category', 'all'); allBtn.textContent = 'All'; allBtn.style.animationDelay = '0s'; container.appendChild(allBtn); categories.forEach(function(category, index) { var btn = document.createElement('button'); btn.className = 'pill animate-card'; btn.setAttribute('data-category', category.id); btn.style.animationDelay = ((index + 1) * 0.05) + 's'; if (isImageValue(category.emoji)) { var img = document.createElement('img'); img.src = category.emoji; img.alt = category.name; applyFadeIn(img); btn.appendChild(img); } else { btn.textContent = category.emoji + ' '; } btn.appendChild(document.createTextNode(category.name)); container.appendChild(btn); }); container.querySelectorAll('.pill').forEach(function(pill) { pill.addEventListener('click', function() { container.querySelectorAll('.pill').forEach(p => p.classList.remove('active')); pill.classList.add('active'); currentFilter = pill.getAttribute('data-category'); renderProducts(); }); }); }
+
     var currentFilter = 'all'; var searchQuery = '';
-    function renderProducts() {
-      var grid = document.getElementById('productGrid'); grid.innerHTML = '';
-      var filtered = products.filter(function(p) {
-        var matchesCategory = currentFilter === 'all' || p.category === currentFilter;
-        var matchesSearch = true;
-        if (searchQuery.trim() !== '') { var q = searchQuery.trim().toLowerCase(); matchesSearch = p.name.toLowerCase().indexOf(q) !== -1 || (p.description && p.description.toLowerCase().indexOf(q) !== -1); }
-        return matchesCategory && matchesSearch;
-      });
-      filtered.forEach(function(product, index) {
-        var card = document.createElement('div');
-        card.className = 'card animate-card' + (isLoggedIn ? ' admin-mode' : '');
-        card.setAttribute('data-id', product.id);
-        card.setAttribute('data-description', product.description);
-        card.style.animationDelay = (index * 0.08) + 's';
-        var isWishlisted = wishlistItems.indexOf(product.id) !== -1;
-        card.innerHTML = '<button class="wishlist' + (isWishlisted ? ' active' : '') + '">' + (isWishlisted ? '♥' : '♡') + '</button>' +
-          (isLoggedIn ? '<div class="admin-edit-delete"><button class="admin-edit-btn">✏️</button><button class="admin-delete-btn">🗑️</button></div>' : '') +
-          '<div class="card-img"></div>' +
-          '<div class="card-body">' +
-            '<h3>' + product.name + '</h3>' +
-            '<div class="card-footer">' +
-              '<span class="price">' + product.price + '</span>' +
-              '<span class="rating">' + product.rating + '</span>' +
-            '</div>' +
-          '</div>';
-        setImageOrEmoji(card.querySelector('.card-img'), product.emoji, '76px');
-        grid.appendChild(card);
-      });
-      attachCardEvents();
-    }
-    function showProductSkeletons(count) {
-      var grid = document.getElementById('productGrid');
-      if (!grid) return;
-      grid.innerHTML = '';
-      count = count || 6;
-      for (var i = 0; i < count; i++) {
-        var sk = document.createElement('div');
-        sk.className = 'skeleton-card';
-        sk.innerHTML = '<div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div><div class="skeleton-line tiny"></div></div>';
-        grid.appendChild(sk);
-      }
-    }
+    function renderProducts() { var grid = document.getElementById('productGrid'); grid.innerHTML = ''; var filtered = products.filter(function(p) { var matchesCategory = currentFilter === 'all' || p.category === currentFilter; var matchesSearch = true; if (searchQuery.trim() !== '') { var q = searchQuery.trim().toLowerCase(); matchesSearch = p.name.toLowerCase().indexOf(q) !== -1 || (p.description && p.description.toLowerCase().indexOf(q) !== -1); } return matchesCategory && matchesSearch; }); filtered.forEach(function(product, index) { var card = document.createElement('div'); card.className = 'card animate-card' + (isLoggedIn ? ' admin-mode' : ''); card.setAttribute('data-id', product.id); card.setAttribute('data-description', product.description); card.style.animationDelay = (index * 0.08) + 's'; var isWishlisted = wishlistItems.indexOf(product.id) !== -1; card.innerHTML = '<button class="wishlist' + (isWishlisted ? ' active' : '') + '">' + (isWishlisted ? '♥' : '♡') + '</button>' + (isLoggedIn ? '<div class="admin-edit-delete"><button class="admin-edit-btn">✏️</button><button class="admin-delete-btn">🗑️</button></div>' : '') + '<div class="card-img"></div>' + '<div class="card-body">' + '<h3>' + product.name + '</h3>' + '<div class="card-footer">' + '<span class="price">' + product.price + '</span>' + '<span class="rating">' + product.rating + '</span>' + '</div>' + '</div>'; setImageOrEmoji(card.querySelector('.card-img'), product.emoji, '76px'); grid.appendChild(card); }); attachCardEvents(); }
+
+    function showProductSkeletons(count) { var grid = document.getElementById('productGrid'); if (!grid) return; grid.innerHTML = ''; count = count || 6; for (var i = 0; i < count; i++) { var sk = document.createElement('div'); sk.className = 'skeleton-card'; sk.innerHTML = '<div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div><div class="skeleton-line tiny"></div></div>'; grid.appendChild(sk); } }
+
     function attachCardEvents() {
-      document.querySelectorAll('.wishlist').forEach(btn => { 
-        btn.addEventListener('click', function(e) { 
-          e.stopPropagation();
-          spawnWishlistRipple(btn);
-          var card = btn.closest('.card');
-          var productId = card ? card.getAttribute('data-id') : null;
-          var wasActive = btn.classList.contains('active');
-          btn.classList.toggle('active'); 
-          btn.textContent = btn.classList.contains('active') ? '♥' : '♡'; 
-          if (productId) {
-            if (!wasActive) {
-              if (wishlistItems.indexOf(productId) === -1) wishlistItems.push(productId);
-              spawnFloatingHearts(btn); spawnSparkles(btn);
-              showToast('Added to wishlist ❤️', 'success');
-            } else {
-              var idx = wishlistItems.indexOf(productId);
-              if (idx > -1) wishlistItems.splice(idx, 1);
-            }
-            saveWishlist();
-          }
-        }); 
-      });
-      document.querySelectorAll('.card').forEach(card => {
-        card.addEventListener('click', function(e) {
-          if (e.target.closest('.wishlist') || e.target.closest('.admin-edit-delete')) return;
-          var product = products.find(p => p.id === card.getAttribute('data-id')); if (!product) return; openPremiumProductModal(product);
-        });
-      });
-      if (isLoggedIn) {
-        document.querySelectorAll('.admin-edit-btn').forEach(btn => { 
-          btn.addEventListener('click', function(e) { 
-            e.stopPropagation(); 
-            var product = products.find(p => p.id === btn.closest('.card').getAttribute('data-id')); 
-            if (product) openEditProductModal(product);
-          }); 
-        });
-        document.querySelectorAll('.admin-delete-btn').forEach(btn => { 
-          btn.addEventListener('click', async function(e) { 
-            e.stopPropagation(); 
-            var id = btn.closest('.card').getAttribute('data-id'); 
-            var product = products.find(p => p.id === id);
-            if (await confirm('Delete "' + (product ? product.name : 'this product') + '"?')) { 
-              products = products.filter(p => p.id !== id); 
-              saveProducts(); renderProducts(); renderAdminProductList(); 
-              showToast('Product deleted 🗑️', 'success');
-            } 
-          }); 
-        });
-      }
+      document.querySelectorAll('.wishlist').forEach(btn => { btn.addEventListener('click', function(e) { e.stopPropagation(); spawnWishlistRipple(btn); var card = btn.closest('.card'); var productId = card ? card.getAttribute('data-id') : null; var wasActive = btn.classList.contains('active'); btn.classList.toggle('active'); btn.textContent = btn.classList.contains('active') ? '♥' : '♡'; if (productId) { if (!wasActive) { if (wishlistItems.indexOf(productId) === -1) wishlistItems.push(productId); spawnFloatingHearts(btn); spawnSparkles(btn); showToast('Added to wishlist ❤️', 'success'); } else { var idx = wishlistItems.indexOf(productId); if (idx > -1) wishlistItems.splice(idx, 1); } saveWishlist(); } }); });
+      document.querySelectorAll('.card').forEach(card => { card.addEventListener('click', function(e) { if (e.target.closest('.wishlist') || e.target.closest('.admin-edit-delete')) return; var product = products.find(p => p.id === card.getAttribute('data-id')); if (!product) return; openPremiumProductModal(product); }); });
+      if (isLoggedIn) { document.querySelectorAll('.admin-edit-btn').forEach(btn => { btn.addEventListener('click', function(e) { e.stopPropagation(); var product = products.find(p => p.id === btn.closest('.card').getAttribute('data-id')); if (product) openEditProductModal(product); }); }); document.querySelectorAll('.admin-delete-btn').forEach(btn => { btn.addEventListener('click', async function(e) { e.stopPropagation(); var id = btn.closest('.card').getAttribute('data-id'); var product = products.find(p => p.id === id); if (await confirm('Delete "' + (product ? product.name : 'this product') + '"?')) { products = products.filter(p => p.id !== id); saveProducts(); renderProducts(); renderAdminProductList(); showToast('Product deleted 🗑️', 'success'); } }); }); }
     }
-    function openPremiumProductModal(product) {
-      document.getElementById('modalImageArea').innerHTML = ''; setImageOrEmoji(document.getElementById('modalImageArea'), product.emoji, '60px');
-      document.getElementById('modalName').textContent = product.name; document.getElementById('modalPrice').textContent = product.price;
-      document.getElementById('modalRating').textContent = product.rating; document.getElementById('modalDescription').textContent = product.description;
-      currentProductId = product.id; currentQty = 1; document.getElementById('qtyValue').textContent = '1';
-      document.getElementById('specialInstructionsInput').value = ''; renderReviews(product.id);
-      document.getElementById('productOverlay').style.display = 'flex'; document.getElementById('reviewsSection').style.display = 'none'; document.getElementById('reviewsToggle').textContent = '💬 Show Reviews';
-    }
-    function openEditProductModal(product) {
-      document.getElementById('editProductId').value = product.id;
-      document.getElementById('editName').value = product.name;
-      document.getElementById('editPrice').value = product.price;
-      document.getElementById('editRating').value = product.rating;
-      document.getElementById('editCategory').value = categories.find(c => c.id === product.category)?.name || '';
-      document.getElementById('editDescription').value = product.description || '';
-      var preview = document.getElementById('editImagePreview');
-      var emojiInput = document.getElementById('editEmoji');
-      if (isImageValue(product.emoji)) { preview.src = product.emoji; preview.style.display = 'block'; emojiInput.value = ''; }
-      else { preview.style.display = 'none'; emojiInput.value = product.emoji || ''; }
-      document.getElementById('editImageFile').value = '';
-      window.editProductImageData = null;
-      document.getElementById('editProductOverlay').style.display = 'flex';
-    }
-    function renderGallery() {
-      var grid = document.getElementById('galleryGrid');
-      grid.innerHTML = '';
-      galleryImages.forEach(function(img, index) {
-        var item = document.createElement('div');
-        item.className = 'gallery-item animate-card';
-        item.style.animationDelay = (index * 0.08) + 's';
-        if (img) {
-          if (isImageValue(img)) { item.style.backgroundImage = 'url("' + img + '")'; item.style.backgroundSize = 'cover'; item.style.backgroundPosition = 'center'; }
-          else { item.textContent = img; }
-        } else { item.textContent = '📷'; }
-        item.addEventListener('click', function() {
-          if (isLoggedIn) { editingGalleryIndex = index; document.getElementById('editGalleryFileInput').click(); }
-          else {
-            if (img && isImageValue(img)) { document.getElementById('galleryLightboxImage').src = img; document.getElementById('galleryLightboxOverlay').style.display = 'flex'; }
-            else if (!img) { alert('Gallery coming soon!'); }
-          }
-        });
-        grid.appendChild(item);
-      });
-    }
-    function renderGalleryInlineList() {
-      var list = document.getElementById('galleryInlineList'); list.innerHTML = '';
-      galleryImages.forEach(function(img, index) {
-        var div = document.createElement('div'); div.className = 'admin-product-item';
-        div.innerHTML = '<span>Item ' + (index+1) + ': ' + (isImageValue(img) ? '📷 Image' : (img || '📷')) + '</span>';
-        var actions = document.createElement('div'); actions.className = 'admin-actions';
-        var editBtn = document.createElement('button'); editBtn.textContent = '✏️'; editBtn.onclick = function() { editingGalleryIndex = index; document.getElementById('editGalleryFileInput').click(); };
-        var delBtn = document.createElement('button'); delBtn.textContent = '🗑️'; delBtn.onclick = async function() { if (await confirm('Delete this gallery item?')) { galleryImages.splice(index,1); saveGallery(); renderGallery(); renderGalleryInlineList(); showToast('Gallery image deleted 🗑️', 'success'); } };
-        actions.appendChild(editBtn); actions.appendChild(delBtn); div.appendChild(actions); list.appendChild(div);
-      });
-    }
+
+    function openPremiumProductModal(product) { document.getElementById('modalImageArea').innerHTML = ''; setImageOrEmoji(document.getElementById('modalImageArea'), product.emoji, '60px'); document.getElementById('modalName').textContent = product.name; document.getElementById('modalPrice').textContent = product.price; document.getElementById('modalRating').textContent = product.rating; document.getElementById('modalDescription').textContent = product.description; currentProductId = product.id; currentQty = 1; document.getElementById('qtyValue').textContent = '1'; document.getElementById('specialInstructionsInput').value = ''; renderReviews(product.id); document.getElementById('productOverlay').style.display = 'flex'; document.getElementById('reviewsSection').style.display = 'none'; document.getElementById('reviewsToggle').textContent = '💬 Show Reviews'; }
+
+    function openEditProductModal(product) { document.getElementById('editProductId').value = product.id; document.getElementById('editName').value = product.name; document.getElementById('editPrice').value = product.price; document.getElementById('editRating').value = product.rating; document.getElementById('editCategory').value = categories.find(c => c.id === product.category)?.name || ''; document.getElementById('editDescription').value = product.description || ''; var preview = document.getElementById('editImagePreview'); var emojiInput = document.getElementById('editEmoji'); if (isImageValue(product.emoji)) { preview.src = product.emoji; preview.style.display = 'block'; emojiInput.value = ''; } else { preview.style.display = 'none'; emojiInput.value = product.emoji || ''; } document.getElementById('editImageFile').value = ''; window.editProductImageData = null; document.getElementById('editProductOverlay').style.display = 'flex'; }
+
+    function renderGallery() { var grid = document.getElementById('galleryGrid'); grid.innerHTML = ''; galleryImages.forEach(function(img, index) { var item = document.createElement('div'); item.className = 'gallery-item animate-card'; item.style.animationDelay = (index * 0.08) + 's'; if (img) { if (isImageValue(img)) { item.style.backgroundImage = 'url("' + img + '")'; item.style.backgroundSize = 'cover'; item.style.backgroundPosition = 'center'; } else { item.textContent = img; } } else { item.textContent = '📷'; } item.addEventListener('click', function() { if (isLoggedIn) { editingGalleryIndex = index; document.getElementById('editGalleryFileInput').click(); } else { if (img && isImageValue(img)) { document.getElementById('galleryLightboxImage').src = img; document.getElementById('galleryLightboxOverlay').style.display = 'flex'; } else if (!img) { alert('Gallery coming soon!'); } } }); grid.appendChild(item); }); }
+
+    function renderGalleryInlineList() { var list = document.getElementById('galleryInlineList'); list.innerHTML = ''; galleryImages.forEach(function(img, index) { var div = document.createElement('div'); div.className = 'admin-product-item'; div.innerHTML = '<span>Item ' + (index+1) + ': ' + (isImageValue(img) ? '📷 Image' : (img || '📷')) + '</span>'; var actions = document.createElement('div'); actions.className = 'admin-actions'; var editBtn = document.createElement('button'); editBtn.textContent = '✏️'; editBtn.onclick = function() { editingGalleryIndex = index; document.getElementById('editGalleryFileInput').click(); }; var delBtn = document.createElement('button'); delBtn.textContent = '🗑️'; delBtn.onclick = async function() { if (await confirm('Delete this gallery item?')) { galleryImages.splice(index,1); saveGallery(); renderGallery(); renderGalleryInlineList(); showToast('Gallery image deleted 🗑️', 'success'); } }; actions.appendChild(editBtn); actions.appendChild(delBtn); div.appendChild(actions); list.appendChild(div); }); }
+
     var editingGalleryIndex = -1; var currentProductId = null; var currentQty = 1; var currentProductToOrder = null; var orderContext = null;
-    function renderAdminProductList() {
-      var list = document.getElementById('adminProductList'); list.innerHTML = '';
-      products.forEach(function(product) {
-        var div = document.createElement('div'); div.className = 'admin-product-item';
-        div.innerHTML = '<span>' + getEmojiOrImageHTML(product.emoji, 32, 'square') + product.name + ' - ' + product.price + '</span>';
-        var actions = document.createElement('div'); actions.className = 'admin-actions';
-        var editBtn = document.createElement('button'); editBtn.textContent = '✏️'; editBtn.onclick = function() { openEditProductModal(product); };
-        var delBtn = document.createElement('button'); delBtn.textContent = '🗑️'; delBtn.onclick = async function() { if (await confirm('Delete "' + product.name + '"?')) { products = products.filter(p => p.id !== product.id); saveProducts(); renderProducts(); renderAdminProductList(); showToast('Product deleted 🗑️', 'success'); } };
-        actions.appendChild(editBtn); actions.appendChild(delBtn); div.appendChild(actions); list.appendChild(div);
-      });
-    }
-    function renderAdminCategoryList() {
-      var list = document.getElementById('adminCategoryList'); list.innerHTML = '';
-      categories.forEach(function(category) {
-        var div = document.createElement('div'); div.className = 'admin-product-item';
-        div.innerHTML = '<span>' + (isImageValue(category.emoji) ? '<img src="' + category.emoji + '" style="width:28px;height:28px;border-radius:50%;object-fit:cover;margin-right:8px;vertical-align:middle;" />' : category.emoji + ' ') + category.name + '</span>';
-        var actions = document.createElement('div'); actions.className = 'admin-actions';
-        var delBtn = document.createElement('button'); delBtn.textContent = '🗑️'; delBtn.onclick = async function() { if (await confirm('Delete category "' + category.name + '"?')) { categories = categories.filter(c => c.id !== category.id); saveCategories(); renderCategoryPills(); populateCategorySuggestions(); renderAdminCategoryList(); showToast('Category deleted 🗑️', 'success'); } };
-        actions.appendChild(delBtn); div.appendChild(actions); list.appendChild(div);
-      });
-    }
-    function populateCategorySuggestions() {
-      var datalist = document.getElementById('categorySuggestions'); datalist.innerHTML = '';
-      categories.forEach(c => { var opt = document.createElement('option'); opt.value = c.name; datalist.appendChild(opt); });
-    }
-    function getCategoryIdFromInput(inputValue) {
-      var trimmed = inputValue.trim().toLowerCase(); var existing = categories.find(c => c.name.toLowerCase() === trimmed);
-      if (existing) return existing.id;
-      var newId = trimmed.replace(/[^a-z0-9]/g, '') || Date.now().toString();
-      var newCategory = { id: newId, name: inputValue.trim(), emoji: '🍽️' };
-      categories.push(newCategory); saveCategories(); renderCategoryPills(); renderAdminCategoryList(); populateCategorySuggestions(); return newCategory.id;
-    }
+
+    function renderAdminProductList() { var list = document.getElementById('adminProductList'); list.innerHTML = ''; products.forEach(function(product) { var div = document.createElement('div'); div.className = 'admin-product-item'; div.innerHTML = '<span>' + getEmojiOrImageHTML(product.emoji, 32, 'square') + product.name + ' - ' + product.price + '</span>'; var actions = document.createElement('div'); actions.className = 'admin-actions'; var editBtn = document.createElement('button'); editBtn.textContent = '✏️'; editBtn.onclick = function() { openEditProductModal(product); }; var delBtn = document.createElement('button'); delBtn.textContent = '🗑️'; delBtn.onclick = async function() { if (await confirm('Delete "' + product.name + '"?')) { products = products.filter(p => p.id !== product.id); saveProducts(); renderProducts(); renderAdminProductList(); showToast('Product deleted 🗑️', 'success'); } }; actions.appendChild(editBtn); actions.appendChild(delBtn); div.appendChild(actions); list.appendChild(div); }); applyFadeInToAll(); }
+
+    function renderAdminCategoryList() { var list = document.getElementById('adminCategoryList'); list.innerHTML = ''; categories.forEach(function(category) { var div = document.createElement('div'); div.className = 'admin-product-item'; div.innerHTML = '<span>' + (isImageValue(category.emoji) ? '<img class="img-fade-in" src="' + category.emoji + '" style="width:28px;height:28px;border-radius:50%;object-fit:cover;margin-right:8px;vertical-align:middle;" />' : category.emoji + ' ') + category.name + '</span>'; var actions = document.createElement('div'); actions.className = 'admin-actions'; var delBtn = document.createElement('button'); delBtn.textContent = '🗑️'; delBtn.onclick = async function() { if (await confirm('Delete category "' + category.name + '"?')) { categories = categories.filter(c => c.id !== category.id); saveCategories(); renderCategoryPills(); populateCategorySuggestions(); renderAdminCategoryList(); showToast('Category deleted 🗑️', 'success'); } }; actions.appendChild(delBtn); div.appendChild(actions); list.appendChild(div); }); applyFadeInToAll(); }
+
+    function populateCategorySuggestions() { var datalist = document.getElementById('categorySuggestions'); datalist.innerHTML = ''; categories.forEach(c => { var opt = document.createElement('option'); opt.value = c.name; datalist.appendChild(opt); }); }
+
+    function getCategoryIdFromInput(inputValue) { var trimmed = inputValue.trim().toLowerCase(); var existing = categories.find(c => c.name.toLowerCase() === trimmed); if (existing) return existing.id; var newId = trimmed.replace(/[^a-z0-9]/g, '') || Date.now().toString(); var newCategory = { id: newId, name: inputValue.trim(), emoji: '🍽️' }; categories.push(newCategory); saveCategories(); renderCategoryPills(); renderAdminCategoryList(); populateCategorySuggestions(); return newCategory.id; }
+
     function renderAdminOrdersList() {
       var list = document.getElementById('adminOrdersList'); list.innerHTML = ''; var topList = document.getElementById('ownerOrdersList'); topList.innerHTML = '';
       if (orders.length === 0) { list.innerHTML = '<p>No orders yet.</p>'; topList.innerHTML = '<p>No orders yet.</p>'; return; }
@@ -1323,33 +929,29 @@
         topItem.appendChild(topDelBtn); topList.appendChild(topItem);
       });
     }
+
     function renderAdminBookingsList() {
       var list = document.getElementById('adminBookingsList'); if (!list) return; list.innerHTML = '';
       if (bookings.length === 0) { list.innerHTML = '<p>No bookings yet.</p>'; return; }
       bookings.forEach(function(booking, index) {
         var div = document.createElement('div'); div.className = 'order-item';
-        div.innerHTML = '<div class="order-details"><span><strong>' + booking.customerName + '</strong> - ' + booking.guests + ' Guests</span><span>' + new Date(booking.timestamp).toLocaleString() + '</span></div>' + 
-                        '<div class="order-customer">📅 ' + booking.date + ' at ' + booking.time + ' • 📞 ' + booking.phone + (booking.specialReq ? ' • 📝 ' + booking.specialReq : '') + '</div>';
+        div.innerHTML = '<div class="order-details"><span><strong>' + booking.customerName + '</strong> - ' + booking.guests + ' Guests</span><span>' + new Date(booking.timestamp).toLocaleString() + '</span></div>' + '<div class="order-customer">📅 ' + booking.date + ' at ' + booking.time + ' • 📞 ' + booking.phone + (booking.specialReq ? ' • 📝 ' + booking.specialReq : '') + '</div>';
         var actions = document.createElement('div'); actions.className = 'admin-actions';
-        var statusSelect = document.createElement('select'); 
-        statusSelect.innerHTML = '<option value="pending" ' + (booking.status==='pending'?'selected':'') + '>Pending</option><option value="confirmed" ' + (booking.status==='confirmed'?'selected':'') + '>Confirmed</option><option value="cancelled" ' + (booking.status==='cancelled'?'selected':'') + '>Cancelled</option>';
+        var statusSelect = document.createElement('select'); statusSelect.innerHTML = '<option value="pending" ' + (booking.status==='pending'?'selected':'') + '>Pending</option><option value="confirmed" ' + (booking.status==='confirmed'?'selected':'') + '>Confirmed</option><option value="cancelled" ' + (booking.status==='cancelled'?'selected':'') + '>Cancelled</option>';
         statusSelect.onchange = function() { booking.status = statusSelect.value; saveBookings(); };
         actions.appendChild(statusSelect);
         var delBtn = document.createElement('button'); delBtn.textContent = '🗑️'; delBtn.onclick = async function() { if (await confirm('Delete this booking?')) { bookings.splice(index,1); saveBookings(); renderAdminBookingsList(); } };
         actions.appendChild(delBtn); div.appendChild(actions); list.appendChild(div);
       });
     }
+
     function renderOrdersDashboard() {
       var container = document.getElementById('ordersListContainer'); if (!container) return; container.innerHTML = '';
       var activeTab = document.querySelector('.order-tab-btn.active')?.getAttribute('data-order-tab') || 'activeOrders';
       if (!currentCustomer) { container.innerHTML = '<div class="no-orders-msg">Please login to see your orders.</div>'; return; }
-      var customerOrders = orders.filter(function(o) {
-        if (currentCustomer.email && o.email) { return o.email.toLowerCase() === currentCustomer.email.toLowerCase(); }
-        return o.customerName && currentCustomer.name && o.customerName.toLowerCase() === currentCustomer.name.toLowerCase();
-      });
+      var customerOrders = orders.filter(function(o) { if (currentCustomer.email && o.email) { return o.email.toLowerCase() === currentCustomer.email.toLowerCase(); } return o.customerName && currentCustomer.name && o.customerName.toLowerCase() === currentCustomer.name.toLowerCase(); });
       var filteredOrders = [];
-      if (activeTab === 'activeOrders') { filteredOrders = customerOrders.filter(o => (o.status !== 'delivered' && o.status !== 'completed')); }
-      else { filteredOrders = customerOrders.filter(o => o.status === 'delivered' || o.status === 'completed'); }
+      if (activeTab === 'activeOrders') { filteredOrders = customerOrders.filter(o => (o.status !== 'delivered' && o.status !== 'completed')); } else { filteredOrders = customerOrders.filter(o => o.status === 'delivered' || o.status === 'completed'); }
       if (filteredOrders.length === 0) { container.innerHTML = '<div class="no-orders-msg">No ' + (activeTab === 'activeOrders' ? 'active' : 'past') + ' orders.</div>'; return; }
       filteredOrders.forEach(order => {
         var card = document.createElement('div'); card.className = 'order-card-item';
@@ -1361,16 +963,10 @@
         container.appendChild(card);
       });
     }
-    function fillAdminForm(product) {
-      document.getElementById('adminProductId').value = product.id; document.getElementById('adminName').value = product.name;
-      document.getElementById('adminPrice').value = product.price; document.getElementById('adminRating').value = product.rating;
-      document.getElementById('adminCategoryInput').value = categories.find(c => c.id === product.category)?.name || '';
-      document.getElementById('adminDescription').value = product.description;
-      var imageValue = product.emoji; var preview = document.getElementById('adminImagePreview'); var emojiInput = document.getElementById('adminEmoji');
-      if (isImageValue(imageValue)) { preview.src = imageValue; preview.style.display = 'block'; emojiInput.value = ''; } else { preview.style.display = 'none'; emojiInput.value = imageValue || ''; }
-      document.getElementById('adminImageFile').value = '';
-    }
+
+    function fillAdminForm(product) { document.getElementById('adminProductId').value = product.id; document.getElementById('adminName').value = product.name; document.getElementById('adminPrice').value = product.price; document.getElementById('adminRating').value = product.rating; document.getElementById('adminCategoryInput').value = categories.find(c => c.id === product.category)?.name || ''; document.getElementById('adminDescription').value = product.description; var imageValue = product.emoji; var preview = document.getElementById('adminImagePreview'); var emojiInput = document.getElementById('adminEmoji'); if (isImageValue(imageValue)) { preview.src = imageValue; preview.style.display = 'block'; emojiInput.value = ''; } else { preview.style.display = 'none'; emojiInput.value = imageValue || ''; } document.getElementById('adminImageFile').value = ''; }
     function resetAdminForm() { document.getElementById('adminProductId').value = ''; document.getElementById('adminName').value = ''; document.getElementById('adminPrice').value = ''; document.getElementById('adminRating').value = '⭐ 4.5'; document.getElementById('adminCategoryInput').value = ''; document.getElementById('adminDescription').value = ''; document.getElementById('adminEmoji').value = ''; document.getElementById('adminImagePreview').style.display = 'none'; document.getElementById('adminImageFile').value = ''; }
+
     function renderCartUI() {
       var badge = document.getElementById('cartBadge'); var totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
       if (totalItems > 0) { badge.style.display = 'flex'; badge.textContent = totalItems; } else badge.style.display = 'none';
@@ -1387,80 +983,24 @@
       document.querySelectorAll('.cart-plus').forEach(btn => { btn.onclick = function() { var idx = parseInt(this.getAttribute('data-index')); cart[idx].qty++; saveCart(); renderCartUI(); }; });
       document.querySelectorAll('.cart-minus').forEach(btn => { btn.onclick = function() { var idx = parseInt(this.getAttribute('data-index')); if (cart[idx].qty > 1) { cart[idx].qty--; saveCart(); renderCartUI(); } }; });
       document.querySelectorAll('.cart-item-remove').forEach(btn => { btn.onclick = async function() { var idx = parseInt(this.getAttribute('data-index')); if (await confirm('Remove this item?')) { cart.splice(idx,1); saveCart(); renderCartUI(); showToast('Item removed from cart', 'success'); } }; });
+      applyFadeInToAll();
     }
-    function addToCart(product, specialInstructions) {
-      var inst = (specialInstructions || '').trim();
-      var existing = cart.find(item => item.id === product.id);
-      if (existing) {
-        existing.qty += currentQty;
-        if (inst) existing.specialInstructions = inst;
-      } else {
-        cart.push({ id: product.id, name: product.name, emoji: product.emoji, price: product.price, qty: currentQty, specialInstructions: inst });
-      }
-      saveCart(); renderCartUI();
-    }
+
+    function addToCart(product, specialInstructions) { var inst = (specialInstructions || '').trim(); var existing = cart.find(item => item.id === product.id); if (existing) { existing.qty += currentQty; if (inst) existing.specialInstructions = inst; } else { cart.push({ id: product.id, name: product.name, emoji: product.emoji, price: product.price, qty: currentQty, specialInstructions: inst }); } saveCart(); renderCartUI(); }
     function checkout() { if (cart.length === 0) return; openOrderModal('cart'); }
-    function openOrderModal(context) {
-      orderContext = context; document.getElementById('orderOverlay').style.display = 'flex';
-      if (currentCustomer) { document.getElementById('orderName').value = currentCustomer.name || ''; renderSavedAddresses(); }
-      else { document.getElementById('orderName').value = ''; document.getElementById('savedAddressesGroup').style.display = 'none'; }
-      document.getElementById('orderPhone').value = ''; document.getElementById('orderAddress').value = ''; document.getElementById('orderEmail').value = currentCustomer ? currentCustomer.email : '';
-    }
-    function renderSavedAddresses() {
-      var group = document.getElementById('savedAddressesGroup'); var list = document.getElementById('savedAddressesList');
-      if (currentCustomer && currentCustomer.addresses && currentCustomer.addresses.length > 0) {
-        group.style.display = 'block'; list.innerHTML = '';
-        currentCustomer.addresses.forEach(function(addr, idx) {
-          var div = document.createElement('div'); div.className = 'saved-address-item';
-          div.innerHTML = '<span>' + addr + '</span><div><button class="use-addr-btn" data-addr="' + addr + '">Use</button> <button class="del-addr-btn" data-index="' + idx + '">🗑️</button></div>';
-          list.appendChild(div);
-        });
-        list.querySelectorAll('.use-addr-btn').forEach(btn => { btn.onclick = function() { document.getElementById('orderAddress').value = btn.getAttribute('data-addr'); }; });
-        list.querySelectorAll('.del-addr-btn').forEach(btn => { btn.onclick = async function() { var idx = parseInt(btn.getAttribute('data-index')); if (await confirm('Delete this address?')) { currentCustomer.addresses.splice(idx, 1); var customerIdx = customers.findIndex(c => c.id === currentCustomer.id); if (customerIdx >= 0) customers[customerIdx] = currentCustomer; saveCustomers(); saveCurrentCustomer(); renderSavedAddresses(); } }; });
-      } else { group.style.display = 'none'; }
-    }
-    function placeOrderDirect() {
-      var product = products.find(p => p.id === currentProductId); if (!product) return;
-      var specialInst = document.getElementById('specialInstructionsInput').value.trim();
-      currentProductToOrder = { name: product.name, price: product.price, emoji: product.emoji, qty: currentQty, id: product.id, specialInstructions: specialInst };
-      openOrderModal('single');
-    }
+    function openOrderModal(context) { orderContext = context; document.getElementById('orderOverlay').style.display = 'flex'; if (currentCustomer) { document.getElementById('orderName').value = currentCustomer.name || ''; renderSavedAddresses(); } else { document.getElementById('orderName').value = ''; document.getElementById('savedAddressesGroup').style.display = 'none'; } document.getElementById('orderPhone').value = ''; document.getElementById('orderAddress').value = ''; document.getElementById('orderEmail').value = currentCustomer ? currentCustomer.email : ''; }
+    function renderSavedAddresses() { var group = document.getElementById('savedAddressesGroup'); var list = document.getElementById('savedAddressesList'); if (currentCustomer && currentCustomer.addresses && currentCustomer.addresses.length > 0) { group.style.display = 'block'; list.innerHTML = ''; currentCustomer.addresses.forEach(function(addr, idx) { var div = document.createElement('div'); div.className = 'saved-address-item'; div.innerHTML = '<span>' + addr + '</span><div><button class="use-addr-btn" data-addr="' + addr + '">Use</button> <button class="del-addr-btn" data-index="' + idx + '">🗑️</button></div>'; list.appendChild(div); }); list.querySelectorAll('.use-addr-btn').forEach(btn => { btn.onclick = function() { document.getElementById('orderAddress').value = btn.getAttribute('data-addr'); }; }); list.querySelectorAll('.del-addr-btn').forEach(btn => { btn.onclick = async function() { var idx = parseInt(btn.getAttribute('data-index')); if (await confirm('Delete this address?')) { currentCustomer.addresses.splice(idx, 1); var customerIdx = customers.findIndex(c => c.id === currentCustomer.id); if (customerIdx >= 0) customers[customerIdx] = currentCustomer; saveCustomers(); saveCurrentCustomer(); renderSavedAddresses(); } }; }); } else { group.style.display = 'none'; } }
+
+    function placeOrderDirect() { var product = products.find(p => p.id === currentProductId); if (!product) return; var specialInst = document.getElementById('specialInstructionsInput').value.trim(); currentProductToOrder = { name: product.name, price: product.price, emoji: product.emoji, qty: currentQty, id: product.id, specialInstructions: specialInst }; openOrderModal('single'); }
+
     function placeOrderFromForm(e) {
       e.preventDefault();
       var customerName = document.getElementById('orderName').value.trim(); var phone = document.getElementById('orderPhone').value.trim();
       var address = document.getElementById('orderAddress').value.trim(); var email = document.getElementById('orderEmail').value.trim();
       if (!customerName || !phone || !address) { alert('Please fill all fields'); return; }
       var newOrders = [];
-      if (orderContext === 'single') {
-        newOrders.push({
-          id: Date.now().toString(),
-          productName: currentProductToOrder.name,
-          productEmoji: currentProductToOrder.emoji,
-          price: currentProductToOrder.price,
-          qty: currentProductToOrder.qty,
-          specialInstructions: currentProductToOrder.specialInstructions || '',
-          customerName, phone, address, email,
-          timestamp: Date.now(),
-          status: 'received'
-        });
-        document.getElementById('productOverlay').style.display = 'none';
-      }
-      else if (orderContext === 'cart') {
-        cart.forEach(item => {
-          newOrders.push({
-            id: Date.now().toString() + Math.random(),
-            productName: item.name,
-            productEmoji: item.emoji,
-            price: item.price,
-            qty: item.qty,
-            specialInstructions: item.specialInstructions || '',
-            customerName, phone, address, email,
-            timestamp: Date.now(),
-            status: 'received'
-          });
-        });
-        cart = []; saveCart(); renderCartUI(); document.getElementById('cartOverlay').style.display = 'none';
-      }
+      if (orderContext === 'single') { newOrders.push({ id: Date.now().toString(), productName: currentProductToOrder.name, productEmoji: currentProductToOrder.emoji, price: currentProductToOrder.price, qty: currentProductToOrder.qty, specialInstructions: currentProductToOrder.specialInstructions || '', customerName, phone, address, email, timestamp: Date.now(), status: 'received' }); document.getElementById('productOverlay').style.display = 'none'; }
+      else if (orderContext === 'cart') { cart.forEach(item => { newOrders.push({ id: Date.now().toString() + Math.random(), productName: item.name, productEmoji: item.emoji, price: item.price, qty: item.qty, specialInstructions: item.specialInstructions || '', customerName, phone, address, email, timestamp: Date.now(), status: 'received' }); }); cart = []; saveCart(); renderCartUI(); document.getElementById('cartOverlay').style.display = 'none'; }
       orders = orders.concat(newOrders); saveOrders(); renderAdminOrdersList(); renderOrdersDashboard(); updateNotifBadge();
       addLoyaltyPoints(phone, newOrders.length * 10);
       if (currentCustomer) { if (!currentCustomer.addresses.includes(address)) { currentCustomer.addresses.push(address); } newOrders.forEach(o => { currentCustomer.orders.push(o.id); }); var customerIdx = customers.findIndex(c => c.id === currentCustomer.id); if (customerIdx >= 0) customers[customerIdx] = currentCustomer; saveCustomers(); saveCurrentCustomer(); }
@@ -1470,63 +1010,17 @@
     }
     function addLoyaltyPoints(phone, points) { var normalized = normalizePhone(phone); if (!loyaltyPoints[normalized]) loyaltyPoints[normalized] = 0; loyaltyPoints[normalized] += points; saveLoyalty(); }
     function getLoyaltyPoints(phone) { return loyaltyPoints[normalizePhone(phone)] || 0; }
-    function showSuccessModal(orderList) {
-      var modal = document.getElementById('successOverlay'); var detailsContainer = document.getElementById('successOrderDetails');
-      var loyaltyContainer = document.getElementById('successLoyalty');
-      if (orderList && orderList.length > 0) {
-        var detailsHtml = ''; orderList.forEach(function(order) { detailsHtml += '<span>🛒 ' + order.productName + ' x' + order.qty + ' - ' + order.price + (order.specialInstructions ? ' (📝 ' + order.specialInstructions + ')' : '') + '</span>'; });
-        detailsHtml += '<span>📞 Phone: ' + orderList[0].phone + '</span>'; detailsHtml += '<span>📍 Address: ' + orderList[0].address + '</span>';
-        if (orderList[0].id) { detailsHtml += '<span>🔖 Order ID: ' + orderList[0].id.slice(-6) + '</span>'; }
-        detailsContainer.innerHTML = detailsHtml; detailsContainer.style.display = 'block';
-        var points = getLoyaltyPoints(orderList[0].phone);
-        if (points > 0) {
-          loyaltyContainer.innerHTML = '⭐ You now have <strong>' + points + '</strong> loyalty points!';
-          loyaltyContainer.style.display = 'block';
-        } else {
-          loyaltyContainer.style.display = 'none';
-        }
-      } else { detailsContainer.style.display = 'none'; loyaltyContainer.style.display = 'none'; }
-      modal.style.display = 'flex'; spawnConfetti();
-    }
-    function spawnConfetti() {
-      var container = document.getElementById('confettiContainer'); container.innerHTML = ''; var colors = ['#FF4D4D', '#FFD700', '#25D366', '#1A1A1A', '#FF8C00', '#4DA6FF'];
-      for (var i = 0; i < 60; i++) { var piece = document.createElement('div'); piece.className = 'confetti-piece'; piece.style.left = Math.random() * 100 + '%'; piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]; piece.style.animationDuration = (Math.random() * 2 + 2) + 's'; piece.style.animationDelay = Math.random() * 0.5 + 's'; piece.style.width = (Math.random() * 8 + 6) + 'px'; piece.style.height = (Math.random() * 8 + 6) + 'px'; piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '0'; container.appendChild(piece); }
-      setTimeout(() => container.innerHTML = '', 4000);
-    }
-    function renderReviews(productId) {
-      var list = document.getElementById('reviewsList'); list.innerHTML = ''; var productReviews = reviews.filter(r => r.productId === productId);
-      if (productReviews.length === 0) { list.innerHTML = '<p style="color:#999;font-size:11px;">No reviews yet.</p>'; return; }
-      productReviews.forEach(r => { var stars = '⭐'.repeat(parseInt(r.rating) || 0); var div = document.createElement('div'); div.className = 'review-item'; div.innerHTML = '<div class="review-name">' + r.name + '</div><div class="review-rating">' + stars + '</div><div class="review-text">' + r.text + '</div>'; list.appendChild(div); });
-    }
+    function showSuccessModal(orderList) { var modal = document.getElementById('successOverlay'); var detailsContainer = document.getElementById('successOrderDetails'); var loyaltyContainer = document.getElementById('successLoyalty'); if (orderList && orderList.length > 0) { var detailsHtml = ''; orderList.forEach(function(order) { detailsHtml += '<span>🛒 ' + order.productName + ' x' + order.qty + ' - ' + order.price + (order.specialInstructions ? ' (📝 ' + order.specialInstructions + ')' : '') + '</span>'; }); detailsHtml += '<span>📞 Phone: ' + orderList[0].phone + '</span>'; detailsHtml += '<span>📍 Address: ' + orderList[0].address + '</span>'; if (orderList[0].id) { detailsHtml += '<span>🔖 Order ID: ' + orderList[0].id.slice(-6) + '</span>'; } detailsContainer.innerHTML = detailsHtml; detailsContainer.style.display = 'block'; var points = getLoyaltyPoints(orderList[0].phone); if (points > 0) { loyaltyContainer.innerHTML = '⭐ You now have <strong>' + points + '</strong> loyalty points!'; loyaltyContainer.style.display = 'block'; } else { loyaltyContainer.style.display = 'none'; } } else { detailsContainer.style.display = 'none'; loyaltyContainer.style.display = 'none'; } modal.style.display = 'flex'; spawnConfetti(); }
+    function spawnConfetti() { var container = document.getElementById('confettiContainer'); container.innerHTML = ''; var colors = ['#FF4D4D', '#FFD700', '#25D366', '#1A1A1A', '#FF8C00', '#4DA6FF']; for (var i = 0; i < 60; i++) { var piece = document.createElement('div'); piece.className = 'confetti-piece'; piece.style.left = Math.random() * 100 + '%'; piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]; piece.style.animationDuration = (Math.random() * 2 + 2) + 's'; piece.style.animationDelay = Math.random() * 0.5 + 's'; piece.style.width = (Math.random() * 8 + 6) + 'px'; piece.style.height = (Math.random() * 8 + 6) + 'px'; piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '0'; container.appendChild(piece); } setTimeout(() => container.innerHTML = '', 4000); }
+    function renderReviews(productId) { var list = document.getElementById('reviewsList'); list.innerHTML = ''; var productReviews = reviews.filter(r => r.productId === productId); if (productReviews.length === 0) { list.innerHTML = '<p style="color:#999;font-size:11px;">No reviews yet.</p>'; return; } productReviews.forEach(r => { var stars = '⭐'.repeat(parseInt(r.rating) || 0); var div = document.createElement('div'); div.className = 'review-item'; div.innerHTML = '<div class="review-name">' + r.name + '</div><div class="review-rating">' + stars + '</div><div class="review-text">' + r.text + '</div>'; list.appendChild(div); }); }
     async function addReview(productId) { var name = await prompt('Enter your name:'); if (!name) return; var rating = await prompt('Rate (1-5):'); if (!rating) return; var text = await prompt('Write your review:'); if (!text) return; reviews.push({ productId, name, rating, text }); saveReviews(); renderReviews(productId); showToast('Review added! ⭐', 'success'); }
-    function showSearchSuggestions(query) {
-      var suggestions = products.filter(p => p.name.toLowerCase().includes(query) || (p.description && p.description.toLowerCase().includes(query)));
-      var container = document.getElementById('searchSuggestions'); container.innerHTML = '';
-      if (suggestions.length === 0) { container.style.display = 'none'; return; }
-      suggestions.slice(0, 5).forEach(p => {
-        var div = document.createElement('div'); div.className = 'search-suggestion-item';
-        var emojiHtml;
-        if (isImageValue(p.emoji)) {
-          emojiHtml = '<img class="suggestion-emoji" src="' + p.emoji + '" alt="" />';
-        } else {
-          emojiHtml = '<span class="suggestion-emoji">' + (p.emoji || '🍽️') + '</span>';
-        }
-        div.innerHTML = emojiHtml + '<div><strong>' + p.name + '</strong> <span style="color:#999;">' + p.price + '</span></div>';
-        div.addEventListener('click', function() { document.getElementById('searchInput').value = p.name; searchQuery = p.name; renderProducts(); hideSearchSuggestions(); document.getElementById('searchContainer').classList.remove('active'); });
-        container.appendChild(div);
-      });
-      container.style.display = 'block';
-    }
+
+    function showSearchSuggestions(query) { var suggestions = products.filter(p => p.name.toLowerCase().includes(query) || (p.description && p.description.toLowerCase().includes(query))); var container = document.getElementById('searchSuggestions'); container.innerHTML = ''; if (suggestions.length === 0) { container.style.display = 'none'; return; } suggestions.slice(0, 5).forEach(p => { var div = document.createElement('div'); div.className = 'search-suggestion-item'; var emojiHtml; if (isImageValue(p.emoji)) { emojiHtml = '<img class="suggestion-emoji img-fade-in" src="' + p.emoji + '" alt="" />'; } else { emojiHtml = '<span class="suggestion-emoji">' + (p.emoji || '🍽️') + '</span>'; } div.innerHTML = emojiHtml + '<div><strong>' + p.name + '</strong> <span style="color:#999;">' + p.price + '</span></div>'; div.addEventListener('click', function() { document.getElementById('searchInput').value = p.name; searchQuery = p.name; renderProducts(); hideSearchSuggestions(); document.getElementById('searchContainer').classList.remove('active'); }); container.appendChild(div); }); container.style.display = 'block'; applyFadeInToAll(); }
     function hideSearchSuggestions() { document.getElementById('searchSuggestions').style.display = 'none'; }
+
     function handleFileSelect(fileInput, callback) { var file = fileInput.files[0]; if (!file) return; var reader = new FileReader(); reader.onload = e => callback(e.target.result); reader.readAsDataURL(file); }
-    function openMap() {
-      var address = contactInfo.address.replace(/\n/g, ', '); var query = encodeURIComponent(address);
-      var isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-      if (isMobile) {
-        if (/Android/i.test(navigator.userAgent)) { var mapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + query; var intentUrl = 'intent://maps.google.com/maps?q=' + query + '#Intent;scheme=https;action=android.intent.action.VIEW;end;'; window.location.href = intentUrl; setTimeout(function() { if (!document.hidden) { window.location.href = mapsUrl; } }, 1000); }
-        else { var googleMapsUrl = 'comgooglemaps://?q=' + query; var appleMapsUrl = 'https://maps.apple.com/?q=' + query; window.location.href = googleMapsUrl; setTimeout(function() { if (!document.hidden) { window.location.href = appleMapsUrl; } }, 500); }
-      } else { window.open('https://www.google.com/maps/search/?api=1&query=' + query, '_blank'); }
-    }
+    function openMap() { var address = contactInfo.address.replace(/\n/g, ', '); var query = encodeURIComponent(address); var isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent); if (isMobile) { if (/Android/i.test(navigator.userAgent)) { var mapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + query; var intentUrl = 'intent://maps.google.com/maps?q=' + query + '#Intent;scheme=https;action=android.intent.action.VIEW;end;'; window.location.href = intentUrl; setTimeout(function() { if (!document.hidden) { window.location.href = mapsUrl; } }, 1000); } else { var googleMapsUrl = 'comgooglemaps://?q=' + query; var appleMapsUrl = 'https://maps.apple.com/?q=' + query; window.location.href = googleMapsUrl; setTimeout(function() { if (!document.hidden) { window.location.href = appleMapsUrl; } }, 500); } } else { window.open('https://www.google.com/maps/search/?api=1&query=' + query, '_blank'); } }
+
     document.getElementById('searchToggleBtn').addEventListener('click', function() { document.getElementById('searchContainer').classList.toggle('active'); if (document.getElementById('searchContainer').classList.contains('active')) document.getElementById('searchInput').focus(); else { document.getElementById('searchInput').value = ''; searchQuery = ''; renderProducts(); hideSearchSuggestions(); } });
     document.getElementById('searchInput').addEventListener('input', function() { searchQuery = this.value; renderProducts(); if (this.value.trim().length > 0) { showSearchSuggestions(this.value.trim().toLowerCase()); } else { hideSearchSuggestions(); } });
     document.addEventListener('click', function(e) { if (!e.target.closest('.search-container') && !e.target.closest('.search-suggestions')) { hideSearchSuggestions(); } });
@@ -1536,16 +1030,7 @@
     document.getElementById('cartCheckoutBtn').addEventListener('click', function() { spawnActionParticles(this, 'cart'); checkout(); });
     document.getElementById('qtyMinus').addEventListener('click', function() { if (currentQty > 1) currentQty--; document.getElementById('qtyValue').textContent = currentQty; });
     document.getElementById('qtyPlus').addEventListener('click', function() { currentQty++; document.getElementById('qtyValue').textContent = currentQty; });
-    document.getElementById('modalAddBtn').addEventListener('click', function() {
-      var product = products.find(p => p.id === currentProductId);
-      if (product) {
-        var specialInst = document.getElementById('specialInstructionsInput').value.trim();
-        addToCart(product, specialInst);
-        spawnActionParticles(this, 'cart');
-        document.getElementById('productOverlay').style.display = 'none';
-        showToast('Added to cart! 🛒', 'success');
-      }
-    });
+    document.getElementById('modalAddBtn').addEventListener('click', function() { var product = products.find(p => p.id === currentProductId); if (product) { var specialInst = document.getElementById('specialInstructionsInput').value.trim(); addToCart(product, specialInst); spawnActionParticles(this, 'cart'); document.getElementById('productOverlay').style.display = 'none'; showToast('Added to cart! 🛒', 'success'); } });
     document.getElementById('modalBuyBtn').addEventListener('click', function() { spawnActionParticles(this, 'buy'); placeOrderDirect(); });
     document.getElementById('productClose').addEventListener('click', function() { document.getElementById('productOverlay').style.display = 'none'; });
     document.getElementById('productOverlay').addEventListener('click', function(e) { if (e.target === this) document.getElementById('productOverlay').style.display = 'none'; });
@@ -1553,45 +1038,12 @@
     document.getElementById('addReviewBtn').addEventListener('click', async function() { await addReview(currentProductId); });
     document.getElementById('successCloseBtn').addEventListener('click', function() { document.getElementById('successOverlay').style.display = 'none'; document.getElementById('confettiContainer').innerHTML = ''; });
     document.getElementById('successOverlay').addEventListener('click', function(e) { if (e.target === this) { document.getElementById('successOverlay').style.display = 'none'; document.getElementById('confettiContainer').innerHTML = ''; } });
-    document.getElementById('bookTableBtn').addEventListener('click', function() {
-      document.getElementById('bookingOverlay').style.display = 'flex';
-      if (currentCustomer) {
-        document.getElementById('bookingName').value = currentCustomer.name || '';
-        document.getElementById('bookingPhone').value = currentCustomer.phone || '';
-      }
-    });
+    document.getElementById('bookTableBtn').addEventListener('click', function() { document.getElementById('bookingOverlay').style.display = 'flex'; if (currentCustomer) { document.getElementById('bookingName').value = currentCustomer.name || ''; document.getElementById('bookingPhone').value = currentCustomer.phone || ''; } });
     document.getElementById('bookingClose').addEventListener('click', function() { document.getElementById('bookingOverlay').style.display = 'none'; });
     document.getElementById('bookingOverlay').addEventListener('click', function(e) { if (e.target === this) document.getElementById('bookingOverlay').style.display = 'none'; });
-    document.getElementById('bookingForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      var newBooking = {
-        id: Date.now().toString(),
-        customerName: document.getElementById('bookingName').value.trim(),
-        phone: document.getElementById('bookingPhone').value.trim(),
-        date: document.getElementById('bookingDate').value,
-        time: document.getElementById('bookingTime').value,
-        guests: document.getElementById('bookingGuests').value,
-        specialReq: document.getElementById('bookingSpecialReq').value.trim(),
-        timestamp: Date.now(),
-        status: 'pending'
-      };
-      bookings.push(newBooking);
-      saveBookings();
-      renderAdminBookingsList();
-      document.getElementById('bookingOverlay').style.display = 'none';
-      document.getElementById('bookingForm').reset();
-      showToast('Table booked successfully! 🎉', 'success');
-    });
-    document.getElementById('clearBookingsBtn').addEventListener('click', async function() { 
-      if (await confirm('Clear all bookings?')) { 
-        bookings = []; saveBookings(); renderAdminBookingsList(); showToast('All bookings cleared', 'success'); 
-      } 
-    });
-    document.getElementById('customerProfileBtn').addEventListener('click', async function() {
-      if (isLoggedIn) { if (await confirm('Logout from admin?')) { isLoggedIn = false; localStorage.removeItem('samoon99_loggedin'); updateCustomerUI(); document.getElementById('adminPanel').classList.remove('active'); document.getElementById('ownerOrdersPanel').style.display = 'none'; document.getElementById('adminGalleryControls').classList.remove('active'); document.getElementById('adminContactControls').classList.remove('active'); renderAll(); showToast('Logged out', 'info'); } }
-      else if (currentCustomer) { if (await confirm('Logout from customer account?')) { customerLogout(); showToast('Logged out', 'info'); } }
-      else { document.getElementById('customerAuthOverlay').style.display = 'flex'; document.getElementById('customerAuthError').textContent = ''; document.getElementById('customerAuthTitle').textContent = 'Customer Login'; document.getElementById('customerAuthSubmit').innerHTML = '<i class="fas fa-sign-in-alt"></i> Login'; document.getElementById('customerNameGroup').style.display = 'none'; document.getElementById('customerEmail').value = ''; document.getElementById('customerPassword').value = ''; document.getElementById('customerName').value = ''; document.getElementById('ownerLoginError').textContent = ''; document.getElementById('ownerPassword').value = ''; switchAuthTab('customerPanel'); }
-    });
+    document.getElementById('bookingForm').addEventListener('submit', function(e) { e.preventDefault(); var newBooking = { id: Date.now().toString(), customerName: document.getElementById('bookingName').value.trim(), phone: document.getElementById('bookingPhone').value.trim(), date: document.getElementById('bookingDate').value, time: document.getElementById('bookingTime').value, guests: document.getElementById('bookingGuests').value, specialReq: document.getElementById('bookingSpecialReq').value.trim(), timestamp: Date.now(), status: 'pending' }; bookings.push(newBooking); saveBookings(); renderAdminBookingsList(); document.getElementById('bookingOverlay').style.display = 'none'; document.getElementById('bookingForm').reset(); showToast('Table booked successfully! 🎉', 'success'); });
+    document.getElementById('clearBookingsBtn').addEventListener('click', async function() { if (await confirm('Clear all bookings?')) { bookings = []; saveBookings(); renderAdminBookingsList(); showToast('All bookings cleared', 'success'); } });
+    document.getElementById('customerProfileBtn').addEventListener('click', async function() { if (isLoggedIn) { if (await confirm('Logout from admin?')) { isLoggedIn = false; localStorage.removeItem('samoon99_loggedin'); updateCustomerUI(); document.getElementById('adminPanel').classList.remove('active'); document.getElementById('ownerOrdersPanel').style.display = 'none'; document.getElementById('adminGalleryControls').classList.remove('active'); document.getElementById('adminContactControls').classList.remove('active'); renderAll(); showToast('Logged out', 'info'); } } else if (currentCustomer) { if (await confirm('Logout from customer account?')) { customerLogout(); showToast('Logged out', 'info'); } } else { document.getElementById('customerAuthOverlay').style.display = 'flex'; document.getElementById('customerAuthError').textContent = ''; document.getElementById('customerAuthTitle').textContent = 'Customer Login'; document.getElementById('customerAuthSubmit').innerHTML = '<i class="fas fa-sign-in-alt"></i> Login'; document.getElementById('customerNameGroup').style.display = 'none'; document.getElementById('customerEmail').value = ''; document.getElementById('customerPassword').value = ''; document.getElementById('customerName').value = ''; document.getElementById('ownerLoginError').textContent = ''; document.getElementById('ownerPassword').value = ''; switchAuthTab('customerPanel'); } });
     function switchAuthTab(panelId) { document.querySelectorAll('.auth-tab').forEach(tab => { tab.classList.remove('active'); if (tab.getAttribute('data-auth-tab') === panelId) tab.classList.add('active'); }); document.querySelectorAll('.auth-panel').forEach(panel => { panel.classList.remove('active'); }); document.getElementById(panelId).classList.add('active'); }
     document.querySelectorAll('.auth-tab').forEach(tab => { tab.addEventListener('click', function() { switchAuthTab(tab.getAttribute('data-auth-tab')); }); });
     document.getElementById('customerAuthForm').addEventListener('submit', function(e) { e.preventDefault(); var email = document.getElementById('customerEmail').value.trim(); var password = document.getElementById('customerPassword').value; var name = document.getElementById('customerName').value.trim(); var isRegisterMode = document.getElementById('customerNameGroup').style.display === 'block'; if (isRegisterMode) { if (!name) { document.getElementById('customerAuthError').textContent = 'Please enter your name'; return; } customerRegister(name, email, password); } else { customerLogin(email, password); } });
@@ -1636,12 +1088,7 @@
       if (!name || !price || !categoryInput) { alert('Please fill name, price, and category'); return; }
       var categoryId = getCategoryIdFromInput(categoryInput);
       var idx = products.findIndex(p => p.id === id);
-      if (idx >= 0) {
-        products[idx] = { id, emoji: imageValue, name, price, rating, category: categoryId, description };
-        saveProducts(); renderProducts(); renderAdminProductList(); renderCategoryPills(); populateCategorySuggestions(); renderAdminCategoryList();
-        document.getElementById('editProductOverlay').style.display = 'none';
-        showToast('Product updated! ✅', 'success');
-      } else { showToast('Product not found', 'error'); }
+      if (idx >= 0) { products[idx] = { id, emoji: imageValue, name, price, rating, category: categoryId, description }; saveProducts(); renderProducts(); renderAdminProductList(); renderCategoryPills(); populateCategorySuggestions(); renderAdminCategoryList(); document.getElementById('editProductOverlay').style.display = 'none'; showToast('Product updated! ✅', 'success'); } else { showToast('Product not found', 'error'); }
     });
     document.getElementById('adminForm').addEventListener('submit', function(e) {
       e.preventDefault(); var id = document.getElementById('adminProductId').value; var name = document.getElementById('adminName').value.trim();
@@ -1674,22 +1121,26 @@
     document.getElementById('ownerClearOrdersBtn').addEventListener('click', async function() { if (await confirm('Clear all orders?')) { orders = []; saveOrders(); renderAdminOrdersList(); renderOrdersDashboard(); updateNotifBadge(); showToast('All orders cleared', 'success'); } });
     document.querySelectorAll('.admin-tab-btn').forEach(btn => { btn.addEventListener('click', function() { document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active')); document.getElementById('admin' + btn.getAttribute('data-tab').charAt(0).toUpperCase() + btn.getAttribute('data-tab').slice(1) + 'Section').classList.add('active'); }); });
     if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').then(registration => console.log('SW registered:', registration.scope)).catch(err => console.log('SW registration failed:', err)); }); }
+
     loadData();
     checkLogin();
     showProductSkeletons(6);
-    setTimeout(function() {
-      renderAll();
-    }, 250);
-    document.getElementById('galleryLightboxClose').addEventListener('click', function() {
-      document.getElementById('galleryLightboxOverlay').style.display = 'none';
-      document.getElementById('galleryLightboxImage').src = '';
+    setTimeout(function() { renderAll(); applyFadeInToAll(); }, 250);
+
+    var observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        mutation.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'IMG') applyFadeIn(node);
+            if (node.querySelectorAll) { node.querySelectorAll('img').forEach(function(img) { applyFadeIn(img); }); }
+          }
+        });
+      });
     });
-    document.getElementById('galleryLightboxOverlay').addEventListener('click', function(e) {
-      if (e.target === this) {
-        document.getElementById('galleryLightboxOverlay').style.display = 'none';
-        document.getElementById('galleryLightboxImage').src = '';
-      }
-    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    document.getElementById('galleryLightboxClose').addEventListener('click', function() { document.getElementById('galleryLightboxOverlay').style.display = 'none'; document.getElementById('galleryLightboxImage').src = ''; });
+    document.getElementById('galleryLightboxOverlay').addEventListener('click', function(e) { if (e.target === this) { document.getElementById('galleryLightboxOverlay').style.display = 'none'; document.getElementById('galleryLightboxImage').src = ''; } });
   </script>
 </body>
 </html>
