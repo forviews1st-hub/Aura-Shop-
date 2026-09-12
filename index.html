@@ -30,8 +30,9 @@
     .search-suggestion-item .suggestion-emoji { font-size:18px; }
     .search-suggestion-item img.suggestion-emoji { width:28px; height:28px; border-radius:50%; object-fit:cover; flex-shrink:0; }
     .brand-name { flex: 1; text-align: center; font-family: 'Bluecherries', cursive; font-size: 32px; letter-spacing: 1px; color: #1A1A1A; cursor: default; user-select: none; white-space: nowrap; text-shadow: 0 1px 2px rgba(0,0,0,0.1); }
-    .cart-btn { position:relative; cursor:pointer; background:none; border:none; font-size:22px; color:#1A1A1A; transition:transform 0.15s; }
+    .cart-btn { position:relative; cursor:pointer; background:none; border:none; font-size:22px; color:#1A1A1A; transition:transform 0.15s; display:flex; align-items:center; justify-content:center; }
     .cart-btn:hover { transform:scale(1.1); }
+    .cart-icon-img { width: 34px; height: 34px; object-fit: contain; display: block; pointer-events: none; }
     .cart-badge { position:absolute; top:-5px; right:-5px; background:#FF4D4D; color:#fff; font-size:10px; font-weight:700; border-radius:50%; width:18px; height:18px; display:flex; align-items:center; justify-content:center; animation:badgePulse 0.3s ease; }
     @keyframes badgePulse { 0% { transform:scale(0); } 60% { transform:scale(1.3); } 100% { transform:scale(1); } }
     .profile { position:relative; cursor:pointer; background:none; border:none; }
@@ -403,7 +404,11 @@
         </div>
         <div class="search-suggestions" id="searchSuggestions"></div>
         <div class="brand-name animate-card" id="brandName" style="animation-delay: 0s;">Aura Cafe</div>
-        <button class="cart-btn animate-card" id="cartBtn" aria-label="Cart" style="animation-delay: 0.1s;">🛒<span class="cart-badge" id="cartBadge" style="display:none;">0</span></button>
+        <button class="cart-btn animate-card" id="cartBtn" aria-label="Cart" style="animation-delay: 0.1s;">
+          <img class="img-fade-in cart-icon-img" src="/images/cart_icon.png" alt="Cart" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+          <span class="cart-emoji-fallback" style="display:none; font-size:22px; line-height:1;">🛒</span>
+          <span class="cart-badge" id="cartBadge" style="display:none;">0</span>
+        </button>
         <button class="profile animate-card" id="customerProfileBtn" aria-label="Profile" style="position:relative; animation-delay: 0.2s;">
           <div class="avatar" id="customerAvatar">
             <img class="img-fade-in" src="https://i.ibb.co/RpdwtSRh/avatar.png" alt="Avatar" />
@@ -813,7 +818,7 @@
     var contactInfo = { address: '279 Prospect Rd, Blair Athol SA 5084, Australia', phone: '+61 478 706 251', hours: 'Monday – Sunday, 6:00 AM – 9:00 PM', social: { instagram: '', facebook: '', whatsapp: '+61 478 706 251' } };
 
     function loadData() {
-      var CURRENT_VERSION = '2.3.2';
+      var CURRENT_VERSION = '2.3.3';
       var storedVersion = localStorage.getItem('samoon99_version');
       if (storedVersion !== CURRENT_VERSION) { localStorage.clear(); localStorage.setItem('samoon99_version', CURRENT_VERSION); }
       try {
@@ -1122,7 +1127,7 @@
     document.getElementById('ownerClearOrdersBtn').addEventListener('click', async function() { if (await confirm('Clear all orders?')) { orders = []; saveOrders(); renderAdminOrdersList(); renderOrdersDashboard(); updateNotifBadge(); showToast('All orders cleared', 'success'); } });
     document.querySelectorAll('.admin-tab-btn').forEach(btn => { btn.addEventListener('click', function() { document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active')); document.getElementById('admin' + btn.getAttribute('data-tab').charAt(0).toUpperCase() + btn.getAttribute('data-tab').slice(1) + 'Section').classList.add('active'); }); });
 
-    // ===== SMART OFFLINE DETECTION (Internet cut = no change | Click = offline page) =====
+    // ===== SMART OFFLINE DETECTION =====
     document.addEventListener('click', function(e) {
       if (!navigator.onLine) {
         e.preventDefault();
@@ -1132,7 +1137,7 @@
       }
     }, true);
 
-    // ===== SERVICE WORKER REGISTRATION (Premium Offline Support) =====
+    // ===== SERVICE WORKER REGISTRATION =====
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js', { scope: '/' })
