@@ -60,9 +60,6 @@
     .product-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:22px; margin-bottom:30px; }
     @media (min-width:600px) { .product-grid { grid-template-columns:repeat(3,1fr); } }
     @media (min-width:900px) { .product-grid { grid-template-columns:repeat(4,1fr); } }
-    /* ============================================
-       🎨 COMBO ANIMATION: 3D Bubble Pop + Neon Glow
-       ============================================ */
     @keyframes bubbleMaterialize {
       0% { opacity: 0; transform: scale(0.3) rotate(-3deg); filter: blur(8px) drop-shadow(0 0 0px rgba(217, 181, 138, 0)); }
       40% { opacity: 1; transform: scale(1.15) rotate(1deg); filter: blur(0px) drop-shadow(0 0 20px rgba(217, 181, 138, 0.9)); }
@@ -73,7 +70,6 @@
       animation: bubbleMaterialize 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
       opacity: 0;
     }
-    /* ============================================ */
     .card { background: #fefcf9; border-radius: 32px; overflow: hidden; box-shadow: 0 12px 28px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.08), inset 0 0 0 2px rgba(255,255,255,0.6); display: flex; flex-direction: column; cursor: pointer; transition: transform 0.25s ease, box-shadow 0.25s ease; border: 2px solid #f0e0c9; padding: 0; position: relative; }
     .card:hover { transform: translateY(-10px) rotate(-1deg) scale(1.01); box-shadow: 0 25px 45px rgba(0,0,0,0.25), 0 6px 12px rgba(0,0,0,0.1); }
     .card::after { content: ''; position: absolute; top: 6px; left: 6px; right: 6px; bottom: 6px; border: 2px dashed #d9b58a; border-radius: 26px; pointer-events: none; opacity: 0.5; z-index: 1; }
@@ -431,6 +427,7 @@
             <button class="admin-tab-btn active" data-tab="products">Products</button>
             <button class="admin-tab-btn" data-tab="categories">Categories</button>
             <button class="admin-tab-btn" data-tab="orders">Orders</button>
+            <button class="admin-tab-btn" data-tab="bookings">Bookings</button>
             <button class="admin-tab-btn" data-tab="social">Social</button>
           </div>
           <div class="admin-section active" id="adminProductsSection">
@@ -482,6 +479,11 @@
             <h4>Customer Orders</h4>
             <div id="adminOrdersList"></div>
             <button class="secondary" id="clearOrdersBtn" style="margin-top:15px;">🗑️ Clear All Orders</button>
+          </div>
+          <div class="admin-section" id="adminBookingsSection">
+            <h4>Table Bookings</h4>
+            <div id="adminBookingsList"></div>
+            <button class="secondary" id="clearBookingsBtn" style="margin-top:15px;">🗑️ Clear All Bookings</button>
           </div>
           <div class="admin-section" id="adminSocialSection">
             <form class="admin-form" id="socialForm">
@@ -559,8 +561,10 @@
       <div class="copyright">© 2026 Aura Cafe. All rights reserved.</div>
     </footer>
   </div>
-  <button class="call-btn animate-card" id="callBtn" title="Call Us" style="animation-delay: 0.4s;">
-    <img src="https://i.ibb.co/zH5GG5H5/Gemini-Generated-Image-y95m0by95m0by95m.png" alt="Call" />
+  <button class="call-btn animate-card" id="bookTableBtn" title="Book a Table" style="animation-delay: 0.4s;">
+    <div style="width: 60px; height: 60px; background: linear-gradient(145deg, #ffffff 0%, #fdf6ec 45%, #ecdcc4 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(120, 90, 50, 0.3), inset 0 2px 4px rgba(255, 255, 255, 1); border: 2px solid #d9b58a;">
+      <i class="fas fa-calendar-check" style="font-size: 28px; color: #1A1A1A;"></i>
+    </div>
   </button>
   <div class="modal-overlay" id="customerAuthOverlay">
     <div class="modal">
@@ -650,6 +654,25 @@
           <div class="form-group" id="savedAddressesGroup" style="display:none;"><label>Saved Addresses</label><div id="savedAddressesList"></div></div>
           <div class="form-group"><label>Email (optional)</label><input type="email" id="orderEmail" placeholder="you@email.com" /></div>
           <button type="submit" class="login-btn" id="placeOrderBtn">Place Order ✅</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal-overlay" id="bookingOverlay">
+    <div class="modal">
+      <button class="modal-close" id="bookingClose">&times;</button>
+      <div class="modal-content">
+        <h3>📅 Book a Table</h3>
+        <form class="order-form" id="bookingForm">
+          <div class="form-group"><label>Full Name</label><input type="text" id="bookingName" placeholder="Your name" required /></div>
+          <div class="form-group"><label>Phone Number</label><input type="tel" id="bookingPhone" placeholder="Your phone" required /></div>
+          <div class="form-group" style="display:flex; gap:10px;">
+            <div style="flex:1;"><label>Date</label><input type="date" id="bookingDate" required /></div>
+            <div style="flex:1;"><label>Time</label><input type="time" id="bookingTime" required /></div>
+          </div>
+          <div class="form-group"><label>Number of Guests</label><input type="number" id="bookingGuests" min="1" max="20" value="2" required /></div>
+          <div class="form-group"><label>Special Request (optional)</label><textarea id="bookingSpecialReq" rows="2" placeholder="Any special request..."></textarea></div>
+          <button type="submit" class="login-btn" id="placeBookingBtn">Confirm Booking ✅</button>
         </form>
       </div>
     </div>
@@ -811,14 +834,14 @@
     const defaultReviews = [];
     const defaultLoyalty = {};
     const defaultCustomers = [];
-    var products = [], categories = [], galleryImages = [], orders = [], cart = [], reviews = [];
+    var products = [], categories = [], galleryImages = [], orders = [], cart = [], reviews = [], bookings = [];
     var loyaltyPoints = {};
     var customers = [];
     var currentCustomer = null;
     var wishlistItems = [];
     var contactInfo = { address: '279 Prospect Rd, Blair Athol SA 5084, Australia', phone: '+61 478 706 251', hours: 'Monday – Sunday, 6:00 AM – 9:00 PM', social: { instagram: '', facebook: '', whatsapp: '+61 478 706 251' } };
     function loadData() {
-      var CURRENT_VERSION = '2.2.0';
+      var CURRENT_VERSION = '2.3.0';
       var storedVersion = localStorage.getItem('samoon99_version');
       if (storedVersion !== CURRENT_VERSION) { localStorage.clear(); localStorage.setItem('samoon99_version', CURRENT_VERSION); }
       try {
@@ -826,6 +849,7 @@
         categories = JSON.parse(localStorage.getItem('samoon99_categories')) || defaultCategories.slice(); saveCategories();
         galleryImages = JSON.parse(localStorage.getItem('samoon99_gallery')) || defaultGallery.slice(); saveGallery();
         orders = JSON.parse(localStorage.getItem('samoon99_orders')) || defaultOrders.slice(); saveOrders();
+        bookings = JSON.parse(localStorage.getItem('samoon99_bookings')) || [];
         cart = JSON.parse(localStorage.getItem('samoon99_cart')) || defaultCart.slice(); saveCart();
         reviews = JSON.parse(localStorage.getItem('samoon99_reviews')) || defaultReviews.slice(); saveReviews();
         loyaltyPoints = JSON.parse(localStorage.getItem('samoon99_loyalty')) || defaultLoyalty; saveLoyalty();
@@ -835,17 +859,18 @@
         contactInfo = JSON.parse(localStorage.getItem('samoon99_contact')) || contactInfo; saveContact();
       } catch(e) {
         products = defaultProducts.slice(); categories = defaultCategories.slice(); galleryImages = defaultGallery.slice();
-        orders = []; cart = []; reviews = []; loyaltyPoints = {}; customers = []; currentCustomer = null; wishlistItems = [];
+        orders = []; cart = []; reviews = []; loyaltyPoints = {}; customers = []; currentCustomer = null; wishlistItems = []; bookings = [];
         contactInfo = { address:'279 Prospect Rd, Blair Athol SA 5084, Australia', phone:'+61 478 706 251', hours:'Monday – Sunday, 6:00 AM – 9:00 PM', social:{ instagram:'', facebook:'', whatsapp:'+61 478 706 251' } };
         saveAll();
       }
       updateContactUI(); updateSocialLinksUI(); updateCustomerUI();
     }
-    function saveAll() { saveProducts(); saveCategories(); saveGallery(); saveOrders(); saveCart(); saveReviews(); saveLoyalty(); saveContact(); saveCustomers(); saveWishlist(); }
+    function saveAll() { saveProducts(); saveCategories(); saveGallery(); saveOrders(); saveCart(); saveReviews(); saveLoyalty(); saveContact(); saveCustomers(); saveWishlist(); saveBookings(); }
     function saveProducts() { localStorage.setItem('samoon99_products', JSON.stringify(products)); }
     function saveCategories() { localStorage.setItem('samoon99_categories', JSON.stringify(categories)); }
     function saveGallery() { localStorage.setItem('samoon99_gallery', JSON.stringify(galleryImages)); }
     function saveOrders() { localStorage.setItem('samoon99_orders', JSON.stringify(orders)); }
+    function saveBookings() { localStorage.setItem('samoon99_bookings', JSON.stringify(bookings)); }
     function saveCart() { localStorage.setItem('samoon99_cart', JSON.stringify(cart)); }
     function saveReviews() { localStorage.setItem('samoon99_reviews', JSON.stringify(reviews)); }
     function saveLoyalty() { localStorage.setItem('samoon99_loyalty', JSON.stringify(loyaltyPoints)); }
@@ -1079,45 +1104,21 @@
     }
     function renderAll() {
       renderCategoryPills(); renderProducts(); renderGallery(); renderAdminProductList(); renderAdminCategoryList();
-      renderAdminOrdersList(); renderGalleryInlineList(); renderCartUI(); populateCategorySuggestions();
+      renderAdminOrdersList(); renderAdminBookingsList(); renderGalleryInlineList(); renderCartUI(); populateCategorySuggestions();
       updateCustomerUI(); updateSocialLinksUI(); renderOrdersDashboard();
     }
     function renderCategoryPills() {
       var container = document.getElementById('categoryPillsContainer'); container.innerHTML = '';
-      
-      var allBtn = document.createElement('button'); 
-      allBtn.className = 'pill active animate-card'; 
-      allBtn.setAttribute('data-category', 'all'); 
-      allBtn.textContent = 'All'; 
-      allBtn.style.animationDelay = '0s'; 
-      container.appendChild(allBtn);
-      
+      var allBtn = document.createElement('button'); allBtn.className = 'pill active animate-card'; allBtn.setAttribute('data-category', 'all'); allBtn.textContent = 'All'; allBtn.style.animationDelay = '0s'; container.appendChild(allBtn);
       categories.forEach(function(category, index) {
-        var btn = document.createElement('button'); 
-        btn.className = 'pill animate-card'; 
-        btn.setAttribute('data-category', category.id);
-        btn.style.animationDelay = ((index + 1) * 0.05) + 's'; // Har pill 0.05s ke gap se aayega
-        
-        if (isImageValue(category.emoji)) { 
-          var img = document.createElement('img'); 
-          img.src = category.emoji; 
-          img.alt = category.name; 
-          img.loading = 'lazy'; 
-          btn.appendChild(img); 
-        } else { 
-          btn.textContent = category.emoji + ' '; 
-        }
-        btn.appendChild(document.createTextNode(category.name)); 
-        container.appendChild(btn);
+        var btn = document.createElement('button'); btn.className = 'pill animate-card'; btn.setAttribute('data-category', category.id);
+        btn.style.animationDelay = ((index + 1) * 0.05) + 's';
+        if (isImageValue(category.emoji)) { var img = document.createElement('img'); img.src = category.emoji; img.alt = category.name; img.loading = 'lazy'; btn.appendChild(img); }
+        else { btn.textContent = category.emoji + ' '; }
+        btn.appendChild(document.createTextNode(category.name)); container.appendChild(btn);
       });
-      
       container.querySelectorAll('.pill').forEach(function(pill) {
-        pill.addEventListener('click', function() { 
-          container.querySelectorAll('.pill').forEach(p => p.classList.remove('active')); 
-          pill.classList.add('active'); 
-          currentFilter = pill.getAttribute('data-category'); 
-          renderProducts(); 
-        });
+        pill.addEventListener('click', function() { container.querySelectorAll('.pill').forEach(p => p.classList.remove('active')); pill.classList.add('active'); currentFilter = pill.getAttribute('data-category'); renderProducts(); });
       });
     }
     var currentFilter = 'all'; var searchQuery = '';
@@ -1320,6 +1321,22 @@
         topItem.innerHTML = '<div class="owner-order-info"><div class="order-name">' + order.productName + ' <span style="color:#999;font-weight:400;">x' + (order.qty||1) + ' (' + order.price + ')</span></div>' + '<div class="order-meta">👤 ' + order.customerName + ' • 📞 ' + order.phone + ' • 📍 ' + (order.address||'N/A') + ' • ' + new Date(order.timestamp).toLocaleString() + ' • ' + statusBadge + '</div>' + instructionsHtml + '</div>';
         var topDelBtn = document.createElement('button'); topDelBtn.className = 'owner-order-delete'; topDelBtn.textContent = '🗑️'; topDelBtn.onclick = async function() { if (await confirm('Delete this order?')) { orders.splice(index,1); saveOrders(); renderAdminOrdersList(); renderOrdersDashboard(); updateNotifBadge(); } };
         topItem.appendChild(topDelBtn); topList.appendChild(topItem);
+      });
+    }
+    function renderAdminBookingsList() {
+      var list = document.getElementById('adminBookingsList'); if (!list) return; list.innerHTML = '';
+      if (bookings.length === 0) { list.innerHTML = '<p>No bookings yet.</p>'; return; }
+      bookings.forEach(function(booking, index) {
+        var div = document.createElement('div'); div.className = 'order-item';
+        div.innerHTML = '<div class="order-details"><span><strong>' + booking.customerName + '</strong> - ' + booking.guests + ' Guests</span><span>' + new Date(booking.timestamp).toLocaleString() + '</span></div>' + 
+                        '<div class="order-customer">📅 ' + booking.date + ' at ' + booking.time + ' • 📞 ' + booking.phone + (booking.specialReq ? ' • 📝 ' + booking.specialReq : '') + '</div>';
+        var actions = document.createElement('div'); actions.className = 'admin-actions';
+        var statusSelect = document.createElement('select'); 
+        statusSelect.innerHTML = '<option value="pending" ' + (booking.status==='pending'?'selected':'') + '>Pending</option><option value="confirmed" ' + (booking.status==='confirmed'?'selected':'') + '>Confirmed</option><option value="cancelled" ' + (booking.status==='cancelled'?'selected':'') + '>Cancelled</option>';
+        statusSelect.onchange = function() { booking.status = statusSelect.value; saveBookings(); };
+        actions.appendChild(statusSelect);
+        var delBtn = document.createElement('button'); delBtn.textContent = '🗑️'; delBtn.onclick = async function() { if (await confirm('Delete this booking?')) { bookings.splice(index,1); saveBookings(); renderAdminBookingsList(); } };
+        actions.appendChild(delBtn); div.appendChild(actions); list.appendChild(div);
       });
     }
     function renderOrdersDashboard() {
@@ -1536,7 +1553,40 @@
     document.getElementById('addReviewBtn').addEventListener('click', async function() { await addReview(currentProductId); });
     document.getElementById('successCloseBtn').addEventListener('click', function() { document.getElementById('successOverlay').style.display = 'none'; document.getElementById('confettiContainer').innerHTML = ''; });
     document.getElementById('successOverlay').addEventListener('click', function(e) { if (e.target === this) { document.getElementById('successOverlay').style.display = 'none'; document.getElementById('confettiContainer').innerHTML = ''; } });
-    document.getElementById('callBtn').addEventListener('click', function() { window.location.href = 'tel:' + contactInfo.phone.replace(/\D/g,''); });
+    document.getElementById('bookTableBtn').addEventListener('click', function() {
+      document.getElementById('bookingOverlay').style.display = 'flex';
+      if (currentCustomer) {
+        document.getElementById('bookingName').value = currentCustomer.name || '';
+        document.getElementById('bookingPhone').value = currentCustomer.phone || '';
+      }
+    });
+    document.getElementById('bookingClose').addEventListener('click', function() { document.getElementById('bookingOverlay').style.display = 'none'; });
+    document.getElementById('bookingOverlay').addEventListener('click', function(e) { if (e.target === this) document.getElementById('bookingOverlay').style.display = 'none'; });
+    document.getElementById('bookingForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var newBooking = {
+        id: Date.now().toString(),
+        customerName: document.getElementById('bookingName').value.trim(),
+        phone: document.getElementById('bookingPhone').value.trim(),
+        date: document.getElementById('bookingDate').value,
+        time: document.getElementById('bookingTime').value,
+        guests: document.getElementById('bookingGuests').value,
+        specialReq: document.getElementById('bookingSpecialReq').value.trim(),
+        timestamp: Date.now(),
+        status: 'pending'
+      };
+      bookings.push(newBooking);
+      saveBookings();
+      renderAdminBookingsList();
+      document.getElementById('bookingOverlay').style.display = 'none';
+      document.getElementById('bookingForm').reset();
+      showToast('Table booked successfully! 🎉', 'success');
+    });
+    document.getElementById('clearBookingsBtn').addEventListener('click', async function() { 
+      if (await confirm('Clear all bookings?')) { 
+        bookings = []; saveBookings(); renderAdminBookingsList(); showToast('All bookings cleared', 'success'); 
+      } 
+    });
     document.getElementById('customerProfileBtn').addEventListener('click', async function() {
       if (isLoggedIn) { if (await confirm('Logout from admin?')) { isLoggedIn = false; localStorage.removeItem('samoon99_loggedin'); updateCustomerUI(); document.getElementById('adminPanel').classList.remove('active'); document.getElementById('ownerOrdersPanel').style.display = 'none'; document.getElementById('adminGalleryControls').classList.remove('active'); document.getElementById('adminContactControls').classList.remove('active'); renderAll(); showToast('Logged out', 'info'); } }
       else if (currentCustomer) { if (await confirm('Logout from customer account?')) { customerLogout(); showToast('Logged out', 'info'); } }
