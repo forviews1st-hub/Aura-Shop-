@@ -390,6 +390,7 @@
       #toastContainer { bottom:80px; right:10px; }
       .wishlist { width: 34px; height: 34px; font-size: 17px; top: 10px; left: 10px; }
     }
+    img { background: linear-gradient(145deg, #fdf6ec 0%, #f5e6d3 100%); }
   </style>
 </head>
 <body>
@@ -1120,7 +1121,29 @@
     document.getElementById('clearOrdersBtn').addEventListener('click', async function() { if (await confirm('Clear all orders?')) { orders = []; saveOrders(); renderAdminOrdersList(); renderOrdersDashboard(); updateNotifBadge(); showToast('All orders cleared', 'success'); } });
     document.getElementById('ownerClearOrdersBtn').addEventListener('click', async function() { if (await confirm('Clear all orders?')) { orders = []; saveOrders(); renderAdminOrdersList(); renderOrdersDashboard(); updateNotifBadge(); showToast('All orders cleared', 'success'); } });
     document.querySelectorAll('.admin-tab-btn').forEach(btn => { btn.addEventListener('click', function() { document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active')); document.getElementById('admin' + btn.getAttribute('data-tab').charAt(0).toUpperCase() + btn.getAttribute('data-tab').slice(1) + 'Section').classList.add('active'); }); });
-    if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').then(registration => console.log('SW registered:', registration.scope)).catch(err => console.log('SW registration failed:', err)); }); }
+
+    // ===== SERVICE WORKER REGISTRATION (Premium Offline Support) =====
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js', { scope: '/' })
+          .then(registration => {
+            console.log('SW registered:', registration.scope);
+            setInterval(() => { registration.update(); }, 60 * 60 * 1000);
+          })
+          .catch(err => console.log('SW registration failed:', err));
+      });
+    }
+    document.addEventListener('error', function(e) {
+      var img = e.target;
+      if (img && img.tagName === 'IMG' && !img.dataset.fb) {
+        img.dataset.fb = '1';
+        img.style.visibility = 'hidden';
+        var fb = document.createElement('div');
+        fb.style.cssText = 'width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:48px;background:linear-gradient(145deg,#fdf6ec,#f5e6d3);border-radius:12px;';
+        fb.textContent = '🍽️';
+        if (img.parentNode) img.parentNode.appendChild(fb);
+      }
+    }, true);
 
     loadData();
     checkLogin();
