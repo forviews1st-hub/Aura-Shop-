@@ -61,19 +61,108 @@
     .product-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:22px; margin-bottom:30px; }
     @media (min-width:600px) { .product-grid { grid-template-columns:repeat(3,1fr); } }
     @media (min-width:900px) { .product-grid { grid-template-columns:repeat(4,1fr); } }
+
+    /* ============================================
+       🎬 LIGHT POP-UP (Sirf food items)
+       ============================================ */
     @keyframes bubbleMaterialize {
-      0% { opacity: 0; transform: scale(0.3) rotate(-3deg); filter: blur(8px) drop-shadow(0 0 0px rgba(217, 181, 138, 0)); }
-      40% { opacity: 1; transform: scale(1.15) rotate(1deg); filter: blur(0px) drop-shadow(0 0 20px rgba(217, 181, 138, 0.9)); }
-      70% { transform: scale(0.95) rotate(-0.5deg); filter: blur(0px) drop-shadow(0 0 10px rgba(217, 181, 138, 0.5)); }
-      100% { opacity: 1; transform: scale(1) rotate(0deg); filter: blur(0px) drop-shadow(0 0 0px rgba(217, 181, 138, 0)); }
+      0% { opacity: 0; transform: scale(0.9) translateY(15px); }
+      60% { opacity: 1; transform: scale(1.02) translateY(0); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
     }
-    .animate-card { animation: bubbleMaterialize 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; opacity: 0; }
-    img.img-fade-in { opacity: 0; filter: blur(14px); transition: opacity 0.6s ease, filter 0.7s ease; will-change: opacity, filter; }
-    img.img-fade-in.loaded { opacity: 1; filter: blur(0); }
+    .animate-card {
+      animation: bubbleMaterialize 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      opacity: 0;
+    }
+
+    /* ============================================
+       ✨ MAGIC LOADING: Golden Dust + Aura Glow
+       (Sirf food items ke card-img par)
+       ============================================ */
+    .card-img { position: relative; overflow: hidden; }
+
+    .card-img::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(255, 240, 210, 0.95) 0%, rgba(217, 181, 138, 0.75) 35%, rgba(217, 181, 138, 0.35) 65%, transparent 100%),
+        linear-gradient(135deg, #fdf6ec 0%, #f5e6d3 45%, #ecdcc4 100%);
+      opacity: 1;
+      transition: opacity 0.6s ease;
+      pointer-events: none;
+      animation: auraGlowPulse 2s ease-in-out infinite;
+    }
+    @keyframes auraGlowPulse {
+      0%, 100% {
+        box-shadow:
+          inset 0 0 30px 6px rgba(217, 181, 138, 0.65),
+          inset 0 0 60px 18px rgba(217, 181, 138, 0.35);
+      }
+      50% {
+        box-shadow:
+          inset 0 0 55px 18px rgba(255, 220, 150, 0.95),
+          inset 0 0 110px 45px rgba(217, 181, 138, 0.55);
+      }
+    }
+
+    .card-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      pointer-events: none;
+      opacity: 1;
+      transition: opacity 0.6s ease;
+      background-image:
+        radial-gradient(3px 3px at 15% 25%, #ffe8b0 50%, transparent 51%),
+        radial-gradient(2px 2px at 72% 55%, #ffd88a 50%, transparent 51%),
+        radial-gradient(4px 4px at 42% 78%, #ffe8b0 50%, transparent 51%),
+        radial-gradient(2px 2px at 88% 22%, #ffd88a 50%, transparent 51%),
+        radial-gradient(3px 3px at 12% 68%, #ffe8b0 50%, transparent 51%),
+        radial-gradient(2px 2px at 58% 12%, #ffd88a 50%, transparent 51%),
+        radial-gradient(3px 3px at 92% 72%, #ffe8b0 50%, transparent 51%),
+        radial-gradient(2px 2px at 28% 48%, #ffd88a 50%, transparent 51%),
+        radial-gradient(3px 3px at 78% 38%, #ffe8b0 50%, transparent 51%),
+        radial-gradient(2px 2px at 48% 88%, #ffd88a 50%, transparent 51%),
+        radial-gradient(2px 2px at 65% 82%, #ffe8b0 50%, transparent 51%),
+        radial-gradient(3px 3px at 35% 15%, #ffd88a 50%, transparent 51%);
+      background-size: 100% 100%;
+      filter: drop-shadow(0 0 5px rgba(255, 216, 138, 0.95)) drop-shadow(0 0 10px rgba(255, 200, 100, 0.55));
+      animation: dustSparkle 2.5s ease-in-out infinite;
+    }
+    @keyframes dustSparkle {
+      0%, 100% { opacity: 0.65; transform: scale(1) translateY(0); }
+      25% { opacity: 1; transform: scale(1.03) translateY(-2px); }
+      50% { opacity: 0.85; transform: scale(1.01) translateY(-1px); }
+      75% { opacity: 1; transform: scale(1.04) translateY(-3px); }
+    }
+
+    .card-img.img-ready::before,
+    .card-img.img-ready::after {
+      opacity: 0;
+      animation-play-state: paused;
+    }
+
+    /* ============================================
+       🌫️ BLUR-UP (Saari images par — cut-cut chhupane ke liye)
+       ============================================ */
+    img.img-fade-in {
+      opacity: 0;
+      filter: blur(14px);
+      transition: opacity 0.6s ease, filter 0.6s ease;
+      will-change: opacity, filter;
+    }
+    img.img-fade-in.loaded {
+      opacity: 1;
+      filter: blur(0);
+    }
     .nav-icon-img.img-fade-in { filter: blur(8px) drop-shadow(0 2px 4px rgba(0,0,0,0.12)); }
     .nav-icon-img.img-fade-in.loaded { filter: blur(0) drop-shadow(0 2px 4px rgba(0,0,0,0.12)); }
     .pill img.img-fade-in { filter: blur(8px); }
     .pill img.img-fade-in.loaded { filter: blur(0); }
+
     .card { background: #fefcf9; border-radius: 32px; overflow: hidden; box-shadow: 0 12px 28px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.08), inset 0 0 0 2px rgba(255,255,255,0.6); display: flex; flex-direction: column; cursor: pointer; transition: transform 0.25s ease, box-shadow 0.25s ease; border: 2px solid #f0e0c9; padding: 0; position: relative; }
     .card:hover { transform: translateY(-10px) rotate(-1deg) scale(1.01); box-shadow: 0 25px 45px rgba(0,0,0,0.25), 0 6px 12px rgba(0,0,0,0.1); }
     .card::after { content: ''; position: absolute; top: 6px; left: 6px; right: 6px; bottom: 6px; border: 2px dashed #d9b58a; border-radius: 26px; pointer-events: none; opacity: 0.5; z-index: 1; }
@@ -99,7 +188,7 @@
     @keyframes navRippleExpand { to { transform: scale(3.5); opacity: 0; } }
     .card-img { width: 100%; height: 180px; display: flex; align-items: center; justify-content: center; position: relative; background-color: #fdf6ec; background-image: repeating-linear-gradient(30deg, rgba(180,150,120,0.06) 0px, rgba(180,150,120,0.06) 2px, transparent 2px, transparent 8px), repeating-linear-gradient(150deg, rgba(180,150,120,0.04) 0px, rgba(180,150,120,0.04) 2px, transparent 2px, transparent 10px), repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 4px), radial-gradient(circle at 20% 30%, #ffffff 0%, #fdf1e3 60%, #f5e6d3 100%); overflow: hidden; }
     .card-img img { width: 100%; height: 100%; object-fit: cover; filter: drop-shadow(0 6px 4px rgba(0,0,0,0.2)) saturate(0.85) contrast(1.05); }
-    .card-img img.img-fade-in { opacity: 0; filter: blur(14px) drop-shadow(0 6px 4px rgba(0,0,0,0.2)) saturate(0.85) contrast(1.05); transition: opacity 0.6s ease, filter 0.7s ease; }
+    .card-img img.img-fade-in { opacity: 0; filter: blur(14px) drop-shadow(0 6px 4px rgba(0,0,0,0.2)) saturate(0.85) contrast(1.05); transition: opacity 0.6s ease, filter 0.6s ease; }
     .card-img img.img-fade-in.loaded { opacity: 1; filter: blur(0) drop-shadow(0 6px 4px rgba(0,0,0,0.2)) saturate(0.85) contrast(1.05); }
     .card-img:not(:has(img)) { font-size: 76px; text-shadow: 0 2px 0 #d9c8b2, 0 4px 0 #cbb89d, 0 6px 8px rgba(0,0,0,0.2), 0 10px 16px rgba(0,0,0,0.15); transform: rotate(-3deg) scale(0.95); transition: transform 0.25s, text-shadow 0.25s; }
     .card:hover .card-img:not(:has(img)) { transform: rotate(0deg) scale(1.05); text-shadow: 0 3px 0 #d9c8b2, 0 6px 0 #cbb89d, 0 9px 12px rgba(0,0,0,0.25), 0 14px 22px rgba(0,0,0,0.2); }
@@ -403,13 +492,13 @@
           <input type="text" id="searchInput" placeholder="Search food..." autocomplete="off" />
         </div>
         <div class="search-suggestions" id="searchSuggestions"></div>
-        <div class="brand-name animate-card" id="brandName" style="animation-delay: 0s;">Aura Cafe</div>
-        <button class="cart-btn animate-card" id="cartBtn" aria-label="Cart" style="animation-delay: 0.1s;">
+        <div class="brand-name" id="brandName">Aura Cafe</div>
+        <button class="cart-btn" id="cartBtn" aria-label="Cart">
           <img class="img-fade-in cart-icon-img" src="/images/cart_icon.png" alt="Cart" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
           <span class="cart-emoji-fallback" style="display:none; font-size:22px; line-height:1;">🛒</span>
           <span class="cart-badge" id="cartBadge" style="display:none;">0</span>
         </button>
-        <button class="profile animate-card" id="customerProfileBtn" aria-label="Profile" style="position:relative; animation-delay: 0.2s;">
+        <button class="profile" id="customerProfileBtn" aria-label="Profile" style="position:relative;">
           <div class="avatar" id="customerAvatar">
             <img class="img-fade-in" src="https://i.ibb.co/RpdwtSRh/avatar.png" alt="Avatar" />
           </div>
@@ -427,7 +516,7 @@
       </div>
       <section id="menuSection" class="tab-section active">
         <div class="categories" id="categoryPillsContainer"></div>
-        <div class="image-banner animate-card" id="promoBanner" style="animation-delay: 0.3s;">
+        <div class="image-banner" id="promoBanner">
           <img class="img-fade-in" src="/images/banner.png" alt="Aura Cafe Banner" decoding="async" />
         </div>
         <div class="admin-panel" id="adminPanel">
@@ -546,9 +635,9 @@
           </a>
         </div>
         <div class="info-grid">
-          <div class="info-card animate-card" id="addressCard" style="animation-delay: 0s;"><h4>📍 Address</h4><p id="contactAddress">279 Prospect Rd,<br>Blair Athol SA 5084,<br>Australia</p></div>
-          <div class="info-card animate-card" id="phoneCard" style="animation-delay: 0.1s;"><h4>📞 Phone</h4><p id="contactPhone">+61 478 706 251</p></div>
-          <div class="info-card animate-card" id="hoursCard" style="animation-delay: 0.2s;"><h4>🕒 Opening Hours</h4><p id="contactHours">Monday – Sunday<br>6:00 AM – 9:00 PM</p></div>
+          <div class="info-card" id="addressCard"><h4>📍 Address</h4><p id="contactAddress">279 Prospect Rd,<br>Blair Athol SA 5084,<br>Australia</p></div>
+          <div class="info-card" id="phoneCard"><h4>📞 Phone</h4><p id="contactPhone">+61 478 706 251</p></div>
+          <div class="info-card" id="hoursCard"><h4>🕒 Opening Hours</h4><p id="contactHours">Monday – Sunday<br>6:00 AM – 9:00 PM</p></div>
         </div>
       </section>
       <section id="ordersSection" class="tab-section">
@@ -570,7 +659,7 @@
       <div class="copyright">© 2026 Aura Cafe. All rights reserved.</div>
     </footer>
   </div>
-  <button class="call-btn animate-card" id="bookTableBtn" title="Book a Table" style="animation-delay: 0.4s;">
+  <button class="call-btn" id="bookTableBtn" title="Book a Table">
     <img class="img-fade-in" src="/images/book_table.png" alt="Book a Table" style="width: 100%; height: auto; mix-blend-mode: multiply; object-fit: contain;" />
   </button>
   <div class="modal-overlay" id="customerAuthOverlay">
@@ -737,16 +826,16 @@
     </div>
   </div>
   <nav class="bottom-nav" id="bottomNav">
-    <button class="bottom-nav-btn active animate-card" data-target="menuSection" aria-label="Menu" style="animation-delay: 0s;">
+    <button class="bottom-nav-btn active" data-target="menuSection" aria-label="Menu">
       <img class="nav-icon-img img-fade-in" src="/images/nav_menu.png" alt="Menu" />
     </button>
-    <button class="bottom-nav-btn animate-card" data-target="gallerySection" aria-label="Gallery" style="animation-delay: 0.1s;">
+    <button class="bottom-nav-btn" data-target="gallerySection" aria-label="Gallery">
       <img class="nav-icon-img img-fade-in" src="/images/nav_gallery.png" alt="Gallery" />
     </button>
-    <button class="bottom-nav-btn animate-card" data-target="contactSection" aria-label="Info" style="animation-delay: 0.2s;">
+    <button class="bottom-nav-btn" data-target="contactSection" aria-label="Info">
       <img class="nav-icon-img img-fade-in" src="/images/nav_info.png" alt="Info" />
     </button>
-    <button class="bottom-nav-btn animate-card" data-target="ordersSection" aria-label="Orders" style="animation-delay: 0.3s;">
+    <button class="bottom-nav-btn" data-target="ordersSection" aria-label="Orders">
       <img class="nav-icon-img img-fade-in" src="/images/nav_orders.png" alt="Orders" />
     </button>
   </nav>
@@ -760,14 +849,38 @@
     })();
 
     function applyFadeIn(img) {
-      if (!img || img.classList.contains('img-fade-in')) { if (img && img.complete && img.naturalHeight !== 0) img.classList.add('loaded'); return; }
-      img.loading = 'eager'; img.classList.add('img-fade-in');
-      if (img.complete && img.naturalHeight !== 0) { img.classList.add('loaded'); }
-      else { img.addEventListener('load', function() { img.classList.add('loaded'); }); img.addEventListener('error', function() { img.classList.add('loaded'); }); }
+      if (!img) return;
+      if (img.classList.contains('img-fade-in')) {
+        if (img.complete && img.naturalHeight !== 0) {
+          img.classList.add('loaded');
+          if (img.parentNode) img.parentNode.classList.add('img-ready');
+        }
+        return;
+      }
+      img.loading = 'eager';
+      img.classList.add('img-fade-in');
+      function onLoaded() {
+        img.classList.add('loaded');
+        if (img.parentNode) img.parentNode.classList.add('img-ready');
+      }
+      if (img.complete && img.naturalHeight !== 0) {
+        onLoaded();
+      } else {
+        img.addEventListener('load', onLoaded);
+        img.addEventListener('error', function() {
+          img.classList.add('loaded');
+          if (img.parentNode) img.parentNode.classList.add('img-ready');
+        });
+      }
     }
     function applyFadeInToAll() {
       document.querySelectorAll('img:not(.img-fade-in)').forEach(function(img) { applyFadeIn(img); });
-      document.querySelectorAll('img.img-fade-in:not(.loaded)').forEach(function(img) { if (img.complete && img.naturalHeight !== 0) img.classList.add('loaded'); });
+      document.querySelectorAll('img.img-fade-in:not(.loaded)').forEach(function(img) {
+        if (img.complete && img.naturalHeight !== 0) {
+          img.classList.add('loaded');
+          if (img.parentNode) img.parentNode.classList.add('img-ready');
+        }
+      });
     }
 
     const defaultProducts = [
@@ -818,7 +931,7 @@
     var contactInfo = { address: '279 Prospect Rd, Blair Athol SA 5084, Australia', phone: '+61 478 706 251', hours: 'Monday – Sunday, 6:00 AM – 9:00 PM', social: { instagram: '', facebook: '', whatsapp: '+61 478 706 251' } };
 
     function loadData() {
-      var CURRENT_VERSION = '2.3.3';
+      var CURRENT_VERSION = '2.3.4';
       var storedVersion = localStorage.getItem('samoon99_version');
       if (storedVersion !== CURRENT_VERSION) { localStorage.clear(); localStorage.setItem('samoon99_version', CURRENT_VERSION); }
       try {
@@ -884,10 +997,37 @@
 
     function renderAll() { renderCategoryPills(); renderProducts(); renderGallery(); renderAdminProductList(); renderAdminCategoryList(); renderAdminOrdersList(); renderAdminBookingsList(); renderGalleryInlineList(); renderCartUI(); populateCategorySuggestions(); updateCustomerUI(); updateSocialLinksUI(); renderOrdersDashboard(); setTimeout(applyFadeInToAll, 30); }
 
-    function renderCategoryPills() { var container = document.getElementById('categoryPillsContainer'); container.innerHTML = ''; var allBtn = document.createElement('button'); allBtn.className = 'pill active animate-card'; allBtn.setAttribute('data-category', 'all'); allBtn.textContent = 'All'; allBtn.style.animationDelay = '0s'; container.appendChild(allBtn); categories.forEach(function(category, index) { var btn = document.createElement('button'); btn.className = 'pill animate-card'; btn.setAttribute('data-category', category.id); btn.style.animationDelay = ((index + 1) * 0.05) + 's'; if (isImageValue(category.emoji)) { var img = document.createElement('img'); img.src = category.emoji; img.alt = category.name; applyFadeIn(img); btn.appendChild(img); } else { btn.textContent = category.emoji + ' '; } btn.appendChild(document.createTextNode(category.name)); container.appendChild(btn); }); container.querySelectorAll('.pill').forEach(function(pill) { pill.addEventListener('click', function() { container.querySelectorAll('.pill').forEach(p => p.classList.remove('active')); pill.classList.add('active'); currentFilter = pill.getAttribute('data-category'); renderProducts(); }); }); }
+    function renderCategoryPills() {
+      var container = document.getElementById('categoryPillsContainer'); container.innerHTML = '';
+      var allBtn = document.createElement('button'); allBtn.className = 'pill active'; allBtn.setAttribute('data-category', 'all'); allBtn.textContent = 'All'; container.appendChild(allBtn);
+      categories.forEach(function(category) {
+        var btn = document.createElement('button'); btn.className = 'pill'; btn.setAttribute('data-category', category.id);
+        if (isImageValue(category.emoji)) { var img = document.createElement('img'); img.src = category.emoji; img.alt = category.name; applyFadeIn(img); btn.appendChild(img); }
+        else { btn.textContent = category.emoji + ' '; }
+        btn.appendChild(document.createTextNode(category.name)); container.appendChild(btn);
+      });
+      container.querySelectorAll('.pill').forEach(function(pill) {
+        pill.addEventListener('click', function() { container.querySelectorAll('.pill').forEach(p => p.classList.remove('active')); pill.classList.add('active'); currentFilter = pill.getAttribute('data-category'); renderProducts(); });
+      });
+    }
 
     var currentFilter = 'all'; var searchQuery = '';
-    function renderProducts() { var grid = document.getElementById('productGrid'); grid.innerHTML = ''; var filtered = products.filter(function(p) { var matchesCategory = currentFilter === 'all' || p.category === currentFilter; var matchesSearch = true; if (searchQuery.trim() !== '') { var q = searchQuery.trim().toLowerCase(); matchesSearch = p.name.toLowerCase().indexOf(q) !== -1 || (p.description && p.description.toLowerCase().indexOf(q) !== -1); } return matchesCategory && matchesSearch; }); filtered.forEach(function(product, index) { var card = document.createElement('div'); card.className = 'card animate-card' + (isLoggedIn ? ' admin-mode' : ''); card.setAttribute('data-id', product.id); card.setAttribute('data-description', product.description); card.style.animationDelay = (index * 0.08) + 's'; var isWishlisted = wishlistItems.indexOf(product.id) !== -1; card.innerHTML = '<button class="wishlist' + (isWishlisted ? ' active' : '') + '">' + (isWishlisted ? '♥' : '♡') + '</button>' + (isLoggedIn ? '<div class="admin-edit-delete"><button class="admin-edit-btn">✏️</button><button class="admin-delete-btn">🗑️</button></div>' : '') + '<div class="card-img"></div>' + '<div class="card-body">' + '<h3>' + product.name + '</h3>' + '<div class="card-footer">' + '<span class="price">' + product.price + '</span>' + '<span class="rating">' + product.rating + '</span>' + '</div>' + '</div>'; setImageOrEmoji(card.querySelector('.card-img'), product.emoji, '76px'); grid.appendChild(card); }); attachCardEvents(); }
+    function renderProducts() {
+      var grid = document.getElementById('productGrid'); grid.innerHTML = '';
+      var filtered = products.filter(function(p) { var matchesCategory = currentFilter === 'all' || p.category === currentFilter; var matchesSearch = true; if (searchQuery.trim() !== '') { var q = searchQuery.trim().toLowerCase(); matchesSearch = p.name.toLowerCase().indexOf(q) !== -1 || (p.description && p.description.toLowerCase().indexOf(q) !== -1); } return matchesCategory && matchesSearch; });
+      filtered.forEach(function(product, index) {
+        var card = document.createElement('div');
+        card.className = 'card animate-card' + (isLoggedIn ? ' admin-mode' : '');
+        card.setAttribute('data-id', product.id);
+        card.setAttribute('data-description', product.description);
+        card.style.animationDelay = (index * 0.05) + 's';
+        var isWishlisted = wishlistItems.indexOf(product.id) !== -1;
+        card.innerHTML = '<button class="wishlist' + (isWishlisted ? ' active' : '') + '">' + (isWishlisted ? '♥' : '♡') + '</button>' + (isLoggedIn ? '<div class="admin-edit-delete"><button class="admin-edit-btn">✏️</button><button class="admin-delete-btn">🗑️</button></div>' : '') + '<div class="card-img"></div>' + '<div class="card-body">' + '<h3>' + product.name + '</h3>' + '<div class="card-footer">' + '<span class="price">' + product.price + '</span>' + '<span class="rating">' + product.rating + '</span>' + '</div>' + '</div>';
+        setImageOrEmoji(card.querySelector('.card-img'), product.emoji, '76px');
+        grid.appendChild(card);
+      });
+      attachCardEvents();
+    }
 
     function showProductSkeletons(count) { var grid = document.getElementById('productGrid'); if (!grid) return; grid.innerHTML = ''; count = count || 6; for (var i = 0; i < count; i++) { var sk = document.createElement('div'); sk.className = 'skeleton-card'; sk.innerHTML = '<div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div><div class="skeleton-line tiny"></div></div>'; grid.appendChild(sk); } }
 
@@ -901,7 +1041,7 @@
 
     function openEditProductModal(product) { document.getElementById('editProductId').value = product.id; document.getElementById('editName').value = product.name; document.getElementById('editPrice').value = product.price; document.getElementById('editRating').value = product.rating; document.getElementById('editCategory').value = categories.find(c => c.id === product.category)?.name || ''; document.getElementById('editDescription').value = product.description || ''; var preview = document.getElementById('editImagePreview'); var emojiInput = document.getElementById('editEmoji'); if (isImageValue(product.emoji)) { preview.src = product.emoji; preview.style.display = 'block'; emojiInput.value = ''; } else { preview.style.display = 'none'; emojiInput.value = product.emoji || ''; } document.getElementById('editImageFile').value = ''; window.editProductImageData = null; document.getElementById('editProductOverlay').style.display = 'flex'; }
 
-    function renderGallery() { var grid = document.getElementById('galleryGrid'); grid.innerHTML = ''; galleryImages.forEach(function(img, index) { var item = document.createElement('div'); item.className = 'gallery-item animate-card'; item.style.animationDelay = (index * 0.08) + 's'; if (img) { if (isImageValue(img)) { item.style.backgroundImage = 'url("' + img + '")'; item.style.backgroundSize = 'cover'; item.style.backgroundPosition = 'center'; } else { item.textContent = img; } } else { item.textContent = '📷'; } item.addEventListener('click', function() { if (isLoggedIn) { editingGalleryIndex = index; document.getElementById('editGalleryFileInput').click(); } else { if (img && isImageValue(img)) { document.getElementById('galleryLightboxImage').src = img; document.getElementById('galleryLightboxOverlay').style.display = 'flex'; } else if (!img) { alert('Gallery coming soon!'); } } }); grid.appendChild(item); }); }
+    function renderGallery() { var grid = document.getElementById('galleryGrid'); grid.innerHTML = ''; galleryImages.forEach(function(img, index) { var item = document.createElement('div'); item.className = 'gallery-item'; if (img) { if (isImageValue(img)) { item.style.backgroundImage = 'url("' + img + '")'; item.style.backgroundSize = 'cover'; item.style.backgroundPosition = 'center'; } else { item.textContent = img; } } else { item.textContent = '📷'; } item.addEventListener('click', function() { if (isLoggedIn) { editingGalleryIndex = index; document.getElementById('editGalleryFileInput').click(); } else { if (img && isImageValue(img)) { document.getElementById('galleryLightboxImage').src = img; document.getElementById('galleryLightboxOverlay').style.display = 'flex'; } else if (!img) { alert('Gallery coming soon!'); } } }); grid.appendChild(item); }); }
 
     function renderGalleryInlineList() { var list = document.getElementById('galleryInlineList'); list.innerHTML = ''; galleryImages.forEach(function(img, index) { var div = document.createElement('div'); div.className = 'admin-product-item'; div.innerHTML = '<span>Item ' + (index+1) + ': ' + (isImageValue(img) ? '📷 Image' : (img || '📷')) + '</span>'; var actions = document.createElement('div'); actions.className = 'admin-actions'; var editBtn = document.createElement('button'); editBtn.textContent = '✏️'; editBtn.onclick = function() { editingGalleryIndex = index; document.getElementById('editGalleryFileInput').click(); }; var delBtn = document.createElement('button'); delBtn.textContent = '🗑️'; delBtn.onclick = async function() { if (await confirm('Delete this gallery item?')) { galleryImages.splice(index,1); saveGallery(); renderGallery(); renderGalleryInlineList(); showToast('Gallery image deleted 🗑️', 'success'); } }; actions.appendChild(editBtn); actions.appendChild(delBtn); div.appendChild(actions); list.appendChild(div); }); }
 
