@@ -159,7 +159,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: transparent;
+      background: transparent !important;
       border-radius: 0;
       overflow: visible;
       z-index: 2;
@@ -170,6 +170,7 @@
       object-fit: contain;
       filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3));
       transition: transform 0.3s ease;
+      background: transparent !important;
     }
     .card:hover .card-img img { transform: scale(1.08); }
     .card-img:not(:has(img)) {
