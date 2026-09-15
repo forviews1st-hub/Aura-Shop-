@@ -76,6 +76,82 @@
     }
 
     /* ============================================
+       ✨ MAGIC LOADING: Golden Dust + Aura Glow
+       (Sirf food items ke card-img par)
+       ============================================ */
+    .card-img { position: relative; overflow: visible; }
+
+    .card-img::before {
+      content: '';
+      position: absolute;
+      top: -5%;
+      left: -5%;
+      right: -5%;
+      bottom: -5%;
+      z-index: 3;
+      background: radial-gradient(circle at 50% 50%, rgba(255, 240, 210, 0.95) 0%, rgba(217, 181, 138, 0.75) 35%, rgba(217, 181, 138, 0.35) 65%, transparent 100%), linear-gradient(135deg, #fdf6ec 0%, #f5e6d3 45%, #ecdcc4 100%);
+      opacity: 1;
+      transition: opacity 0.6s ease;
+      pointer-events: none;
+      animation: auraGlowPulse 2s ease-in-out infinite;
+      border-radius: 50%;
+    }
+    @keyframes auraGlowPulse {
+      0%, 100% {
+        box-shadow:
+          inset 0 0 30px 6px rgba(217, 181, 138, 0.65),
+          inset 0 0 60px 18px rgba(217, 181, 138, 0.35);
+      }
+      50% {
+        box-shadow:
+          inset 0 0 55px 18px rgba(255, 220, 150, 0.95),
+          inset 0 0 110px 45px rgba(217, 181, 138, 0.55);
+      }
+    }
+
+    .card-img::after {
+      content: '';
+      position: absolute;
+      top: -5%;
+      left: -5%;
+      right: -5%;
+      bottom: -5%;
+      z-index: 4;
+      pointer-events: none;
+      opacity: 1;
+      transition: opacity 0.6s ease;
+      background-image:
+        radial-gradient(3px 3px at 15% 25%, #ffe8b0 50%, transparent 51%),
+        radial-gradient(2px 2px at 72% 55%, #ffd88a 50%, transparent 51%),
+        radial-gradient(4px 4px at 42% 78%, #ffe8b0 50%, transparent 51%),
+        radial-gradient(2px 2px at 88% 22%, #ffd88a 50%, transparent 51%),
+        radial-gradient(3px 3px at 12% 68%, #ffe8b0 50%, transparent 51%),
+        radial-gradient(2px 2px at 58% 12%, #ffd88a 50%, transparent 51%),
+        radial-gradient(3px 3px at 92% 72%, #ffe8b0 50%, transparent 51%),
+        radial-gradient(2px 2px at 28% 48%, #ffd88a 50%, transparent 51%),
+        radial-gradient(3px 3px at 78% 38%, #ffe8b0 50%, transparent 51%),
+        radial-gradient(2px 2px at 48% 88%, #ffd88a 50%, transparent 51%),
+        radial-gradient(2px 2px at 65% 82%, #ffe8b0 50%, transparent 51%),
+        radial-gradient(3px 3px at 35% 15%, #ffd88a 50%, transparent 51%);
+      background-size: 100% 100%;
+      filter: drop-shadow(0 0 5px rgba(255, 216, 138, 0.95)) drop-shadow(0 0 10px rgba(255, 200, 100, 0.55));
+      animation: dustSparkle 2.5s ease-in-out infinite;
+      border-radius: 50%;
+    }
+    @keyframes dustSparkle {
+      0%, 100% { opacity: 0.65; transform: scale(1) translateY(0); }
+      25% { opacity: 1; transform: scale(1.03) translateY(-2px); }
+      50% { opacity: 0.85; transform: scale(1.01) translateY(-1px); }
+      75% { opacity: 1; transform: scale(1.04) translateY(-3px); }
+    }
+
+    .card-img.img-ready::before,
+    .card-img.img-ready::after {
+      opacity: 0;
+      animation-play-state: paused;
+    }
+
+    /* ============================================
        🌫️ BLUR-UP (Saari images par)
        ============================================ */
     img.img-fade-in {
@@ -92,6 +168,10 @@
     .nav-icon-img.img-fade-in.loaded { filter: blur(0) drop-shadow(0 2px 4px rgba(0,0,0,0.12)); }
     .pill img.img-fade-in { filter: blur(8px); }
     .pill img.img-fade-in.loaded { filter: blur(0); }
+    .image-banner img.img-fade-in { filter: blur(14px); }
+    .image-banner img.img-fade-in.loaded { filter: blur(0); }
+    .cart-icon-img.img-fade-in { filter: blur(8px) drop-shadow(0 2px 4px rgba(0,0,0,0.12)); }
+    .cart-icon-img.img-fade-in.loaded { filter: blur(0) drop-shadow(0 2px 4px rgba(0,0,0,0.12)); }
 
     /* ============================================
        🎨 FLAT ART CARD FRAME
@@ -171,6 +251,8 @@
       filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3));
       transition: transform 0.3s ease;
       background: transparent !important;
+      position: relative;
+      z-index: 5;
     }
     .card:hover .card-img img { transform: scale(1.08); }
     .card-img:not(:has(img)) {
@@ -182,10 +264,10 @@
     /* Text body - name at top, price/rating at bottom */
     .card-body {
       position: absolute;
-      top: 63%;
+      top: 60%;
       left: 13%;
       right: 13%;
-      bottom: 8%;
+      bottom: 10%;
       background: transparent;
       border: none;
       border-top: none;
@@ -198,7 +280,7 @@
     }
     .card h3 {
       font-size: 12.5px;
-      font-weight: 700;
+      font-weight: 800;
       color: #2A1F14;
       margin: 0;
       line-height: 1.2;
@@ -575,7 +657,7 @@
       #toastContainer { bottom:80px; right:10px; }
     }
     img { background: linear-gradient(145deg, #fdf6ec 0%, #f5e6d3 100%); }
-    .image-banner img, .card-img img, .cart-icon-img, .nav-icon-img, .book-table-sticker, .avatar img, .pill img, .social-card img, .admin-product-item img { background: transparent !important; }
+    .image-banner, .image-banner img, .card-img, .card-img img, .cart-icon-img, .nav-icon-img, .book-table-sticker, .avatar img, .pill img, .social-card img, .admin-product-item img, .modal-image-area img, .gallery-item img, .info-card img { background: transparent !important; background-color: transparent !important; background-image: none !important; }
   </style>
 </head>
 <body>
