@@ -53,11 +53,43 @@
     .pill:hover img { transform: scale(1.1); box-shadow: 0 3px 8px rgba(0,0,0,0.2); }
     .pill.active img { border-color: rgba(255,255,255,0.4); box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
     .pill.active { background:#1A1A1A; color:#fff; border-color:#1A1A1A; box-shadow:0 4px 12px rgba(26,26,26,0.25); padding: 6px 16px; }
-    .image-banner { width: 100%; max-width: 1000px; margin: 0 auto 24px; border-radius: 28px; overflow: hidden; aspect-ratio: 1774 / 887; background: transparent; transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s ease; cursor: pointer; box-shadow: 0 12px 30px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.06); }
-    .image-banner:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 25px 50px rgba(0,0,0,0.2), 0 8px 16px rgba(0,0,0,0.10); }
-    .image-banner img { display: block; width: 100%; height: 100%; object-fit: contain; background: transparent; }
+    
+    /* ===== BANNER FIX: white patti hatane ke liye (UPDATED) ===== */
+    .image-banner { 
+      width: 100%; 
+      max-width: 1000px; 
+      margin: 0 auto 24px; 
+      border-radius: 28px; 
+      overflow: hidden; 
+      aspect-ratio: 1774 / 887; 
+      background: transparent !important; 
+      background-image: none !important; 
+      background-color: transparent !important; 
+      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1); 
+      cursor: pointer; 
+      /* Box-shadow hataya taaki white glow na aaye */
+      box-shadow: none !important; 
+      /* Mobile rendering glitch fix */
+      transform: translateZ(0); 
+      isolation: isolate; 
+      -webkit-mask-image: -webkit-radial-gradient(white, black); 
+    }
+    .image-banner:hover { 
+      transform: translateY(-6px) scale(1.01); 
+    }
+    .image-banner img { 
+      display: block; 
+      width: 100%; 
+      height: 100%; 
+      object-fit: contain; 
+      background: transparent !important; 
+      background-image: none !important; 
+      background-color: transparent !important; 
+      transform: translateZ(0); 
+    }
     @media (max-width: 600px) { .image-banner { border-radius: 20px; } }
     @media (max-width: 400px) { .image-banner { border-radius: 16px; } }
+    
     .product-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:22px; margin-bottom:30px; }
     @media (min-width:600px) { .product-grid { grid-template-columns:repeat(3,1fr); } }
     @media (min-width:900px) { .product-grid { grid-template-columns:repeat(4,1fr); } }
@@ -464,7 +496,9 @@
     .admin-actions button:hover { transform:scale(1.2); }
     .card.admin-mode { position:relative; }
     .bottom-nav { position:fixed; bottom:0; left:0; right:0; background:#fff; border-top:1px solid #eee; display:grid; grid-template-columns:repeat(4,1fr); align-items:center; padding:8px 0 10px; z-index:999; box-shadow:0 -2px 10px rgba(0,0,0,0.05); }
-    .bottom-nav-btn { background:none; border:none; cursor:pointer; font-family:inherit; display:flex; align-items:center; justify-content:center; transition:all 0.2s; padding:4px 4px; position:relative; width:100%; overflow:hidden; }
+    /* ===== NAV BUTTON FIX: square focus/highlight hatane ke liye ===== */
+    .bottom-nav-btn { background:none; border:none; cursor:pointer; font-family:inherit; display:flex; align-items:center; justify-content:center; transition:all 0.2s; padding:4px 4px; position:relative; width:100%; overflow:hidden; -webkit-tap-highlight-color: transparent !important; -webkit-touch-callout: none !important; -webkit-user-select: none !important; user-select: none !important; outline: none !important; }
+    .bottom-nav-btn:focus, .bottom-nav-btn:focus-visible, .bottom-nav-btn:active, .bottom-nav-btn:hover { outline: none !important; -webkit-tap-highlight-color: transparent !important; background: transparent !important; box-shadow: none !important; }
     .bottom-nav-btn > * { position: relative; z-index: 2; }
     .bottom-nav-btn .nav-icon-img { width: 52px; height: 52px; object-fit: contain; mix-blend-mode: multiply; transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.7s ease, opacity 0.6s ease; display: block; pointer-events: none; }
     .bottom-nav-btn:hover .nav-icon-img { transform: translateY(-2px) scale(1.08); }
@@ -957,20 +991,27 @@
       window.prompt = function(message, defaultValue) { return new Promise(function(resolve) { var overlay = createOverlay(); var box = document.createElement('div'); box.className = 'custom-alert-box'; box.innerHTML = `<div class="custom-alert-icon">✏️</div><div class="custom-alert-title">Input Required</div><div class="custom-alert-message">${message}</div><input class="custom-prompt-input" id="customPromptInput" value="${defaultValue || ''}" /><button class="custom-alert-btn" id="customPromptOk">OK</button><button class="custom-alert-btn secondary" id="customPromptCancel">Cancel</button>`; overlay.appendChild(box); document.body.style.overflow = 'hidden'; document.getElementById('customPromptOk').addEventListener('click', function() { var val = document.getElementById('customPromptInput').value; overlay.remove(); document.body.style.overflow = ''; resolve(val); }); document.getElementById('customPromptCancel').addEventListener('click', function() { overlay.remove(); document.body.style.overflow = ''; resolve(null); }); overlay.addEventListener('click', function(e) { if (e.target === overlay) { overlay.remove(); document.body.style.overflow = ''; resolve(null); } }); }); };
     })();
 
+    /* ============================================
+       🎬 BLUR-UP ANIMATION FIX
+       ============================================ */
     function applyFadeIn(img) {
       if (!img) return;
       if (img.classList.contains('img-fade-in')) {
-        if (img.complete && img.naturalHeight !== 0) {
-          img.classList.add('loaded');
-          if (img.parentNode) img.parentNode.classList.add('img-ready');
+        if (img.complete && img.naturalHeight !== 0 && !img.classList.contains('loaded')) {
+          setTimeout(function() {
+            img.classList.add('loaded');
+            if (img.parentNode) img.parentNode.classList.add('img-ready');
+          }, 80);
         }
         return;
       }
       img.loading = 'eager';
       img.classList.add('img-fade-in');
       function onLoaded() {
-        img.classList.add('loaded');
-        if (img.parentNode) img.parentNode.classList.add('img-ready');
+        setTimeout(function() {
+          img.classList.add('loaded');
+          if (img.parentNode) img.parentNode.classList.add('img-ready');
+        }, 80);
       }
       if (img.complete && img.naturalHeight !== 0) {
         onLoaded();
@@ -986,8 +1027,10 @@
       document.querySelectorAll('img:not(.img-fade-in)').forEach(function(img) { applyFadeIn(img); });
       document.querySelectorAll('img.img-fade-in:not(.loaded)').forEach(function(img) {
         if (img.complete && img.naturalHeight !== 0) {
-          img.classList.add('loaded');
-          if (img.parentNode) img.parentNode.classList.add('img-ready');
+          setTimeout(function() {
+            img.classList.add('loaded');
+            if (img.parentNode) img.parentNode.classList.add('img-ready');
+          }, 80);
         }
       });
     }
@@ -1040,7 +1083,7 @@
     var contactInfo = { address: '279 Prospect Rd, Blair Athol SA 5084, Australia', phone: '+61 478 706 251', hours: 'Monday – Sunday, 6:00 AM – 9:00 PM', social: { instagram: '', facebook: '', whatsapp: '+61 478 706 251' } };
 
     function loadData() {
-      var CURRENT_VERSION = '2.3.5';
+      var CURRENT_VERSION = '2.3.6';
       var storedVersion = localStorage.getItem('samoon99_version');
       if (storedVersion !== CURRENT_VERSION) { localStorage.clear(); localStorage.setItem('samoon99_version', CURRENT_VERSION); }
       try {

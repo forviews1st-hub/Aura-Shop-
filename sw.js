@@ -1,4 +1,4 @@
-const CACHE_NAME = 'aura-cafe-v18';
+const CACHE_NAME = 'aura-cafe-v20';
 const OFFLINE_URL = '/offline.html';
 
 const PRECACHE_URLS = [
