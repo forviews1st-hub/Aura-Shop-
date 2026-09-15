@@ -54,7 +54,7 @@
     .pill.active img { border-color: rgba(255,255,255,0.4); box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
     .pill.active { background:#1A1A1A; color:#fff; border-color:#1A1A1A; box-shadow:0 4px 12px rgba(26,26,26,0.25); padding: 6px 16px; }
     
-    /* ===== BANNER FIX: white patti hatane ke liye (UPDATED) ===== */
+    /* ===== BANNER FIX: white patti hatane ke liye ===== */
     .image-banner { 
       width: 100%; 
       max-width: 1000px; 
@@ -67,12 +67,11 @@
       background-color: transparent !important; 
       transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1); 
       cursor: pointer; 
-      /* Box-shadow hataya taaki white glow na aaye */
       box-shadow: none !important; 
-      /* Mobile rendering glitch fix */
       transform: translateZ(0); 
       isolation: isolate; 
       -webkit-mask-image: -webkit-radial-gradient(white, black); 
+      position: relative; /* Needed for light sweep */
     }
     .image-banner:hover { 
       transform: translateY(-6px) scale(1.01); 
@@ -108,26 +107,68 @@
     }
 
     /* ============================================
-       🌫️ BLUR-UP (Saari images par)
+       🌫️ BLUR-UP + MAGIC COMBO (Saari images par)
        ============================================ */
     img.img-fade-in {
       opacity: 0;
       filter: blur(14px);
-      transition: opacity 0.6s ease, filter 0.6s ease;
-      will-change: opacity, filter;
+      transform: scale(0.9) translateY(10px); /* Elastic Pop base */
+      transition: opacity 0.7s ease, filter 0.7s ease, transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+      will-change: opacity, filter, transform;
     }
     img.img-fade-in.loaded {
       opacity: 1;
       filter: blur(0);
+      transform: scale(1) translateY(0); /* Elastic Pop resolved */
     }
-    .nav-icon-img.img-fade-in { filter: blur(8px) drop-shadow(0 2px 4px rgba(0,0,0,0.12)); }
-    .nav-icon-img.img-fade-in.loaded { filter: blur(0) drop-shadow(0 2px 4px rgba(0,0,0,0.12)); }
-    .pill img.img-fade-in { filter: blur(8px); }
-    .pill img.img-fade-in.loaded { filter: blur(0); }
-    .image-banner img.img-fade-in { filter: blur(14px); }
-    .image-banner img.img-fade-in.loaded { filter: blur(0); }
-    .cart-icon-img.img-fade-in { filter: blur(8px) drop-shadow(0 2px 4px rgba(0,0,0,0.12)); }
-    .cart-icon-img.img-fade-in.loaded { filter: blur(0) drop-shadow(0 2px 4px rgba(0,0,0,0.12)); }
+    
+    /* Nav icons smaller effect */
+    .nav-icon-img.img-fade-in { transform: scale(0.9) translateY(5px); filter: blur(8px) drop-shadow(0 2px 4px rgba(0,0,0,0.12)); }
+    .nav-icon-img.img-fade-in.loaded { transform: scale(1) translateY(0); filter: blur(0) drop-shadow(0 2px 4px rgba(0,0,0,0.12)); }
+    
+    /* Cart icon specific */
+    .cart-icon-img.img-fade-in { transform: scale(0.9); filter: blur(8px) drop-shadow(0 2px 4px rgba(0,0,0,0.12)); }
+    .cart-icon-img.img-fade-in.loaded { transform: scale(1); filter: blur(0) drop-shadow(0 2px 4px rgba(0,0,0,0.12)); }
+
+    /* ============================================
+       ✨ MAGIC LIGHT SWEEP & SPARKLES
+       ============================================ */
+    /* Light Sweep Animation */
+    @keyframes lightSweepAnim {
+      0% { left: -150%; opacity: 0; }
+      20% { opacity: 0.8; }
+      100% { left: 150%; opacity: 0; }
+    }
+    .sweep-active::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -150%;
+      width: 200%; height: 100%;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.9) 50%, transparent 100%);
+      transform: skewX(-25deg);
+      animation: lightSweepAnim 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      pointer-events: none;
+      z-index: 10;
+    }
+    /* Only apply sweep to containers with overflow hidden */
+    .image-banner.sweep-active::after, .gallery-item.sweep-active::after {
+      display: block;
+    }
+
+    /* Magic Sparkles Animation */
+    .magic-sparkle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 10000;
+      animation: magicSparkleAnim 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.9));
+      user-select: none;
+    }
+    @keyframes magicSparkleAnim {
+      0% { transform: translate(0, 0) scale(0) rotate(0deg); opacity: 1; }
+      40% { opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)) scale(0.2) rotate(360deg); opacity: 0; }
+    }
 
     /* ============================================
        🎨 FLAT ART CARD FRAME
@@ -356,7 +397,7 @@
     .gallery-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:15px; margin-bottom:30px; }
     @media (min-width:600px) { .gallery-grid { grid-template-columns:repeat(3,1fr); } }
     @media (min-width:900px) { .gallery-grid { grid-template-columns:repeat(4,1fr); } }
-    .gallery-item { background:#fff; border-radius:20px; height:150px; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(0,0,0,0.04); color:#ccc; font-size:40px; cursor:pointer; transition:all 0.2s; background-image:repeating-linear-gradient(45deg,#fafafa 0px,#fafafa 10px,#f0f0f0 10px,#f0f0f0 20px); overflow:hidden; border:1px solid #f5f5f5; }
+    .gallery-item { background:#fff; border-radius:20px; height:150px; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(0,0,0,0.04); color:#ccc; font-size:40px; cursor:pointer; transition:all 0.2s; background-image:repeating-linear-gradient(45deg,#fafafa 0px,#fafafa 10px,#f0f0f0 10px,#f0f0f0 20px); overflow:hidden; border:1px solid #f5f5f5; position: relative; }
     .gallery-item:hover { box-shadow:0 6px 16px rgba(0,0,0,0.1); transform:scale(1.02); }
     .gallery-item img { width:100%; height:100%; object-fit:cover; border-radius:20px; }
     .info-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:24px; margin-bottom:30px; }
@@ -992,8 +1033,52 @@
     })();
 
     /* ============================================
-       🎬 BLUR-UP ANIMATION FIX
+       🎬 MAGIC COMBO LOADING EFFECT
        ============================================ */
+    function spawnMagicSparkles(imgElement) {
+      const rect = imgElement.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
+
+      const sparkleCount = 6;
+      const emojis = ['✨', '⭐', '💫', '🌟', '🪄'];
+
+      for (let i = 0; i < sparkleCount; i++) {
+        const sparkle = document.createElement('span');
+        sparkle.className = 'magic-sparkle';
+        sparkle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+        // Random position around the image
+        const top = rect.top + Math.random() * rect.height;
+        const left = rect.left + Math.random() * rect.width;
+
+        sparkle.style.left = `${left}px`;
+        sparkle.style.top = `${top}px`;
+        sparkle.style.fontSize = `${12 + Math.random() * 12}px`;
+
+        // Random direction
+        sparkle.style.setProperty('--tx', `${(Math.random() - 0.5) * 120}px`);
+        sparkle.style.setProperty('--ty', `${(Math.random() - 0.5) * 120}px`);
+
+        document.body.appendChild(sparkle);
+        setTimeout(() => sparkle.remove(), 1000);
+      }
+    }
+
+    function triggerMagicEffects(img) {
+      if (!img.parentNode) return;
+      
+      // 1. Light Sweep Effect (Only for banner and gallery items)
+      if (img.parentNode.classList.contains('image-banner') || img.parentNode.classList.contains('gallery-item')) {
+        img.parentNode.classList.add('sweep-active');
+        setTimeout(() => img.parentNode.classList.remove('sweep-active'), 1000);
+      }
+
+      // 2. Sparkle Effect (For major images)
+      if (img.closest('.card-img') || img.closest('.image-banner') || img.closest('.gallery-item') || img.closest('.bottom-nav-btn')) {
+        spawnMagicSparkles(img);
+      }
+    }
+
     function applyFadeIn(img) {
       if (!img) return;
       if (img.classList.contains('img-fade-in')) {
@@ -1001,6 +1086,7 @@
           setTimeout(function() {
             img.classList.add('loaded');
             if (img.parentNode) img.parentNode.classList.add('img-ready');
+            triggerMagicEffects(img);
           }, 80);
         }
         return;
@@ -1011,6 +1097,7 @@
         setTimeout(function() {
           img.classList.add('loaded');
           if (img.parentNode) img.parentNode.classList.add('img-ready');
+          triggerMagicEffects(img);
         }, 80);
       }
       if (img.complete && img.naturalHeight !== 0) {
@@ -1023,6 +1110,7 @@
         });
       }
     }
+    
     function applyFadeInToAll() {
       document.querySelectorAll('img:not(.img-fade-in)').forEach(function(img) { applyFadeIn(img); });
       document.querySelectorAll('img.img-fade-in:not(.loaded)').forEach(function(img) {
@@ -1030,6 +1118,7 @@
           setTimeout(function() {
             img.classList.add('loaded');
             if (img.parentNode) img.parentNode.classList.add('img-ready');
+            triggerMagicEffects(img);
           }, 80);
         }
       });
@@ -1083,7 +1172,7 @@
     var contactInfo = { address: '279 Prospect Rd, Blair Athol SA 5084, Australia', phone: '+61 478 706 251', hours: 'Monday – Sunday, 6:00 AM – 9:00 PM', social: { instagram: '', facebook: '', whatsapp: '+61 478 706 251' } };
 
     function loadData() {
-      var CURRENT_VERSION = '2.3.6';
+      var CURRENT_VERSION = '2.3.7';
       var storedVersion = localStorage.getItem('samoon99_version');
       if (storedVersion !== CURRENT_VERSION) { localStorage.clear(); localStorage.setItem('samoon99_version', CURRENT_VERSION); }
       try {
