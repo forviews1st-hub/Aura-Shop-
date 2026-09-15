@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aura Cafe | Bakery & Cake Shop</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="manifest" href="manifest.json" />
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -32,7 +32,7 @@
     .brand-name { flex: 1; text-align: center; font-family: 'Bluecherries', cursive; font-size: 32px; letter-spacing: 1px; color: #1A1A1A; cursor: default; user-select: none; white-space: nowrap; text-shadow: 0 1px 2px rgba(0,0,0,0.1); }
     .cart-btn { position:relative; cursor:pointer; background:none; border:none; font-size:22px; color:#1A1A1A; transition:transform 0.15s; display:flex; align-items:center; justify-content:center; }
     .cart-btn:hover { transform:scale(1.1); }
-    .cart-icon-img { width: 44px; height: 44px; object-fit: contain; display: block; pointer-events: none; mix-blend-mode: multiply; background: transparent !important; }
+    .cart-icon-img { width: 44px; height: 44px; object-fit: contain; display: block; pointer-events: none; mix-blend-mode: multiply; }
     .cart-badge { position:absolute; top:-5px; right:-5px; background:#FF4D4D; color:#fff; font-size:10px; font-weight:700; border-radius:50%; width:18px; height:18px; display:flex; align-items:center; justify-content:center; animation:badgePulse 0.3s ease; }
     @keyframes badgePulse { 0% { transform:scale(0); } 60% { transform:scale(1.3); } 100% { transform:scale(1); } }
     .profile { position:relative; cursor:pointer; background:none; border:none; }
@@ -53,9 +53,9 @@
     .pill:hover img { transform: scale(1.1); box-shadow: 0 3px 8px rgba(0,0,0,0.2); }
     .pill.active img { border-color: rgba(255,255,255,0.4); box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
     .pill.active { background:#1A1A1A; color:#fff; border-color:#1A1A1A; box-shadow:0 4px 12px rgba(26,26,26,0.25); padding: 6px 16px; }
-    .image-banner { width: 100%; max-width: 1000px; margin: 0 auto 24px; border-radius: 28px; overflow: hidden; aspect-ratio: 1774 / 887; background: transparent !important; transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s ease; cursor: pointer; box-shadow: 0 12px 30px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.06); }
+    .image-banner { width: 100%; max-width: 1000px; margin: 0 auto 24px; border-radius: 28px; overflow: hidden; aspect-ratio: 1774 / 887; background: transparent; transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s ease; cursor: pointer; box-shadow: 0 12px 30px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.06); }
     .image-banner:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 25px 50px rgba(0,0,0,0.2), 0 8px 16px rgba(0,0,0,0.10); }
-    .image-banner img { display: block; width: 100%; height: 100%; object-fit: contain; background: transparent !important; }
+    .image-banner img { display: block; width: 100%; height: 100%; object-fit: contain; background: transparent; }
     @media (max-width: 600px) { .image-banner { border-radius: 20px; } }
     @media (max-width: 400px) { .image-banner { border-radius: 16px; } }
     .product-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:22px; margin-bottom:30px; }
@@ -73,82 +73,6 @@
     .animate-card {
       animation: bubbleMaterialize 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
       opacity: 0;
-    }
-
-    /* ============================================
-       ✨ MAGIC LOADING: Golden Dust + Aura Glow
-       (Sirf food items ke card-img par)
-       ============================================ */
-    .card-img { position: relative; overflow: visible; }
-
-    .card-img::before {
-      content: '';
-      position: absolute;
-      top: -5%;
-      left: -5%;
-      right: -5%;
-      bottom: -5%;
-      z-index: 3;
-      background: radial-gradient(circle at 50% 50%, rgba(255, 240, 210, 0.95) 0%, rgba(217, 181, 138, 0.75) 35%, rgba(217, 181, 138, 0.35) 65%, transparent 100%), linear-gradient(135deg, #fdf6ec 0%, #f5e6d3 45%, #ecdcc4 100%);
-      opacity: 1;
-      transition: opacity 0.6s ease;
-      pointer-events: none;
-      animation: auraGlowPulse 2s ease-in-out infinite;
-      border-radius: 50%;
-    }
-    @keyframes auraGlowPulse {
-      0%, 100% {
-        box-shadow:
-          inset 0 0 30px 6px rgba(217, 181, 138, 0.65),
-          inset 0 0 60px 18px rgba(217, 181, 138, 0.35);
-      }
-      50% {
-        box-shadow:
-          inset 0 0 55px 18px rgba(255, 220, 150, 0.95),
-          inset 0 0 110px 45px rgba(217, 181, 138, 0.55);
-      }
-    }
-
-    .card-img::after {
-      content: '';
-      position: absolute;
-      top: -5%;
-      left: -5%;
-      right: -5%;
-      bottom: -5%;
-      z-index: 4;
-      pointer-events: none;
-      opacity: 1;
-      transition: opacity 0.6s ease;
-      background-image:
-        radial-gradient(3px 3px at 15% 25%, #ffe8b0 50%, transparent 51%),
-        radial-gradient(2px 2px at 72% 55%, #ffd88a 50%, transparent 51%),
-        radial-gradient(4px 4px at 42% 78%, #ffe8b0 50%, transparent 51%),
-        radial-gradient(2px 2px at 88% 22%, #ffd88a 50%, transparent 51%),
-        radial-gradient(3px 3px at 12% 68%, #ffe8b0 50%, transparent 51%),
-        radial-gradient(2px 2px at 58% 12%, #ffd88a 50%, transparent 51%),
-        radial-gradient(3px 3px at 92% 72%, #ffe8b0 50%, transparent 51%),
-        radial-gradient(2px 2px at 28% 48%, #ffd88a 50%, transparent 51%),
-        radial-gradient(3px 3px at 78% 38%, #ffe8b0 50%, transparent 51%),
-        radial-gradient(2px 2px at 48% 88%, #ffd88a 50%, transparent 51%),
-        radial-gradient(2px 2px at 65% 82%, #ffe8b0 50%, transparent 51%),
-        radial-gradient(3px 3px at 35% 15%, #ffd88a 50%, transparent 51%);
-      background-size: 100% 100%;
-      filter: drop-shadow(0 0 5px rgba(255, 216, 138, 0.95)) drop-shadow(0 0 10px rgba(255, 200, 100, 0.55));
-      animation: dustSparkle 2.5s ease-in-out infinite;
-      border-radius: 50%;
-    }
-    @keyframes dustSparkle {
-      0%, 100% { opacity: 0.65; transform: scale(1) translateY(0); }
-      25% { opacity: 1; transform: scale(1.03) translateY(-2px); }
-      50% { opacity: 0.85; transform: scale(1.01) translateY(-1px); }
-      75% { opacity: 1; transform: scale(1.04) translateY(-3px); }
-    }
-
-    .card-img.img-ready::before,
-    .card-img.img-ready::after {
-      opacity: 0;
-      animation-play-state: paused;
     }
 
     /* ============================================
@@ -229,6 +153,18 @@
     .wishlist.active { color: #FF4D4D; animation: heartPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
     @keyframes heartPop { 0% { transform: scale(0.7); } 35% { transform: scale(1.4); } 60% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
+    /* Floating hearts + sparkles (heart click animation) */
+    .wishlist-ripple { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(255, 77, 77, 0.65) 0%, rgba(255, 77, 77, 0) 70%); transform: scale(0); animation: rippleExpand 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards; pointer-events: none; z-index: 1; }
+    @keyframes rippleExpand { to { transform: scale(3.5); opacity: 0; } }
+    .floating-heart { position: fixed; font-size: 16px; color: #FF4D4D; pointer-events: none; z-index: 9999; animation: floatHeart 1.1s cubic-bezier(0.22, 1, 0.36, 1) forwards; filter: drop-shadow(0 3px 5px rgba(255, 77, 77, 0.55)); user-select: none; }
+    @keyframes floatHeart { 0% { transform: translate(0, 0) scale(0.4) rotate(0deg); opacity: 1; } 25% { transform: translate(var(--tx1), -22px) scale(1.2) rotate(-8deg); opacity: 1; } 100% { transform: translate(var(--tx2), -80px) scale(0.3) rotate(15deg); opacity: 0; } }
+    .wishlist-sparkle { position: fixed; font-size: 13px; pointer-events: none; z-index: 9999; animation: sparkleBurst 0.95s cubic-bezier(0.22, 1, 0.36, 1) forwards; user-select: none; }
+    @keyframes sparkleBurst { 0% { transform: translate(0, 0) scale(0) rotate(0deg); opacity: 0; } 30% { transform: translate(var(--sx), var(--sy)) scale(1.3) rotate(120deg); opacity: 1; } 100% { transform: translate(calc(var(--sx) * 1.9), calc(var(--sy) * 1.9)) scale(0) rotate(360deg); opacity: 0; } }
+    .action-particle { position: fixed; pointer-events: none; z-index: 9999; border-radius: 50%; will-change: transform, opacity; animation: particleFly 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+    @keyframes particleFly { 0% { transform: translate(0, 0) scale(0.4); opacity: 1; } 60% { opacity: 1; } 100% { transform: translate(var(--px), var(--py)) scale(0.1); opacity: 0; } }
+    .nav-ripple { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(217, 181, 138, 0.75) 0%, rgba(217, 181, 138, 0) 70%); transform: scale(0); animation: navRippleExpand 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards; pointer-events: none; z-index: 1; }
+    @keyframes navRippleExpand { to { transform: scale(3.5); opacity: 0; } }
+
     /* Food image - transparent, positioned inside green box */
     .card-img {
       position: absolute;
@@ -239,7 +175,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: transparent !important;
+      background: transparent;
       border-radius: 0;
       overflow: visible;
       z-index: 2;
@@ -250,9 +186,7 @@
       object-fit: contain;
       filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3));
       transition: transform 0.3s ease;
-      background: transparent !important;
-      position: relative;
-      z-index: 5;
+      background: transparent;
     }
     .card:hover .card-img img { transform: scale(1.08); }
     .card-img:not(:has(img)) {
@@ -280,7 +214,7 @@
     }
     .card h3 {
       font-size: 12.5px;
-      font-weight: 800;
+      font-weight: 900;
       color: #2A1F14;
       margin: 0;
       line-height: 1.2;
@@ -363,7 +297,7 @@
       background: linear-gradient(90deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.15) 100%);
       background-size: 200% 100%;
       animation: shimmer 1.4s ease-in-out infinite;
-      border-radius: 50%;
+      border-radius: 12px;
     }
     .skeleton-body {
       position: absolute;
@@ -532,7 +466,7 @@
     .bottom-nav { position:fixed; bottom:0; left:0; right:0; background:#fff; border-top:1px solid #eee; display:grid; grid-template-columns:repeat(4,1fr); align-items:center; padding:8px 0 10px; z-index:999; box-shadow:0 -2px 10px rgba(0,0,0,0.05); }
     .bottom-nav-btn { background:none; border:none; cursor:pointer; font-family:inherit; display:flex; align-items:center; justify-content:center; transition:all 0.2s; padding:4px 4px; position:relative; width:100%; overflow:hidden; }
     .bottom-nav-btn > * { position: relative; z-index: 2; }
-    .bottom-nav-btn .nav-icon-img { width: 52px; height: 52px; object-fit: contain; mix-blend-mode: multiply; transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.7s ease, opacity 0.6s ease; display: block; pointer-events: none; background: transparent !important; }
+    .bottom-nav-btn .nav-icon-img { width: 52px; height: 52px; object-fit: contain; mix-blend-mode: multiply; transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.7s ease, opacity 0.6s ease; display: block; pointer-events: none; }
     .bottom-nav-btn:hover .nav-icon-img { transform: translateY(-2px) scale(1.08); }
     .bottom-nav-btn.active .nav-icon-img { transform: scale(1.15); }
     .bottom-nav-btn:active .nav-icon-img { transform: scale(0.95); }
@@ -585,7 +519,7 @@
     .cart-item-remove { background:none; border:none; color:#FF4D4D; cursor:pointer; font-size:14px; }
     .cart-total { font-weight:800; font-size:18px; text-align:right; margin:12px 0; color:#000; }
     .call-btn { position: fixed; bottom: 80px; right: 20px; width: 90px; height: 90px; background: transparent; border: none; box-shadow: none; cursor: pointer; z-index: 998; display: flex; align-items: center; justify-content: center; padding: 0; border-radius: 50%; overflow: visible; -webkit-appearance: none; appearance: none; }
-    .book-table-sticker { position: relative; width: 92%; height: 92%; object-fit: contain; z-index: 2; pointer-events: none; mix-blend-mode: multiply; background: transparent !important; }
+    .book-table-sticker { position: relative; width: 92%; height: 92%; object-fit: contain; z-index: 2; pointer-events: none; mix-blend-mode: multiply; }
     .success-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); display:none; justify-content:center; align-items:center; z-index:2000; padding:20px; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); }
     .success-modal { background:#fff; border-radius:28px; max-width:380px; width:100%; padding:35px 30px; text-align:center; box-shadow:0 25px 60px rgba(0,0,0,0.3); position:relative; overflow:hidden; animation: successModalIn 0.5s cubic-bezier(0.34,1.56,0.64,1); }
     @keyframes successModalIn { 0% { opacity:0; transform: scale(0.7) translateY(30px); } 100% { opacity:1; transform: scale(1) translateY(0); } }
@@ -656,8 +590,6 @@
       .success-modal { padding:25px 20px; }
       #toastContainer { bottom:80px; right:10px; }
     }
-    img { background: linear-gradient(145deg, #fdf6ec 0%, #f5e6d3 100%); }
-    .image-banner, .image-banner img, .card-img, .card-img img, .cart-icon-img, .nav-icon-img, .book-table-sticker, .avatar img, .pill img, .social-card img, .admin-product-item img, .modal-image-area img, .gallery-item img, .info-card img { background: transparent !important; background-color: transparent !important; background-image: none !important; }
   </style>
 </head>
 <body>
