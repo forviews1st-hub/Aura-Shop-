@@ -53,9 +53,9 @@
     .pill:hover img { transform: scale(1.1); box-shadow: 0 3px 8px rgba(0,0,0,0.2); }
     .pill.active img { border-color: rgba(255,255,255,0.4); box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
     .pill.active { background:#1A1A1A; color:#fff; border-color:#1A1A1A; box-shadow:0 4px 12px rgba(26,26,26,0.25); padding: 6px 16px; }
-    .image-banner { width: 100%; max-width: 1000px; margin: 0 auto 24px; border-radius: 28px; overflow: hidden; aspect-ratio: 1774 / 887; background: transparent; transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s ease; cursor: pointer; box-shadow: 0 12px 30px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.06); }
+    .image-banner { width: 100%; max-width: 1000px; margin: 0 auto 24px; border-radius: 28px; overflow: hidden; aspect-ratio: 1774 / 887; background: transparent !important; transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s ease; cursor: pointer; box-shadow: 0 12px 30px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.06); }
     .image-banner:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 25px 50px rgba(0,0,0,0.2), 0 8px 16px rgba(0,0,0,0.10); }
-    .image-banner img { display: block; width: 100%; height: 100%; object-fit: contain; background: transparent; }
+    .image-banner img { display: block; width: 100%; height: 100%; object-fit: contain; background: transparent !important; }
     @media (max-width: 600px) { .image-banner { border-radius: 20px; } }
     @media (max-width: 400px) { .image-banner { border-radius: 16px; } }
     .product-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:22px; margin-bottom:30px; }
@@ -94,7 +94,7 @@
     .pill img.img-fade-in.loaded { filter: blur(0); }
 
     /* ============================================
-       🎨 FLAT ART CARD FRAME (Custom frame image)
+       🎨 FLAT ART CARD FRAME
        ============================================ */
     .card {
       position: relative;
@@ -122,7 +122,7 @@
     /* Heart icon - centered in top-left circle of the frame */
     .wishlist {
       position: absolute;
-      top: 4%;
+      top: 5%;
       left: 6.5%;
       width: 20%;
       aspect-ratio: 1 / 1;
@@ -179,12 +179,13 @@
       text-shadow: 0 2px 4px rgba(0,0,0,0.3);
     }
 
-    /* Text body - inside cream section */
+    /* Text body - name at top, price/rating at bottom */
     .card-body {
       position: absolute;
-      bottom: 8%;
+      top: 63%;
       left: 13%;
       right: 13%;
+      bottom: 8%;
       background: transparent;
       border: none;
       border-top: none;
@@ -193,7 +194,7 @@
       z-index: 3;
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      justify-content: space-between;
     }
     .card h3 {
       font-size: 12.5px;
@@ -206,9 +207,7 @@
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
-      height: 30px;
-      min-height: 30px;
-      max-height: 30px;
+      max-height: 32px;
     }
     .card-footer {
       display: flex;
@@ -576,6 +575,7 @@
       #toastContainer { bottom:80px; right:10px; }
     }
     img { background: linear-gradient(145deg, #fdf6ec 0%, #f5e6d3 100%); }
+    .image-banner img, .card-img img, .cart-icon-img, .nav-icon-img, .book-table-sticker, .avatar img, .pill img, .social-card img, .admin-product-item img { background: transparent !important; }
   </style>
 </head>
 <body>
