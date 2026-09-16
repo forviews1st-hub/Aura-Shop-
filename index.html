@@ -90,7 +90,7 @@
     @keyframes magicSparkleAnim { 0% { transform: translate(0, 0) scale(0) rotate(0deg); opacity: 1; } 40% { opacity: 1; } 100% { transform: translate(var(--tx), var(--ty)) scale(0.2) rotate(360deg); opacity: 0; } }
 
     /* ============================================
-       ✨ MAGIC LIGHT SWEEP (element-based, no conflict)
+       ✨ MAGIC LIGHT SWEEP
        ============================================ */
     @keyframes lightSweepAnim { 0% { left: -150%; opacity: 0; } 20% { opacity: 0.8; } 100% { left: 150%; opacity: 0; } }
     .magic-sweep { position: absolute; top: 0; left: -150%; width: 200%; height: 100%; background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.95) 50%, transparent 100%); transform: skewX(-25deg); animation: lightSweepAnim 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards; pointer-events: none; z-index: 10; border-radius: inherit; }
@@ -166,6 +166,53 @@
     .card:hover { transform: translateY(-8px) scale(1.02); filter: drop-shadow(0 15px 25px rgba(0,0,0,0.2)); }
     .card::after { display: none; }
 
+    /* ===== CARD FRAME: Glow + Sparkle (whole card) ===== */
+    .card.img-loading-wrap::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      background: radial-gradient(ellipse at 50% 45%, rgba(255, 230, 170, 0.9) 0%, rgba(217, 181, 138, 0.55) 45%, transparent 75%);
+      opacity: 1;
+      transition: opacity 0.6s ease;
+      pointer-events: none;
+      border-radius: 20%;
+      mix-blend-mode: screen;
+      animation: cardGlowPulse 2s ease-in-out infinite;
+    }
+    @keyframes cardGlowPulse {
+      0%, 100% { opacity: 0.45; transform: scale(0.98); }
+      50% { opacity: 0.95; transform: scale(1.02); }
+    }
+    .card.img-loading-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      pointer-events: none;
+      opacity: 1;
+      transition: opacity 0.6s ease;
+      background-image:
+        radial-gradient(3px 3px at 15% 25%, #ffe8b0 50%, transparent 51%),
+        radial-gradient(2px 2px at 72% 55%, #ffd88a 50%, transparent 51%),
+        radial-gradient(4px 4px at 42% 78%, #ffe8b0 50%, transparent 51%),
+        radial-gradient(2px 2px at 88% 22%, #ffd88a 50%, transparent 51%),
+        radial-gradient(3px 3px at 12% 68%, #ffe8b0 50%, transparent 51%),
+        radial-gradient(2px 2px at 58% 12%, #ffd88a 50%, transparent 51%),
+        radial-gradient(3px 3px at 92% 72%, #ffe8b0 50%, transparent 51%),
+        radial-gradient(2px 2px at 28% 48%, #ffd88a 50%, transparent 51%);
+      background-size: 100% 100%;
+      filter: drop-shadow(0 0 5px rgba(255, 216, 138, 0.95)) drop-shadow(0 0 10px rgba(255, 200, 100, 0.55));
+      animation: dustSparkle 2.5s ease-in-out infinite;
+      mix-blend-mode: screen;
+      border-radius: 20%;
+    }
+    .card.img-loading-wrap.img-ready::before,
+    .card.img-loading-wrap.img-ready::after {
+      opacity: 0;
+      animation-play-state: paused;
+    }
+
     .wishlist { position: absolute; top: 5%; left: 6.5%; width: 20%; aspect-ratio: 1 / 1; background: transparent; border: none; box-shadow: none; font-size: 1.8em; font-weight: 700; line-height: 1; color: #b8956a; display: flex; align-items: center; justify-content: center; z-index: 6; padding: 0; cursor: pointer; transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.25s ease; overflow: visible; text-shadow: 0 1px 2px rgba(255,255,255,0.6); }
     .wishlist::before, .wishlist::after { display: none; }
     .wishlist:hover { transform: scale(1.15); color: #FF4D4D; }
@@ -182,7 +229,7 @@
     .action-particle { position: fixed; pointer-events: none; z-index: 9999; border-radius: 50%; will-change: transform, opacity; animation: particleFly 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
     @keyframes particleFly { 0% { transform: translate(0, 0) scale(0.4); opacity: 1; } 60% { opacity: 1; } 100% { transform: translate(var(--px), var(--py)) scale(0.1); opacity: 0; } }
 
-    .card-img { position: absolute; top: 11%; left: 12%; width: 76%; height: 44%; display: flex; align-items: center; justify-content: center; background: transparent; border-radius: 8px; overflow: hidden; z-index: 2; }
+    .card-img { position: absolute; top: 11%; left: 12%; width: 76%; height: 44%; display: flex; align-items: center; justify-content: center; background: transparent; border-radius: 0; overflow: visible; z-index: 2; }
     .card-img img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3)); transition: transform 0.3s ease; background: transparent; }
     .card:hover .card-img img { transform: scale(1.08); }
     .card-img:not(:has(img)) { font-size: 60px; transform: none; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
@@ -1025,9 +1072,6 @@
       window.prompt = function(message, defaultValue) { return new Promise(function(resolve) { var overlay = createOverlay(); var box = document.createElement('div'); box.className = 'custom-alert-box'; box.innerHTML = `<div class="custom-alert-icon">✏️</div><div class="custom-alert-title">Input Required</div><div class="custom-alert-message">${message}</div><input class="custom-prompt-input" id="customPromptInput" value="${defaultValue || ''}" /><button class="custom-alert-btn" id="customPromptOk">OK</button><button class="custom-alert-btn secondary" id="customPromptCancel">Cancel</button>`; overlay.appendChild(box); document.body.style.overflow = 'hidden'; document.getElementById('customPromptOk').addEventListener('click', function() { var val = document.getElementById('customPromptInput').value; overlay.remove(); document.body.style.overflow = ''; resolve(val); }); document.getElementById('customPromptCancel').addEventListener('click', function() { overlay.remove(); document.body.style.overflow = ''; resolve(null); }); overlay.addEventListener('click', function(e) { if (e.target === overlay) { overlay.remove(); document.body.style.overflow = ''; resolve(null); } }); }); };
     })();
 
-    /* ============================================
-       ✨ EFFECT 3: MAGIC SPARKLES (floating emojis)
-       ============================================ */
     function spawnMagicSparkles(imgElement) {
       var rect = imgElement.getBoundingClientRect();
       if (rect.width === 0 || rect.height === 0) return;
@@ -1049,9 +1093,6 @@
       }
     }
 
-    /* ============================================
-       ✨ EFFECT 3: LIGHT SWEEP (element-based)
-       ============================================ */
     function triggerSweep(parent) {
       if (!parent || parent.querySelector(':scope > .magic-sweep')) return;
       var sweep = document.createElement('span');
@@ -1060,31 +1101,24 @@
       setTimeout(function() { sweep.remove(); }, 1000);
     }
 
-    /* ============================================
-       ✨ TRIGGER ALL 3 EFFECTS ON EVERY IMAGE
-       ============================================ */
     function triggerMagicEffects(img) {
       if (!img || !img.parentNode) return;
-      // Effect 3a: Light sweep on parent
       triggerSweep(img.parentNode);
-      // Effect 3b: Floating sparkle emojis
       spawnMagicSparkles(img);
     }
 
-    /* ============================================
-       MAIN: applyFadeIn (Effect 1 + 2 + 3)
-       ============================================ */
     function applyFadeIn(img) {
       if (!img) return;
-      // Effect 1: universal wrapper class for glow + sparkle dust
-      if (img.parentNode && !img.parentNode.classList.contains('img-loading-wrap')) {
-        img.parentNode.classList.add('img-loading-wrap');
+      var cardEl = img.closest ? img.closest('.card') : null;
+      var wrapperEl = cardEl || img.parentNode;
+      if (wrapperEl && !wrapperEl.classList.contains('img-loading-wrap')) {
+        wrapperEl.classList.add('img-loading-wrap');
       }
       if (img.classList.contains('img-fade-in')) {
         if (img.complete && img.naturalHeight !== 0 && !img.classList.contains('loaded')) {
           setTimeout(function() {
             img.classList.add('loaded');
-            if (img.parentNode) img.parentNode.classList.add('img-ready');
+            if (wrapperEl) wrapperEl.classList.add('img-ready');
             triggerMagicEffects(img);
           }, 80);
         }
@@ -1095,7 +1129,7 @@
       function onLoaded() {
         setTimeout(function() {
           img.classList.add('loaded');
-          if (img.parentNode) img.parentNode.classList.add('img-ready');
+          if (wrapperEl) wrapperEl.classList.add('img-ready');
           triggerMagicEffects(img);
         }, 80);
       }
@@ -1104,20 +1138,22 @@
         img.addEventListener('load', onLoaded);
         img.addEventListener('error', function() {
           img.classList.add('loaded');
-          if (img.parentNode) img.parentNode.classList.add('img-ready');
+          if (wrapperEl) wrapperEl.classList.add('img-ready');
         });
       }
     }
     function applyFadeInToAll() {
       document.querySelectorAll('img:not(.img-fade-in)').forEach(function(img) { applyFadeIn(img); });
       document.querySelectorAll('img.img-fade-in:not(.loaded)').forEach(function(img) {
-        if (img.parentNode && !img.parentNode.classList.contains('img-loading-wrap')) {
-          img.parentNode.classList.add('img-loading-wrap');
+        var cardEl = img.closest ? img.closest('.card') : null;
+        var wrapperEl = cardEl || img.parentNode;
+        if (wrapperEl && !wrapperEl.classList.contains('img-loading-wrap')) {
+          wrapperEl.classList.add('img-loading-wrap');
         }
         if (img.complete && img.naturalHeight !== 0) {
           setTimeout(function() {
             img.classList.add('loaded');
-            if (img.parentNode) img.parentNode.classList.add('img-ready');
+            if (wrapperEl) wrapperEl.classList.add('img-ready');
             triggerMagicEffects(img);
           }, 80);
         }
