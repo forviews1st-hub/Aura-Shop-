@@ -1,4 +1,4 @@
-const CACHE_NAME = 'aura-cafe-v24';
+const CACHE_NAME = 'aura-shop-v1';
 const OFFLINE_URL = '/offline.html';
 
 const PRECACHE_URLS = [
@@ -16,7 +16,8 @@ const PRECACHE_URLS = [
   '/images/garlic_bread.png', '/images/chocolate_chip_cookie.png',
   '/images/butter_croissant.png', '/images/chocolate_fudge_cake.png',
   '/images/chocolate_sundae.png', '/images/veggie_supreme_pizza.png',
-  '/images/loaded_veggie_pizza.png', '/images/noodles.png'
+  '/images/loaded_veggie_pizza.png', '/images/noodles.png',
+  '/images/cart_icon.png'
 ];
 
 self.addEventListener('install', (event) => {
