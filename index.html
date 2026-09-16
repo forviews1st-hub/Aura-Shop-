@@ -83,6 +83,21 @@
     .cart-icon-img.img-fade-in { transform: scale(0.9); filter: blur(8px) drop-shadow(0 2px 4px rgba(0,0,0,0.12)); }
     .cart-icon-img.img-fade-in.loaded { transform: scale(1); filter: blur(0) drop-shadow(0 2px 4px rgba(0,0,0,0.12)); }
 
+    /* ===== FIX: Nav icons + Book table sticker always visible, keep glow effect ===== */
+    .nav-icon-img.img-fade-in,
+    .book-table-sticker.img-fade-in {
+        opacity: 1 !important;
+        transform: none !important;
+        animation: none !important;
+        transition: none !important;
+    }
+    .nav-icon-img.img-fade-in {
+        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.12)) !important;
+    }
+    .book-table-sticker.img-fade-in {
+        filter: none !important;
+    }
+
     .magic-sparkle { position: fixed; pointer-events: none; z-index: 10000; animation: magicSparkleAnim 1s cubic-bezier(0.22, 1, 0.36, 1) forwards; filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.9)); user-select: none; }
     @keyframes magicSparkleAnim { 0% { transform: translate(0, 0) scale(0) rotate(0deg); opacity: 1; } 40% { opacity: 1; } 100% { transform: translate(var(--tx), var(--ty)) scale(0.2) rotate(360deg); opacity: 0; } }
 
