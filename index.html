@@ -83,19 +83,10 @@
     .cart-icon-img.img-fade-in { transform: scale(0.9); filter: blur(8px) drop-shadow(0 2px 4px rgba(0,0,0,0.12)); }
     .cart-icon-img.img-fade-in.loaded { transform: scale(1); filter: blur(0) drop-shadow(0 2px 4px rgba(0,0,0,0.12)); }
 
-    /* ===== FIX: Nav icons + Book table sticker always visible, keep glow effect ===== */
+    /* ===== FIX: Nav icons + Book table sticker never disappear, but keep pop + glow + sparkle effects ===== */
     .nav-icon-img.img-fade-in,
     .book-table-sticker.img-fade-in {
         opacity: 1 !important;
-        transform: none !important;
-        animation: none !important;
-        transition: none !important;
-    }
-    .nav-icon-img.img-fade-in {
-        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.12)) !important;
-    }
-    .book-table-sticker.img-fade-in {
-        filter: none !important;
     }
 
     .magic-sparkle { position: fixed; pointer-events: none; z-index: 10000; animation: magicSparkleAnim 1s cubic-bezier(0.22, 1, 0.36, 1) forwards; filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.9)); user-select: none; }
@@ -162,7 +153,6 @@
     .card:hover { transform: translateY(-8px) scale(1.02); filter: drop-shadow(0 15px 25px rgba(0,0,0,0.2)); }
     .card::after { display: none; }
 
-    /* ===== CARD FRAME: loading glow (only during image load) ===== */
     .card::before {
       content: '';
       position: absolute;
@@ -179,7 +169,6 @@
       0%, 100% { opacity: 0.5; transform: scale(0.98); }
       50% { opacity: 1; transform: scale(1.02); }
     }
-    /* Hide completely after load — same trick as .card-img */
     .card.img-ready::before {
       display: none !important;
       animation: none !important;
@@ -895,7 +884,7 @@
     </footer>
   </div>
   <button class="call-btn" id="bookTableBtn" title="Book a Table">
-    <img class="book-table-sticker" src="/images/book_table.png" alt="" />
+    <img class="book-table-sticker img-fade-in" src="/images/book_table.png" alt="" />
   </button>
   <div class="modal-overlay" id="customerAuthOverlay">
     <div class="modal">
@@ -1062,19 +1051,19 @@
   </div>
   <nav class="bottom-nav" id="bottomNav">
     <button class="bottom-nav-btn active" data-target="menuSection" aria-label="Menu">
-      <img class="nav-icon-img" src="/images/nav_menu.png" alt="" />
+      <img class="nav-icon-img img-fade-in" src="/images/nav_menu.png" alt="" />
       <span class="nav-label">Menu</span>
     </button>
     <button class="bottom-nav-btn" data-target="gallerySection" aria-label="Gallery">
-      <img class="nav-icon-img" src="/images/nav_gallery.png" alt="" />
+      <img class="nav-icon-img img-fade-in" src="/images/nav_gallery.png" alt="" />
       <span class="nav-label">Gallery</span>
     </button>
     <button class="bottom-nav-btn" data-target="contactSection" aria-label="Info">
-      <img class="nav-icon-img" src="/images/nav_info.png" alt="" />
+      <img class="nav-icon-img img-fade-in" src="/images/nav_info.png" alt="" />
       <span class="nav-label">Info</span>
     </button>
     <button class="bottom-nav-btn" data-target="ordersSection" aria-label="Orders">
-      <img class="nav-icon-img" src="/images/nav_orders.png" alt="" />
+      <img class="nav-icon-img img-fade-in" src="/images/nav_orders.png" alt="" />
       <span class="nav-label">Orders</span>
     </button>
   </nav>
@@ -1122,7 +1111,6 @@
       spawnMagicSparkles(img);
     }
 
-    /* Helper: mark both image wrapper and card parent as ready */
     function markReady(img) {
       if (img.parentNode) img.parentNode.classList.add('img-ready');
       var cardEl = img.closest ? img.closest('.card') : null;
@@ -1131,13 +1119,6 @@
 
     function applyFadeIn(img) {
       if (!img) return;
-
-      // YEH 3 LINES ADD KAREIN 👇 - nav aur book table ko skip karein
-      if (img.classList.contains('nav-icon-img') || img.classList.contains('book-table-sticker')) {
-        return;
-      }
-      // YEH 3 LINES ADD KAREIN 👆
-
       if (img.parentNode && !img.parentNode.classList.contains('img-loading-wrap')) {
         img.parentNode.classList.add('img-loading-wrap');
       }
