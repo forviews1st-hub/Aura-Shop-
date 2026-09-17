@@ -83,7 +83,6 @@
     .cart-icon-img.img-fade-in { transform: scale(0.9); filter: blur(8px) drop-shadow(0 2px 4px rgba(0,0,0,0.12)); }
     .cart-icon-img.img-fade-in.loaded { transform: scale(1); filter: blur(0) drop-shadow(0 2px 4px rgba(0,0,0,0.12)); }
 
-    /* ===== FIX: Nav icons + Book table sticker never disappear, but keep pop + sparkle effects ===== */
     .nav-icon-img.img-fade-in,
     .book-table-sticker.img-fade-in {
         opacity: 1 !important;
@@ -1119,9 +1118,7 @@
 
     function applyFadeIn(img) {
       if (!img) return;
-
       var isNavOrSticker = img.classList.contains('nav-icon-img') || img.classList.contains('book-table-sticker');
-
       if (!isNavOrSticker && img.parentNode && !img.parentNode.classList.contains('img-loading-wrap')) {
         img.parentNode.classList.add('img-loading-wrap');
       }
@@ -1584,6 +1581,50 @@
           .catch(err => console.log('SW registration failed:', err));
       });
     }
+
+    /* ===== Offline redirect on user interaction ===== */
+    function isOfflineNow() { return !navigator.onLine; }
+    function onOfflinePage() {
+      var p = window.location.pathname;
+      return p === '/offline' || p === '/offline/' || p === '/offline.html';
+    }
+
+    document.addEventListener('click', function(e) {
+      if (isOfflineNow() && !onOfflinePage()) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        window.location.href = '/offline';
+        return false;
+      }
+    }, true);
+
+    document.addEventListener('submit', function(e) {
+      if (isOfflineNow() && !onOfflinePage()) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        window.location.href = '/offline';
+        return false;
+      }
+    }, true);
+
+    // Optional: subtle offline indicator banner
+    var _offlineBadgeEl = null;
+    function _showOfflineBadge() {
+      if (_offlineBadgeEl) return;
+      _offlineBadgeEl = document.createElement('div');
+      _offlineBadgeEl.style.cssText = 'position:fixed;top:0;left:0;right:0;padding:6px 12px;background:linear-gradient(135deg,#FF4D4D,#b82020);color:#fff;text-align:center;font-size:12px;font-weight:700;z-index:99999;font-family:Inter,sans-serif;letter-spacing:0.3px;box-shadow:0 2px 8px rgba(255,77,77,0.4);pointer-events:none;';
+      _offlineBadgeEl.textContent = '⚠️ Offline — tap anywhere to reconnect';
+      document.body.appendChild(_offlineBadgeEl);
+    }
+    function _hideOfflineBadge() {
+      if (_offlineBadgeEl) { _offlineBadgeEl.remove(); _offlineBadgeEl = null; }
+    }
+    window.addEventListener('online', _hideOfflineBadge);
+    window.addEventListener('offline', _showOfflineBadge);
+    if (isOfflineNow()) _showOfflineBadge();
+
     document.addEventListener('error', function(e) {
       var img = e.target;
       if (img && img.tagName === 'IMG' && !img.dataset.fb) {

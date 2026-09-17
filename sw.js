@@ -1,8 +1,8 @@
-const CACHE_NAME = 'aura-shop-v1';
+const CACHE_NAME = 'aura-shop-v2';
 const OFFLINE_URL = '/offline.html';
 
 const PRECACHE_URLS = [
-  '/', '/index.html', '/offline.html', '/manifest.json',
+  '/', '/index.html', '/offline', '/offline.html', '/manifest.json',
   '/images/banner.png', '/images/book_table.png', '/images/card_frame.png',
   '/images/nav_menu.png', '/images/nav_gallery.png', '/images/nav_info.png', '/images/nav_orders.png',
   '/images/pepperoni_pizza.png', '/images/classic_cheeseburger.png',
@@ -46,6 +46,9 @@ self.addEventListener('fetch', (event) => {
   if (!req.url.startsWith('http')) return;
 
   if (req.mode === 'navigate') {
+    const url = new URL(req.url);
+    const isOfflineRoute = url.pathname === '/offline' || url.pathname === '/offline/';
+
     event.respondWith(
       fetch(req)
         .then((response) => {
@@ -53,11 +56,14 @@ self.addEventListener('fetch', (event) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(req, clone));
           return response;
         })
-        .catch(() =>
-          caches.match(req).then((cached) =>
+        .catch(() => {
+          if (isOfflineRoute) {
+            return caches.match('/offline.html');
+          }
+          return caches.match(req).then((cached) =>
             cached || caches.match('/index.html') || caches.match(OFFLINE_URL)
-          )
-        )
+          );
+        })
     );
     return;
   }
