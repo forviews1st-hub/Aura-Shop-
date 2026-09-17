@@ -83,7 +83,7 @@
     .cart-icon-img.img-fade-in { transform: scale(0.9); filter: blur(8px) drop-shadow(0 2px 4px rgba(0,0,0,0.12)); }
     .cart-icon-img.img-fade-in.loaded { transform: scale(1); filter: blur(0) drop-shadow(0 2px 4px rgba(0,0,0,0.12)); }
 
-    /* ===== FIX: Nav icons + Book table sticker never disappear, but keep pop + glow + sparkle effects ===== */
+    /* ===== FIX: Nav icons + Book table sticker never disappear, but keep pop + sparkle effects ===== */
     .nav-icon-img.img-fade-in,
     .book-table-sticker.img-fade-in {
         opacity: 1 !important;
@@ -1119,14 +1119,17 @@
 
     function applyFadeIn(img) {
       if (!img) return;
-      if (img.parentNode && !img.parentNode.classList.contains('img-loading-wrap')) {
+
+      var isNavOrSticker = img.classList.contains('nav-icon-img') || img.classList.contains('book-table-sticker');
+
+      if (!isNavOrSticker && img.parentNode && !img.parentNode.classList.contains('img-loading-wrap')) {
         img.parentNode.classList.add('img-loading-wrap');
       }
       if (img.classList.contains('img-fade-in')) {
         if (img.complete && img.naturalHeight !== 0 && !img.classList.contains('loaded')) {
           setTimeout(function() {
             img.classList.add('loaded');
-            markReady(img);
+            if (!isNavOrSticker) { markReady(img); }
             triggerMagicEffects(img);
           }, 80);
         }
@@ -1137,7 +1140,7 @@
       function onLoaded() {
         setTimeout(function() {
           img.classList.add('loaded');
-          markReady(img);
+          if (!isNavOrSticker) { markReady(img); }
           triggerMagicEffects(img);
         }, 80);
       }
@@ -1146,20 +1149,21 @@
         img.addEventListener('load', onLoaded);
         img.addEventListener('error', function() {
           img.classList.add('loaded');
-          markReady(img);
+          if (!isNavOrSticker) { markReady(img); }
         });
       }
     }
     function applyFadeInToAll() {
       document.querySelectorAll('img:not(.img-fade-in)').forEach(function(img) { applyFadeIn(img); });
       document.querySelectorAll('img.img-fade-in:not(.loaded)').forEach(function(img) {
-        if (img.parentNode && !img.parentNode.classList.contains('img-loading-wrap')) {
+        var isNavOrSticker = img.classList.contains('nav-icon-img') || img.classList.contains('book-table-sticker');
+        if (!isNavOrSticker && img.parentNode && !img.parentNode.classList.contains('img-loading-wrap')) {
           img.parentNode.classList.add('img-loading-wrap');
         }
         if (img.complete && img.naturalHeight !== 0) {
           setTimeout(function() {
             img.classList.add('loaded');
-            markReady(img);
+            if (!isNavOrSticker) { markReady(img); }
             triggerMagicEffects(img);
           }, 80);
         }
