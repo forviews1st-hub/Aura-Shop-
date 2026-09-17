@@ -895,7 +895,7 @@
     </footer>
   </div>
   <button class="call-btn" id="bookTableBtn" title="Book a Table">
-    <img class="book-table-sticker img-fade-in" src="/images/book_table.png" alt="" />
+    <img class="book-table-sticker" src="/images/book_table.png" alt="" />
   </button>
   <div class="modal-overlay" id="customerAuthOverlay">
     <div class="modal">
@@ -1062,19 +1062,19 @@
   </div>
   <nav class="bottom-nav" id="bottomNav">
     <button class="bottom-nav-btn active" data-target="menuSection" aria-label="Menu">
-      <img class="nav-icon-img img-fade-in" src="/images/nav_menu.png" alt="" />
+      <img class="nav-icon-img" src="/images/nav_menu.png" alt="" />
       <span class="nav-label">Menu</span>
     </button>
     <button class="bottom-nav-btn" data-target="gallerySection" aria-label="Gallery">
-      <img class="nav-icon-img img-fade-in" src="/images/nav_gallery.png" alt="" />
+      <img class="nav-icon-img" src="/images/nav_gallery.png" alt="" />
       <span class="nav-label">Gallery</span>
     </button>
     <button class="bottom-nav-btn" data-target="contactSection" aria-label="Info">
-      <img class="nav-icon-img img-fade-in" src="/images/nav_info.png" alt="" />
+      <img class="nav-icon-img" src="/images/nav_info.png" alt="" />
       <span class="nav-label">Info</span>
     </button>
     <button class="bottom-nav-btn" data-target="ordersSection" aria-label="Orders">
-      <img class="nav-icon-img img-fade-in" src="/images/nav_orders.png" alt="" />
+      <img class="nav-icon-img" src="/images/nav_orders.png" alt="" />
       <span class="nav-label">Orders</span>
     </button>
   </nav>
@@ -1131,6 +1131,13 @@
 
     function applyFadeIn(img) {
       if (!img) return;
+
+      // YEH 3 LINES ADD KAREIN 👇 - nav aur book table ko skip karein
+      if (img.classList.contains('nav-icon-img') || img.classList.contains('book-table-sticker')) {
+        return;
+      }
+      // YEH 3 LINES ADD KAREIN 👆
+
       if (img.parentNode && !img.parentNode.classList.contains('img-loading-wrap')) {
         img.parentNode.classList.add('img-loading-wrap');
       }
